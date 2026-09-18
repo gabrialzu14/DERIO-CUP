@@ -1,0 +1,1 @@
+@import "tailwindcss"; :root{--navy:#071b33;--blue:#0b4a7f;--red:#d71920} *{box-sizing:border-box} body{margin:0;background:#f3f6f9;color:#0f172a;font-family:Arial,Helvetica,sans-serif} button{font:inherit} .safe{padding-bottom:max(84px,env(safe-area-inset-bottom))}
