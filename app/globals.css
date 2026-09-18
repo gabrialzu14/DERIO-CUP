@@ -1,6 +1,6 @@
 @import "tailwindcss";
 :root{--navy:#071b33;--blue:#0867c9;--red:#e31c3d;--bg:#f5f8fc;--card:#fff;--text:#0c1b33;--muted:#64748b;--line:#e5ebf2}
-*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}button{font:inherit}.safe{padding-bottom:max(84px,env(safe-area-inset-bottom))}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-derio),Arial,Helvetica,sans-serif}button{font:inherit}.safe{padding-bottom:max(84px,env(safe-area-inset-bottom))}
 .app-shell{background:radial-gradient(circle at 95% 0,rgba(8,103,201,.08),transparent 28%),radial-gradient(circle at 0 5%,rgba(227,28,61,.07),transparent 25%),var(--bg)}
 .welcome,.app-header{background:radial-gradient(circle at 12% 25%,rgba(227,28,61,.48),transparent 34%),radial-gradient(circle at 88% 20%,rgba(8,103,201,.58),transparent 38%),#061426}
 .app-header{box-shadow:0 8px 30px rgba(5,20,38,.18)}
@@ -26,3 +26,5 @@ html.app-dark .bg-white,html.app-dark section{background-color:var(--card)!impor
 .splash-brand{margin-top:18px;font-size:clamp(42px,12vw,72px);font-weight:1000;letter-spacing:-.07em;background:linear-gradient(90deg,#ff294b,#fff 48%,#2797ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .splash-brand b{font-weight:1000}.splash-sub{margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#e7edf6}
 .splash-line{position:absolute;z-index:3;bottom:9%;left:35%;right:35%;height:3px;border-radius:99px;background:linear-gradient(90deg,#ff294b,#7a6bbf,#2797ff);animation:introLine 2.3s ease-out both}
+
+.brand-title,h1,h2,h3{font-family:var(--font-derio),Arial,sans-serif}.brand-title{font-weight:900}.splash-brand{font-family:var(--font-derio),Arial,sans-serif;font-weight:900}.splash-sub{font-family:var(--font-derio),Arial,sans-serif;font-weight:600}
