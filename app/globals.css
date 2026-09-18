@@ -28,3 +28,5 @@ html.app-dark .bg-white,html.app-dark section{background-color:var(--card)!impor
 .splash-line{position:absolute;z-index:3;bottom:9%;left:35%;right:35%;height:3px;border-radius:99px;background:linear-gradient(90deg,#ff294b,#7a6bbf,#2797ff);animation:introLine 2.3s ease-out both}
 
 .brand-title,h1,h2,h3{font-family:var(--font-derio),Arial,sans-serif}.brand-title{font-weight:900}.splash-brand{font-family:var(--font-derio),Arial,sans-serif;font-weight:900}.splash-sub{font-family:var(--font-derio),Arial,sans-serif;font-weight:600}
+
+.splash-logo{width:112px;height:112px;object-fit:cover;border-radius:26px;box-shadow:-18px 0 40px rgba(227,28,61,.22),18px 0 40px rgba(8,103,201,.25);border:1px solid rgba(255,255,255,.12)}
