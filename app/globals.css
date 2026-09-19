@@ -377,3 +377,6 @@ html.app-dark .app-nav,.app-nav{
 .save-toast{position:sticky;top:58px;z-index:30;margin:0 0 10px;padding:10px 12px;border:1px solid rgba(62,211,145,.25);border-radius:11px;background:rgba(14,71,54,.96);color:#86efc2;font-size:9px;font-weight:900;text-align:center}
 .phase-grid.neutral{grid-template-columns:repeat(3,1fr)!important}
 .my-team-strip em{display:block;margin-top:3px;color:#76baf1;font-size:7px;font-style:normal}
+
+.save-toast{display:flex!important;align-items:center;justify-content:space-between;gap:10px}.save-toast button{width:auto!important;margin:0!important;padding:6px 9px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:8px!important;background:rgba(255,255,255,.1)!important;color:#fff!important;font-size:8px!important;font-weight:950!important}
+.podium-grid{grid-template-columns:1fr 1fr!important}.final-results{display:grid!important;grid-template-columns:1fr!important;gap:2px!important;margin-top:12px;padding:11px;border-radius:12px;background:rgba(0,0,0,.14);text-align:left}.final-results b{margin-top:5px;color:#e8c35e;font-size:8px}.final-results span{color:#b9c9d6;font-size:8px}
