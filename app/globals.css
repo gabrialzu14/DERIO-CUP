@@ -236,3 +236,5 @@ html:not(.app-dark) .info-content ol{color:#51687d}html:not(.app-dark) .rule-hig
 .manager-score-team{min-height:48px}.manager-score-team img{width:34px;height:34px;object-fit:contain;flex:0 0 34px}.manager-score-team span{display:flex;flex:1;min-width:0;flex-direction:column;font-weight:850;line-height:1.12}.manager-score-team span small{display:block;margin-bottom:3px;color:#8092a3;font-size:7px;font-weight:950;letter-spacing:.12em}.manager-match-meta b{font-size:14px}.manager-match-meta small{font-weight:850;letter-spacing:.04em}
 
 .manager-match .manager-delete{margin-left:8px;background:#fff1f1;color:#b42318;border:1px solid #f2b8b5}.manager-score-team img{display:block!important;opacity:1!important}
+
+.manager-match .manager-delete{background:#d92d20!important;color:#fff!important;border-color:#d92d20!important}.manager-match .manager-delete:disabled{opacity:.55}
