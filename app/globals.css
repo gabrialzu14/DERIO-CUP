@@ -30,3 +30,41 @@ html.app-dark .bg-white,html.app-dark section{background-color:var(--card)!impor
 .brand-title,h1,h2,h3{font-family:var(--font-derio),Arial,sans-serif}.brand-title{font-weight:900}.splash-brand{font-family:var(--font-derio),Arial,sans-serif;font-weight:900}.splash-sub{font-family:var(--font-derio),Arial,sans-serif;font-weight:600}
 
 .splash-logo{width:112px;height:112px;object-fit:cover;border-radius:26px;box-shadow:-18px 0 40px rgba(227,28,61,.22),18px 0 40px rgba(8,103,201,.25);border:1px solid rgba(255,255,255,.12)}
+
+/* 2026 Derio Cup visual system */
+:root{--dc-red:#f51f3e;--dc-blue:#168df5;--dc-bg:#f7f9fc;--dc-card:rgba(255,255,255,.82);--dc-ink:#07172d}
+body{background:var(--dc-bg);color:var(--dc-ink)}
+.app-shell{background:
+radial-gradient(circle at -10% 12%,rgba(245,31,62,.13),transparent 25%),
+radial-gradient(circle at 110% 15%,rgba(22,141,245,.15),transparent 28%),var(--dc-bg)}
+.app-header{background:transparent!important;color:var(--dc-ink)!important;padding-top:max(18px,env(safe-area-inset-top))}
+.app-header>div{background:rgba(255,255,255,.58);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.7);border-radius:22px;padding:10px 12px;box-shadow:0 12px 35px rgba(9,35,70,.08)}
+.app-header .brand-title{font-size:25px}.app-header p{color:#667894}
+.app-nav{background:rgba(249,251,255,.9)!important;backdrop-filter:blur(22px);border-color:rgba(9,40,75,.08)!important;box-shadow:0 -8px 30px rgba(5,28,56,.08)}
+.app-nav button{min-height:64px;transition:.2s}.app-nav button:hover{transform:translateY(-1px)}
+section,.rounded-2xl{border-color:rgba(17,55,93,.08)}
+section.rounded-2xl,.app-shell .shadow-sm{box-shadow:0 12px 32px rgba(7,36,72,.07)}
+.brand-title{letter-spacing:-.055em}
+.dc-home-hero{position:relative;overflow:hidden;border-radius:30px;padding:24px;background:#061425;color:#fff;box-shadow:0 18px 45px rgba(5,29,58,.18)}
+.dc-home-hero:before,.dc-home-hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;filter:blur(50px);opacity:.45}
+.dc-home-hero:before{left:-120px;top:-80px;background:#ed173a}.dc-home-hero:after{right:-120px;top:-70px;background:#087ce2}
+.dc-phase{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.dc-phase button{border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.07);padding:13px 5px;font-size:11px;font-weight:750;color:#dbe7f7}
+.dc-phase button.active{background:linear-gradient(145deg,#ff2c49,#e61232);color:#fff;box-shadow:0 10px 28px rgba(238,25,57,.3)}
+.dc-section-title{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px;font-size:15px;font-weight:850}
+.dc-section-title a{font-size:12px;color:var(--dc-blue)}
+.dc-groups{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.dc-group-card{border:1px solid rgba(14,55,98,.08);border-radius:16px;background:var(--dc-card);padding:12px 7px;text-align:center;box-shadow:0 8px 25px rgba(5,31,61,.05)}
+.dc-group-card b{display:block;font-size:11px;margin-bottom:8px}.dc-group-card img{height:29px;width:29px;object-fit:contain;margin:3px auto}
+@media(max-width:500px){.dc-groups{grid-template-columns:repeat(2,1fr)}}
+html.app-dark{--dc-bg:#020c17;--dc-card:rgba(10,28,47,.78);--dc-ink:#eef6ff}
+html.app-dark body{background:#020c17;color:#eef6ff}
+html.app-dark .app-shell{background:radial-gradient(circle at -12% 14%,rgba(239,24,55,.18),transparent 24%),radial-gradient(circle at 112% 15%,rgba(0,111,220,.2),transparent 28%),#020c17}
+html.app-dark .app-header>div{background:rgba(5,20,36,.62);border-color:rgba(111,167,220,.12);box-shadow:0 12px 40px rgba(0,0,0,.22)}
+html.app-dark .app-header{color:#fff!important}html.app-dark .app-header p{color:#9bb5d2}
+html.app-dark .app-nav{background:rgba(3,15,27,.91)!important;border-color:rgba(120,165,205,.1)!important}
+html.app-dark .dc-group-card,html.app-dark section.rounded-2xl,html.app-dark .app-shell .bg-white{background:rgba(8,25,43,.82)!important;color:#eef6ff}
+html.app-dark .app-shell .bg-slate-100{background:#10263d!important;color:#eef6ff}
+html.app-dark .app-shell .text-slate-500,html.app-dark .app-shell .text-slate-400{color:#91a8c1!important}
+.splash{background:#020914!important}
+.splash-logo{width:min(38vw,170px)!important;max-height:170px;object-fit:contain;border-radius:22px;mix-blend-mode:screen;filter:drop-shadow(-12px 0 28px rgba(245,31,62,.35)) drop-shadow(12px 0 28px rgba(22,141,245,.4))}
