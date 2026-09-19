@@ -1,0 +1,23 @@
+{
+  "name": "Derio Cup",
+  "short_name": "Derio Cup",
+  "description": "Benjamín 2017 · 20 de Septiembre",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#03101d",
+  "theme_color": "#071b33",
+  "icons": [
+    {
+      "src": "/logo%20derio%20cup.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo%20derio%20cup.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
