@@ -100,3 +100,20 @@ html.app-dark .app-shell .text-slate-500,html.app-dark .app-shell .text-slate-40
 .cup-ball{position:absolute;left:16px;top:16px;width:35px;height:35px;border:4px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:25px;line-height:1;font-weight:900;color:#fff}
 .splash-title{margin-top:4px}
 @media(max-width:520px){.splash-trophy{width:125px;height:135px;transform:scale(.88);margin-bottom:0}}
+
+/* 3 RFEF-inspired mobile drawer + stronger dark UI */
+.menu-btn{width:42px;height:42px;border:1px solid rgba(120,150,180,.16);border-radius:14px;background:rgba(7,17,31,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.menu-btn span{width:18px;height:2px;border-radius:4px;background:currentColor}
+.dc-drawer{position:fixed;inset:0;z-index:80;background:rgba(0,6,15,.58);backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .22s}
+.dc-drawer aside{position:absolute;right:0;top:0;height:100%;width:min(86vw,340px);padding:calc(22px + env(safe-area-inset-top)) 18px 24px;background:#07111f;color:#fff;box-shadow:-24px 0 60px rgba(0,0,0,.34);transform:translateX(105%);transition:transform .25s cubic-bezier(.22,1,.36,1)}
+html.dc-menu-open .dc-drawer{opacity:1;pointer-events:auto}html.dc-menu-open .dc-drawer aside{transform:translateX(0)}
+.drawer-head{display:flex;align-items:center;gap:13px;padding:8px 5px 24px;border-bottom:1px solid rgba(255,255,255,.07)}
+.drawer-head img{width:52px;height:52px;border-radius:15px;object-fit:cover}.drawer-head b{display:block;font-size:17px}.drawer-head small{display:block;margin-top:3px;color:#8295aa}
+.dc-drawer aside>button{width:100%;display:flex;align-items:center;gap:13px;margin-top:10px;padding:14px;border:0;border-radius:16px;background:rgba(255,255,255,.035);color:#fff;text-align:left}.dc-drawer aside>button>span{display:grid;width:38px;height:38px;place-items:center;border-radius:12px;background:rgba(255,255,255,.06);font-size:20px}.dc-drawer aside>button b,.dc-drawer aside>button small{display:block}.dc-drawer aside>button small{margin-top:2px;color:#7f94aa;font-size:11px}
+.drawer-info{position:absolute;left:18px;right:18px;bottom:28px;padding:15px;border:1px solid rgba(255,255,255,.06);border-radius:17px;background:rgba(255,255,255,.035)}.drawer-info small,.drawer-info b{display:block}.drawer-info small{color:#63798f;font-size:9px;letter-spacing:.18em;font-weight:800}.drawer-info b{margin-top:5px;color:#c8d5e2;font-size:12px}
+html.app-dark .menu-btn{background:rgba(255,255,255,.04);color:#fff}
+html.app-dark .dc-home-hero{border:1px solid rgba(110,165,220,.12);box-shadow:0 18px 50px rgba(0,0,0,.28)}
+html.app-dark .rounded-2xl,html.app-dark section{border:1px solid rgba(120,165,205,.09)}
+html.app-dark .app-nav button.text-\[\#0b4a7f\]{color:#55aaff!important}
+html.app-dark .app-nav button{color:#8ea4bb}
+@media(min-width:900px){.dc-drawer aside{width:360px}}
