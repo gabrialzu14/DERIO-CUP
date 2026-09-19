@@ -68,3 +68,7 @@ html.app-dark .app-shell .bg-slate-100{background:#10263d!important;color:#eef6f
 html.app-dark .app-shell .text-slate-500,html.app-dark .app-shell .text-slate-400{color:#91a8c1!important}
 .splash{background:#020914!important}
 .splash-logo{width:min(38vw,170px)!important;max-height:170px;object-fit:contain;border-radius:22px;mix-blend-mode:screen;filter:drop-shadow(-12px 0 28px rgba(245,31,62,.35)) drop-shadow(12px 0 28px rgba(22,141,245,.4))}
+
+.dc-appmark{height:48px;width:48px;overflow:hidden;border-radius:14px;background:#061425;box-shadow:-5px 0 14px rgba(245,31,62,.22),5px 0 14px rgba(22,141,245,.25)}
+.dc-appmark img{height:100%;width:100%;object-fit:cover;transform:scale(1.08)}
+.splash-center .splash-logo{width:min(70vw,320px)!important;max-height:none!important;border-radius:0!important;object-fit:contain!important;mix-blend-mode:screen!important;filter:drop-shadow(-18px 0 40px rgba(245,31,62,.28)) drop-shadow(18px 0 40px rgba(22,141,245,.32))!important}
