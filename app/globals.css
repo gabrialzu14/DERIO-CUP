@@ -466,3 +466,70 @@ html.dc-menu-open .app-nav{opacity:0!important;pointer-events:none!important;tra
 .venue-label.field-left{left:15%;top:42%;border-color:#65b9ff;color:#bfe4ff}.venue-label.field-right{right:15%;top:42%;border-color:#ff6680;color:#ffd1d9}.venue-label.bar{right:22%;bottom:10%;border-color:#e5c35d;color:#ffeaa6}.venue-label.toilets{left:47%;bottom:2%;border-color:#9aa3ad;color:#e4e7eb}.venue-label.meals{left:7%;bottom:5%;border-color:#b78aff;color:#eadcff}
 .venue-legend{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:0 0 16px;padding:10px;border:1px solid rgba(126,180,225,.14);border-radius:12px;background:rgba(15,38,60,.52);color:#aebfd0;font-size:10px;line-height:1.35}.venue-legend span{display:flex;align-items:flex-start;gap:6px}.field-dot{display:inline-block;flex:0 0 8px;width:8px;height:8px;margin-top:3px;border-radius:50%}.field-dot-blue{background:#65b9ff}.field-dot-red{background:#ff6680}.field-dot-gold{background:#e5c35d}.field-dot-gray{background:#9aa3ad}.field-dot-purple{background:#b78aff}
 @media(max-width:390px){.venue-legend{grid-template-columns:1fr}.venue-label{font-size:7px;padding:4px 5px}}
+
+
+/* Responsive tournament manager: fixed header, accessible close and contained scrolling */
+.manager-modal{
+  align-items:flex-start!important;
+  justify-content:center!important;
+  padding:max(8px,env(safe-area-inset-top)) 0 0!important;
+  overscroll-behavior:contain!important;
+  touch-action:pan-y;
+}
+.manager-modal>.manager-sheet{
+  align-self:stretch!important;
+  width:min(100%,600px)!important;
+  height:calc(100dvh - max(8px,env(safe-area-inset-top)))!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0 22px calc(24px + env(safe-area-inset-bottom))!important;
+  border-radius:24px 24px 0 0!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;
+}
+.manager-topbar{
+  position:sticky;
+  top:0;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 -22px 12px;
+  padding:14px 14px 14px 22px;
+  background:linear-gradient(180deg,#081a2c 78%,rgba(8,26,44,.96));
+  border-bottom:1px solid rgba(130,170,205,.12);
+  backdrop-filter:blur(14px);
+}
+.manager-topbar h3{
+  min-width:0;
+  margin:0!important;
+  padding:0!important;
+  font-size:20px!important;
+  line-height:1.25;
+}
+.manager-topbar .info-close{
+  position:static!important;
+  float:none!important;
+  flex:0 0 42px;
+  width:42px!important;
+  height:42px!important;
+  margin:0!important;
+  display:grid!important;
+  place-items:center;
+  border:1px solid rgba(150,190,220,.2)!important;
+  border-radius:50%!important;
+  background:rgba(28,55,78,.92)!important;
+  color:#fff!important;
+  font-size:28px!important;
+  line-height:1;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.manager-topbar .info-close:active{transform:scale(.94);background:#2d526f!important}
+@media(min-width:700px){
+  .manager-modal{align-items:center!important;padding:20px!important}
+  .manager-modal>.manager-sheet{height:min(90dvh,900px)!important;border-radius:24px!important}
+}
