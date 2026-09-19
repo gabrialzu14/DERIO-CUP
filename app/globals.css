@@ -421,3 +421,24 @@ html.dc-menu-open .app-nav{opacity:0!important;pointer-events:none!important;tra
 .dc-bracket-team.is-winner{color:#fff;background:rgba(255,255,255,.065);font-weight:850}
 .dc-bracket-team.is-winner strong{color:var(--bracket-accent)}
 .dc-bracket-final{border-color:var(--bracket-accent)}
+
+/* Centered information dialogs with persistent close control. */
+.dc-info-dialog{position:fixed;inset:0;width:100%;height:100dvh;max-width:none;max-height:none;margin:0;border:0;padding:max(20px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:transparent;color:#eaf3fc;overflow:hidden;outline:none}
+.dc-info-dialog[open]{display:flex;align-items:center;justify-content:center}
+.dc-info-dialog::backdrop{background:rgba(0,5,12,.72);backdrop-filter:blur(6px);animation:dcInfoBackdropIn .24s ease-out both}
+.dc-info-panel{display:flex;flex-direction:column;min-height:0;width:100%;max-width:560px;max-height:100%;padding:0;border:1px solid #30465a;border-radius:24px;background:#0d2033;overflow:hidden;animation:dcInfoPanelIn .28s cubic-bezier(.22,1,.36,1) both}
+.dc-info-panel>header{display:flex;flex-shrink:0;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px;border-bottom:1px solid #283d51}
+.dc-info-panel h3{margin:0;min-width:0;font-size:20px;line-height:1.3;font-weight:850}
+.dc-info-panel>header>button{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border:1px solid #3a5064;border-radius:50%;background:#1c3349;color:#edf4fc;transition:background .16s ease,transform .16s ease}
+.dc-info-panel>header>button:hover{background:#2a465f}
+.dc-info-panel>header>button:active{transform:scale(.94)}
+.dc-info-panel>header>button:focus-visible{outline:2px solid #9acbf0;outline-offset:3px}
+.dc-info-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 22px 24px}
+.dc-info-body p{margin-top:15px;color:#b6c7d8;font-size:14px;line-height:1.7}
+.dc-info-dialog.is-closing::backdrop{animation:dcInfoBackdropOut .2s ease-in both}
+.dc-info-dialog.is-closing .dc-info-panel{animation:dcInfoPanelOut .2s ease-in both}
+@keyframes dcInfoBackdropIn{from{opacity:0}to{opacity:1}}
+@keyframes dcInfoBackdropOut{from{opacity:1}to{opacity:0}}
+@keyframes dcInfoPanelIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes dcInfoPanelOut{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(6px) scale(.98)}}
+@media(prefers-reduced-motion:reduce){.dc-info-dialog::backdrop,.dc-info-dialog .dc-info-panel{animation:none!important}.dc-info-panel>header>button{transition:none}}
