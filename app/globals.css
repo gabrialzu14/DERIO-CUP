@@ -394,3 +394,30 @@ html.dc-menu-open .app-nav{opacity:0!important;pointer-events:none!important;tra
 .group-preview button,.phase-card,.app-nav button{touch-action:manipulation}
 .manager-score-team input{font-size:16px!important}
 @media(max-width:390px){.stand-head,.stand-row{font-size:8px}.phase-card b{font-size:9px}.match-team span{font-size:8px}}
+
+/* Connected knockout bracket, shared by both final phases. */
+.dc-bracket-toggle{display:flex;gap:6px;margin:12px 0}
+.dc-bracket-toggle button{padding:10px 13px;border:1px solid #334155;border-radius:10px;background:#142537;color:#b9c9d9;font-size:13px;font-weight:750}
+.dc-bracket-toggle button[aria-pressed="true"]{background:#263c52;border-color:#7891aa;color:#fff}
+.dc-bracket-toggle button:focus-visible,.dc-bracket-scroll:focus-visible{outline:2px solid #8ac4ef;outline-offset:3px}
+.dc-bracket-hint{margin:8px 0 12px;color:#9eb0c3;font-size:12px;line-height:1.5}
+.dc-bracket-scroll{--bracket-accent:#e8c15d;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;padding:12px 8px 16px;border:1px solid #293f53;border-radius:16px;background:rgba(5,18,32,.84)}
+.dc-bracket-scroll.plata{--bracket-accent:#bbccdc}
+.dc-bracket-head{display:grid;grid-template-columns:repeat(3,240px);gap:44px;width:808px}
+.dc-bracket-head b{padding:7px 10px;text-align:center;font-size:12px;letter-spacing:.06em;color:var(--bracket-accent)}
+.dc-bracket-canvas{position:relative;width:808px;height:560px}
+.dc-bracket-lines{position:absolute;inset:0;width:808px;height:560px;fill:none;stroke:var(--bracket-accent);stroke-opacity:.55;stroke-width:2}
+.dc-bracket-game{position:absolute;width:240px;height:120px;box-sizing:border-box;border:1px solid #395069;border-radius:12px;background:#102337;overflow:hidden}
+.dc-bracket-game header{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #293f53;background:#192d42;font-size:12px}
+.dc-bracket-game header b{color:var(--bracket-accent)}
+.dc-bracket-game header span{color:#bdcddd}
+.dc-bracket-team{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;height:44px;padding:0 10px;color:#d8e2ee}
+.dc-bracket-team+.dc-bracket-team{border-top:1px solid #23384c}
+.dc-bracket-crest{display:grid;place-items:center;width:28px;height:28px}
+.dc-bracket-crest img{width:24px;height:24px;object-fit:contain}
+.dc-bracket-name{font-size:13px;line-height:16px;overflow-wrap:anywhere}
+.dc-bracket-team strong{font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dc-bracket-team strong small{font-size:12px;color:var(--bracket-accent)}
+.dc-bracket-team.is-winner{color:#fff;background:rgba(255,255,255,.065);font-weight:850}
+.dc-bracket-team.is-winner strong{color:var(--bracket-accent)}
+.dc-bracket-final{border-color:var(--bracket-accent)}
