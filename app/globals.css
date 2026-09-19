@@ -278,3 +278,7 @@ html:not(.app-dark) .info-content ol{color:#51687d}html:not(.app-dark) .rule-hig
 
 /* Fireworks v3: quicker staggered bursts, GPU-only transforms */
 .fw-burst{width:5px;height:5px;animation-duration:.56s;animation-timing-function:cubic-bezier(.12,.8,.22,1);transform:translate3d(-50%,-50%,0) scale(.05);backface-visibility:hidden}.fw-burst:nth-child(2n){animation-duration:.64s}.fw-burst:nth-child(3n){animation-duration:.5s}@keyframes fwBurst{0%{opacity:0;transform:translate3d(-50%,-50%,0) scale(.05)}9%{opacity:1}52%{opacity:1;transform:translate3d(-50%,-50%,0) scale(.9)}78%{opacity:.72;transform:translate3d(-50%,-50%,0) scale(1.13)}100%{opacity:0;transform:translate3d(-50%,-50%,0) scale(1.25)}}.team-celebration-card{animation-duration:.38s}.team-celebration-card>img{animation-duration:.46s}
+
+/* Qualification colors: Oro / Plata */
+.rank-1,.rank-2{background:#b68b19!important;color:#fff!important;box-shadow:0 0 0 1px rgba(245,201,79,.22)}
+.rank-3,.rank-4{background:#718496!important;color:#fff!important;box-shadow:0 0 0 1px rgba(190,205,218,.16)}
