@@ -33,7 +33,7 @@ const officialGroupMatches:{time:string;field:1|2;group:G;home:string;away:strin
 const matches:Match[]=officialGroupMatches.map((m,i)=>({...m,id:"grupo-"+m.group+"-"+m.time.replace(":","")+"-c"+m.field,hs:null,as:null}));
 
 function ids(g:G){return teams.filter(t=>t.group===g).map(t=>t.id)} function logo(id:string){return "/"+id+".png"}
-function crestClass(id:string){return id==="trapagaran"?"crest-img crest-trapagaran":"crest-img"} function T(id:string){return teams.find(t=>t.id===id)!}
+function crestClass(id:string){return id==="trapagaran"?"crest-img crest-trapagaran":id==="etorkizuna"?"crest-img crest-etorkizuna":"crest-img"} function T(id:string){return teams.find(t=>t.id===id)!}
 type Row={id:string;pj:number;pg:number;pe:number;pp:number;gf:number;gc:number;dg:number;pts:number};
 function table(g:G,ms:Match[]){const r:Record<string,Row>={};ids(g).forEach(id=>r[id]={id,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dg:0,pts:0});const played=ms.filter(m=>m.group===g&&m.hs!==null&&m.as!==null);played.forEach(m=>{const a=r[m.home],b=r[m.away],h=m.hs!,v=m.as!;a.pj++;b.pj++;a.gf+=h;a.gc+=v;b.gf+=v;b.gc+=h;if(h>v){a.pg++;a.pts+=3;b.pp++}else if(v>h){b.pg++;b.pts+=3;a.pp++}else{a.pe++;b.pe++;a.pts++;b.pts++}});Object.values(r).forEach(x=>x.dg=x.gf-x.gc);
  const mini=(pool:Row[])=>{const s=new Set(pool.map(x=>x.id)),z:Record<string,{p:number,dg:number,gf:number}>={};pool.forEach(x=>z[x.id]={p:0,dg:0,gf:0});played.filter(m=>s.has(m.home)&&s.has(m.away)).forEach(m=>{const a=z[m.home],b=z[m.away],h=m.hs!,v=m.as!;a.gf+=h;a.dg+=h-v;b.gf+=v;b.dg+=v-h;if(h>v)a.p+=3;else if(v>h)b.p+=3;else{a.p++;b.p++}});return z};
