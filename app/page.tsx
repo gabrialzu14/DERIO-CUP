@@ -30,7 +30,7 @@ const officialGroupMatches:{time:string;field:1|2;group:G;home:string;away:strin
 {time:"16:35",field:1,group:"D",home:"retuerto",away:"trapagaran"},
 {time:"16:35",field:2,group:"D",home:"danok-b",away:"ariznabarra"}
 ];
-const matches:Match[]=officialGroupMatches.map((m,i)=>({...m,id:m.group+(Math.floor(i/8)*2+(i%8>=4?2:1))+"-"+m.field+"-"+m.time.replace(":",""),hs:null,as:null}));
+const matches:Match[]=officialGroupMatches.map((m,i)=>({...m,id:"grupo-"+m.group+"-"+m.time.replace(":","")+"-c"+m.field,hs:null,as:null}));
 
 function logo(id:string){return "/"+id+".png"}
 function crestClass(id:string){return id==="trapagaran"?"crest-img crest-trapagaran":"crest-img"} function T(id:string){return teams.find(t=>t.id===id)!}
