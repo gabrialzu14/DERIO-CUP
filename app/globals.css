@@ -88,3 +88,15 @@ html.app-dark .app-shell .text-slate-500,html.app-dark .app-shell .text-slate-40
 .dc-appmark img{width:100%;height:100%;object-fit:cover;transform:none}
 .app-header>div{align-items:center}
 @media(max-width:520px){.app-header>div{padding:10px}.dc-appmark{height:52px;width:52px;flex-basis:52px}.app-header .brand-title{font-size:24px}.app-header p{font-size:9px}}
+
+/* Vector trophy: avoids corrupted raster rendering */
+.splash-emblem{display:none!important}
+.splash-trophy{position:relative;width:150px;height:150px;margin-bottom:12px;filter:drop-shadow(-9px 0 12px rgba(255,25,55,.6)) drop-shadow(9px 0 12px rgba(20,140,255,.65))}
+.cup-face{position:absolute;left:35px;top:10px;width:80px;height:88px;border:7px solid #fff;border-radius:8px 8px 36px 36px;z-index:2}
+.cup-back{position:absolute;top:25px;width:48px;height:55px;border:7px solid #fff;border-radius:10px;z-index:1}
+.cup-back.left{left:12px}.cup-back.right{right:12px}
+.cup-stem{position:absolute;left:67px;top:95px;width:16px;height:26px;background:#fff;border-radius:3px}
+.cup-base{position:absolute;left:45px;top:119px;width:60px;height:19px;border:7px solid #fff;border-radius:3px}
+.cup-ball{position:absolute;left:16px;top:16px;width:35px;height:35px;border:4px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:25px;line-height:1;font-weight:900;color:#fff}
+.splash-title{margin-top:4px}
+@media(max-width:520px){.splash-trophy{width:125px;height:135px;transform:scale(.88);margin-bottom:0}}
