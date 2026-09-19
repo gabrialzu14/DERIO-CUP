@@ -346,3 +346,34 @@ html.app-dark .app-nav,.app-nav{
 
 .no-team-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:min(100%,420px);margin:22px auto -10px;padding:12px 16px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.07);color:#fff;font-size:12px;font-weight:900;backdrop-filter:blur(12px)}
 .no-team-btn span{color:#78bfff;font-size:9px;font-weight:750}.no-team-btn:active{transform:scale(.98)}
+
+/* Tournament live UX */
+.last-sync{display:flex;justify-content:flex-end;margin:-4px 2px 8px;color:#6f879b;font-size:8px;font-weight:800;letter-spacing:.04em}
+.last-sync::first-letter{color:#37c978}
+.live-label{display:flex!important;align-items:center;justify-content:center;gap:5px;color:#fff!important;font-size:10px!important}
+.live-label i,.now-playing i{width:7px;height:7px;border-radius:50%;background:#ff2948;box-shadow:0 0 0 4px rgba(255,41,72,.12),0 0 12px rgba(255,41,72,.85);animation:livePulse 1.15s ease-in-out infinite}
+.match-row.live{border-color:rgba(255,45,75,.35)!important;box-shadow:inset 0 0 28px rgba(255,35,67,.035)}
+.match-row.awaiting .match-score small{color:#f1b84c!important}
+.share-match{position:absolute;right:4px;top:3px;width:22px;height:22px;border:0;border-radius:7px;background:rgba(255,255,255,.06);color:#7f9bb3;font-size:12px}
+.match-score{position:relative}
+@keyframes livePulse{50%{opacity:.35;transform:scale(.72)}}
+.now-playing,.next-up{display:flex;align-items:center;justify-content:space-between;margin:0 0 13px;padding:12px 14px;border:1px solid rgba(255,52,80,.22);border-radius:16px;background:linear-gradient(110deg,rgba(139,20,44,.16),rgba(9,34,56,.72));box-shadow:inset 0 1px rgba(255,255,255,.04)}
+.now-playing b{display:flex;align-items:center;gap:8px;color:#fff;font-size:10px;letter-spacing:.09em}.now-playing span{color:#9eb3c6;font-size:9px}
+.next-up{display:grid;gap:3px;border-color:rgba(80,157,224,.16)}.next-up small{color:#6daee8;font-size:7px;font-weight:900;letter-spacing:.12em}.next-up b{font-size:10px;color:#e8f3fd}
+.zone-badge{display:inline-flex!important;margin-left:6px;padding:2px 5px;border-radius:5px;font-size:6px!important;font-style:normal;font-weight:950;letter-spacing:.05em;vertical-align:middle}
+.zone-badge.oro{background:rgba(194,151,34,.18);color:#f0c85c}.zone-badge.plata{background:rgba(141,161,180,.16);color:#c5d2dd}
+.group-finished{display:block;margin-top:4px;color:#55d99b;font-size:7px;letter-spacing:.08em}
+.stand-row{animation:standUpdate .32s ease both}@keyframes standUpdate{from{opacity:.65;transform:translateY(3px)}}
+.ko-bracket,.ko-bracket-mini{position:relative}.ko-bracket>div,.ko-bracket-mini .ko-match{position:relative}
+.ko-bracket-mini{display:grid;gap:7px}
+.phase-champion{display:flex;align-items:center;gap:10px;margin:0 0 15px;padding:12px;border:1px solid rgba(231,187,61,.24);border-radius:17px;background:linear-gradient(120deg,rgba(169,124,14,.16),rgba(11,31,48,.82))}
+.phase-champion.plata{border-color:rgba(177,198,216,.2);background:linear-gradient(120deg,rgba(112,134,153,.15),rgba(11,31,48,.82))}
+.phase-champion img{width:42px;height:42px;object-fit:contain}.phase-champion small{margin-left:3px;color:#9eb0bf;font-size:7px;font-weight:900}.phase-champion b{font-size:11px}
+.tournament-finished{margin-bottom:14px;padding:16px;border:1px solid rgba(231,187,61,.22);border-radius:20px;background:linear-gradient(145deg,rgba(166,119,8,.14),rgba(8,27,45,.86));text-align:center}
+.tournament-finished>small{color:#e5bd50;font-size:7px;font-weight:950;letter-spacing:.14em}.tournament-finished h3{margin:4px 0 13px;font-size:15px}
+.tournament-finished>div{display:grid;grid-template-columns:1fr 1fr;gap:9px}.tournament-finished span{display:grid;place-items:center;gap:4px;padding:9px;border-radius:13px;background:rgba(255,255,255,.045)}
+.tournament-finished span b{font-size:7px;color:#9fb1c1}.tournament-finished span img{width:48px;height:48px;object-fit:contain}.tournament-finished span strong{font-size:9px}
+.manager-progress{display:flex;justify-content:space-between;align-items:center;margin:10px 0;padding:10px 12px;border-radius:11px;background:rgba(64,151,221,.08);font-size:9px}.manager-progress span{color:#f0b552}
+.save-toast{position:sticky;top:58px;z-index:30;margin:0 0 10px;padding:10px 12px;border:1px solid rgba(62,211,145,.25);border-radius:11px;background:rgba(14,71,54,.96);color:#86efc2;font-size:9px;font-weight:900;text-align:center}
+.phase-grid.neutral{grid-template-columns:repeat(3,1fr)!important}
+.my-team-strip em{display:block;margin-top:3px;color:#76baf1;font-size:7px;font-style:normal}
