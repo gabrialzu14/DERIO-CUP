@@ -199,8 +199,8 @@ html:not(.app-dark) .my-team-strip{background:linear-gradient(100deg,rgba(245,31
 @media(max-width:390px){.my-team-strip{grid-template-columns:38px 1fr auto}.my-team-strip img{width:34px;height:34px}.group-team{grid-template-columns:14px 25px minmax(0,1fr) 30px 9px}.group-team small{font-size:5.5px}}
 
 /* Phase 6: mobile interaction lock, typography and icon redesign */
-html,body{width:100%;max-width:100%;min-height:100%;overflow-x:hidden;overscroll-behavior:none;-webkit-text-size-adjust:100%;touch-action:pan-y}
-body{position:relative;margin:0}.app-shell,.welcome{width:100%;max-width:100vw;overflow-x:hidden;overscroll-behavior-y:none}
+html,body{width:100%;max-width:100%;min-height:100%;overflow-x:hidden;overscroll-behavior-x:none;overscroll-behavior-y:contain;-webkit-text-size-adjust:100%;touch-action:pan-y}
+body{position:relative;margin:0}.app-shell,.welcome{width:100%;max-width:100vw;overflow-x:hidden;overscroll-behavior-y:contain}
 button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 button{cursor:pointer}.phase-card,.group-preview>button,.my-team-strip,.app-nav button,.drawer-nav button,.filter-row button,.group-tabs button,.more-card button,.header-brand{will-change:transform;transition:transform .18s cubic-bezier(.2,.8,.2,1),filter .18s ease,box-shadow .18s ease,background .18s ease}
 .phase-card:hover,.group-preview>button:hover,.my-team-strip:hover{transform:translateY(-2px);filter:brightness(1.07)}.phase-card:active,.group-preview>button:active,.my-team-strip:active,.app-nav button:active,.drawer-nav button:active,.filter-row button:active,.group-tabs button:active,.more-card button:active,.header-brand:active{transform:scale(.955)!important}
