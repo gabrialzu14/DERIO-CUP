@@ -343,3 +343,6 @@ html.app-dark .app-nav,.app-nav{
 .welcome{min-height:100dvh!important;height:auto!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding-bottom:max(54px,env(safe-area-inset-bottom))!important}
 .team-picker-count{margin:12px auto -12px;color:#6ebcff;font-size:9px;font-weight:900;letter-spacing:.13em}
 .welcome .grid{padding-bottom:28px}
+
+.no-team-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:min(100%,420px);margin:22px auto -10px;padding:12px 16px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.07);color:#fff;font-size:12px;font-weight:900;backdrop-filter:blur(12px)}
+.no-team-btn span{color:#78bfff;font-size:9px;font-weight:750}.no-team-btn:active{transform:scale(.98)}
