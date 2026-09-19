@@ -339,8 +339,11 @@ html.app-dark .app-nav,.app-nav{
 }
 .dc-drawer{z-index:100!important}
 html.dc-menu-open .app-nav{opacity:0!important;pointer-events:none!important;transform:translateY(calc(100% + env(safe-area-inset-bottom) + 24px))!important}
-.app-nav>div{height:58px!important}
-.app-nav button{min-height:58px!important;border-radius:19px!important}
+.app-nav>div{height:100%!important;width:100%;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch}
+.app-nav button{min-height:0!important;height:100%;min-width:0;width:100%;margin:0;padding:5px 2px 9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;border-radius:19px!important}
+.app-nav button>svg{display:block;flex:0 0 22px;width:22px;height:22px;margin:0 auto;transform:none}
+.app-nav button>span{display:block;width:100%;margin:0;padding:0;text-align:center;font-size:9px;line-height:14px;white-space:nowrap;letter-spacing:normal}
+.app-nav button:hover{transform:none}
 .app-nav button.active{color:#fff!important;background:linear-gradient(145deg,rgba(255,255,255,.20),rgba(255,255,255,.075))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 6px 18px rgba(0,0,0,.16)!important}
 .app-nav button.active:before{display:none!important}.app-nav button.active:after{bottom:3px!important;background:#ff3150!important;box-shadow:0 0 10px rgba(255,49,80,.7)!important}
 .safe{padding-bottom:max(120px,calc(env(safe-area-inset-bottom) + 104px))!important}
