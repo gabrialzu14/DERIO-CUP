@@ -2,8 +2,34 @@
 import {useEffect,useMemo,useState} from "react";
 type G="A"|"B"|"C"|"D"; type Team={id:string;name:string;group:G}; type Match={id:string;group:G;home:string;away:string;time:string;field:1|2;hs:number|null;as:number|null};
 const teams:Team[]=[{id:"danok-a",name:"Danok Bat A",group:"A"},{id:"portugalete",name:"Portugalete",group:"A"},{id:"ermua",name:"Ermua Blues",group:"A"},{id:"urduliz",name:"Urduliz",group:"A"},{id:"leioa",name:"Leioa",group:"B"},{id:"indautxu",name:"Indautxu",group:"B"},{id:"deusto",name:"Deusto",group:"B"},{id:"etorkizuna",name:"Etorkizuna",group:"B"},{id:"santutxu",name:"Santutxu",group:"C"},{id:"durango",name:"Cultural Durango",group:"C"},{id:"arrupe",name:"Arrupe Chaminade",group:"C"},{id:"derio",name:"Derio",group:"C"},{id:"danok-b",name:"Danok Bat B",group:"D"},{id:"retuerto",name:"Retuerto",group:"D"},{id:"ariznabarra",name:"Ariznabarra",group:"D"},{id:"trapagaran",name:"Trapagaran",group:"D"}];
-const schedule:{time:string;field:1|2;group:G}[]=[]; ["12:00","12:50","13:40","14:30","15:20","16:10"].forEach(time=>schedule.push({time,field:1,group:"A"})); ["12:00","12:50","13:40","14:30","15:20","16:10"].forEach(time=>schedule.push({time,field:2,group:"B"})); ["12:25","13:15","14:05","14:55","15:45","16:35"].forEach(time=>schedule.push({time,field:1,group:"C"})); ["12:25","13:15","14:05","14:55","15:45","16:35"].forEach(time=>schedule.push({time,field:2,group:"D"}));
-function ids(g:G){return teams.filter(t=>t.group===g).map(t=>t.id)} function pairs(g:G){const x=ids(g);return [[x[0],x[1]],[x[2],x[3]],[x[0],x[2]],[x[1],x[3]],[x[0],x[3]],[x[1],x[2]]]} const matches:Match[]=[];(["A","B","C","D"] as G[]).forEach(g=>pairs(g).forEach((p,i)=>{const s=schedule.filter(x=>x.group===g)[i];matches.push({id:g+(i+1),group:g,home:p[0],away:p[1],time:s.time,field:s.field,hs:null,as:null})}));
+const officialGroupMatches:{time:string;field:1|2;group:G;home:string;away:string}[]=[
+{time:"12:00",field:1,group:"A",home:"danok-a",away:"portugalete"},
+{time:"12:00",field:2,group:"A",home:"ermua",away:"urduliz"},
+{time:"12:25",field:1,group:"B",home:"leioa",away:"indautxu"},
+{time:"12:25",field:2,group:"B",home:"deusto",away:"etorkizuna"},
+{time:"12:50",field:1,group:"C",home:"derio",away:"santutxu"},
+{time:"12:50",field:2,group:"C",home:"durango",away:"arrupe"},
+{time:"13:15",field:1,group:"D",home:"trapagaran",away:"ariznabarra"},
+{time:"13:15",field:2,group:"D",home:"danok-b",away:"retuerto"},
+{time:"13:40",field:1,group:"A",home:"danok-a",away:"ermua"},
+{time:"13:40",field:2,group:"A",home:"portugalete",away:"urduliz"},
+{time:"14:05",field:1,group:"B",home:"leioa",away:"deusto"},
+{time:"14:05",field:2,group:"B",home:"indautxu",away:"etorkizuna"},
+{time:"14:30",field:1,group:"C",home:"derio",away:"arrupe"},
+{time:"14:30",field:2,group:"C",home:"durango",away:"santutxu"},
+{time:"14:55",field:1,group:"D",home:"retuerto",away:"ariznabarra"},
+{time:"14:55",field:2,group:"D",home:"danok-b",away:"trapagaran"},
+{time:"15:20",field:1,group:"A",home:"ermua",away:"portugalete"},
+{time:"15:20",field:2,group:"A",home:"danok-a",away:"urduliz"},
+{time:"15:45",field:1,group:"B",home:"leioa",away:"etorkizuna"},
+{time:"15:45",field:2,group:"B",home:"indautxu",away:"deusto"},
+{time:"16:10",field:1,group:"C",home:"derio",away:"durango"},
+{time:"16:10",field:2,group:"C",home:"santutxu",away:"arrupe"},
+{time:"16:35",field:1,group:"D",home:"retuerto",away:"trapagaran"},
+{time:"16:35",field:2,group:"D",home:"danok-b",away:"ariznabarra"}
+];
+const matches:Match[]=officialGroupMatches.map((m,i)=>({...m,id:m.group+(Math.floor(i/8)*2+(i%8>=4?2:1))+"-"+m.field+"-"+m.time.replace(":",""),hs:null,as:null}));
+
 function logo(id:string){return "/"+id+".png"} function T(id:string){return teams.find(t=>t.id===id)!}
 type Row={id:string;pj:number;pg:number;pe:number;pp:number;gf:number;gc:number;dg:number;pts:number};
 function table(g:G,ms:Match[]){const r:Record<string,Row>={};ids(g).forEach(id=>r[id]={id,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dg:0,pts:0});const played=ms.filter(m=>m.group===g&&m.hs!==null&&m.as!==null);played.forEach(m=>{const a=r[m.home],b=r[m.away],h=m.hs!,v=m.as!;a.pj++;b.pj++;a.gf+=h;a.gc+=v;b.gf+=v;b.gc+=h;if(h>v){a.pg++;a.pts+=3;b.pp++}else if(v>h){b.pg++;b.pts+=3;a.pp++}else{a.pe++;b.pe++;a.pts++;b.pts++}});Object.values(r).forEach(x=>x.dg=x.gf-x.gc);
