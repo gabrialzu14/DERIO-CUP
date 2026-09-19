@@ -2,7 +2,7 @@
 import {useEffect,useMemo,useState} from "react";
 const SB_URL="https://qxhphzesbxlojcqjmswm.supabase.co";
 const SB_KEY="sb_publishable_yg4zkg0KBqPXxymmXD8y3w_5hHwcRzy";
-type G="A"|"B"|"C"|"D"; type Team={id:string;name:string;group:G}; type Match={id:string;group:G;home:string;away:string;time:string;field:1|2;hs:number|null;as:number|null}; type ResultRow={match_id:string;home_score:number;away_score:number;home_penalties:number|null;away_penalties:number|null;home_team?:string|null;away_team?:string|null;phase?:string|null;round?:string|null}; type KOGame={id:string;kind:"Oro"|"Plata";round:"CF"|"SF"|"FINAL";code:string;time:string;field:1|2;home:string|null;away:string|null;homeLabel:string;awayLabel:string;result?:ResultRow};
+type G="A"|"B"|"C"|"D"; type Team={id:string;name:string;group:G}; type Match={id:string;group:G;home:string;away:string;time:string;field:1|2;hs:number|null;as:number|null}; type ResultRow={match_id:string;home_score:number;away_score:number;home_penalties:number|null;away_penalties:number|null;home_team?:string|null;away_team?:string|null;phase?:string|null;round?:string|null;updated_at?:string|null}; type KOGame={id:string;kind:"Oro"|"Plata";round:"CF"|"SF"|"FINAL";code:string;time:string;field:1|2;home:string|null;away:string|null;homeLabel:string;awayLabel:string;result?:ResultRow};
 const teams:Team[]=[{id:"danok-a",name:"Danok Bat A",group:"A"},{id:"portugalete",name:"Portugalete",group:"A"},{id:"ermua",name:"Ermua Blues",group:"A"},{id:"urduliz",name:"Urduliz",group:"A"},{id:"leioa",name:"Leioa",group:"B"},{id:"indautxu",name:"Indautxu",group:"B"},{id:"deusto",name:"Deusto",group:"B"},{id:"etorkizuna",name:"Etorkizuna",group:"B"},{id:"santutxu",name:"Santutxu",group:"C"},{id:"durango",name:"Cultural Durango",group:"C"},{id:"arrupe",name:"Arrupe Chaminade",group:"C"},{id:"derio",name:"Derio",group:"C"},{id:"danok-b",name:"Danok Bat B",group:"D"},{id:"retuerto",name:"Retuerto",group:"D"},{id:"ariznabarra",name:"Ariznabarra",group:"D"},{id:"trapagaran",name:"Trapagaran",group:"D"}];
 const officialGroupMatches:{time:string;field:1|2;group:G;home:string;away:string}[]=[
 {time:"12:00",field:1,group:"A",home:"danok-a",away:"portugalete"},
@@ -32,7 +32,7 @@ const officialGroupMatches:{time:string;field:1|2;group:G;home:string;away:strin
 ];
 const matches:Match[]=officialGroupMatches.map((m,i)=>({...m,id:"grupo-"+m.group+"-"+m.time.replace(":","")+"-c"+m.field,hs:null,as:null}));
 
-function logo(id:string){return "/"+id+".png"}
+function ids(g:G){return teams.filter(t=>t.group===g).map(t=>t.id)} function logo(id:string){return "/"+id+".png"}
 function crestClass(id:string){return id==="trapagaran"?"crest-img crest-trapagaran":"crest-img"} function T(id:string){return teams.find(t=>t.id===id)!}
 type Row={id:string;pj:number;pg:number;pe:number;pp:number;gf:number;gc:number;dg:number;pts:number};
 function table(g:G,ms:Match[]){const r:Record<string,Row>={};ids(g).forEach(id=>r[id]={id,pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dg:0,pts:0});const played=ms.filter(m=>m.group===g&&m.hs!==null&&m.as!==null);played.forEach(m=>{const a=r[m.home],b=r[m.away],h=m.hs!,v=m.as!;a.pj++;b.pj++;a.gf+=h;a.gc+=v;b.gf+=v;b.gc+=h;if(h>v){a.pg++;a.pts+=3;b.pp++}else if(v>h){b.pg++;b.pts+=3;a.pp++}else{a.pe++;b.pe++;a.pts++;b.pts++}});Object.values(r).forEach(x=>x.dg=x.gf-x.gc);
