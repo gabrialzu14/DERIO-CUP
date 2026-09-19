@@ -72,3 +72,19 @@ html.app-dark .app-shell .text-slate-500,html.app-dark .app-shell .text-slate-40
 .dc-appmark{height:48px;width:48px;overflow:hidden;border-radius:14px;background:#061425;box-shadow:-5px 0 14px rgba(245,31,62,.22),5px 0 14px rgba(22,141,245,.25)}
 .dc-appmark img{height:100%;width:100%;object-fit:cover;transform:scale(1.08)}
 .splash-center .splash-logo{width:min(70vw,320px)!important;max-height:none!important;border-radius:0!important;object-fit:contain!important;mix-blend-mode:screen!important;filter:drop-shadow(-18px 0 40px rgba(245,31,62,.28)) drop-shadow(18px 0 40px rgba(22,141,245,.32))!important}
+
+/* Splash + logo correction */
+.splash{background:#020a16!important}
+.splash-center{padding:24px;text-align:center}
+.splash-emblem{position:relative;width:clamp(120px,30vw,190px);height:clamp(120px,30vw,190px);overflow:hidden}
+.splash-emblem img{width:100%;height:100%;object-fit:cover;border-radius:0;transform:none;filter:drop-shadow(-12px 0 30px rgba(245,31,62,.38)) drop-shadow(12px 0 30px rgba(22,141,245,.42))}
+.splash-title{margin-top:18px;font-family:var(--font-derio),Arial,sans-serif;font-size:clamp(48px,13vw,92px);line-height:.9;font-weight:900;letter-spacing:-.065em;background:linear-gradient(90deg,#ff1539 0%,#ff8ca1 32%,#fff 51%,#8bcaff 72%,#078fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 12px 45px rgba(0,0,0,.2)}
+.splash-sub{margin-top:22px;font-size:clamp(11px,2.6vw,16px);letter-spacing:.22em;font-weight:700;color:#f4f7fc}
+.splash-line{left:20%;right:20%;bottom:8%;height:5px;box-shadow:0 0 18px rgba(79,130,255,.22)}
+.smoke{inset:-10%;filter:blur(48px)}
+.smoke-red{right:42%;opacity:.85;background:radial-gradient(ellipse at 15% 48%,rgba(255,16,46,.95),transparent 24%),radial-gradient(ellipse at 34% 35%,rgba(173,0,30,.75),transparent 24%),radial-gradient(ellipse at 28% 70%,rgba(255,35,55,.65),transparent 22%)}
+.smoke-blue{left:42%;opacity:.85;background:radial-gradient(ellipse at 85% 48%,rgba(0,126,255,.98),transparent 24%),radial-gradient(ellipse at 66% 34%,rgba(0,61,180,.78),transparent 24%),radial-gradient(ellipse at 72% 70%,rgba(0,149,255,.67),transparent 22%)}
+.dc-appmark{height:58px;width:58px;border-radius:16px;flex:0 0 58px;background:#061425}
+.dc-appmark img{width:100%;height:100%;object-fit:cover;transform:none}
+.app-header>div{align-items:center}
+@media(max-width:520px){.app-header>div{padding:10px}.dc-appmark{height:52px;width:52px;flex-basis:52px}.app-header .brand-title{font-size:24px}.app-header p{font-size:9px}}
