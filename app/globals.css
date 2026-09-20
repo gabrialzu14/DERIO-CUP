@@ -657,3 +657,67 @@ html.dc-menu-open .app-nav{opacity:0!important;pointer-events:none!important;tra
   .orbit-ring,.orbit-core,.celebration-dot{animation:none!important}
   .orbit-core{opacity:.35}
 }
+
+
+/* Final selection polish */
+.app-entering{animation:appEnter .82s cubic-bezier(.22,1,.36,1) both}
+@keyframes appEnter{
+  from{opacity:0;transform:translateY(12px) scale(.985)}
+  55%{opacity:1}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.app-shell .app-header>div{
+  border-color:color-mix(in srgb,var(--selected-accent,#6ebcff) 22%,rgba(255,255,255,.12))!important;
+  transition:border-color .45s ease,box-shadow .45s ease;
+}
+.team-picker-card{position:relative;overflow:visible!important}
+.team-picker-card img{
+  width:80px;
+  height:80px;
+  object-fit:contain;
+  transition:transform .65s cubic-bezier(.22,1,.36,1),filter .5s ease;
+}
+.team-picker-card.selected{
+  animation:selectedCardSettle .72s cubic-bezier(.22,1,.36,1) both;
+}
+.team-selected-mark{
+  position:absolute;
+  z-index:4;
+  top:10px;
+  right:10px;
+  display:grid;
+  place-items:center;
+  width:24px;
+  height:24px;
+  border:1px solid rgba(255,255,255,.38);
+  border-radius:50%;
+  background:linear-gradient(145deg,#36d98a,#159d69);
+  color:#fff;
+  font-size:14px;
+  font-weight:950;
+  box-shadow:0 5px 14px rgba(0,0,0,.28);
+  animation:selectedMarkIn .42s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes selectedCardSettle{
+  0%{transform:scale(.98)}
+  55%{transform:scale(1.025)}
+  100%{transform:scale(1)}
+}
+@keyframes selectedMarkIn{
+  from{opacity:0;transform:scale(.5) rotate(-18deg)}
+  to{opacity:1;transform:scale(1) rotate(0)}
+}
+.team-hero{
+  border-color:color-mix(in srgb,var(--team-accent,#6ebcff) 34%,rgba(120,165,205,.12))!important;
+  box-shadow:0 16px 38px color-mix(in srgb,var(--team-accent,#6ebcff) 12%,transparent)!important;
+  transition:border-color .35s ease,box-shadow .35s ease;
+}
+.team-hero h2{color:color-mix(in srgb,var(--team-accent,#6ebcff) 72%,white)!important}
+.my-team-strip{
+  border-color:color-mix(in srgb,var(--selected-accent,#6ebcff) 27%,rgba(120,165,205,.12))!important;
+  box-shadow:0 10px 28px color-mix(in srgb,var(--selected-accent,#6ebcff) 9%,transparent);
+  transition:border-color .35s ease,box-shadow .35s ease;
+}
+@media(prefers-reduced-motion:reduce){
+  .app-entering,.team-picker-card.selected,.team-selected-mark{animation:none!important}
+}
