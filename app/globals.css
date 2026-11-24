@@ -839,8 +839,8 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .duel-mid { height: 76px; }
 .hero-cols.two .hero-mid { height: 72px; gap: 7px; }
 .hero-cols.two .hero-mid b { font-size: .8125rem; font-weight: 400; }
-.final-cup { background: var(--cup-fill); filter: drop-shadow(0 0 3px var(--cup-halo)) drop-shadow(0 0 7px var(--cup-halo)); margin-block: -2px; animation: none; }
+.final-cup { background: var(--cup-fill); filter: drop-shadow(0 0 2px var(--cup-halo)) drop-shadow(0 0 6px var(--cup-halo)) drop-shadow(0 0 11px var(--cup-halo)); margin-block: -2px; animation: none; }
 .final-cup.gold { --cup-fill: linear-gradient(170deg, #fff6b0, #ffcf33 45%, #e09a00); --cup-halo: light-dark(rgb(255 190 20 / .75), rgb(255 205 50 / .65)); }
-.final-cup.silver { --cup-fill: linear-gradient(170deg, #ffffff, #d5dbe4 45%, #98a3b3); --cup-halo: light-dark(rgb(110 125 150 / .65), rgb(215 225 240 / .6)); }
-.hero-cols.two .final-cup { width: 13px !important; height: 14px !important; }
+.final-cup.silver { --cup-fill: linear-gradient(170deg, light-dark(#bcc5d1, #ffffff), light-dark(#8693a6, #d5dbe4) 50%, light-dark(#5d6a7e, #98a3b3)); --cup-halo: light-dark(rgb(120 135 160 / .75), rgb(215 225 240 / .6)); }
+.hero-cols.two .final-cup { width: 15px !important; height: 16px !important; }
 @media (max-width: 340px) { .hero-mid, .hero-cols.two .hero-mid { height: 64px; } }
