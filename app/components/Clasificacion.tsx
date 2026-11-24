@@ -25,7 +25,7 @@ export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setG
               <span role="cell">{r.pj}</span><span role="cell">{r.gf}</span><span role="cell">{r.gc}</span><span role="cell">{r.dg > 0 ? "+" + r.dg : r.dg}</span><span role="cell" className="c-pts"><b>{r.pts}</b></span>
             </div>); })}
         </div>
-        <div className="legend"><span><i className="dot gold" />{t("Fase Oro (1.º y 2.º)", "Urrezko fasea (1. eta 2.)")}</span><span><i className="dot silver" />{t("Fase Plata (3.º y 4.º)", "Zilarrezko fasea (3. eta 4.)")}</span>{done && <span className="done"><Icon name="check" size={14} />{t("Grupo cerrado", "Multzoa itxita")}</span>}</div>
+        <div className="legend"><span><i className="dot gold" />{t("Fase Oro", "Urrezko fasea")}</span><span><i className="dot silver" />{t("Fase Plata", "Zilarrezko fasea")}</span>{done && <span className="done"><Icon name="check" size={14} />{t("Grupo cerrado", "Multzoa itxita")}</span>}</div>
         {rounds.map((round, i) => (
           <section key={i} className="slot"><h3 className="slot-time">{eu ? `${i + 1}. jardunaldia` : `Jornada ${i + 1}`}<small>{round[0]?.time}</small></h3><div className="match-list">{round.map(m => <MatchRow key={m.id} m={m} />)}</div></section>
         ))}

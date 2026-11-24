@@ -902,3 +902,7 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .onb-card { align-content: start; grid-template-rows: auto minmax(2.4em, auto) 1fr; align-items: start; padding-top: 24px; }
 .onb-card b { align-self: center; }
 .eyebrow.live { color: var(--accent); }
+
+/* Modo oscuro: sin línea fina bajo la cabecera */
+:root[data-theme="dark"] .app-header { border-bottom-color: transparent; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .app-header { border-bottom-color: transparent; } }
