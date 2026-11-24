@@ -179,7 +179,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           </ul>
         </nav>, document.body)}
 
-        {fairplay && <Dialog title={t("¡Anima a tu equipo!", "Animatu zure taldea!")} onClose={() => setFairplay(false)} compact>
+        {fairplay && <Dialog title={t("¡Anima a tu equipo!", "Animatu zure taldea!")} onClose={() => setFairplay(false)} compact centered>
           <div className="fairplay">
             <span className="fairplay-ico" role="img" aria-label={t("Familias animando juntas", "Familiak elkarrekin animatzen")} />
             <p>{t("Lo más importante de este torneo es que los niños y niñas disfruten del día, no el resultado.", "Txapelketa honen gauzarik garrantzitsuena haurrek eguna gozatzea da, ez emaitza.")}</p>

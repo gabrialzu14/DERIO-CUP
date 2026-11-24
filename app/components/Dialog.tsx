@@ -5,7 +5,7 @@ import { useLang } from "../lib/i18n";
 import { lockScroll } from "../lib/scroll";
 
 /** Hoja modal basada en <dialog>: foco atrapado, Escape y cierre por fondo nativos. */
-export function Dialog({ title, onClose, children, wide = false, compact = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean; compact?: boolean }) {
+export function Dialog({ title, onClose, children, wide = false, compact = false, centered = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean; compact?: boolean; centered?: boolean }) {
   const { t } = useLang();
   const ref = useRef<HTMLDialogElement>(null), timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [closing, setClosing] = useState(false);
@@ -37,7 +37,7 @@ export function Dialog({ title, onClose, children, wide = false, compact = false
   return (
     <dialog ref={ref} className={"dialog" + (wide ? " wide" : "") + (compact ? " compact" : "") + (closing ? " is-closing" : "")} aria-labelledby="dialog-title" onCancel={e => { e.preventDefault(); close(); }} onClick={e => { if (e.target === e.currentTarget) close(); }}>
       <div className="dialog-panel">
-        <header><h2 id="dialog-title">{title}</h2><button type="button" className="icon-btn" aria-label={t("Cerrar", "Itxi")} onClick={close}><Icon name="close" /></button></header>
+        <header className={centered ? "centered" : undefined}><h2 id="dialog-title">{title}</h2>{!centered && <button type="button" className="icon-btn" aria-label={t("Cerrar", "Itxi")} onClick={close}><Icon name="close" /></button>}</header>
         <div className="dialog-body">{children}</div>
       </div>
     </dialog>
