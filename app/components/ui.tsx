@@ -1,0 +1,97 @@
+"use client";
+import { useRef, type KeyboardEvent, type ReactNode } from "react";
+import { Icon, type IconName } from "./icons";
+import { EVENT, T, logo, matchState, type KOGame, type Match } from "../lib/tournament";
+
+export function Crest({ id, size = 36, className = "" }: { id: string; size?: number; className?: string }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img className={"crest " + className} src={logo(id)} width={size} height={size} alt="" loading="lazy" decoding="async" />;
+}
+
+/** Trofeo de marca: se tiñe con el color del tema (el logo original es blanco). */
+export function CupMark({ size = 40, className = "" }: { size?: number; className?: string }) {
+  return <span className={"cup-mark " + className} style={{ width: size, height: size * 1.1 }} role="img" aria-label={EVENT.name} />;
+}
+
+export function SectionHead({ title, action }: { title: string; action?: { label: string; onClick: () => void } }) {
+  return (
+    <div className="section-head">
+      <h2>{title}</h2>
+      {action && <button type="button" className="link-btn" onClick={action.onClick}>{action.label}<Icon name="chevron" size={16} /></button>}
+    </div>
+  );
+}
+
+/** Pestañas accesibles (role=tablist) con navegación por flechas. */
+export function Tabs<K extends string>({ label, value, onChange, items, idPrefix, variant = "pill" }: { label: string; value: K; onChange: (k: K) => void; items: { key: K; label: ReactNode; ariaLabel?: string }[]; idPrefix: string; variant?: "pill" | "underline" }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const onKey = (e: KeyboardEvent) => {
+    const i = items.findIndex(x => x.key === value);
+    let n = -1;
+    if (e.key === "ArrowRight") n = (i + 1) % items.length;
+    else if (e.key === "ArrowLeft") n = (i - 1 + items.length) % items.length;
+    else if (e.key === "Home") n = 0;
+    else if (e.key === "End") n = items.length - 1;
+    if (n < 0) return;
+    e.preventDefault();
+    onChange(items[n].key);
+    ref.current?.querySelectorAll<HTMLButtonElement>("[role=tab]")[n]?.focus();
+  };
+  return (
+    <div ref={ref} className={"tabs tabs-" + variant} role="tablist" aria-label={label} onKeyDown={onKey}>
+      {items.map(it => (
+        <button key={it.key} type="button" role="tab" id={idPrefix + "-tab-" + it.key} aria-controls={idPrefix + "-panel"} aria-selected={value === it.key} aria-label={it.ariaLabel} tabIndex={value === it.key ? 0 : -1} className="tab" onClick={() => onChange(it.key)}>{it.label}</button>
+      ))}
+    </div>
+  );
+}
+
+export function TabPanel({ idPrefix, tab, children }: { idPrefix: string; tab: string; children: ReactNode }) {
+  return <div role="tabpanel" id={idPrefix + "-panel"} aria-labelledby={idPrefix + "-tab-" + tab} className="tab-panel" key={tab}>{children}</div>;
+}
+
+export function EmptyState({ icon, title, text }: { icon: IconName; title: string; text?: string }) {
+  return (
+    <div className="empty">
+      <Icon name={icon} size={28} />
+      <b>{title}</b>
+      {text && <p>{text}</p>}
+    </div>
+  );
+}
+
+export function LiveBadge() {
+  return <span className="live-badge"><i aria-hidden="true" />En juego</span>;
+}
+
+export function MatchRow({ m, showGroup = false }: { m: Match; showGroup?: boolean }) {
+  const st = matchState(m.time, m.hs !== null);
+  const home = T(m.home).name, away = T(m.away).name;
+  const label = st === "final" ? `${home} ${m.hs}, ${away} ${m.as}. Final` : `${home} contra ${away}, ${m.time}, campo ${m.field}`;
+  return (
+    <div className={"match-row is-" + st} role="group" aria-label={label}>
+      <div className="match-team home"><span>{home}</span><Crest id={m.home} size={32} /></div>
+      <div className="match-mid">
+        {st === "final" ? <><b className="score">{m.hs}<i>–</i>{m.as}</b><small>Final</small></>
+          : st === "live" ? <><LiveBadge /><small>{m.time} · Campo {m.field}</small></>
+          : st === "awaiting" ? <><b className="time">{m.time}</b><small>Sin resultado</small></>
+          : <><b className="time">{m.time}</b><small>Campo {m.field}</small></>}
+      </div>
+      <div className="match-team away"><Crest id={m.away} size={32} /><span>{away}</span></div>
+      {showGroup && <span className="match-group">Grupo {m.group}</span>}
+    </div>
+  );
+}
+
+export function KOGameRow({ g }: { g: KOGame }) {
+  const r = g.result, valid = !!r && r.home_team === g.home && r.away_team === g.away;
+  const tie = valid && r!.home_score === r!.away_score;
+  return (
+    <div className="ko-row">
+      <div className="ko-meta"><b>{g.time}</b><small>{g.code} · C{g.field}</small></div>
+      <div className="ko-team">{g.home ? <Crest id={g.home} size={28} /> : <i className="crest-ph" />}<span className={g.home ? "" : "tbd"}>{g.home ? T(g.home).name : g.homeLabel}</span></div>
+      <div className="ko-score">{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <sup>({r!.home_penalties})</sup>}<i>–</i>{r!.away_score}{tie && r!.away_penalties != null && <sup>({r!.away_penalties})</sup>}</b> : <b className="dash">vs</b>}</div>
+      <div className="ko-team away"><span className={g.away ? "" : "tbd"}>{g.away ? T(g.away).name : g.awayLabel}</span>{g.away ? <Crest id={g.away} size={28} /> : <i className="crest-ph" />}</div>
+    </div>
+  );
+}
