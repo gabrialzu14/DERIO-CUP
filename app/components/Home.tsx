@@ -21,12 +21,18 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
   const nextKO = [...oro, ...plata].filter(g => g.home && g.away && !validKO(g)).sort(byTime)[0];
   const [phase, setPhase] = useState<"grupos" | "oro" | "plata">("grupos");
   const played = ms.filter(m => m.hs !== null).length;
+  // Partidos en juego (uno por campo): el de mi equipo va en su tarjeta, los demás en tarjetas blancas.
+  const mine = (m: { home: string | null; away: string | null }) => !neutral && (m.home === selected || m.away === selected);
+  const mineLive = live.find(mine), liveOthers = live.filter(m => m !== mineLive);
+  const heroMatch = pending[0], heroKO = pending.length ? undefined : nextKO;
+  const heroIsMine = !!(heroMatch ?? heroKO) && mine((heroMatch ?? heroKO)!); // si es el de mi equipo, ya sale en su tarjeta
 
   return (
     <div className="screen home">
-      {finished ? <Podium oro={oroFinal} plata={plataFinal} />
-        : live.length ? <section className="hero hero-live" aria-label="Partidos en juego"><div className="hero-top"><LiveBadge /><span>{live.length === 1 ? "1 partido" : live.length + " partidos"}</span></div><div className="match-list flush">{live.map(m => <MatchRow key={m.id} m={m} showGroup />)}</div></section>
-        : <NextHero match={pending[0]} ko={pending.length ? undefined : nextKO} loaded={loaded} />}
+      {finished ? <Podium oro={oroFinal} plata={plataFinal} /> : <>
+        {liveOthers.map(m => <MatchHero key={m.id} match={m} kind="live" />)}
+        {!live.length && !heroIsMine && <MatchHero match={heroMatch} ko={heroKO} kind="next" loaded={loaded} />}
+      </>}
 
       {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("equipo", { team: selected })} />}
 
@@ -66,15 +72,15 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
   );
 }
 
-function NextHero({ match, ko, loaded }: { match?: Match; ko?: KOGame; loaded: boolean }) {
+function MatchHero({ match, ko, kind, loaded }: { match?: Match; ko?: KOGame; kind: "live" | "next"; loaded?: boolean }) {
   const { tn, T } = useEngine();
   const today = madridNow().date === tn.date;
   if (!match && !ko) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn)}</span></div><p className="hero-title">{loaded ? "Fase de grupos finalizada" : "Cargando resultados…"}</p></section>;
   const home = match ? match.home : ko!.home, away = match ? match.away : ko!.away, time = match ? match.time : ko!.time, field = match ? match.field : ko!.field;
   const where = match ? "Grupo " + match.group : "Fase " + ko!.kind + " · " + ko!.code;
   return (
-    <section className="hero" aria-label="Próximo partido">
-      <div className="hero-top"><span className="eyebrow">{today ? "Próximo partido" : "Primer partido"}</span></div>
+    <section className={"hero" + (kind === "live" ? " hero-live" : "")} aria-label={kind === "live" ? "Partido en juego" : "Próximo partido"}>
+      <div className="hero-top">{kind === "live" ? <LiveBadge /> : <span className="eyebrow">{today ? "Próximo partido" : "Primer partido"}</span>}</div>
       <div className="hero-vs">
         <TeamLink id={home!} className="hero-team"><Crest id={home!} size={64} /><b>{T(home!).name}</b></TeamLink>
         <span className="hero-mid"><small>{where}</small><b className="hero-time">{time}</b><small>Campo {field}</small></span>
@@ -118,13 +124,13 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
   return (
     <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `Mi equipo: ${t.name} contra ${oppName}, ${next.time}` : "Mi equipo: " + t.name} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
       <span className="team-card-label">
-        <span>{next?.live ? "En juego ahora" : "Próximo partido"}</span>
-        <span className="team-card-where">{next ? `Campo ${next.field} · ${next.where}` : "Grupo " + t.group}<Icon name="chevron" size={16} className="icon" /></span>
+        {next?.live ? <LiveBadge /> : <span>Próximo partido</span>}
+        <Icon name="chevron" size={18} className="icon" />
       </span>
       {next ? (
         <span className="duel">
           <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
-          <span className="duel-mid"><small>vs</small><b>{next.time}</b></span>
+          <span className="duel-mid"><small>{next.where}</small><b>{next.time}</b><small>Campo {next.field}</small></span>
           <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">No quedan partidos por jugar</span>}
