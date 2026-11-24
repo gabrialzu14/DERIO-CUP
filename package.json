@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "crests": "node scripts/crests.mjs"
+    "crests": "node scripts/crests.mjs",
+    "sponsors": "node scripts/sponsors.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

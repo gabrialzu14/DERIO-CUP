@@ -1,7 +1,8 @@
 "use client";
-import { useId } from "react";
+import { useId, type CSSProperties } from "react";
 import { CupMark } from "./ui";
 import { Icon } from "./icons";
+import { SPONSORS, sponsorAsset } from "../lib/sponsors";
 import { BRAND, dateParts, daysUntil, tournamentTag, type Tournament } from "../lib/tournament";
 
 const when = (iso: string) => { const d = daysUntil(iso); return d <= 0 ? "Hoy" : d === 1 ? "Mañana" : `En ${d} días`; };
@@ -37,6 +38,22 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
             </button>
           );
         })}
+      </section>
+      <section className="sponsors" aria-labelledby={uid + "-s"}>
+        <span className="sponsors-rule" aria-hidden="true" />
+        <h2 id={uid + "-s"} className="sponsors-label">Patrocinadores</h2>
+        <ul className="sponsors-list">
+          {SPONSORS.map(s => {
+            const asset = sponsorAsset(s.id);
+            return (
+              <li key={s.id}>
+                {s.text || !asset
+                  ? <span className="sponsor-text" style={{ "--h": s.height + "px" } as CSSProperties}>{s.text?.small && <small>{s.text.small}</small>}<b>{s.text?.main ?? s.name}</b></span>
+                  : <span className="sponsor-logo" role="img" aria-label={s.name} style={{ "--h": s.height + "px", "--ar": asset.w / asset.h, "--src": `url(/patrocinadores/${s.id}.webp)` } as CSSProperties} />}
+              </li>
+            );
+          })}
+        </ul>
       </section>
       <footer className="landing-foot">Organiza CD Derio · {tournaments[0]?.venue ?? "Ibaiondo"}</footer>
     </main>

@@ -3,6 +3,7 @@
 
   pip install "opencv-contrib-python-headless==4.10.0.84" "numpy<2.1"
   python3 scripts/upscale-crests.py                 # assets/escudos-originales → assets/escudos-ampliados
+  python3 scripts/upscale-crests.py Leioa Derio     # solo esos clubes (nombre de archivo sin extensión)
   npm run crests -- assets/escudos-ampliados        # → public/escudos/*.webp (1024 × 1024)
 
 Los escudos que ya miden ≥ 1000 px se copian tal cual. El modelo (38 MB) se descarga una vez a ~/.cache.
@@ -49,8 +50,10 @@ def upscale(sr, im):
 
 def main():
     DST.mkdir(parents=True, exist_ok=True); sr = None
+    only = {a.lower() for a in sys.argv[1:]}
     for f in sorted(SRC.iterdir()):
         if f.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}: continue
+        if only and f.stem.lower() not in only: continue
         im = cv2.imread(str(f), cv2.IMREAD_UNCHANGED)
         if im is None: print("No se pudo leer", f); continue
         if im.ndim == 2: im = cv2.cvtColor(im, cv2.COLOR_GRAY2BGR)
