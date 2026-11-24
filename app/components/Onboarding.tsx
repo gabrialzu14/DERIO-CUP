@@ -9,30 +9,30 @@ import { smooth } from "../lib/smooth";
 import { detectPlatform, type Platform } from "../lib/platform";
 
 type Step = "welcome" | "ask" | "platform" | "steps" | "done";
-type Guide = { icon: IconName; title: string; text: ReactNode };
+type Guide = { icon: IconName; logo?: "safari" | "chrome"; title: string; text: ReactNode };
 
 const guides = (lang: "es" | "eu"): { ios: Guide[]; android: Guide[] } => lang === "eu" ? {
   ios: [
-    { icon: "smartphone", title: "Ireki orri hau Safarin", text: <><b>Safari</b> izan behar da, iparrorratza duen nabigatzaile urdina. WhatsApp-en edo Instagram-en bazaude, sakatu <b>···</b> eta aukeratu <b>«Ireki Safarin»</b>.</> },
+    { icon: "smartphone", logo: "safari", title: "Ireki orri hau Safarin", text: <><b>Safari</b> izan behar da, iparrorratza duen nabigatzaile urdina. WhatsApp-en edo Instagram-en bazaude, sakatu <b>···</b> eta aukeratu <b>«Ireki Safarin»</b>.</> },
     { icon: "share", title: "Sakatu «Partekatu»", text: <><b>Karratua eta gora doan gezia</b> dituen botoia da, behean erdian. iPhone batzuetan <b>···</b> menuaren barruan dago.</> },
     { icon: "addhome", title: "«Gehitu hasierako pantailara»", text: <>Irristatu behera irekitzen den menuan eta sakatu <b>«Gehitu hasierako pantailara»</b>.</> },
     { icon: "check", title: "Sakatu «Gehitu»", text: <>Goian eskuinean. <b>Derio Cup</b>-en ikonoa zure hasierako pantailan agertuko da.</> },
   ],
   android: [
-    { icon: "smartphone", title: "Ireki orri hau Chrome-n", text: <>Kolore-borobila duen nabigatzailea da. Beste aplikazio baten barruan bazaude, sakatu <b>⋮</b> eta aukeratu <b>«Ireki Chrome-n»</b>.</> },
+    { icon: "smartphone", logo: "chrome", title: "Ireki orri hau Chrome-n", text: <>Kolore-borobila duen nabigatzailea da. Beste aplikazio baten barruan bazaude, sakatu <b>⋮</b> eta aukeratu <b>«Ireki Chrome-n»</b>.</> },
     { icon: "dotsv", title: "Sakatu ⋮ menua", text: <>Goian eskuinean dauden <b>hiru puntuak</b> dira.</> },
     { icon: "install", title: "«Instalatu aplikazioa»", text: <>Sakatu <b>«Instalatu aplikazioa»</b> edo <b>«Gehitu hasierako pantailara»</b>, zure mugikorraren arabera.</> },
     { icon: "check", title: "Baieztatu «Instalatu»-rekin", text: <><b>Derio Cup</b>-en ikonoa hasierako pantailan eta aplikazioen menuan agertuko da.</> },
   ],
 } : {
   ios: [
-    { icon: "smartphone", title: "Abre esta página en Safari", text: <>Tiene que ser <b>Safari</b>, el navegador azul con la brújula. Si estás dentro de WhatsApp o Instagram, pulsa <b>···</b> y elige <b>«Abrir en Safari»</b>.</> },
+    { icon: "smartphone", logo: "safari", title: "Abre esta página en Safari", text: <>Tiene que ser <b>Safari</b>, el navegador azul con la brújula. Si estás dentro de WhatsApp o Instagram, pulsa <b>···</b> y elige <b>«Abrir en Safari»</b>.</> },
     { icon: "share", title: "Pulsa «Compartir»", text: <>Es el botón del <b>cuadrado con una flecha hacia arriba</b>, abajo en el centro. En algunos iPhone está dentro del menú <b>···</b>.</> },
     { icon: "addhome", title: "«Añadir a pantalla de inicio»", text: <>Desliza hacia abajo en el menú que se abre y pulsa <b>«Añadir a pantalla de inicio»</b>.</> },
     { icon: "check", title: "Pulsa «Añadir»", text: <>Arriba a la derecha. El icono de <b>Derio Cup</b> aparecerá en tu pantalla de inicio.</> },
   ],
   android: [
-    { icon: "smartphone", title: "Abre esta página en Chrome", text: <>Es el navegador con el círculo de colores. Si estás dentro de otra app, pulsa <b>⋮</b> y elige <b>«Abrir en Chrome»</b>.</> },
+    { icon: "smartphone", logo: "chrome", title: "Abre esta página en Chrome", text: <>Es el navegador con el círculo de colores. Si estás dentro de otra app, pulsa <b>⋮</b> y elige <b>«Abrir en Chrome»</b>.</> },
     { icon: "dotsv", title: "Pulsa el menú ⋮", text: <>Son los <b>tres puntos</b> de arriba a la derecha.</> },
     { icon: "install", title: "«Instalar aplicación»", text: <>Pulsa <b>«Instalar aplicación»</b> o <b>«Añadir a la pantalla de inicio»</b>, según tu móvil.</> },
     { icon: "check", title: "Confirma con «Instalar»", text: <>El icono de <b>Derio Cup</b> aparecerá en tu pantalla de inicio y en el menú de aplicaciones.</> },
@@ -73,7 +73,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
           <p className="onb-text">{t("Instalarla es gratis, no ocupa espacio y se abre desde tu pantalla de inicio, como cualquier otra app.", "Instalatzea doakoa da, ez du lekurik hartzen eta zure hasierako pantailatik irekitzen da, beste edozein aplikazio bezala.")}</p>
           <div className="onb-cards">
             <button type="button" className="onb-card yes" onClick={onDone}><span className="onb-card-ico"><Icon name="check" size={34} /></span><b>{t("Sí, ya lo he hecho", "Bai, instalatuta dut")}</b><small>{t("Ir a elegir torneo", "Txapelketa aukeratzera joan")}</small></button>
-            <button type="button" className="onb-card help" onClick={() => goStep("platform")}><span className="onb-card-ico"><Icon name="info" size={34} /></span><b>{t("No, necesito que me ayudes", "Ez, laguntza behar dut")}</b><small>{t("Te lo explico paso a paso", "Pausoz pauso azalduko dizut")}</small></button>
+            <button type="button" className="onb-card help" onClick={() => goStep("platform")}><span className="onb-card-ico"><Icon name="info" size={34} /></span><b>{t("No, ayúdame", "Ez, lagun nazazu")}</b><small>{t("Te lo explico paso a paso", "Pausoz pauso azalduko dizut")}</small></button>
           </div>
         </>}
         {step === "platform" && <>
@@ -87,7 +87,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
         {step === "steps" && <>
           <div className="onb-dots" role="progressbar" aria-label="Paso" aria-valuemin={1} aria-valuemax={guide.length} aria-valuenow={n + 1}>{guide.map((_, i) => <i key={i} className={i <= n ? "on" : ""} />)}</div>
           <small className="onb-kicker">{platform === "ios" ? "iPhone" : "Android"} · {t(`Paso ${n + 1} de ${guide.length}`, `${n + 1}/${guide.length}. pausoa`)}</small>
-          <div className="onb-art"><Icon name={guide[n].icon} size={52} /></div>
+          <div className={"onb-art" + (guide[n].logo ? " has-logo" : "")}>{guide[n].logo ? <img src={`/plataformas/${guide[n].logo}.webp`} alt={guide[n].logo === "safari" ? "Safari" : "Chrome"} width={72} height={72} decoding="async" draggable={false} /> : <Icon name={guide[n].icon} size={52} />}</div>
           <h2 className="onb-title">{guide[n].title}</h2>
           <p className="onb-text">{guide[n].text}</p>
           {platform === "android" && n === 1 && installEvt && <button type="button" className="btn btn-ghost" onClick={nativeInstall}>{t("Instalar ahora desde aquí", "Instalatu orain hemendik")}</button>}

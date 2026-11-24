@@ -894,3 +894,11 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .hero-cols.two .hero-mid{height:34px;width:60px}
 .hero-cols.two .hero-mid .live-badge{font-size:.4375rem;padding:2px 4px;gap:3px;letter-spacing:.03em}
 .hero-cols.two .hero-rule{margin-inline:8px}
+
+/* Logos de navegador en el paso «abre esta página en…» */
+.onb-art.has-logo { background: none; box-shadow: none; }
+.onb-art.has-logo img { width: 76px; height: 76px; object-fit: contain; filter: drop-shadow(0 6px 14px rgb(10 25 60 / .22)); pointer-events: none; }
+/* Cartas del paso «¿Sabes instalarla?»: iconos siempre a la misma altura */
+.onb-card { align-content: start; grid-template-rows: auto minmax(2.4em, auto) 1fr; align-items: start; padding-top: 24px; }
+.onb-card b { align-self: center; }
+.eyebrow.live { color: var(--accent); }

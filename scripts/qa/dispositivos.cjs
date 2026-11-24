@@ -46,8 +46,8 @@ for(const [name,prof] of profiles){
    const moved=await p.evaluate(()=>({y:window.scrollY,d:document.documentElement.scrollTop,b:document.body.scrollTop}));
    ok(moved.y===0&&moved.d===0&&moved.b===0,`${tag} ${r||'inicio'} la página no se desplaza ${JSON.stringify(moved)}`);
    // tabbar: dentro y etiquetas sin recorte
-   const tb=await p.evaluate(()=>{const bar=document.querySelector('.tabbar').getBoundingClientRect();const spans=[...document.querySelectorAll('.tabbar button span')];return {bottom:bar.bottom,vh:innerHeight,clipped:spans.filter(s=>s.scrollWidth>s.clientWidth+1||s.getBoundingClientRect().right>innerWidth).length}});
-   ok(Math.abs(tb.bottom-tb.vh)<=1,`${tag} ${r||'inicio'} barra inferior pegada abajo (${tb.bottom} vs ${tb.vh})`);
+   const tb=await p.evaluate(()=>{const bar=document.querySelector('.tabbar').getBoundingClientRect();const spans=[...document.querySelectorAll('.tabbar button span')];return {bottom:bar.bottom,vh:innerHeight,cx:(bar.left+bar.right)/2,vw:innerWidth,l:bar.left,r:bar.right,clipped:spans.filter(s=>s.scrollWidth>s.clientWidth+1||s.getBoundingClientRect().right>innerWidth).length}});
+   ok(tb.vh-tb.bottom>=4&&tb.vh-tb.bottom<=60&&Math.abs(tb.cx-tb.vw/2)<=1&&tb.l>=0&&tb.r<=tb.vw,`${tag} ${r||'inicio'} barra flotante, centrada y dentro de pantalla (${tb.bottom}/${tb.vh}, ${tb.l}-${tb.r})`);
    ok(tb.clipped===0,`${tag} ${r||'inicio'} etiquetas de pestañas sin recorte`);
    // textos recortados en contenido
    const clip=await p.evaluate(()=>[...document.querySelectorAll('.main *')].filter(e=>{if(!e.children.length&&e.textContent.trim()){const s=getComputedStyle(e);if(s.overflow==='hidden'&&s.textOverflow==='ellipsis')return false;const r=e.getBoundingClientRect();return r.width>0&&(r.right>innerWidth+1||r.left<-1)}return false}).map(e=>e.textContent.trim().slice(0,30)));
