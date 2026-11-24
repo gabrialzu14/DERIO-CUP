@@ -3,7 +3,7 @@ import { useState, type CSSProperties } from "react";
 import { Crest, CupMark } from "./ui";
 import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
-import { clubColor, readableOn } from "../lib/crests";
+import { clubTone } from "../lib/crests";
 import { BRAND, GROUPS, tournamentTag } from "../lib/tournament";
 
 export function Splash() {
@@ -26,7 +26,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
     if (next) { navigator.vibrate?.(10); setLast(next); }
     setPicked(next);
   };
-  const colors = (id: string) => { const bg = clubColor(T(id).name, id); return { "--pk-bg": bg, "--pk-fg": readableOn(bg) } as CSSProperties; };
+  const colors = (id: string) => { const tone = clubTone(T(id).name, id); return { "--pk-bg": tone.bg, "--pk-fg": tone.fg } as CSSProperties; };
   return (
     <main className="welcome">
       <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />Torneos</button>

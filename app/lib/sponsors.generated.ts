@@ -1,8 +1,8 @@
 // Generado por scripts/sponsors.mjs — no editar a mano. Medidas (px) de cada logo para mantener su proporción.
 export const SPONSOR_ASSETS: Readonly<Record<string, { w: number; h: number }>> = {
   "adidas": {
-    "w": 720,
-    "h": 485
+    "w": 349,
+    "h": 207
   },
   "derioko-udala": {
     "w": 432,

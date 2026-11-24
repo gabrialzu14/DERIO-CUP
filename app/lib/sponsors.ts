@@ -8,7 +8,7 @@ export type Sponsor = { id: string; name: string; height: number; text?: { small
 export const SPONSORS: Sponsor[] = [
   { id: "derioko-udala", name: "Derioko Udala", height: 56 },
   { id: "dimension-football", name: "Dimension Football", height: 38 },
-  { id: "adidas", name: "adidas", height: 32 },
+  { id: "adidas", name: "adidas", height: 30 },
   { id: "restaurante-la-ofi", name: "Restaurante La Ofi", height: 38, text: { small: "Restaurante", main: "La Ofi" } },
 ];
 

@@ -24,9 +24,18 @@ function hslToHex(h: number, s: number, l: number) {
   return "#" + f(0) + f(8) + f(4);
 }
 
+/** Color de un club a mano cuando el dominante del escudo no es el «color del club».
+    Un texto vale para los dos modos; con {light, dark} cambia según el tema. */
+const COLOR_OVERRIDES: Record<string, string | { light: string; dark: string }> = {
+  etxebarri: "#da2422",                          // rojo del escudo
+  gernika: { light: "#0f0f10", dark: "#ffffff" }, // negro en claro, blanco en oscuro
+};
+
 /** Color del club: el dominante de su escudo (o el del monograma si aún no hay escudo). */
 export function clubColor(name: string, id: string): string {
-  const s = crestSlug(name);
+  const s = crestSlug(name), o = s && COLOR_OVERRIDES[s];
+  if (typeof o === "string") return o;
+  if (o) return o.light;
   return s ? CRESTS[s] : hslToHex(monoHue(id), 0.48, 0.36);
 }
 
@@ -37,4 +46,12 @@ export const luminance = (hex: string) => { const n = parseInt(hex.slice(1), 16)
 export function readableOn(hex: string): "#ffffff" | "#1f2937" {
   const L = luminance(hex);
   return 1.05 / (L + 0.05) >= (L + 0.05) / (luminance("#1f2937") + 0.05) ? "#ffffff" : "#1f2937";
+}
+
+/** Fondo y texto (valores CSS) del color de un club, ya adaptados al tema si hace falta. */
+export function clubTone(name: string, id: string): { bg: string; fg: string } {
+  const s = crestSlug(name), o = s && COLOR_OVERRIDES[s];
+  if (o && typeof o === "object") return { bg: `light-dark(${o.light}, ${o.dark})`, fg: `light-dark(${readableOn(o.light)}, ${readableOn(o.dark)})` };
+  const bg = clubColor(name, id);
+  return { bg, fg: readableOn(bg) };
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useState, type CSSProperties } from "react";
 import { Icon } from "./icons";
-import { clubColor, readableOn } from "../lib/crests";
+import { clubTone } from "../lib/crests";
 import { Crest, CupMark, KOGameRow, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
@@ -106,7 +106,7 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
 
 function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koResults: Record<string, ResultRow>; onOpen: () => void }) {
   const { T, knockout, matchState } = useEngine();
-  const t = T(id), bg = clubColor(t.name, id);
+  const t = T(id), tone = clubTone(t.name, id);
   // Próximo partido del equipo: primero los de grupos; si ya acabaron, su próxima eliminatoria.
   const groupNext = ms.filter(m => (m.home === id || m.away === id) && m.hs === null).sort(byTime)[0];
   const koNext = groupNext ? undefined : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && !validKO(g)).sort(byTime)[0];
@@ -115,7 +115,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
     : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: "Fase " + koNext.kind + " · " + koNext.code, live: false } : null;
   const oppName = next ? (next.opp ? T(next.opp).name : next.oppLabel) : "";
   return (
-    <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `Mi equipo: ${t.name} contra ${oppName}, ${next.time}` : "Mi equipo: " + t.name} style={{ "--tc-bg": bg, "--tc-fg": readableOn(bg) } as CSSProperties}>
+    <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `Mi equipo: ${t.name} contra ${oppName}, ${next.time}` : "Mi equipo: " + t.name} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
       <span className="team-card-label">
         <span>{next?.live ? "En juego ahora" : "Próximo partido"}</span>
         <span className="team-card-where">{next ? `Campo ${next.field} · ${next.where}` : "Grupo " + t.group}<Icon name="chevron" size={16} className="icon" /></span>
