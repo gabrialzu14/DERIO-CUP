@@ -39,7 +39,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
           </div>
         </section>
       ))}
-      <button type="button" className="btn btn-ghost block" disabled={!!choosing} onClick={onNeutral}>Sin equipo · ver el torneo completo</button>
+      <button type="button" className="btn btn-ghost block" disabled={!!choosing} onClick={onNeutral}>No tengo equipo</button>
     </main>
   );
 }
