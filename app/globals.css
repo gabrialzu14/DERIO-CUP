@@ -764,3 +764,7 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 @keyframes splash-fill { to { fill-opacity: 1; } }
 @keyframes splash-stroke-out { to { stroke-opacity: 0; } }
 @keyframes splash-load { to { transform: translateX(0); } }
+.date-tile.month-first { grid-auto-flow: row; }
+.date-tile.month-first b { order: 2; margin-top: 4px; }
+.date-tile.month-first small { order: 1; margin-top: 0; }
+.lang-toggle { justify-items: center; }

@@ -14,7 +14,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
   const uid = useId(), { t: tr, lang, locale } = useLang();
   return (
     <main className="landing">
-      <div className="landing-theme"><LangToggle />{themeButton}</div>
+      <div className="landing-theme"><LangToggle /></div>
       <header className="landing-head">
         <CupMark size={150} className="landing-cup" />
         <h1 className="wordmark"><b>DERIO</b><span>CUP</span></h1>
@@ -30,7 +30,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
           const p = dateParts(t.date, locale);
           return (
             <button key={t.id} type="button" className="tourney-card" onClick={() => onSelect(t.id)} aria-label={`${BRAND} ${tournamentTag(t, locale)}`}>
-              <span className="date-tile"><b>{p.day}</b><small>{p.monthShort}</small></span>
+              <span className={"date-tile" + (lang === "eu" ? " month-first" : "")}><b>{p.day}</b><small>{p.monthShort}</small></span>
               <span className="tourney-text">
                 <b>{t.category}</b>
                 <small><em>{when(t.date, lang === "eu")}</em></small>
