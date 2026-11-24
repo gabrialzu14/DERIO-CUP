@@ -28,6 +28,7 @@ function hslToHex(h: number, s: number, l: number) {
     Un texto vale para los dos modos; con {light, dark} cambia según el tema. */
 const COLOR_OVERRIDES: Record<string, string | { light: string; dark: string }> = {
   etxebarri: "#da2422",                          // rojo del escudo
+  "cultural-durango": "#2d3e84",                // azul del escudo
   gernika: { light: "#0f0f10", dark: "#ffffff" }, // negro en claro, blanco en oscuro
 };
 
