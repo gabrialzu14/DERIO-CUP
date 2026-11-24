@@ -122,9 +122,9 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       </span>
       {next ? (
         <span className="duel">
-          <span className="duel-side"><span className="chip"><Crest id={id} size={36} /></span><b>{t.name}</b></span>
+          <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
           <span className="duel-mid"><small>vs</small><b>{next.time}</b></span>
-          <span className="duel-side">{next.opp ? <span className="chip"><Crest id={next.opp} size={36} /></span> : <i className="chip ph" />}<b>{oppName}</b></span>
+          <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">No quedan partidos por jugar</span>}
     </button>

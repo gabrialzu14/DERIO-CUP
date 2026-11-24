@@ -187,9 +187,10 @@ a { color: inherit; }
 .duel-mid { display: grid; justify-items: center; align-content: center; gap: 2px; height: 56px; }
 .duel-mid small { font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 72%, transparent); line-height: 1; }
 .duel-mid b { font-size: 1.625rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
-.team-card .chip { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc-fg) 20%, transparent); }
-.team-card .chip .crest { filter: none; }
-.team-card .chip.ph { background: color-mix(in srgb, var(--tc-fg) 14%, transparent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--tc-fg) 40%, transparent); }
+/* Escudo sin fondo: contorno blanco fino siguiendo su silueta */
+.team-card .duel-crest { width: 56px; height: 56px; filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff); }
+.team-card .duel-crest.mono { filter: none; box-shadow: 0 0 0 1.5px #fff; }
+.team-card .duel-ph { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid #fff; }
 .next-none { font-size: .9375rem; font-weight: 600; padding-block: 8px; }
 
 /* ---------- Grupos (inicio) ---------- */
