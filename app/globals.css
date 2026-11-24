@@ -605,7 +605,7 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .onb { position: relative; isolation: isolate; max-width: 520px; min-height: 100%; margin-inline: auto; padding: 16px max(20px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 20px) max(20px, env(safe-area-inset-left)); display: flex; flex-direction: column; }
 .onb .landing-theme { min-height: 44px; display: flex; justify-content: flex-end; }
 .onb-skip { min-height: 44px; padding-inline: 8px; color: var(--text-3); font-size: .875rem; font-weight: 700; }
-.onb-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding-block: 8px 20px; animation: screen-in .28s var(--ease); }
+.onb-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding-block: 8px 20px; }
 .onb-body.top { justify-content: flex-start; padding-top: clamp(8px, 7vh, 64px); }
 .onb-title { font-size: 1.625rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; text-wrap: balance; }
 .onb-text { max-width: 34ch; color: var(--text-2); font-size: .9375rem; font-weight: 500; line-height: 1.55; text-wrap: pretty; }
@@ -783,3 +783,27 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .onb-card-ico.logo.android { background: var(--surface-2); }
 .onb-card-ico.logo.android img { width: 56px; height: 56px; object-fit: contain; pointer-events: none; }
 @media (max-width: 340px) { .onb-card { min-height: 190px; padding-inline: 8px; } .onb-card-ico { width: 68px; height: 68px; } }
+.hero-pair .hero-team b { font-size: .6875rem; line-height: 1.2; }
+@media (max-width: 340px) { .hero-pair .hero-team b { font-size: .625rem; } }
+
+/* ---------- Transiciones suaves entre pantallas ---------- */
+::view-transition-group(root) { animation-duration: .5s; animation-timing-function: cubic-bezier(.23, 1, .32, 1); }
+::view-transition-old(root) { animation: vt-out .32s cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in .5s cubic-bezier(.23, 1, .32, 1) .06s both; }
+@keyframes vt-out { to { opacity: 0; transform: scale(.985); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px) scale(.99); } }
+/* Los elementos de cada pantalla entran escalonados */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.onb-body > *, .landing-head > *, .landing-list > *, .sponsors > *, .welcome-head > *, .welcome > section { animation: rise .6s cubic-bezier(.23, 1, .32, 1) both; }
+.onb-body > :nth-child(1), .landing-head > :nth-child(1), .welcome-head > :nth-child(1) { animation-delay: .02s; }
+.onb-body > :nth-child(2), .landing-head > :nth-child(2), .welcome-head > :nth-child(2) { animation-delay: .09s; }
+.onb-body > :nth-child(3), .landing-head > :nth-child(3), .welcome-head > :nth-child(3) { animation-delay: .16s; }
+.onb-body > :nth-child(4), .welcome-head > :nth-child(4) { animation-delay: .23s; }
+.onb-body > :nth-child(5), .welcome-head > :nth-child(5) { animation-delay: .3s; }
+.landing-list > :nth-child(1) { animation-delay: .2s; } .landing-list > :nth-child(2) { animation-delay: .28s; }
+.sponsors > :nth-child(1) { animation-delay: .34s; } .sponsors > :nth-child(2) { animation-delay: .4s; } .sponsors > :nth-child(3) { animation-delay: .46s; }
+.welcome > section:nth-of-type(1) { animation-delay: .2s; } .welcome > section:nth-of-type(2) { animation-delay: .27s; } .welcome > section:nth-of-type(3) { animation-delay: .34s; } .welcome > section:nth-of-type(4) { animation-delay: .41s; }
+.onb-cards > * { animation: rise .6s cubic-bezier(.23, 1, .32, 1) both; } .onb-cards > :nth-child(1) { animation-delay: .22s; } .onb-cards > :nth-child(2) { animation-delay: .3s; }
+.onb-actions { animation: rise .6s cubic-bezier(.23, 1, .32, 1) .32s both; }
+.landing, .welcome, .onb { animation: none; }
+.hero-col { grid-template-rows: auto 1fr auto; align-content: stretch; } .hero-pair { align-self: start; }

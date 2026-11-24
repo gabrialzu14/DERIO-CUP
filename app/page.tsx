@@ -10,6 +10,7 @@ import { isUpcoming } from "./lib/tournament";
 import { useTheme } from "./lib/useTheme";
 import { Onboarding } from "./components/Onboarding";
 import { LangProvider } from "./lib/i18n";
+import { smooth } from "./lib/smooth";
 import { preloadImages } from "./lib/preload";
 import { ONBOARDED_KEY, isInstalled } from "./lib/platform";
 
@@ -36,17 +37,17 @@ function App() {
     let seen = false;
     try { seen = !!sessionStorage.getItem("derio-cup-splash"); sessionStorage.setItem("derio-cup-splash", "1"); } catch {}
     if (seen) { setSplash(false); return; }
-    const t = setTimeout(() => setSplash(false), 2100);
+    const t = setTimeout(() => smooth(() => setSplash(false)), 2100);
     return () => clearTimeout(t);
   }, []);
 
   const choose = (id: string | null) => {
-    setCurrent(id);
+    smooth(() => setCurrent(id));
     try { id ? localStorage.setItem(TOURNAMENT_KEY, id) : localStorage.removeItem(TOURNAMENT_KEY); } catch {}
     scrollToTop();
   };
 
-  const finishOnboarding = () => { try { localStorage.setItem(ONBOARDED_KEY, "1"); } catch {} setOnboarding(false); scrollToTop(); };
+  const finishOnboarding = () => { try { localStorage.setItem(ONBOARDED_KEY, "1"); } catch {} smooth(() => setOnboarding(false)); scrollToTop(); };
   if (!ready || splash) return <Splash />;
   if (onboarding) return <Onboarding onDone={finishOnboarding} onSkip={finishOnboarding} />;
   const tn = getTournament(current);

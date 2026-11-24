@@ -11,7 +11,7 @@ import { byTime, validKO, type G, type Match, type ResultRow } from "../lib/tour
 /** Perfil de un equipo: posición, resultados y próximos partidos (también el de «Mi equipo»). */
 export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string; ms: Match[]; koResults: Record<string, ResultRow>; back: () => void; isMine: boolean; goGroup: (g: G) => void }) {
   const { T, knockout, table } = useEngine(), { t: tr, lang } = useLang(), eu = lang === "eu";
-  const t = T(id), tone = clubTone(t.name, id);
+  const t = T(id), tone = clubTone(t.crest ?? t.name, id);
   const own = ms.filter(m => m.home === id || m.away === id).sort(byTime);
   const kos = (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => g.home === id || g.away === id).sort(byTime);
   const tb = table(t.group, ms), row = tb.find(x => x.id === id)!, pos = tb.indexOf(row) + 1;

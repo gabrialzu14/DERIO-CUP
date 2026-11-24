@@ -2,7 +2,7 @@
    Los datos de cada edición viven en editions.tsx; la lógica de cálculo, en engine.ts. */
 
 export type G = "A" | "B" | "C" | "D";
-export type Team = { id: string; name: string; group: G };
+export type Team = { id: string; name: string; group: G; /** Nombre del club para buscar su escudo y color (si difiere de `name`). */ crest?: string; /** Nombre largo al elegir equipo. */ pick?: string };
 export type Match = { id: string; group: G; home: string; away: string; time: string; field: 1 | 2; hs: number | null; as: number | null };
 export type ResultRow = { match_id: string; home_score: number; away_score: number; home_penalties: number | null; away_penalties: number | null; home_team?: string | null; away_team?: string | null; phase?: string | null; round?: string | null; updated_at?: string | null };
 export type KOKind = "Oro" | "Plata";

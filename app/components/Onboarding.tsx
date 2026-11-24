@@ -5,6 +5,7 @@ import { CupMark } from "./ui";
 import { LangToggle } from "./LanguageScreen";
 import { BRAND } from "../lib/tournament";
 import { useLang } from "../lib/i18n";
+import { smooth } from "../lib/smooth";
 import { detectPlatform, type Platform } from "../lib/platform";
 
 type Step = "welcome" | "ask" | "platform" | "steps" | "done";
@@ -44,6 +45,7 @@ type InstallEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{
 export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step; onDone: () => void; onSkip: () => void }) {
   const { lang, t } = useLang();
   const [step, setStep] = useState<Step>(start), [platform, setPlatform] = useState<Platform>("other"), [detected, setDetected] = useState<Platform>("other"), [n, setN] = useState(0);
+  const goStep = (s: Step) => smooth(() => setStep(s)), goN = (v: number) => smooth(() => setN(v));
   const [installEvt, setInstallEvt] = useState<InstallEvent | null>(null);
   useEffect(() => {
     setDetected(detectPlatform());
@@ -53,8 +55,8 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
     window.addEventListener("beforeinstallprompt", on); return () => window.removeEventListener("beforeinstallprompt", on);
   }, []);
   const guide = platform === "ios" ? guides(lang).ios : guides(lang).android;
-  const pick = (p: Platform) => { setPlatform(p); setN(0); setStep("steps"); };
-  const nativeInstall = async () => { if (!installEvt) return; await installEvt.prompt(); const c = await installEvt.userChoice; if (c.outcome === "accepted") setStep("done"); };
+  const pick = (p: Platform) => { setPlatform(p); goN(0); goStep("steps"); };
+  const nativeInstall = async () => { if (!installEvt) return; await installEvt.prompt(); const c = await installEvt.userChoice; if (c.outcome === "accepted") goStep("done"); };
 
   return (
     <main className="onb" aria-live="polite">
@@ -71,7 +73,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
           <p className="onb-text">{t("Instalarla es gratis, no ocupa espacio y se abre desde tu pantalla de inicio, como cualquier otra app.", "Instalatzea doakoa da, ez du lekurik hartzen eta zure hasierako pantailatik irekitzen da, beste edozein aplikazio bezala.")}</p>
           <div className="onb-cards">
             <button type="button" className="onb-card yes" onClick={onDone}><span className="onb-card-ico"><Icon name="check" size={34} /></span><b>{t("Sí, ya lo he hecho", "Bai, instalatuta dut")}</b><small>{t("Ir a elegir torneo", "Txapelketa aukeratzera joan")}</small></button>
-            <button type="button" className="onb-card help" onClick={() => setStep("platform")}><span className="onb-card-ico"><Icon name="info" size={34} /></span><b>{t("No, necesito que me ayudes", "Ez, laguntza behar dut")}</b><small>{t("Te lo explico paso a paso", "Pausoz pauso azalduko dizut")}</small></button>
+            <button type="button" className="onb-card help" onClick={() => goStep("platform")}><span className="onb-card-ico"><Icon name="info" size={34} /></span><b>{t("No, necesito que me ayudes", "Ez, laguntza behar dut")}</b><small>{t("Te lo explico paso a paso", "Pausoz pauso azalduko dizut")}</small></button>
           </div>
         </>}
         {step === "platform" && <>
@@ -100,12 +102,12 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
       </div>
 
       <div className="onb-actions">
-        {step === "welcome" && <button type="button" className="btn btn-primary block" onClick={() => setStep("ask")}>{t("Empezar", "Hasi")}<Icon name="chevron" size={18} /></button>}
-        {step === "ask" && <button type="button" className="onb-link" onClick={() => setStep("welcome")}>{t("Atrás", "Atzera")}</button>}
-        {step === "platform" && <button type="button" className="onb-link" onClick={() => (start === "platform" ? onSkip() : setStep("ask"))}>{t("Atrás", "Atzera")}</button>}
+        {step === "welcome" && <button type="button" className="btn btn-primary block" onClick={() => goStep("ask")}>{t("Empezar", "Hasi")}<Icon name="chevron" size={18} /></button>}
+        {step === "ask" && <button type="button" className="onb-link" onClick={() => goStep("welcome")}>{t("Atrás", "Atzera")}</button>}
+        {step === "platform" && <button type="button" className="onb-link" onClick={() => (start === "platform" ? onSkip() : goStep("ask"))}>{t("Atrás", "Atzera")}</button>}
         {step === "steps" && <>
-          <button type="button" className="btn btn-primary block" onClick={() => (n < guide.length - 1 ? setN(n + 1) : setStep("done"))}>{n < guide.length - 1 ? t("Siguiente", "Hurrengoa") : t("Ya lo he hecho", "Eginda dago")}<Icon name="chevron" size={18} /></button>
-          <button type="button" className="onb-link" onClick={() => (n > 0 ? setN(n - 1) : setStep("platform"))}>{t("Atrás", "Atzera")}</button>
+          <button type="button" className="btn btn-primary block" onClick={() => (n < guide.length - 1 ? goN(n + 1) : goStep("done"))}>{n < guide.length - 1 ? t("Siguiente", "Hurrengoa") : t("Ya lo he hecho", "Eginda dago")}<Icon name="chevron" size={18} /></button>
+          <button type="button" className="onb-link" onClick={() => (n > 0 ? goN(n - 1) : goStep("platform"))}>{t("Atrás", "Atzera")}</button>
         </>}
         {step === "done" && <>
           <button type="button" className="onb-link strong" onClick={onDone}>{t("Continuar en el navegador", "Jarraitu nabigatzailean")}</button>

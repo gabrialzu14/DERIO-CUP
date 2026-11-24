@@ -11,7 +11,7 @@ export function preloadImages(tournaments: Tournament[]) {
   const run = () => {
     load("/plataformas/ios.webp"); load("/plataformas/android.webp"); load("/logo-derio-cup.webp");
     for (const s of SPONSORS) load("/patrocinadores/" + s.id + ".webp");
-    for (const tn of tournaments) for (const t of tn.teams) { const s = crestFor(t.name); if (s) load(s); }
+    for (const tn of tournaments) for (const t of tn.teams) { const s = crestFor(t.crest ?? t.name); if (s) load(s); }
     load("/ibaiondo-campo.jpg"); load("/aparcamiento-1.jpg"); load("/aparcamiento-2.jpg");
   };
   const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => void };

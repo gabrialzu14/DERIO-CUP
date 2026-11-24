@@ -11,6 +11,7 @@ import { Team } from "./Team";
 import { More } from "./More";
 import { Dialog } from "./Dialog";
 import { Welcome } from "./Welcome";
+import { smooth } from "../lib/smooth";
 import { scrollToTop } from "../lib/scroll";
 import { useLang } from "../lib/i18n";
 import { EngineContext, OpenTeamContext, makeEngine } from "../lib/engine";
@@ -128,7 +129,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
     if (choosing) return;
     setChoosing(id);
     registerFan(id).then(loadFans);
-    setTimeout(() => { store.set(teamKey, id); setSelected(id); setChoosing(null); scrollToTop(); history.replaceState(null, "", window.location.pathname); setTab("inicio"); }, 220);
+    setTimeout(() => { store.set(teamKey, id); smooth(() => { setSelected(id); setChoosing(null); }); scrollToTop(); history.replaceState(null, "", window.location.pathname); setTab("inicio"); }, 220);
   };
   const neutral = () => { store.set(teamKey, "neutral"); setSelected("neutral"); scrollToTop(); setTab("inicio"); };
   const changeTeam = () => { store.del(teamKey); setSelected(null); };

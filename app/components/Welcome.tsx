@@ -33,7 +33,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
     if (next) { navigator.vibrate?.(10); setLast(next); }
     setPicked(next);
   };
-  const colors = (id: string) => { const tone = clubTone(T(id).name, id); return { "--pk-bg": tone.bg, "--pk-fg": tone.fg } as CSSProperties; };
+  const colors = (id: string) => { const tone = clubTone(T(id).crest ?? T(id).name, id); return { "--pk-bg": tone.bg, "--pk-fg": tone.fg } as CSSProperties; };
   return (
     <main className="welcome">
       <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />{tr("Torneos", "Txapelketak")}</button>
@@ -52,7 +52,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
               <button key={t.id} type="button" aria-pressed={picked === t.id} className={"team-pick" + (picked === t.id ? " is-picked" : "") + (choosing && picked !== t.id ? " is-dim" : "")} style={colors(t.id)} disabled={!!choosing} onClick={() => toggle(t.id)}>
                 {picked === t.id && <span className="pick-ring" aria-hidden="true" />}
                 <Crest id={t.id} size={56} />
-                <b>{t.name}</b>
+                <b>{t.pick ?? t.name}</b>
                 {picked === t.id && <span className="chosen-mark"><Icon name="check" size={16} /></span>}
               </button>
             ))}

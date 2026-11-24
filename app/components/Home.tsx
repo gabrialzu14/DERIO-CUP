@@ -123,7 +123,7 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
 
 function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koResults: Record<string, ResultRow>; onOpen: () => void }) {
   const { T, knockout, matchState } = useEngine(), { t: tr, lang } = useLang(), eu = lang === "eu";
-  const t = T(id), tone = clubTone(t.name, id);
+  const t = T(id), tone = clubTone(t.crest ?? t.name, id);
   // Próximo partido del equipo: primero los de grupos; si ya acabaron, su próxima eliminatoria.
   const groupNext = ms.filter(m => (m.home === id || m.away === id) && m.hs === null).sort(byTime)[0];
   const koNext = groupNext ? undefined : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && !validKO(g)).sort(byTime)[0];

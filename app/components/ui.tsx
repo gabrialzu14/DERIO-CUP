@@ -11,7 +11,7 @@ const initials = (name: string) => { const w = name.split(/\s+/).filter(x => x &
 
 /** Escudo del equipo; si aún no hay imagen se muestra un monograma con color propio. */
 export function Crest({ id, size = 36, className = "" }: { id: string; size?: number; className?: string }) {
-  const { T } = useEngine(), t = T(id), src = t ? crestFor(t.name) : null;
+  const { T } = useEngine(), t = T(id), src = t ? crestFor(t.crest ?? t.name) : null;
   if (!src) return <span className={"crest mono " + className} style={{ "--s": size + "px", "--h": monoHue(id) } as CSSProperties} aria-hidden="true"><b>{initials(t?.name ?? id)}</b></span>;
   // Versión ligera (192 px, sin pérdida): se precarga al abrir la app para que salga antes de llegar a cada pestaña.
   return <img className={"crest " + className} src={src} width={size} height={size} alt="" decoding="async" draggable={false} />;
