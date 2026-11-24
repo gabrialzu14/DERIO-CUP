@@ -9,8 +9,7 @@ import { TOURNAMENTS, getTournament } from "./lib/editions";
 import { isUpcoming } from "./lib/tournament";
 import { useTheme } from "./lib/useTheme";
 import { Onboarding } from "./components/Onboarding";
-import { LanguageScreen } from "./components/LanguageScreen";
-import { LangProvider, hasChosenLang } from "./lib/i18n";
+import { LangProvider } from "./lib/i18n";
 import { ONBOARDED_KEY, isInstalled } from "./lib/platform";
 
 const TOURNAMENT_KEY = "derio-cup-tournament";
@@ -19,7 +18,7 @@ export default function Root() { return <LangProvider><App /></LangProvider>; }
 
 function App() {
   const [ready, setReady] = useState(false), [splash, setSplash] = useState(true);
-  const [current, setCurrent] = useState<string | null>(null), [onboarding, setOnboarding] = useState(false), [needLang, setNeedLang] = useState(false);
+  const [current, setCurrent] = useState<string | null>(null), [onboarding, setOnboarding] = useState(false);
   const themeCtl = useTheme();
 
   useEffect(() => {
@@ -31,12 +30,11 @@ function App() {
     // Guion de instalación: solo en el navegador, la primera vez y si aún no ha elegido torneo.
     let done = false; try { done = !!localStorage.getItem(ONBOARDED_KEY); } catch {}
     setOnboarding(!isInstalled() && !done && !(tn && isUpcoming(tn)));
-    setNeedLang(!hasChosenLang());
     setReady(true);
     let seen = false;
     try { seen = !!sessionStorage.getItem("derio-cup-splash"); sessionStorage.setItem("derio-cup-splash", "1"); } catch {}
     if (seen) { setSplash(false); return; }
-    const t = setTimeout(() => setSplash(false), 900);
+    const t = setTimeout(() => setSplash(false), 2100);
     return () => clearTimeout(t);
   }, []);
 
@@ -48,7 +46,6 @@ function App() {
 
   const finishOnboarding = () => { try { localStorage.setItem(ONBOARDED_KEY, "1"); } catch {} setOnboarding(false); scrollToTop(); };
   if (!ready || splash) return <Splash />;
-  if (needLang) return <LanguageScreen onDone={() => setNeedLang(false)} />;
   if (onboarding) return <Onboarding onDone={finishOnboarding} onSkip={finishOnboarding} />;
   const tn = getTournament(current);
   if (tn) return <TournamentApp key={tn.id} tn={tn} onExit={() => choose(null)} themeCtl={themeCtl} />;

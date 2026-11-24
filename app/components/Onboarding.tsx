@@ -2,6 +2,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
 import { CupMark } from "./ui";
+import { LangToggle } from "./LanguageScreen";
 import { BRAND } from "../lib/tournament";
 import { useLang } from "../lib/i18n";
 import { detectPlatform, type Platform } from "../lib/platform";
@@ -57,7 +58,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
 
   return (
     <main className="onb" aria-live="polite">
-      <div className="landing-theme">{step !== "welcome" && step !== "done" && <button type="button" className="onb-skip" onClick={onSkip}>{t("Omitir", "Saltatu")}</button>}</div>
+      <div className="onb-top">{step !== "welcome" && step !== "done" ? <button type="button" className="onb-skip" onClick={onSkip}>{t("Omitir", "Saltatu")}</button> : <span />}<LangToggle /></div>
       <div className={"onb-body" + (step === "welcome" || step === "done" ? "" : " top")} key={step + n}>
         {step === "welcome" && <>
           <CupMark size={120} className="landing-cup" />

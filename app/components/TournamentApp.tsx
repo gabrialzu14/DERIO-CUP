@@ -1,4 +1,5 @@
 "use client";
+import { createPortal } from "react-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "./icons";
 import { Crest, CupMark } from "./ui";
@@ -49,8 +50,8 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [loaded, setLoaded] = useState(false), [offline, setOffline] = useState(false), [syncing, setSyncing] = useState(false), [lastSync, setLastSync] = useState<Date | null>(null);
   const [rules, setRules] = useState(false);
   const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
-  const { theme, resolved, setTheme, toggle } = themeCtl, { lang } = useLang();
-  const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapena", fases: "Faseak", mas: "Gehiago" } : {};
+  const { theme, resolved, setTheme, toggle } = themeCtl, { lang, t, locale } = useLang();
+  const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapena", fases: "Faseak", mas: "Info" } : { mas: "Info" };
 
   /* ---- caché del último estado conocido ---- */
   useEffect(() => {
@@ -142,22 +143,22 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
     <EngineContext.Provider value={engine}>
       <OpenTeamContext.Provider value={openTeam}>
       <div className="app">
-        <a className="skip" href="#contenido" onClick={e => { e.preventDefault(); mainRef.current?.focus(); }}>Saltar al contenido</a>
+        <a className="skip" href="#contenido" onClick={e => { e.preventDefault(); mainRef.current?.focus(); }}>{t("Saltar al contenido", "Joan edukira")}</a>
         <header className="app-header">
           <div className="app-header-in">
-            <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ir al inicio`}>
+            <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ${t("ir al inicio", "joan hasierara")}`}>
               <CupMark size={30} />
-              <span><b>{BRAND}</b><small>{tournamentTag(tn)}</small></span>
+              <span><b>{BRAND}</b><small>{tournamentTag(tn, locale)}</small></span>
             </button>
             <div className="header-actions">
-              {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={"Mi equipo: " + engine.T(mine).name} onClick={() => go("equipo", { team: mine })}><Crest id={mine} size={26} /></button>}
-              <button type="button" className={"icon-btn" + (syncing ? " is-spinning" : "")} aria-label="Actualizar resultados" onClick={() => load(true)}><Icon name="refresh" size={20} /></button>
-              <button type="button" className="icon-btn" aria-label={resolved === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"} onClick={toggle}><Icon name={resolved === "dark" ? "sun" : "moon"} size={20} /></button>
+              {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={t("Mi equipo: ", "Nire taldea: ") + engine.T(mine).name} onClick={() => go("equipo", { team: mine })}><Crest id={mine} size={26} /></button>}
+              <button type="button" className={"icon-btn" + (syncing ? " is-spinning" : "")} aria-label={t("Actualizar resultados", "Eguneratu emaitzak")} onClick={() => load(true)}><Icon name="refresh" size={20} /></button>
+              <button type="button" className="icon-btn" aria-label={resolved === "dark" ? t("Cambiar a modo claro", "Aldatu modu argira") : t("Cambiar a modo oscuro", "Aldatu modu ilunera")} onClick={toggle}><Icon name={resolved === "dark" ? "sun" : "moon"} size={20} /></button>
             </div>
           </div>
         </header>
 
-        {offline && <div className="banner" role="status"><Icon name="wifi" size={18} /><span>Sin conexión. Mostrando los últimos datos guardados.</span><button type="button" onClick={() => load(true)}>Reintentar</button></div>}
+        {offline && <div className="banner" role="status"><Icon name="wifi" size={18} /><span>{t("Sin conexión. Mostrando los últimos datos guardados.", "Konexiorik ez. Gordetako azken datuak erakusten.")}</span><button type="button" onClick={() => load(true)}>{t("Reintentar", "Saiatu berriro")}</button></div>}
 
         <main id="contenido" ref={mainRef} tabIndex={-1} className="main" aria-busy={!loaded}>
           {tab === "inicio" && <Home ms={ms} koResults={koResults} selected={mine} fanCounts={fanCounts} loaded={loaded} go={go} />}
@@ -166,18 +167,18 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           {tab === "fases" && <Fases kind={phase} setKind={setPhase} ms={ms} koResults={koResults} />}
           {tab === "equipo" && viewTeam && <Team key={viewTeam} id={viewTeam} ms={ms} koResults={koResults} back={back} isMine={viewTeam === mine} goGroup={g => go("clasificacion", { group: g })} />}
           {tab === "mas" && <More ms={ms} koResults={koResults} setKoResults={setKoResults} scores={scores} setScores={setScores} changeTeam={changeTeam} changeTournament={exit} theme={theme} setTheme={setTheme} />}
-          {lastSync && tab !== "mas" && <p className="sync-note">Actualizado a las {lastSync.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" })}</p>}
+          {lastSync && tab !== "mas" && <p className="sync-note">{t("Actualizado a las ", "Eguneratuta: ")}{lastSync.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" })}</p>}
         </main>
 
-        <nav className="tabbar" aria-label="Navegación principal">
+        {createPortal(<nav className="tabbar" aria-label={t("Navegación principal", "Nabigazio nagusia")}>
           <ul>
             {NAV.map(n => (
               <li key={n.id}><button type="button" aria-current={activeNav === n.id ? "page" : undefined} onClick={() => go(n.id)}><Icon name={n.icon} size={24} /><span>{navLabel[n.id] ?? n.label}</span></button></li>
             ))}
           </ul>
-        </nav>
+        </nav>, document.body)}
 
-        {rules && <Dialog title="Criterios de desempate" onClose={() => setRules(false)}><div className="prose"><p>Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:</p><ol>{tn.info.tiebreaks.map(t => <li key={t}>{t}</li>)}</ol></div></Dialog>}
+        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa-irizpideak")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:")}</p><ol>{((lang === "eu" && tn.infoEu) || tn.info).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
       </div>
       </OpenTeamContext.Provider>
     </EngineContext.Provider>

@@ -4,7 +4,7 @@
 import type { GroupMatchDef, InfoSpec, Team, Tournament } from "./tournament";
 
 const MAPS = "https://maps.app.goo.gl/q2zy9gfVQ1dPcaqS6";
-const VENUE = "Instalaciones Deportivas de Ibaiondo";
+const VENUE = "Instalaciones Deportivas de Ibaiondo", VENUE_EU = "Ibaiondoko Kirol Instalazioak";
 const T = (id: string, name: string, group: Team["group"]): Team => ({ id, name, group });
 /** Genera la lista de partidos de grupos a partir de filas «hora, campo, grupo, local, visitante». */
 const rows = (r: [string, 1 | 2, Team["group"], string, string][]): GroupMatchDef[] => r.map(([time, field, group, home, away]) => ({ time, field, group, home, away }));
@@ -88,20 +88,62 @@ const INFO_2017: InfoSpec = {
   venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" },
 };
 
+
+/* ------------------------------------------------------------------ textos en euskera */
+const TIEBREAKS_EU_2017 = ["Puntu guztiak", "Zuzeneko partidetako puntuak", "Zuzeneko partidetako gol-diferentzia", "Zuzeneko partidetako golak alde", "Gol-diferentzia orokorra", "Golak alde (guztira)", "Penalti-tanda"];
+const INFO_2015_EU: InfoSpec = {
+  intro: "Derio Cup CD Derio-k antolatutako oinarriko futbol txapelketa da, Ibaiondoko Kirol Instalazioetan (Derio) jokatzen dena. 16 talde izango dira, 4 taldeko 4 multzotan banatuta, multzo-fasearekin eta bi azken faserekin (Urrezko fasea eta Zilarrezko fasea).",
+  minutes: 20,
+  penaltyRule: "Azken faseetan, partida berdinketan amaitzen bada, talde bakoitzak 3 penalti jaurtiko ditu berdinketa ebazteko. Partida amaitu duten 7 jokalariek bakarrik jaurti dezakete eta partida amaitu duen atezainak jarraitu behar du. Berdinketak jarraitzen badu, aldaketa-aulkiko jokalariek jaurti ahal izango dute.",
+  tiebreaks: ["Puntu guztiak", "Zuzeneko partidetako puntuak", "Zuzeneko partidetako gol-diferentzia", "Zuzeneko partidetako golak alde", "Gol-diferentzia orokorra", "Golak alde (guztira)", "Berdinketak jarraitzen badu, txanpona airera botako da sailkapena zehazteko"],
+  rules: [
+    "Talde bakoitzak bigarren jantzia ekarri behar du derrigorrez; kanpoko talde gisa izendatutakoak aldatu beharko du ohiko jantzia.",
+    "Jokoz kanpo 13 metroko lerrotik aurrera. Penalti-area zelaian zehaztutakoa izango da (area txikia).",
+    "Atezainari egindako atzerako pasea 13 metroko lerrotik jarritako zuzeneko falta (hesirik gabe, arau-haustearen lekuarekiko perpendikularra) bidez zigortuko da. Falta guztiak zuzenekoak dira.",
+    "Talde bakoitzak bere baloiak ekarri behar ditu partidak hasi aurretik berotzeko, antolakuntzak ez baitu bat ere emango.",
+  ],
+  warning: "Talde batek jokabide antikiroltsuren bat izanez gero, antolakuntzaren erabakiz kanporatua izango da.",
+  meals: { price: "8 €", includes: "Hamaiketakoa, pasta-platera (zuriak, tomatearekin edo haragia tomatearekin), ogia, ura eta postrea.", contact: "Interesatuta bazaudete, jarri harremanetan txapelketaren arduradunarekin otordu kopurua kudeatzeko." },
+  bar: "Familientzat, pintxo eta ogitarteko askotariko tabernaren zerbitzua egongo da txapelketa osoan zehar.",
+  parking: [
+    { src: "/aparcamiento-1.jpg", title: "Aparkalekua", alt: "Ibaiondo zelaiaren ondoko aparkalekuaren planoa" },
+    { src: "/aparcamiento-2.jpg", title: "Ordezko aparkalekua", alt: "Ibaiondotik gertu dagoen ordezko aparkalekuaren planoa" },
+  ],
+};
+const INFO_2017_EU: InfoSpec = {
+  intro: "Derio Cup CD Derio-k antolatutako oinarriko futbol txapelketa da, Benjamin 2017 kategoriarako, 2026/27 denboraldia.",
+  minutes: 20,
+  penaltyRule: "Azken faseetan, berdinketa badago, talde bakoitzak 3 penalti jaurtiko ditu. Hasieran partida amaitu duten 7 jokalariek bakarrik jaurti dezakete eta amaitu duen atezainak jarraitu behar du. Berdinketak jarraitzen badu, aldaketa-aulkiko jokalariek jaurti ahal izango dute.",
+  tiebreaks: TIEBREAKS_EU_2017,
+  rules: [
+    "Kanpoko talde gisa izendatutakoak jantzia aldatu beharko du bat egiten badute. Bigarren jantzia ekartzea derrigorrezkoa da.",
+    "Jokoz kanpo 13 metroko lerrotik aurrera. Penalti-area area txiki mugatua da.",
+    "Atezainari egindako atzerako pasea 13 metroko lerrotik jarritako zuzeneko falta bidez zigortzen da, hesirik gabe. Falta guztiak zuzenekoak dira.",
+    "Talde bakoitzak bere baloiak ekarri behar ditu berotzeko.",
+  ],
+  warning: "Jokabide antikiroltsuek antolakuntzaren erabakiz kanporatzea ekar dezakete.",
+  meals: { price: "8 €", includes: "Hamaiketakoa, pasta-platera, ogia, ura eta postrea." },
+  bar: "Familientzat, pintxo eta ogitartekoen taberna-zerbitzua egongo da txapelketa osoan zehar.",
+  wc: "Komunak harmailaren atzeko aldean daude.",
+  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" },
+};
+
 export const TOURNAMENTS: Tournament[] = [
   {
     id: "2015", name: "Derio Cup", category: "2015", season: "2026/27", date: "2026-12-08",
-    venue: VENUE, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2015-",
+    venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2015-",
     teams: TEAMS_2015, schedule: SCHEDULE_2015,
     ko: { cf: ["15:15", "15:40", "16:05", "16:30"], sf: ["16:55", "17:20"], final: "17:45" },
     info: { ...INFO_2015, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" } },
+    infoEu: { ...INFO_2015_EU, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" } },
   },
   {
     id: "2017", name: "Derio Cup", category: "Benjamín 2017", season: "2026/27", date: "2026-09-20",
-    venue: VENUE, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "",
+    venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "",
     teams: TEAMS_2017, schedule: SCHEDULE_2017,
     ko: { cf: ["17:00", "17:25", "17:50", "18:15"], sf: ["18:40", "19:05"], final: "19:30" },
     info: INFO_2017,
+    infoEu: INFO_2017_EU,
   },
 ];
 

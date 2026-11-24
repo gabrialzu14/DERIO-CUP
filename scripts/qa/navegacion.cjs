@@ -12,7 +12,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  const ctx=await b.newContext({...prof,colorScheme:'light'});const p=await ctx.newPage();await p.addInitScript(()=>{localStorage.setItem('derio-cup-onboarded','1');localStorage.setItem('derio-cup-lang','es')});
  const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error'&&!/Failed to load resource/.test(m.text()))errs.push(m.text())});
  await p.route('**/derio_cup_fans*',r=>r.request().method()==='POST'?r.fulfill({status:201,body:''}):r.fulfill({status:200,contentType:'application/json',body:'[]'}));
- await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1300);
+ await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
  // 1 flujo inicial
  await p.locator('.tourney-card').tap();await p.waitForTimeout(400);
  ok(await p.locator('.welcome').isVisible(),T+' abre elegir equipo');
@@ -25,7 +25,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  await p.locator('.continue-btn').tap();await p.waitForTimeout(900);
  ok(await p.locator('.tabbar').isVisible(),T+' entra al torneo');
  // 2 pestañas e historial
- for(const l of ['Partidos','Clasificación','Fases','Más'])await p.locator('nav button',{hasText:l}).tap(),await p.waitForTimeout(250);
+ for(const l of ['Partidos','Clasificación','Fases','Info'])await p.locator('nav button',{hasText:l}).tap(),await p.waitForTimeout(250);
  ok(await hash(p)==='#mas',T+' hash #mas');
  await p.goBack();await p.waitForTimeout(250);ok(await hash(p)==='#fases',T+' Atrás→fases');
  await p.goBack();await p.waitForTimeout(250);ok(await hash(p)==='#clasificacion',T+' Atrás→clasificación');
@@ -45,7 +45,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  await p.locator('.back-btn').tap();await p.waitForTimeout(400);
  ok(await hash(p)===''&&await p.locator('.screen.home').count()===1,T+' Volver sin historial → Inicio (no sale de la app)');
  // 4 diálogos y botón atrás
- await p.locator('nav button',{hasText:'Más'}).tap();await p.waitForTimeout(300);
+ await p.locator('nav button',{hasText:'Info'}).tap();await p.waitForTimeout(300);
  const n0=await p.evaluate(()=>history.length);
  await p.locator('.menu-item',{hasText:'Normas'}).tap();await p.waitForTimeout(500);
  ok(await p.locator('dialog[open]').count()===1,T+' diálogo abierto');
@@ -78,7 +78,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  ok(await p.locator('.landing').count()===1,T+' recarga mantiene la lista');
  await p.locator('.tourney-card').tap();await p.waitForTimeout(500);
  ok(await p.locator('.tabbar').count()===1,T+' vuelve al torneo con equipo recordado');
- await p.locator('nav button',{hasText:'Más'}).tap();await p.waitForTimeout(300);
+ await p.locator('nav button',{hasText:'Info'}).tap();await p.waitForTimeout(300);
  await p.locator('.menu-item',{hasText:'Cambiar de equipo'}).tap();await p.waitForTimeout(500);
  ok(await p.locator('.welcome').count()===1,T+' Cambiar de equipo → elegir');
  await p.locator('.back-btn').tap();await p.waitForTimeout(400);
@@ -103,9 +103,9 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  ok(sel.body==='none'&&sel.btn==='none',T+' selección desactivada en la app '+JSON.stringify(sel));
  // 7 pulsaciones rápidas
  await p.goto(URL+'#partidos',{waitUntil:'networkidle'});await p.waitForTimeout(400);
- for(let i=0;i<12;i++){for(const l of ['Inicio','Partidos','Clasificación','Fases','Más'])await p.locator('nav button',{hasText:l}).tap({timeout:3000});}
+ for(let i=0;i<12;i++){for(const l of ['Inicio','Partidos','Clasificación','Fases','Info'])await p.locator('nav button',{hasText:l}).tap({timeout:3000});}
  await p.waitForTimeout(400);
- ok(await hash(p)==='#mas'&&(await p.locator('nav button[aria-current=page]').innerText()).includes('Más'),T+' pulsaciones rápidas coherentes');
+ ok(await hash(p)==='#mas'&&(await p.locator('nav button[aria-current=page]').innerText()).includes('Info'),T+' pulsaciones rápidas coherentes');
  // 8 rotación
  const vp=p.viewportSize();await p.setViewportSize({width:vp.height,height:vp.width});await p.waitForTimeout(400);
  ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)&&await p.locator('.tabbar').isVisible(),T+' apaisado correcto');

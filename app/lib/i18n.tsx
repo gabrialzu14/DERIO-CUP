@@ -9,7 +9,7 @@ const LangContext = createContext<Ctx>({ lang: "es", setLang: () => {}, t: es =>
 /** Idioma elegido (castellano o euskera). Guarda la elección en el dispositivo. */
 export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, set] = useState<Lang>("es");
-  useEffect(() => { try { const l = localStorage.getItem(LANG_KEY); if (l === "es" || l === "eu") set(l); } catch {} }, []);
+  useEffect(() => { try { const l = localStorage.getItem(LANG_KEY); if (l === "es" || l === "eu") set(l); else if (navigator.language?.toLowerCase().startsWith("eu")) set("eu"); } catch {} }, []);
   useEffect(() => { document.documentElement.lang = lang; }, [lang]);
   const setLang = useCallback((l: Lang) => { set(l); try { localStorage.setItem(LANG_KEY, l); } catch {} }, []);
   const t = useCallback(<T,>(es: T, eu: T) => (lang === "eu" ? eu : es), [lang]);

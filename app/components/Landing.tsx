@@ -1,6 +1,7 @@
 "use client";
 import { useId, type CSSProperties } from "react";
 import { CupMark } from "./ui";
+import { LangToggle } from "./LanguageScreen";
 import { Icon } from "./icons";
 import { SPONSORS, sponsorAsset } from "../lib/sponsors";
 import { useLang } from "../lib/i18n";
@@ -13,7 +14,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
   const uid = useId(), { t: tr, lang, locale } = useLang();
   return (
     <main className="landing">
-      <div className="landing-theme">{themeButton}</div>
+      <div className="landing-theme"><LangToggle />{themeButton}</div>
       <header className="landing-head">
         <CupMark size={150} className="landing-cup" />
         <h1 className="wordmark"><b>DERIO</b><span>CUP</span></h1>

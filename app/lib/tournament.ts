@@ -38,6 +38,8 @@ export type Tournament = {
   /** Fecha del torneo (YYYY-MM-DD, hora de Madrid). Pasado ese día se oculta de la lista. */
   date: string;
   venue: string;
+  /** Nombre de la sede en euskera. */
+  venueEu?: string;
   venueShort: string;
   mapsUrl: string;
   /** Minutos entre el inicio de un partido y el siguiente (20 de juego + cambio). */
@@ -48,6 +50,8 @@ export type Tournament = {
   schedule: GroupMatchDef[];
   ko: { cf: string[]; sf: string[]; final: string };
   info: InfoSpec;
+  /** Versión en euskera de los textos informativos. */
+  infoEu?: InfoSpec;
 };
 
 export const GROUPS: G[] = ["A", "B", "C", "D"];
@@ -72,10 +76,11 @@ export function madridNow() {
 }
 const at = (iso: string) => new Date(iso + "T12:00:00");
 const EU_MONTHS = ["urtarrila", "otsaila", "martxoa", "apirila", "maiatza", "ekaina", "uztaila", "abuztua", "iraila", "urria", "azaroa", "abendua"];
+const EU_DAYS = ["Igandea", "Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala", "Larunbata"];
 export const dateParts = (iso: string, locale = "es-ES") => {
   const d = at(iso), eu = locale.startsWith("eu"), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString(locale, o);
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1), month = eu ? EU_MONTHS[d.getMonth()] : f({ month: "long" });
-  return { day: String(d.getDate()), monthShort: eu ? EU_MONTHS[d.getMonth()].slice(0, 3) : f({ month: "short" }).replace(".", ""), label: eu ? `${month}ren ${d.getDate()}a` : `${d.getDate()} de ${month}`, tag: eu ? `${cap(month)}ren ${d.getDate()}a` : `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
+  return { day: String(d.getDate()), monthShort: eu ? EU_MONTHS[d.getMonth()].slice(0, 3) : f({ month: "short" }).replace(".", ""), label: eu ? `${month}ren ${d.getDate()}a` : `${d.getDate()} de ${month}`, tag: eu ? `${cap(month)}ren ${d.getDate()}a` : `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: eu ? `${EU_DAYS[d.getDay()]}, ${month}ren ${d.getDate()}a` : cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
 };
 /** Etiqueta de cabecera: «2015 • 8 de Diciembre». */
 export const tournamentTag = (t: Pick<Tournament, "category" | "date">, locale = "es-ES") => `${t.category} • ${dateParts(t.date, locale).tag}`;

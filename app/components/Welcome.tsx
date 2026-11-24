@@ -1,5 +1,6 @@
 "use client";
 import { useState, type CSSProperties } from "react";
+import { LOGO_PATHS, LOGO_VIEWBOX } from "../lib/logoPaths";
 import { Crest, CupMark } from "./ui";
 import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
@@ -7,11 +8,16 @@ import { clubTone } from "../lib/crests";
 import { useLang } from "../lib/i18n";
 import { BRAND, GROUPS, tournamentTag } from "../lib/tournament";
 
+/** Pantalla de carga: el logo se dibuja trazo a trazo y se rellena mientras carga la app. */
 export function Splash() {
   return (
     <div className="splash" role="status" aria-label="Cargando">
-      <CupMark size={92} className="splash-cup" />
-      <b>{BRAND}</b>
+      <svg className="splash-logo" viewBox={LOGO_VIEWBOX} aria-hidden="true">
+        <path d={LOGO_PATHS.join("")} fillRule="evenodd" className="splash-fill" />
+        {LOGO_PATHS.map((d, i) => <path key={i} d={d} pathLength={1} className="splash-path" style={{ "--i": i } as CSSProperties} />)}
+      </svg>
+      <b className="splash-name">DERIO<span>CUP</span></b>
+      <span className="splash-bar" aria-hidden="true" />
     </div>
   );
 }
