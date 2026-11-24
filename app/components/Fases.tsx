@@ -56,13 +56,17 @@ function BkGame({ g }: { g: KOGame }) {
   return (
     <article className={"bk-game" + (g.round === "FINAL" ? " is-final" : "")} aria-label={`${g.code}, ${g.time}, campo ${g.field}`}>
       <header><b>{g.code}</b><span>{g.time} · Campo {g.field}</span></header>
-      {sides.map((t, i) => (
-        <div key={i} className={"bk-team" + (t.id && w === t.id ? " win" : "")}>
-          {t.id ? <Crest id={t.id} size={22} /> : <i className="crest-ph sm" />}
-          <span className={t.id ? "" : "tbd"}>{t.id ? T(t.id).name : t.label}</span>
-          <strong>{t.s ?? "–"}{tie && t.p != null && <span className="pen"> ({t.p})</span>}</strong>
-        </div>
-      ))}
+      {sides.map((t, i) => {
+        const state = w && t.id ? (w === t.id ? " win" : " out") : "";
+        return (
+          <div key={i} className={"bk-team" + state}>
+            {t.id ? <Crest id={t.id} size={24} /> : <i className="crest-ph sm" />}
+            <span className={t.id ? "" : "tbd"}>{t.id ? T(t.id).name : t.label}</span>
+            {state === " out" && <span className="sr-only">(eliminado)</span>}
+            <strong>{t.s ?? "–"}{tie && t.p != null && <span className="pen"> ({t.p})</span>}</strong>
+          </div>
+        );
+      })}
     </article>
   );
 }

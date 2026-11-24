@@ -13,6 +13,7 @@
   --surface: light-dark(#ffffff, #0e1c2d);
   --surface-2: light-dark(#eef2f7, #132438);
   --surface-3: light-dark(#e3e9f1, #1b3049);
+  --out: light-dark(#d3dbe6, #050d17);
   --seg-on: light-dark(#ffffff, #223a55);
   --line: light-dark(rgb(12 27 51 / .09), rgb(255 255 255 / .09));
   --line-strong: light-dark(rgb(12 27 51 / .18), rgb(255 255 255 / .18));
@@ -256,17 +257,21 @@ sup { font-size: .625rem; font-weight: 700; color: var(--text-3); vertical-align
 .bk-col { display: grid; grid-template-rows: auto 1fr; gap: 12px; scroll-snap-align: start; }
 .bk-col h3 { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
 .bk-games { display: flex; flex-direction: column; justify-content: space-around; gap: 12px; }
-.bk-game { position: relative; padding: 8px 10px 6px; }
-.bk-game header { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; font-size: .6875rem; font-weight: 600; color: var(--text-3); }
+.bk-game { position: relative; display: grid; gap: 4px; padding: 6px; border-radius: 18px; }
+.bk-game header { display: flex; justify-content: space-between; gap: 8px; padding: 2px 8px 0; font-size: .6875rem; font-weight: 600; color: var(--text-3); }
 .bk-game header b { color: var(--text-2); font-weight: 800; }
 .bk-col:not(:last-child) .bk-game::after { content: ""; position: absolute; left: 100%; top: 50%; width: 28px; height: 1px; background: var(--line-strong); }
-.bk-game.is-final { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
-.bk-team { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 36px; font-size: .8125rem; font-weight: 600; color: var(--text-2); }
-.bk-team + .bk-team { border-top: 1px solid var(--line); }
-.bk-team span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bk-team strong { font-size: .9375rem; font-weight: 800; }
-.bk-team.win { color: var(--text); font-weight: 800; }
-.bk-team.win strong { color: var(--accent); }
+.bk-game.is-final { border-color: color-mix(in srgb, var(--accent) 45%, transparent); box-shadow: 0 0 0 3px var(--accent-soft), 0 1px 2px var(--shadow); }
+.bk-team { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 44px; padding: 0 8px 0 12px; border-radius: 12px; background: var(--surface-2); font-size: .8125rem; font-weight: 700; color: var(--text); transition: background-color .2s; }
+.bk-team span:not(.sr-only):not(.pen) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bk-team strong { display: inline-flex; align-items: baseline; justify-content: center; min-width: 30px; height: 28px; padding: 0 8px; align-items: center; border-radius: 8px; background: var(--surface); font-size: .9375rem; font-weight: 800; box-shadow: 0 0 0 1px var(--line); }
+.bk-team.win { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.bk-team.win strong { background: var(--accent); color: var(--accent-fg); box-shadow: none; }
+.bk-team strong .pen { margin-left: 4px; }
+.bk-team.win .pen { color: inherit; opacity: .85; }
+.bk-team.out { background: var(--out); color: var(--text-3); font-weight: 600; }
+.bk-team.out strong { background: transparent; box-shadow: none; color: var(--text-3); }
+.bk-team.out .crest { filter: grayscale(.85) brightness(.85); opacity: .6; }
 
 /* ---------- Clasificación ---------- */
 .table-card { overflow: hidden; }
