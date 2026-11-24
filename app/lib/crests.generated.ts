@@ -1,5 +1,6 @@
 // Generado por scripts/crests.mjs — no editar a mano. Escudo → color dominante del club.
 export const CRESTS: Readonly<Record<string, string>> = {
+  "abadino": "#268543",
   "ariznabarra": "#39b2e6",
   "arrupe-chaminade": "#245bb1",
   "bermeo": "#d4121b",
@@ -19,6 +20,7 @@ export const CRESTS: Readonly<Record<string, string>> = {
   "portugalete": "#e8c853",
   "retuerto": "#d92b21",
   "santutxu": "#cd3a31",
+  "sestao-river": "#225b37",
   "trapagaran": "#2257a9",
   "urduliz": "#3d6833"
 };
