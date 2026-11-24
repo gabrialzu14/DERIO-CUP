@@ -165,7 +165,7 @@ a { color: inherit; }
 .match-list.flush { border: 0; box-shadow: none; background: transparent; }
 
 /* ---------- Hero ---------- */
-.hero { padding: 18px 16px 16px; display: grid; gap: 14px; background: linear-gradient(165deg, var(--accent-soft), transparent 55%), var(--surface); }
+.hero { padding: 18px 16px 16px; display: grid; gap: 14px; background: var(--surface); }
 .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .hero-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; text-wrap: balance; }
 .hero-vs { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 8px; }
@@ -176,8 +176,8 @@ a { color: inherit; }
 .hero-mid { align-self: center; display: grid; justify-items: center; gap: 6px; text-align: center; }
 .hero-vs .hero-time { font-size: 1.625rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
 .hero-mid small { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-2); line-height: 1.2; }
-.hero-live { background: linear-gradient(165deg, var(--red-soft), transparent 60%), var(--surface); }
-.hero-final { background: linear-gradient(165deg, var(--gold-soft), transparent 55%), var(--surface); }
+.hero-live { background: var(--surface); }
+.hero-final { background: var(--surface); }
 .podium { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .podium-cell { display: grid; justify-items: center; gap: 8px; padding: 14px 8px 12px; text-align: center; border-radius: var(--r-inner); background: var(--surface); border: 1px solid var(--line); }
 .podium-cell small { font-size: .6875rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-3); }
@@ -830,3 +830,17 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .hero-cols.two .hero-mid small { font-size: .5rem; letter-spacing: .03em; }
 .hero-cols.two .hero-rule { margin-inline: 2px; }
 .hero-cols.two .hero-pair .hero-team b { font-size: .625rem; }
+
+/* Hora discreta y fina, con aire entre hora · vs · campo y altura de sobra para el resultado */
+.hero-mid, .duel-mid { gap: 8px; height: 72px; align-content: center; }
+.hero-mid b, .duel-mid b { font-size: .875rem; font-weight: 400; letter-spacing: 0; color: var(--text-2); }
+.duel-mid b { color: inherit; opacity: .9; font-size: .9375rem; }
+.hero-mid small, .duel-mid small { font-size: .5625rem; }
+.duel-mid { height: 76px; }
+.hero-cols.two .hero-mid { height: 72px; gap: 7px; }
+.hero-cols.two .hero-mid b { font-size: .8125rem; font-weight: 400; }
+.final-cup { background: var(--cup-fill); filter: drop-shadow(0 0 3px var(--cup-halo)) drop-shadow(0 0 7px var(--cup-halo)); margin-block: -2px; animation: none; }
+.final-cup.gold { --cup-fill: linear-gradient(170deg, #fff6b0, #ffcf33 45%, #e09a00); --cup-halo: light-dark(rgb(255 190 20 / .75), rgb(255 205 50 / .65)); }
+.final-cup.silver { --cup-fill: linear-gradient(170deg, #ffffff, #d5dbe4 45%, #98a3b3); --cup-halo: light-dark(rgb(110 125 150 / .65), rgb(215 225 240 / .6)); }
+.hero-cols.two .final-cup { width: 13px !important; height: 14px !important; }
+@media (max-width: 340px) { .hero-mid, .hero-cols.two .hero-mid { height: 64px; } }
