@@ -34,7 +34,7 @@ export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string;
         <div><dt>Posición</dt><dd>{row.pj ? pos + "º" : "–"}</dd></div>
         <div><dt>Puntos</dt><dd>{row.pts}</dd></div>
         <div><dt>Jugados</dt><dd>{gamesPlayed}</dd></div>
-        <div><dt>Goles</dt><dd>{row.gf}<span>/{row.gc}</span></dd></div>
+        <div><dt>Dif. goles</dt><dd>{row.dg > 0 ? "+" + row.dg : row.dg}</dd></div>
       </dl>
 
       <section>
