@@ -49,14 +49,14 @@
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--bg); height: 100%; overflow: hidden; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
 /* La página no se mueve nunca: el único scroll es el de #scroller (sin rebote ni pull-to-refresh). */
 body { height: 100%; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-.scroller { position: fixed; inset: env(safe-area-inset-top, 0px) 0 0 0; /* nada pegado al borde superior: evita el desenfoque automático de iOS bajo la barra de estado */ overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; scroll-padding-top: calc(var(--header-h) + 12px); scrollbar-width: none; }
+.scroller { position: absolute; inset: env(safe-area-inset-top, 0px) 0 0 0; /* nada pegado al borde superior: evita el desenfoque automático de iOS bajo la barra de estado */ overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; scroll-padding-top: calc(var(--header-h) + 12px); scrollbar-width: none; }
 .scroller::-webkit-scrollbar { display: none; }
 /* Lo que sí se puede seleccionar/copiar: textos informativos y campos */
 .prose, .prose *, input, textarea { -webkit-user-select: text; user-select: text; }
 img, svg { -webkit-user-drag: none; user-drag: none; }
 img.crest, .cup-mark { pointer-events: none; }
 a, button { -webkit-touch-callout: none; }
-body {
+body { position: relative;
   margin: 0; background: var(--bg); color: var(--text);
   font-family: var(--font-derio), system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
@@ -856,3 +856,41 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .hero-mid b, .duel-mid b { font-weight: 600; }
 .hero-cols.two .hero-mid b { font-weight: 600; }
 @media (max-width: 340px) { .hero-mid, .hero-cols.two .hero-mid { height: 38px; } }
+
+/* ---- Partido destacado: campo en azul arriba, escudos más pequeños, hora (o «En juego») en el centro ---- */
+.hero-col { gap: 8px; }
+.hero-pair .crest { width: 44px; height: 44px; }
+.hero-mid { height: 44px; align-self: start; display: grid; place-items: center; }
+.hero-mid b { font-size: .9375rem; font-weight: 600; color: var(--text-2); letter-spacing: 0; }
+.hero-cols.two .hero-pair .crest { width: 36px; height: 36px; }
+.hero-cols.two .hero-mid { height: 36px; width: 54px; }
+.hero-cols.two .hero-mid b { font-size: .875rem; }
+.hero-cols.two .hero-rule { margin-inline: 10px; height: 62%; }
+.hero-cols.two .hero-col { padding-inline: 2px; }
+.hero-mid .live-badge { padding: 2px 6px; font-size: .5rem; gap: 4px; letter-spacing: .05em; color: var(--red); background: var(--red-soft); box-shadow: none; }
+.hero-mid .live-badge i { width: 5px; height: 5px; }
+.hero-cols.two .hero-mid .live-badge { font-size: .46875rem; padding: 2px 5px; }
+.eyebrow.live { color: var(--red); }
+.hero-field { color: var(--accent); font-size: .75rem; }
+.hero-live .hero-field { color: var(--accent); }
+@media (max-width: 340px) { .hero-cols.two .hero-pair .crest { width: 30px; height: 30px; } .hero-cols.two .hero-mid { height: 30px; width: 48px; } }
+
+/* ---- Barra inferior flotante, compacta y centrada, con efecto «liquid glass» ---- */
+.tabbar { position: fixed; top: auto; right: auto; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); transform: translateX(-50%); width: max-content; max-width: calc(100vw - 20px); padding: 5px; border: 0; border-radius: 30px; z-index: 30;
+  background: linear-gradient(180deg, color-mix(in srgb, #fff 74%, transparent), color-mix(in srgb, #fff 56%, transparent));
+  -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04); backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
+  box-shadow: inset 0 1px 0.5px rgb(255 255 255 / .85), inset 0 -1px 0.5px rgb(255 255 255 / .25), inset 0 0 0 1px rgb(255 255 255 / .35), 0 12px 32px -10px rgb(10 25 60 / .35), 0 2px 6px rgb(10 25 60 / .08); }
+:root[data-theme="dark"] .tabbar { background: linear-gradient(180deg, rgb(60 75 100 / .68), rgb(25 36 56 / .62)); box-shadow: inset 0 1px 0.5px rgb(255 255 255 / .28), inset 0 0 0 1px rgb(255 255 255 / .12), 0 14px 34px -10px rgb(0 0 0 / .7); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tabbar { background: linear-gradient(180deg, rgb(60 75 100 / .68), rgb(25 36 56 / .62)); box-shadow: inset 0 1px 0.5px rgb(255 255 255 / .28), inset 0 0 0 1px rgb(255 255 255 / .12), 0 14px 34px -10px rgb(0 0 0 / .7); } }
+.tabbar ul { display: flex; gap: 2px; max-width: none; margin: 0; padding: 0; }
+.tabbar li { display: block; }
+.tabbar button { width: auto; height: 52px; min-width: 58px; padding-inline: 9px; border-radius: 24px; gap: 2px; flex-direction: column; font-size: .625rem; transition: color .15s, background-color .25s var(--ease), transform .12s var(--ease); }
+.tabbar button .icon { width: 22px; height: 22px; }
+.tabbar button[aria-current="page"] { background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .tabbar { background: var(--surface); } }
+@media (max-width: 350px) { .tabbar button { min-width: 0; padding-inline: 6px; font-size: .5625rem; } .tabbar { padding: 4px; } }
+@media (max-height: 560px) { .tabbar button { height: 44px; flex-direction: row; gap: 6px; min-width: 0; } }
+.hero-cols.two .hero-pair .crest{width:34px;height:34px}
+.hero-cols.two .hero-mid{height:34px;width:60px}
+.hero-cols.two .hero-mid .live-badge{font-size:.4375rem;padding:2px 4px;gap:3px;letter-spacing:.03em}
+.hero-cols.two .hero-rule{margin-inline:8px}

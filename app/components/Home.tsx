@@ -81,16 +81,17 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
   const common = new Set(sorted.map(g => g.where)).size === 1; // mismo grupo en todas las columnas: se indica una sola vez, arriba a la derecha
   return (
     <section className={"hero" + (kind === "live" ? " hero-live" : "")} aria-label={kind === "live" ? t("Partidos en juego", "Jokoan dauden partidak") : t("Próximo partido", "Hurrengo partida")}>
-      <div className="hero-top">{kind === "live" ? <LiveBadge /> : <span className="eyebrow">{today ? t("Próximo partido", "Hurrengo partida") : t("Primer partido", "Lehen partida")}</span>}{common && <small className="hero-where">{where(sorted[0].where)}</small>}</div>
+      <div className="hero-top">{kind === "live" ? <span className="eyebrow live">{t("Ahora mismo", "Orain bertan")}</span> : <span className="eyebrow">{today ? t("Próximo partido", "Hurrengo partida") : t("Primer partido", "Lehen partida")}</span>}{common && <small className="hero-where">{where(sorted[0].where)}</small>}</div>
       <div className={"hero-cols" + (sorted.length > 1 ? " two" : "")}>
         {sorted.map((g, i) => (
           <div key={g.id} className="hero-col-wrap">
             {i > 0 && <span className="hero-rule" aria-hidden="true" />}
             <div className="hero-col">
               {!common && <small className="hero-where">{where(g.where)}</small>}
+              <small className="hero-field">{fieldName(g.field, eu)}</small>
               <div className="hero-pair">
                 <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={48} /><b>{T(g.home).name}</b></TeamLink>
-                <span className="hero-mid"><b>{g.time}</b><small>{fieldName(g.field, eu)}</small></span>
+                <span className="hero-mid">{kind === "live" ? <LiveBadge /> : <b>{g.time}</b>}</span>
                 <TeamLink id={g.away} className="hero-team"><Crest id={g.away} size={48} /><b>{T(g.away).name}</b></TeamLink>
               </div>
             </div>
