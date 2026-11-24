@@ -11,7 +11,7 @@ import { readdir, writeFile, mkdir } from "node:fs/promises";
 import { extname, join, resolve, basename } from "node:path";
 
 const IN = resolve("assets/patrocinadores-originales"), OUT = resolve("public/patrocinadores"), MANIFEST = resolve("app/lib/sponsors.generated.ts");
-const MODES = { "dimension-football": "dark", adidas: "ink" }; // el resto: alpha
+const MODES = { "dimension-football": "dark", "restaurante-la-ofi": "dark", adidas: "ink" }; // el resto: alpha
 const MAX = 720;
 
 const slugify = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -24,7 +24,7 @@ async function mask(file, mode) {
     const r = data[p * 4], g = data[p * 4 + 1], b = data[p * 4 + 2], a = data[p * 4 + 3] / 255;
     let alpha = a;
     if (mode === "ink") { const L = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255; alpha = a * Math.min(1, Math.max(0, (1 - L - 0.04) / 0.92)); }
-    if (mode === "dark") { const L = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255; alpha = a * Math.min(1, Math.max(0, (0.5 - L) / 0.2)); }
+    if (mode === "dark") { const L = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255; alpha = a * Math.min(1, Math.max(0, (0.62 - L) / 0.15)); }
     out[p * 4] = out[p * 4 + 1] = out[p * 4 + 2] = 255; out[p * 4 + 3] = Math.round(alpha * 255);
   }
   let img = sharp(out, { raw: { width: info.width, height: info.height, channels: 4 } });

@@ -11,5 +11,9 @@ export const SPONSOR_ASSETS: Readonly<Record<string, { w: number; h: number }>> 
   "dimension-football": {
     "w": 192,
     "h": 184
+  },
+  "restaurante-la-ofi": {
+    "w": 720,
+    "h": 550
   }
 };

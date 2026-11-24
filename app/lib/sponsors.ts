@@ -9,7 +9,7 @@ export const SPONSORS: Sponsor[] = [
   { id: "derioko-udala", name: "Derioko Udala", height: 34 },
   { id: "dimension-football", name: "Dimension Football", height: 24 },
   { id: "adidas", name: "adidas", height: 18 },
-  { id: "restaurante-la-ofi", name: "Restaurante La Ofi", height: 24, text: { small: "Restaurante", main: "La Ofi" } },
+  { id: "restaurante-la-ofi", name: "Restaurante La Ofi", height: 30 },
 ];
 
 export const sponsorAsset = (id: string) => SPONSOR_ASSETS[id] ?? null;
