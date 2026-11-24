@@ -5,7 +5,7 @@ const URL='http://localhost:3100/';
 const mk=async(prof,scheme,init)=>{const ctx=await b.newContext({...prof,colorScheme:scheme||'light'});const p=await ctx.newPage();
  const errs=[];p.on('pageerror',e=>errs.push(e.message));
  await p.route('**/derio_cup_*',r=>r.fulfill({status:200,contentType:'application/json',body:'[]'}));
- if(init)await p.addInitScript(init);return {ctx,p,errs}};
+ await p.addInitScript(()=>localStorage.setItem('derio-cup-lang','es'));if(init)await p.addInitScript(init);return {ctx,p,errs}};
 // --- iPhone: flujo "No, ayúdame"
 let {ctx,p,errs}=await mk(devices['iPhone 14 Pro'],'light');
 await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1400);
@@ -70,7 +70,7 @@ await p.locator('nav button',{hasText:'Más'}).tap();await p.waitForTimeout(300)
 ok(await p.locator('.menu-item',{hasText:'Instalar la app'}).count()===0,'instalada: no ofrece instalar');
 await ctx.close();
 // --- Más → Instalar la app (en navegador)
-({ctx,p,errs}=await mk(devices['Pixel 5'],'light',()=>{localStorage.setItem('derio-cup-onboarded','1');localStorage.setItem('derio-cup-tournament','2015');localStorage.setItem('derio-cup-team:2015','derio');sessionStorage.setItem('derio-cup-splash','1')}));
+({ctx,p,errs}=await mk(devices['Pixel 5'],'light',()=>{localStorage.setItem('derio-cup-onboarded','1');localStorage.setItem('derio-cup-lang','es');localStorage.setItem('derio-cup-tournament','2015');localStorage.setItem('derio-cup-team:2015','derio');sessionStorage.setItem('derio-cup-splash','1')}));
 await p.goto(URL+'#mas',{waitUntil:'networkidle'});await p.waitForTimeout(800);
 await p.locator('.menu-item',{hasText:'Instalar la app'}).tap();await p.waitForTimeout(400);
 ok(await p.locator('.onb-overlay .onb').count()===1&&(await p.locator('.onb-title').innerText()).includes('móvil'),'Más → Instalar la app abre la elección de móvil');

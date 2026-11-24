@@ -38,3 +38,6 @@ node scripts/qa/instalacion.cjs    # guion de bienvenida e instalación (iOS / A
 
 ## Guion de instalación
 Antes de elegir torneo, en el navegador y la primera vez: bienvenida → «¿Sabes cómo se instala?» → («Sí» va a elegir torneo; «No» pregunta iPhone o Android y enseña los pasos) → «busca Derio Cup en el menú principal de tu móvil». La app ya instalada salta el guion y abre directamente la elección de torneo. Se puede volver a abrir desde Más → «Instalar la app». Los textos están en `app/components/Onboarding.tsx`.
+
+## Idioma
+La primera pantalla pregunta Castellano o Euskara (selector con bandera). La elección se guarda y se cambia en Más → Idioma. Los textos traducidos al euskera (guion de instalación, elegir torneo/equipo y pestañas) usan `t("castellano", "euskera")` (`app/lib/i18n.tsx`); el resto de pantallas siguen en castellano hasta traducirlas.

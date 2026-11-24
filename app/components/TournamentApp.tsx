@@ -11,6 +11,7 @@ import { More } from "./More";
 import { Dialog } from "./Dialog";
 import { Welcome } from "./Welcome";
 import { scrollToTop } from "../lib/scroll";
+import { useLang } from "../lib/i18n";
 import { EngineContext, OpenTeamContext, makeEngine } from "../lib/engine";
 import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament } from "../lib/tournament";
 import type { useTheme } from "../lib/useTheme";
@@ -48,7 +49,8 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [loaded, setLoaded] = useState(false), [offline, setOffline] = useState(false), [syncing, setSyncing] = useState(false), [lastSync, setLastSync] = useState<Date | null>(null);
   const [rules, setRules] = useState(false);
   const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
-  const { theme, resolved, setTheme, toggle } = themeCtl;
+  const { theme, resolved, setTheme, toggle } = themeCtl, { lang } = useLang();
+  const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapena", fases: "Faseak", mas: "Gehiago" } : {};
 
   /* ---- caché del último estado conocido ---- */
   useEffect(() => {
@@ -170,7 +172,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
         <nav className="tabbar" aria-label="Navegación principal">
           <ul>
             {NAV.map(n => (
-              <li key={n.id}><button type="button" aria-current={activeNav === n.id ? "page" : undefined} onClick={() => go(n.id)}><Icon name={n.icon} size={24} /><span>{n.label}</span></button></li>
+              <li key={n.id}><button type="button" aria-current={activeNav === n.id ? "page" : undefined} onClick={() => go(n.id)}><Icon name={n.icon} size={24} /><span>{navLabel[n.id] ?? n.label}</span></button></li>
             ))}
           </ul>
         </nav>

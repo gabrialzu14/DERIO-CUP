@@ -149,9 +149,9 @@ a { color: inherit; }
 .tabs + .tab-panel { align-content: start; }
 
 /* ---------- Escudos ---------- */
-.crest { flex: none; object-fit: contain; filter: drop-shadow(.6px 0 0 #fff) drop-shadow(-.6px 0 0 #fff) drop-shadow(0 .6px 0 #fff) drop-shadow(0 -.6px 0 #fff); }
+.crest { flex: none; object-fit: contain; }
 .welcome .team-pick .crest.mono { box-shadow: none; }
-.mono { --s: 28px; container-type: size; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; background: linear-gradient(145deg, hsl(var(--h) 48% 44%), hsl(var(--h) 50% 28%)); color: #fff; box-shadow: 0 0 0 1px #fff; filter: none; }
+.mono { --s: 28px; container-type: size; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; background: linear-gradient(145deg, hsl(var(--h) 48% 44%), hsl(var(--h) 50% 28%)); color: #fff; filter: none; }
 .mono b { font-size: 36cqw; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
 .crest-ph { display: inline-block; flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed var(--line-strong); }
 .crest-ph.sm { width: 22px; height: 22px; }
@@ -204,9 +204,8 @@ a { color: inherit; }
 .duel-mid small { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 72%, transparent); line-height: 1; }
 .duel-mid b { font-size: 1.625rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
 /* Escudo sin fondo: contorno blanco fino siguiendo su silueta */
-.team-card .duel-crest { width: 56px; height: 56px; filter: drop-shadow(.6px 0 0 #fff) drop-shadow(-.6px 0 0 #fff) drop-shadow(0 .6px 0 #fff) drop-shadow(0 -.6px 0 #fff); }
-.team-card .duel-crest.mono { filter: none; box-shadow: 0 0 0 1.5px #fff; }
-.team-card .duel-ph { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid #fff; }
+.team-card .duel-crest { width: 56px; height: 56px; }
+.team-card .duel-ph { width: 56px; height: 56px; border-radius: 50%; border: 1.5px dashed color-mix(in srgb, var(--tc-fg) 50%, transparent); }
 .next-none { font-size: .9375rem; font-weight: 600; padding-block: 8px; }
 
 /* ---------- Grupos (inicio) ---------- */
@@ -449,7 +448,7 @@ button.menu-item:active { background: var(--surface-3); }
 .team-pick.is-dim { opacity: .4; }
 /* Equipo marcado: se activa el color del club y se anima (pulso de la tarjeta, ripple y escudo) */
 .team-pick.is-picked { background: var(--pk-bg); color: var(--pk-fg); border-color: transparent; box-shadow: 0 10px 22px -12px var(--pk-bg), 0 1px 2px var(--shadow); animation: pick-pulse .46s var(--ease) both; }
-.team-pick.is-picked .crest:not(.mono) { --o: .6px; animation: crest-pop .55s var(--ease) both, outline-in .7s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
+.team-pick.is-picked .crest:not(.mono) { --o: 1px; animation: crest-pop .55s var(--ease) both, outline-in .7s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
 .team-pick.is-picked .crest.mono { --o: 1.5px; animation: crest-pop .55s var(--ease) both, outline-in-mono .7s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
 .pick-ring { position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--pk-bg); pointer-events: none; animation: pick-ring .65s var(--ease) both; }
 .chosen-mark { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--pk-fg); color: var(--pk-bg); animation: pop-in .3s var(--ease) .08s both; }
@@ -472,7 +471,7 @@ button.menu-item:active { background: var(--surface-3); }
 @keyframes panel-in { from { opacity: 0; transform: translateY(4px); } }
 @keyframes pick-pulse { 0% { transform: scale(.97); } 45% { transform: scale(1.045); } 100% { transform: scale(1); } }
 @keyframes pick-ring { from { transform: scale(1); opacity: .55; } to { transform: scale(1.14); opacity: 0; } }
-@keyframes outline-in { 0% { --o: 0px; } 45% { --o: 1.8px; } 100% { --o: .6px; } }
+@keyframes outline-in { 0% { --o: 0px; } 45% { --o: 2.2px; } 100% { --o: 1px; } }
 @keyframes outline-in-mono { 0% { --o: 0px; } 45% { --o: 3px; } 100% { --o: 1.5px; } }
 @keyframes crest-pop { 0% { transform: scale(.82); } 55% { transform: scale(1.2); } 100% { transform: scale(1); } }
 @keyframes crest-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
@@ -656,3 +655,14 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .onb-ico.logo.ios::after { content: ""; width: 26px; height: 30px; background: var(--bg); -webkit-mask: url(/plataformas/ios.webp) center / contain no-repeat; mask: url(/plataformas/ios.webp) center / contain no-repeat; }
 .onb-ico.logo.android { background: var(--surface-2); }
 .onb-ico.logo.android img { width: 34px; height: 34px; object-fit: contain; pointer-events: none; }
+
+/* ---------- Selector de idioma ---------- */
+.lang-switch { position: relative; display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 360px; margin-top: 14px; padding: 6px; border-radius: 26px; background: var(--surface-2); }
+.lang-thumb { position: absolute; top: 6px; bottom: 6px; left: 6px; width: calc(50% - 6px); border-radius: 20px; background: var(--surface); box-shadow: 0 1px 3px var(--shadow), 0 0 0 1px var(--line-strong); transition: transform .34s var(--ease); }
+.lang-switch[data-pos="1"] .lang-thumb { transform: translateX(100%); }
+.lang-opt { position: relative; z-index: 1; display: grid; justify-items: center; gap: 10px; padding: 18px 8px 16px; border-radius: 20px; color: var(--text-3); transition: color .25s var(--ease); }
+.lang-opt[aria-checked="true"] { color: var(--text); }
+.lang-opt b { font-size: 1rem; font-weight: 800; letter-spacing: -.01em; }
+.flag { width: 60px; height: 40px; filter: grayscale(.55) opacity(.7); transition: filter .3s var(--ease), transform .3s var(--ease); }
+.lang-opt[aria-checked="true"] .flag { filter: none; transform: scale(1.06); }
+.lang-opt:active { transform: scale(.97); }

@@ -5,6 +5,7 @@ import { CupMark, Tabs } from "./ui";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
+import { useLang } from "../lib/i18n";
 import { isInstalled } from "../lib/platform";
 import { useEngine } from "../lib/engine";
 import { BRAND, dateParts, type InfoSpec, type Match, type ResultRow, type Tournament } from "../lib/tournament";
@@ -39,7 +40,7 @@ function buildInfo(tn: Tournament): InfoItem[] {
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; setKoResults: Dispatch<SetStateAction<Record<string, ResultRow>>>; scores: Record<string, [number, number]>; setScores: Dispatch<SetStateAction<Record<string, [number, number]>>>; changeTeam: () => void; changeTournament: () => void; theme: ThemePref; setTheme: (t: ThemePref) => void };
 
 export function More({ ms, koResults, setKoResults, scores, setScores, changeTeam, changeTournament, theme, setTheme }: Props) {
-  const { tn } = useEngine();
+  const { tn } = useEngine(), { lang, setLang } = useLang();
   const INFO = buildInfo(tn);
   const [open, setOpen] = useState<string | null>(null);
   const [manager, setManager] = useState(false), [install, setInstall] = useState(false), [installed, setInstalled] = useState(true);
@@ -62,6 +63,8 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
         <div className="menu-item static">
           <span className="menu-icon"><Icon name="sun" /></span><span className="menu-text"><b>Apariencia</b><small>Sigue el sistema o fija un modo</small></span>
         </div>
+        <div className="menu-item static"><span className="menu-icon"><Icon name="info" /></span><span className="menu-text"><b>Idioma / Hizkuntza</b><small>Castellano · Euskara</small></span></div>
+        <div className="menu-pad"><Tabs label="Idioma" idPrefix="lang" value={lang} onChange={setLang} items={[{ key: "es", label: "Castellano" }, { key: "eu", label: "Euskara" }]} /></div>
         <div className="menu-pad"><Tabs label="Apariencia" idPrefix="theme" value={theme} onChange={setTheme} items={[{ key: "system", label: "Sistema" }, { key: "light", label: "Claro" }, { key: "dark", label: "Oscuro" }]} /></div>
         {!installed && <button type="button" className="menu-item" onClick={() => setInstall(true)}><span className="menu-icon"><Icon name="install" /></span><span className="menu-text"><b>Instalar la app</b><small>Añádela a tu pantalla de inicio</small></span><Icon name="chevron" size={18} className="icon chev" /></button>}
         <button type="button" className="menu-item" onClick={changeTournament}><span className="menu-icon"><Icon name="list" /></span><span className="menu-text"><b>Cambiar de torneo</b><small>Volver a la lista de torneos</small></span><Icon name="chevron" size={18} className="icon chev" /></button>

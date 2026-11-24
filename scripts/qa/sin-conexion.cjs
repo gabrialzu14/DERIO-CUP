@@ -9,7 +9,7 @@ await p.route('**/derio_cup_fans*',r=>r.fulfill({status:200,contentType:'applica
 await p.goto('http://localhost:3100/',{waitUntil:'networkidle'});await p.waitForTimeout(1500);
 const sw=await p.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();return !!(r&&(r.active||r.installing||r.waiting))});
 ok(sw,'service worker registrado');
-await p.evaluate(()=>{localStorage.setItem('derio-cup-tournament','2015');localStorage.setItem('derio-cup-team:2015','derio')});
+await p.evaluate(()=>{localStorage.setItem('derio-cup-tournament','2015');localStorage.setItem('derio-cup-lang','es');localStorage.setItem('derio-cup-onboarded','1');localStorage.setItem('derio-cup-team:2015','derio')});
 await p.goto('http://localhost:3100/#partidos',{waitUntil:'networkidle'});await p.waitForTimeout(1500);
 await p.goto('http://localhost:3100/',{waitUntil:'networkidle'});await p.waitForTimeout(1200);
 console.log('1ª carga completa: ~',Math.round(bytes/1024),'KB declarados,',reqs,'peticiones');

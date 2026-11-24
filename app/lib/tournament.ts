@@ -71,13 +71,14 @@ export function madridNow() {
   return { date: `${parts.year}-${parts.month}-${parts.day}`, mins: Number(parts.hour) * 60 + Number(parts.minute) };
 }
 const at = (iso: string) => new Date(iso + "T12:00:00");
-export const dateParts = (iso: string) => {
-  const d = at(iso), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString("es-ES", o);
-  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1), month = f({ month: "long" });
-  return { day: String(d.getDate()), monthShort: f({ month: "short" }).replace(".", ""), label: `${d.getDate()} de ${month}`, tag: `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
+const EU_MONTHS = ["urtarrila", "otsaila", "martxoa", "apirila", "maiatza", "ekaina", "uztaila", "abuztua", "iraila", "urria", "azaroa", "abendua"];
+export const dateParts = (iso: string, locale = "es-ES") => {
+  const d = at(iso), eu = locale.startsWith("eu"), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString(locale, o);
+  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1), month = eu ? EU_MONTHS[d.getMonth()] : f({ month: "long" });
+  return { day: String(d.getDate()), monthShort: eu ? EU_MONTHS[d.getMonth()].slice(0, 3) : f({ month: "short" }).replace(".", ""), label: eu ? `${month}ren ${d.getDate()}a` : `${d.getDate()} de ${month}`, tag: eu ? `${cap(month)}ren ${d.getDate()}a` : `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
 };
 /** Etiqueta de cabecera: «2015 • 8 de Diciembre». */
-export const tournamentTag = (t: Pick<Tournament, "category" | "date">) => `${t.category} • ${dateParts(t.date).tag}`;
+export const tournamentTag = (t: Pick<Tournament, "category" | "date">, locale = "es-ES") => `${t.category} • ${dateParts(t.date, locale).tag}`;
 export function daysUntil(iso: string) {
   const a = at(madridNow().date).getTime(), b = at(iso).getTime();
   return Math.round((b - a) / 86400000);
