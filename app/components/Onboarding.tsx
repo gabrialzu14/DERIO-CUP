@@ -69,17 +69,17 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
         {step === "ask" && <>
           <h2 className="onb-title">{t("¿Sabes cómo se instala la app?", "Badakizu aplikazioa nola instalatzen den?")}</h2>
           <p className="onb-text">{t("Instalarla es gratis, no ocupa espacio y se abre desde tu pantalla de inicio, como cualquier otra app.", "Instalatzea doakoa da, ez du lekurik hartzen eta zure hasierako pantailatik irekitzen da, beste edozein aplikazio bezala.")}</p>
-          <div className="onb-options">
-            <button type="button" className="onb-option" onClick={onDone}><span className="onb-ico"><Icon name="check" size={24} /></span><span><b>{t("Sí, ya lo he hecho", "Bai, instalatuta dut")}</b><small>{t("Ir a elegir torneo", "Txapelketa aukeratzera joan")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
-            <button type="button" className="onb-option" onClick={() => setStep("platform")}><span className="onb-ico"><Icon name="info" size={24} /></span><span><b>{t("No, necesito que me ayudes", "Ez, laguntza behar dut")}</b><small>{t("Te lo explico paso a paso", "Pausoz pauso azalduko dizut")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
+          <div className="onb-cards">
+            <button type="button" className="onb-card yes" onClick={onDone}><span className="onb-card-ico"><Icon name="check" size={34} /></span><b>{t("Sí, ya lo he hecho", "Bai, instalatuta dut")}</b><small>{t("Ir a elegir torneo", "Txapelketa aukeratzera joan")}</small></button>
+            <button type="button" className="onb-card help" onClick={() => setStep("platform")}><span className="onb-card-ico"><Icon name="info" size={34} /></span><b>{t("No, necesito que me ayudes", "Ez, laguntza behar dut")}</b><small>{t("Te lo explico paso a paso", "Pausoz pauso azalduko dizut")}</small></button>
           </div>
         </>}
         {step === "platform" && <>
           <h2 className="onb-title">{t("¿Qué móvil tienes?", "Zer mugikor duzu?")}</h2>
           <p className="onb-text">{t("Los pasos son distintos en cada sistema.", "Pausoak desberdinak dira sistema bakoitzean.")}</p>
-          <div className="onb-options">
-            <button type="button" className="onb-option" onClick={() => pick("ios")}><span className="onb-ico logo ios" role="img" aria-label="Apple" /><span><b>iPhone</b><small>{detected === "ios" ? t("Es el que estás usando", "Erabiltzen ari zaren hori da") : "iOS · Safari"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
-            <button type="button" className="onb-option" onClick={() => pick("android")}><span className="onb-ico logo android"><img src="/plataformas/android.webp" alt="Android" width={34} height={34} /></span><span><b>Android</b><small>{detected === "android" ? t("Es el que estás usando", "Erabiltzen ari zaren hori da") : "Chrome"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
+          <div className="onb-cards">
+            <button type="button" className={"onb-card" + (detected === "ios" ? " is-mine" : "")} onClick={() => pick("ios")}><span className="onb-card-ico logo ios" role="img" aria-label="Apple" /><b>iPhone</b><small>{detected === "ios" ? t("Es el que estás usando", "Erabiltzen ari zaren hori da") : "iOS · Safari"}</small></button>
+            <button type="button" className={"onb-card" + (detected === "android" ? " is-mine" : "")} onClick={() => pick("android")}><span className="onb-card-ico logo android"><img src="/plataformas/android.webp" alt="Android" width={56} height={56} decoding="async" /></span><b>Android</b><small>{detected === "android" ? t("Es el que estás usando", "Erabiltzen ari zaren hori da") : "Chrome"}</small></button>
           </div>
         </>}
         {step === "steps" && <>

@@ -97,6 +97,14 @@ async function dominantColor(file) {
   return "#" + [best.r, best.g, best.b].map(c => Math.round(c / best.n).toString(16).padStart(2, "0")).join("");
 }
 
+/** Versión ligera (192 px, sin pérdida) de cada escudo para la app: carga al instante y se precarga. */
+async function writeMinis() {
+  const dir = join(OUT, "m"); await mkdir(dir, { recursive: true });
+  for (const f of (await readdir(OUT)).filter(f => f.endsWith(".webp"))) {
+    await sharp(join(OUT, f)).resize(192, 192, { kernel: "lanczos3" }).webp({ lossless: true, effort: 6 }).toFile(join(dir, f));
+  }
+}
+
 async function writeManifest() {
   const slugs = (await readdir(OUT)).filter(f => f.endsWith(".webp")).map(f => f.slice(0, -5)).sort();
   const map = {};
@@ -118,4 +126,5 @@ if (args.length) {
     console.log(`✓ ${slug}.webp  ${(buf.length / 1024).toFixed(1)} KB  (${mode})`);
   }
 }
+await writeMinis();
 console.log(`Manifiesto: ${await writeManifest()} escudos`);

@@ -155,7 +155,7 @@ a { color: inherit; }
 .mono b { font-size: 36cqw; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
 .crest-ph { display: inline-block; flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed var(--line-strong); }
 .crest-ph.sm { width: 22px; height: 22px; }
-.cup-mark { display: inline-block; flex: none; background: currentColor; color: var(--brand-ink); -webkit-mask: url(/logo-derio-cup.png) center / contain no-repeat; mask: url(/logo-derio-cup.png) center / contain no-repeat; }
+.cup-mark { display: inline-block; flex: none; background: currentColor; color: var(--brand-ink); -webkit-mask: url(/logo-derio-cup.webp) center / contain no-repeat; mask: url(/logo-derio-cup.webp) center / contain no-repeat; }
 
 /* ---------- Tarjetas base ---------- */
 .hero, .team-card, .group-card, .table-card, .menu-card, .stats, .champion, .match-list, .ko-list, .fans, .bk-game, .manager-card {
@@ -768,3 +768,18 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .date-tile.month-first b { order: 2; margin-top: 4px; }
 .date-tile.month-first small { order: 1; margin-top: 0; }
 .lang-toggle { justify-items: center; }
+
+/* ---------- Tarjetas verticales (instalación) ---------- */
+.onb-cards { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.onb-card { display: grid; justify-items: center; align-content: center; gap: 8px; min-height: 208px; padding: 20px 12px 18px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: 0 1px 2px var(--shadow); transition: transform .14s var(--ease), border-color .2s; }
+.onb-card:active { transform: scale(.97); }
+.onb-card.is-mine { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft), 0 1px 2px var(--shadow); }
+.onb-card b { font-size: 1rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; text-wrap: balance; }
+.onb-card small { font-size: .75rem; font-weight: 600; color: var(--text-2); line-height: 1.35; text-wrap: balance; }
+.onb-card-ico { display: grid; place-items: center; width: 84px; height: 84px; margin-bottom: 6px; border-radius: 26px; background: var(--accent-soft); color: var(--accent); }
+.onb-card.yes .onb-card-ico { background: color-mix(in srgb, var(--green) 14%, transparent); color: var(--green); }
+.onb-card-ico.logo.ios { position: relative; background: var(--text); }
+.onb-card-ico.logo.ios::after { content: ""; width: 38px; height: 44px; background: var(--bg); -webkit-mask: url(/plataformas/ios.webp) center / contain no-repeat; mask: url(/plataformas/ios.webp) center / contain no-repeat; }
+.onb-card-ico.logo.android { background: var(--surface-2); }
+.onb-card-ico.logo.android img { width: 56px; height: 56px; object-fit: contain; pointer-events: none; }
+@media (max-width: 340px) { .onb-card { min-height: 190px; padding-inline: 8px; } .onb-card-ico { width: 68px; height: 68px; } }

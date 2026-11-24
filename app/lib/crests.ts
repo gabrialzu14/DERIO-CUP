@@ -13,7 +13,7 @@ function crestSlug(name: string): string | null {
 
 export function crestFor(name: string): string | null {
   const s = crestSlug(name);
-  return s ? "/escudos/" + s + ".webp" : null;
+  return s ? "/escudos/m/" + s + ".webp" : null;
 }
 
 /** Tono del monograma (equipos sin escudo) a partir de su id. */

@@ -10,6 +10,7 @@ import { isUpcoming } from "./lib/tournament";
 import { useTheme } from "./lib/useTheme";
 import { Onboarding } from "./components/Onboarding";
 import { LangProvider } from "./lib/i18n";
+import { preloadImages } from "./lib/preload";
 import { ONBOARDED_KEY, isInstalled } from "./lib/platform";
 
 const TOURNAMENT_KEY = "derio-cup-tournament";
@@ -31,6 +32,7 @@ function App() {
     let done = false; try { done = !!localStorage.getItem(ONBOARDED_KEY); } catch {}
     setOnboarding(!isInstalled() && !done && !(tn && isUpcoming(tn)));
     setReady(true);
+    preloadImages(TOURNAMENTS.filter(isUpcoming)); // durante la carga inicial
     let seen = false;
     try { seen = !!sessionStorage.getItem("derio-cup-splash"); sessionStorage.setItem("derio-cup-splash", "1"); } catch {}
     if (seen) { setSplash(false); return; }
