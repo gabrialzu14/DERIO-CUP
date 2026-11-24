@@ -176,19 +176,20 @@ a { color: inherit; }
 .finals dd { font-size: .875rem; font-weight: 700; }
 
 /* ---------- Mi equipo ---------- */
-.team-card { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px; text-align: left; transition: transform .12s var(--ease), border-color .15s; }
+.team-card { --tc-bg: var(--surface); --tc-fg: var(--text); width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px; text-align: left; color: var(--tc-fg); background: var(--tc-bg); border: 1px solid color-mix(in srgb, var(--tc-fg) 14%, transparent); border-radius: var(--r-card); box-shadow: 0 6px 18px -10px var(--tc-bg), 0 1px 2px var(--shadow); transition: transform .12s var(--ease); }
 .team-card:active { transform: scale(.985); }
-.team-card:hover { border-color: var(--line-strong); }
-.team-card .crest { width: 52px; height: 52px; }
+.team-card-crest { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc-fg) 22%, transparent); }
+.team-card-crest .crest { width: 44px; height: 44px; filter: none; }
 .team-card-main { display: grid; gap: 2px; min-width: 0; }
-.team-card-main small { font-size: .6875rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-3); }
-.team-card-main > b { font-size: 1.0625rem; font-weight: 800; letter-spacing: -.02em; }
-.team-card-meta { display: grid; gap: 1px; margin-top: 4px; font-size: .75rem; font-weight: 600; color: var(--text-2); }
+.team-card-main small { font-size: .6875rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 78%, transparent); }
+.team-card-main > b { font-size: 1.125rem; font-weight: 800; letter-spacing: -.02em; }
+.team-card-meta { display: grid; gap: 1px; margin-top: 4px; font-size: .75rem; font-weight: 600; }
 .team-card-meta > span { display: flex; gap: 6px; min-width: 0; }
-.team-card-meta em { font-style: normal; width: 52px; flex: none; color: var(--text-3); font-weight: 600; }
-.team-card-pos { display: grid; justify-items: center; padding-left: 14px; border-left: 1px solid var(--line); }
-.team-card-pos b { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; color: var(--accent); line-height: 1; }
-.team-card-pos small { font-size: .6875rem; font-weight: 600; color: var(--text-3); margin-top: 4px; }
+.team-card-meta em { font-style: normal; width: 52px; flex: none; font-weight: 600; color: color-mix(in srgb, var(--tc-fg) 72%, transparent); }
+.team-card-pos { display: grid; justify-items: center; padding-left: 14px; border-left: 1px solid color-mix(in srgb, var(--tc-fg) 28%, transparent); }
+.team-card-pos b { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.team-card-pos small { font-size: .6875rem; font-weight: 600; margin-top: 4px; color: color-mix(in srgb, var(--tc-fg) 78%, transparent); }
+.team-card:focus-visible { outline-color: var(--tc-fg); outline-offset: 3px; }
 
 /* ---------- Grupos (inicio) ---------- */
 .progress-row { display: flex; align-items: center; gap: 12px; }

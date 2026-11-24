@@ -51,9 +51,29 @@ async function encode(png) {
   throw new Error("No se pudo comprimir por debajo de 1 MB");
 }
 
+/** Color dominante del escudo (tono real del club): ignora fondo, blanco y negro de contorno. */
+async function dominantColor(file) {
+  const { data, info } = await sharp(file).resize(64, 64, { fit: "inside" }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const bins = new Map();
+  for (let i = 0; i < data.length; i += info.channels) {
+    const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
+    if (a < 200) continue;
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b), v = mx / 255, sat = mx ? (mx - mn) / mx : 0;
+    if ((v > 0.9 && sat < 0.15) || v < 0.16) continue; // blanco de fondo / negro de contorno
+    const key = [r, g, b].map(c => Math.round(c / 28)).join(",");
+    const e = bins.get(key) ?? { w: 0, n: 0, r: 0, g: 0, b: 0 };
+    e.w += 0.25 + sat; e.n++; e.r += r; e.g += g; e.b += b; bins.set(key, e);
+  }
+  const best = [...bins.values()].sort((x, y) => y.w - x.w)[0];
+  if (!best) return "#3b4a63";
+  return "#" + [best.r, best.g, best.b].map(c => Math.round(c / best.n).toString(16).padStart(2, "0")).join("");
+}
+
 async function writeManifest() {
   const slugs = (await readdir(OUT)).filter(f => f.endsWith(".webp")).map(f => f.slice(0, -5)).sort();
-  await writeFile(MANIFEST, `// Generado por scripts/crests.mjs — no editar a mano.\nexport const CRESTS: ReadonlySet<string> = new Set(${JSON.stringify(slugs, null, 2)});\n`);
+  const map = {};
+  for (const slug of slugs) map[slug] = await dominantColor(join(OUT, slug + ".webp"));
+  await writeFile(MANIFEST, `// Generado por scripts/crests.mjs — no editar a mano. Escudo → color dominante del club.\nexport const CRESTS: Readonly<Record<string, string>> = ${JSON.stringify(map, null, 2)};\n`);
   return slugs.length;
 }
 

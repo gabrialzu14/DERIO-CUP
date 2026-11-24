@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Icon } from "./icons";
+import { clubColor, readableOn } from "../lib/crests";
 import { Crest, CupMark, KOGameRow, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
@@ -108,10 +109,11 @@ function TeamCard({ id, ms, onOpen }: { id: string; ms: Match[]; onOpen: () => v
   const t = T(id), own = ms.filter(m => m.home === id || m.away === id).sort(byTime);
   const last = [...own].reverse().find(m => m.hs !== null), next = own.find(m => m.hs === null);
   const tb = table(t.group, ms), pos = tb.findIndex(x => x.id === id) + 1, pts = tb.find(x => x.id === id)?.pts ?? 0, played = (tb.find(x => x.id === id)?.pj ?? 0) > 0;
+  const bg = clubColor(t.name, id);
   const res = (m: Match) => (m.home === id ? `${m.hs}–${m.as}` : `${m.as}–${m.hs}`) + " vs " + T(m.home === id ? m.away : m.home).name;
   return (
-    <button type="button" className="team-card" onClick={onOpen} aria-label={"Mi equipo: " + t.name}>
-      <Crest id={id} size={52} />
+    <button type="button" className="team-card" onClick={onOpen} aria-label={"Mi equipo: " + t.name} style={{ "--tc-bg": bg, "--tc-fg": readableOn(bg) } as CSSProperties}>
+      <span className="team-card-crest"><Crest id={id} size={44} /></span>
       <span className="team-card-main">
         <small>Mi equipo · Grupo {t.group}</small>
         <b>{t.name}</b>
