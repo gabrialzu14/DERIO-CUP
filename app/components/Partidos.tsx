@@ -21,7 +21,7 @@ export function Partidos({ ms, koResults }: { ms: Match[]; koResults: Record<str
       <TabPanel idPrefix="partidos" tab={f}>
         {showGroups && <section><h2 className="list-title">Fase de grupos</h2>
           {slots.map(t => (
-            <div key={t} className="slot"><h3 className="slot-time">{t}</h3><div className="match-list">{ms.filter(m => m.time === t).sort((a, b) => a.field - b.field).map(m => <MatchRow key={m.id} m={m} showGroup />)}</div></div>
+            <div key={t} className="slot"><h3 className="slot-time">{t}</h3><div className="match-list">{ms.filter(m => m.time === t).sort((a, b) => a.field - b.field).map(m => <MatchRow key={m.id} m={m} groupAbove />)}</div></div>
           ))}</section>}
         {showOro && <section><h2 className="list-title"><i className="dot gold" aria-hidden="true" />Fase Oro</h2><div className="ko-list">{knockout("Oro", ms, koResults).sort(byTime).map(g => <KOGameRow key={g.id} g={g} />)}</div></section>}
         {showPlata && <section><h2 className="list-title"><i className="dot silver" aria-hidden="true" />Fase Plata</h2><div className="ko-list">{knockout("Plata", ms, koResults).sort(byTime).map(g => <KOGameRow key={g.id} g={g} />)}</div></section>}

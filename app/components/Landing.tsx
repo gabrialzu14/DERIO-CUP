@@ -54,8 +54,8 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
             );
           })}
         </ul>
+        <p className="sponsors-credit">Organizado por el CD Derio</p>
       </section>
-      <footer className="landing-foot">Organiza CD Derio · {tournaments[0]?.venue ?? "Ibaiondo"}</footer>
     </main>
   );
 }
