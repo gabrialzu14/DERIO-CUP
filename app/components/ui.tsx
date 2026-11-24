@@ -72,7 +72,8 @@ export function LiveBadge() {
   return <span className="live-badge"><i aria-hidden="true" />En juego</span>;
 }
 
-export function MatchRow({ m, showGroup = false }: { m: Match; showGroup?: boolean }) {
+/** showGroup: «Grupo X» en una fila debajo · groupAbove: «Grupo X» encima de la hora, en la columna central. */
+export function MatchRow({ m, showGroup = false, groupAbove = false }: { m: Match; showGroup?: boolean; groupAbove?: boolean }) {
   const { T, matchState } = useEngine();
   const st = matchState(m.time, m.hs !== null);
   const home = T(m.home).name, away = T(m.away).name;
@@ -81,8 +82,9 @@ export function MatchRow({ m, showGroup = false }: { m: Match; showGroup?: boole
     <div className={"match-row is-" + st} role="group" aria-label={label}>
       <div className="match-team home"><span>{home}</span><Crest id={m.home} size={32} /></div>
       <div className="match-mid">
+        {groupAbove && <small className="mid-group">Grupo {m.group}</small>}
         {st === "final" ? <><b className="score">{m.hs}<i>–</i>{m.as}</b><small>Final</small></>
-          : st === "live" ? <><LiveBadge /><small>{m.time} · Campo {m.field}</small></>
+          : st === "live" ? <><LiveBadge /><small>Campo {m.field}</small></>
           : st === "awaiting" ? <><b className="time">{m.time}</b><small>Sin resultado</small></>
           : <><b className="time">{m.time}</b><small>Campo {m.field}</small></>}
       </div>

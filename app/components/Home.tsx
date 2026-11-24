@@ -5,7 +5,7 @@ import { clubTone } from "../lib/crests";
 import { Crest, CupMark, KOGameRow, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
-import { BRAND, GROUPS, byTime, dateParts, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type Match, type ResultRow } from "../lib/tournament";
+import { BRAND, GROUPS, byTime, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type Match, type ResultRow } from "../lib/tournament";
 import type { TabId } from "./TournamentApp";
 
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata" }) => void };
@@ -57,7 +57,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
 
       {!finished && pending.length > 0 && <section>
         <SectionHead title={live.length ? "A continuación" : "Próximos partidos"} action={{ label: "Calendario", onClick: () => go("partidos") }} />
-        <div className="match-list">{pending.filter(m => !live.includes(m)).slice(0, 4).map(m => <MatchRow key={m.id} m={m} showGroup />)}</div>
+        <div className="match-list">{pending.filter(m => !live.includes(m)).slice(0, 4).map(m => <MatchRow key={m.id} m={m} groupAbove />)}</div>
       </section>}
 
       <FanRanking counts={fanCounts} />
@@ -67,18 +67,18 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
 
 function NextHero({ match, ko, loaded }: { match?: Match; ko?: KOGame; loaded: boolean }) {
   const { tn, T } = useEngine();
-  const today = madridNow().date === tn.date, dp = dateParts(tn.date);
+  const today = madridNow().date === tn.date;
   if (!match && !ko) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn)}</span></div><p className="hero-title">{loaded ? "Fase de grupos finalizada" : "Cargando resultados…"}</p></section>;
   const home = match ? match.home : ko!.home, away = match ? match.away : ko!.away, time = match ? match.time : ko!.time, field = match ? match.field : ko!.field;
+  const where = match ? "Grupo " + match.group : "Fase " + ko!.kind + " · " + ko!.code;
   return (
     <section className="hero" aria-label="Próximo partido">
-      <div className="hero-top"><span className="eyebrow">{today ? "Próximo partido" : "Primer partido"}</span><span className="hero-when">{dp.short} · {time}</span></div>
+      <div className="hero-top"><span className="eyebrow">{today ? "Próximo partido" : "Primer partido"}</span></div>
       <div className="hero-vs">
         <div><Crest id={home!} size={64} /><b>{T(home!).name}</b></div>
-        <span className="hero-time">{time}</span>
+        <span className="hero-mid"><small>{where}</small><b className="hero-time">{time}</b><small>Campo {field}</small></span>
         <div><Crest id={away!} size={64} /><b>{T(away!).name}</b></div>
       </div>
-      <p className="hero-foot">{match ? "Grupo " + match.group : ko!.kind === "Oro" ? "Fase Oro · " + ko!.code : "Fase Plata · " + ko!.code} · Campo {field} · {tn.venueShort}</p>
     </section>
   );
 }
