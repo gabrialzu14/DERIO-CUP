@@ -78,20 +78,21 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
   if (!games.length) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn, locale)}</span></div><p className="hero-title">{loaded ? t("Fase de grupos finalizada", "Multzo-fasea amaitu da") : t("Cargando resultados…", "Emaitzak kargatzen…")}</p></section>;
   const where = (w: string) => (w.startsWith("g:") ? groupName(w.slice(2), eu) : phaseName(w.slice(2).split(" · ")[0] as KOKind, eu) + " · " + koCode(w.split(" · ")[1], eu));
   const sorted = [...games].sort((a, b) => a.field - b.field);
+  const common = new Set(sorted.map(g => g.where)).size === 1; // mismo grupo en todas las columnas: se indica una sola vez, arriba a la derecha
   return (
     <section className={"hero" + (kind === "live" ? " hero-live" : "")} aria-label={kind === "live" ? t("Partidos en juego", "Jokoan dauden partidak") : t("Próximo partido", "Hurrengo partida")}>
-      <div className="hero-top">{kind === "live" ? <LiveBadge /> : <span className="eyebrow">{today ? t("Próximo partido", "Hurrengo partida") : t("Primer partido", "Lehen partida")}</span>}<b className="hero-clock">{sorted[0].time}</b></div>
+      <div className="hero-top">{kind === "live" ? <LiveBadge /> : <span className="eyebrow">{today ? t("Próximo partido", "Hurrengo partida") : t("Primer partido", "Lehen partida")}</span>}{common && <small className="hero-where">{where(sorted[0].where)}</small>}</div>
       <div className={"hero-cols" + (sorted.length > 1 ? " two" : "")}>
         {sorted.map((g, i) => (
           <div key={g.id} className="hero-col-wrap">
             {i > 0 && <span className="hero-rule" aria-hidden="true" />}
             <div className="hero-col">
-              <small className="hero-field">{fieldName(g.field, eu)}</small>
+              {!common && <small className="hero-where">{where(g.where)}</small>}
               <div className="hero-pair">
-                <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={44} /><b>{T(g.home).name}</b></TeamLink>
-                <TeamLink id={g.away} className="hero-team"><Crest id={g.away} size={44} /><b>{T(g.away).name}</b></TeamLink>
+                <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={48} /><b>{T(g.home).name}</b></TeamLink>
+                <span className="hero-mid"><b>{g.time}</b><i>vs</i><small>{fieldName(g.field, eu)}</small></span>
+                <TeamLink id={g.away} className="hero-team"><Crest id={g.away} size={48} /><b>{T(g.away).name}</b></TeamLink>
               </div>
-              <small className="hero-where">{where(g.where)}</small>
             </div>
           </div>
         ))}
@@ -135,12 +136,12 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
     <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea")}: ${t.name} ${tr("contra", "eta")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
       <span className="team-card-label">
         {next?.live ? <LiveBadge /> : <span>{tr("Próximo partido", "Hurrengo partida")}</span>}
-        <Icon name="chevron" size={18} className="icon" />
+        {next && <span className="team-card-where">{next.where}</span>}
       </span>
       {next ? (
         <span className="duel">
           <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
-          <span className="duel-mid"><small>{next.where}</small><b>{next.time}</b><small>{fieldName(next.field, eu)}</small></span>
+          <span className="duel-mid"><b>{next.time}</b><i>vs</i><small>{fieldName(next.field, eu)}</small></span>
           <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik")}</span>}

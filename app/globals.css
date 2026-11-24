@@ -807,3 +807,26 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .onb-actions { animation: rise .6s cubic-bezier(.23, 1, .32, 1) .32s both; }
 .landing, .welcome, .onb { animation: none; }
 .hero-col { grid-template-rows: auto 1fr auto; align-content: stretch; } .hero-pair { align-self: start; }
+
+/* «vs» discreto entre escudos; grupo arriba a la derecha, hora encima de vs y campo debajo */
+.hero-pair { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 4px; }
+.hero-pair .crest { width: 48px; height: 48px; }
+.hero-mid, .duel-mid { display: grid; justify-items: center; align-content: center; gap: 3px; text-align: center; }
+.hero-mid { height: 48px; padding-inline: 2px; }
+.hero-mid b { font-size: 1rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.hero-mid small { font-size: .5625rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); line-height: 1; white-space: nowrap; }
+.hero-mid i, .duel-mid i { font-style: normal; font-size: .625rem; font-weight: 600; letter-spacing: .04em; line-height: 1; opacity: .5; }
+.duel-mid { align-self: start; height: 56px; }
+.hero-top .hero-where, .team-card-where { margin-left: auto; text-align: right; }
+.team-card-where { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.hero-col .hero-where { justify-self: end; }
+.hero-col { grid-template-rows: none; align-content: start; }
+@media (max-width: 340px) { .hero-pair .crest { width: 38px; height: 38px; } .hero-mid { height: 38px; } }
+.hero-cols.two .hero-col { padding-inline: 0; }
+.hero-cols.two .hero-pair { gap: 0; }
+.hero-cols.two .hero-pair .crest { width: 40px; height: 40px; }
+.hero-cols.two .hero-mid { height: 40px; width: 50px; padding: 0; gap: 2px; }
+.hero-cols.two .hero-mid b { font-size: .875rem; }
+.hero-cols.two .hero-mid small { font-size: .5rem; letter-spacing: .03em; }
+.hero-cols.two .hero-rule { margin-inline: 2px; }
+.hero-cols.two .hero-pair .hero-team b { font-size: .625rem; }
