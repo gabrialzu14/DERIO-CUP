@@ -409,7 +409,7 @@ button.menu-item:active { background: var(--surface-3); }
 .splash { position: fixed; inset: 0; z-index: 100; display: grid; place-content: center; justify-items: center; gap: 14px; background: var(--bg); }
 .splash b { font-size: 1.375rem; font-weight: 800; letter-spacing: -.03em; animation: fade-in .4s .1s var(--ease) both; }
 .splash-cup { animation: pop-in .5s var(--ease) both; }
-.welcome { max-width: 680px; margin-inline: auto; padding: calc(env(safe-area-inset-top) + 28px) 16px calc(env(safe-area-inset-bottom) + 32px); display: grid; gap: 14px; animation: screen-in .3s var(--ease); }
+.welcome { max-width: 680px; margin-inline: auto; padding: calc(env(safe-area-inset-top) + 28px) 16px calc(env(safe-area-inset-bottom) + 112px); display: grid; gap: 14px; animation: screen-in .3s var(--ease); }
 .welcome-head { display: grid; justify-items: center; gap: 6px; text-align: center; padding-bottom: 8px; }
 .welcome-head h1 { font-size: 1.875rem; font-weight: 800; letter-spacing: -.04em; line-height: 1.1; margin-top: 8px; }
 .welcome-head p { font-size: .8125rem; font-weight: 600; color: var(--text-2); }
@@ -418,14 +418,26 @@ button.menu-item:active { background: var(--surface-3); }
 .welcome-group { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); margin: 8px 0 8px; }
 .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 @media (min-width: 520px) { .team-grid { grid-template-columns: repeat(4, 1fr); } }
-.team-pick { position: relative; display: grid; justify-items: center; align-content: center; gap: 10px; min-height: 124px; padding: 14px 8px; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow); text-align: center; font-size: .8125rem; font-weight: 700; line-height: 1.2; transition: transform .12s var(--ease), border-color .15s, opacity .2s; }
-.team-pick:hover:not(:disabled) { border-color: var(--line-strong); }
+.team-pick { position: relative; display: grid; justify-items: center; align-content: center; gap: 10px; min-height: 124px; padding: 14px 8px; border-radius: var(--r-card); background: var(--surface); color: var(--text); border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow); text-align: center; font-size: .8125rem; font-weight: 700; line-height: 1.2; transition: transform .16s var(--ease), background-color .22s var(--ease), color .22s var(--ease), border-color .22s var(--ease), opacity .2s; }
+.team-pick:hover:not(:disabled):not(.is-picked) { border-color: var(--line-strong); }
 .team-pick:active:not(:disabled) { transform: scale(.97); }
-.team-pick .crest { width: 56px; height: 56px; }
+.team-pick .crest { width: 56px; height: 56px; transition: filter .22s var(--ease); }
 .team-pick b { text-wrap: balance; }
-.team-pick.is-chosen { border-color: var(--accent); background: var(--accent-soft); transform: scale(1.02); }
 .team-pick.is-dim { opacity: .4; }
-.chosen-mark { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-fg); animation: pop-in .3s var(--ease); }
+/* Equipo marcado: se activa el color del club y se anima (pulso de la tarjeta, ripple y escudo) */
+.team-pick.is-picked { background: var(--pk-bg); color: var(--pk-fg); border-color: transparent; box-shadow: 0 10px 22px -12px var(--pk-bg), 0 1px 2px var(--shadow); animation: pick-pulse .46s var(--ease) both; }
+.team-pick.is-picked .crest:not(.mono) { filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff); animation: crest-pop .55s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
+.team-pick.is-picked .crest.mono { box-shadow: 0 0 0 1.5px #fff; animation: crest-pop .55s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
+.pick-ring { position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--pk-bg); pointer-events: none; animation: pick-ring .65s var(--ease) both; }
+.chosen-mark { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--pk-fg); color: var(--pk-bg); animation: pop-in .3s var(--ease) .08s both; }
+
+/* Botón «Continuar»: aparece al marcar un equipo y se oculta si se desmarca */
+.continue-bar { position: fixed; inset: auto 0 0 0; z-index: 40; display: flex; justify-content: center; padding: 28px 16px calc(env(safe-area-inset-bottom) + 16px); background: linear-gradient(to top, var(--bg) 45%, transparent); pointer-events: none; opacity: 0; transform: translateY(16px); visibility: hidden; transition: transform .28s var(--ease), opacity .24s var(--ease), visibility 0s .28s; }
+.continue-bar[data-show="true"] { opacity: 1; transform: translateY(0); visibility: visible; transition: transform .32s var(--ease), opacity .24s var(--ease), visibility 0s; }
+.continue-btn { --pk-bg: var(--accent); --pk-fg: var(--accent-fg); pointer-events: auto; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 232px; min-height: 56px; padding: 0 22px 0 30px; border-radius: 999px; background: var(--pk-bg); color: var(--pk-fg); font-size: 1.0625rem; font-weight: 800; letter-spacing: -.01em; box-shadow: 0 12px 26px -10px var(--pk-bg), 0 2px 6px var(--shadow); transition: transform .16s var(--ease), background-color .22s var(--ease), color .22s var(--ease), opacity .2s; }
+.continue-btn:active:not(:disabled) { transform: scale(.97); }
+.continue-btn:disabled { opacity: .7; }
+.continue-btn:focus-visible { outline-color: var(--text); outline-offset: 3px; }
 
 /* ---------- Animación ---------- */
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -434,6 +446,10 @@ button.menu-item:active { background: var(--surface-3); }
 @keyframes fade-out { to { opacity: 0; } }
 @keyframes screen-in { from { opacity: 0; transform: translateY(6px); } }
 @keyframes panel-in { from { opacity: 0; transform: translateY(4px); } }
+@keyframes pick-pulse { 0% { transform: scale(.97); } 45% { transform: scale(1.045); } 100% { transform: scale(1); } }
+@keyframes pick-ring { from { transform: scale(1); opacity: .55; } to { transform: scale(1.14); opacity: 0; } }
+@keyframes crest-pop { 0% { transform: scale(.82); } 55% { transform: scale(1.2); } 100% { transform: scale(1); } }
+@keyframes crest-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
 @keyframes pop-in { from { opacity: 0; transform: scale(.85); } }
 @keyframes sheet-in { from { transform: translateY(32px); opacity: 0; } }
 @keyframes sheet-out { to { transform: translateY(32px); opacity: 0; } }

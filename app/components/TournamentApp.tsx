@@ -103,9 +103,9 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   };
   const pick = (id: string) => {
     if (choosing) return;
-    setChoosing(id); navigator.vibrate?.(10);
+    setChoosing(id);
     registerFan(id).then(loadFans);
-    setTimeout(() => { store.set(teamKey, id); setSelected(id); setChoosing(null); window.scrollTo({ top: 0 }); history.replaceState(null, "", window.location.pathname); setTab("inicio"); }, 650);
+    setTimeout(() => { store.set(teamKey, id); setSelected(id); setChoosing(null); window.scrollTo({ top: 0 }); history.replaceState(null, "", window.location.pathname); setTab("inicio"); }, 220);
   };
   const neutral = () => { store.set(teamKey, "neutral"); setSelected("neutral"); window.scrollTo({ top: 0 }); setTab("inicio"); };
   const changeTeam = () => { store.del(teamKey); setSelected(null); };
