@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Crest, CupMark, KOGameRow, TabPanel, TeamLink, Tabs } from "./ui";
+import { Crest, CupMark, KOGameRow, PhaseNote, TabPanel, TeamLink, Tabs } from "./ui";
 import { useEngine } from "../lib/engine";
 import { ROUND_LABEL, byTime, koWinner, validKO, type KOGame, type KOKind, type Match, type ResultRow } from "../lib/tournament";
 
@@ -17,7 +17,8 @@ export function Fases({ kind, setKind, ms, koResults }: { kind: "oro" | "plata";
         { key: "oro", label: <><i className="dot gold" aria-hidden="true" />Fase Oro</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />Fase Plata</> },
       ]} />
       <TabPanel idPrefix="fases" tab={kind}>
-        <p className="note">{kind === "oro" ? "Cuartos, semifinales y final en el Campo 1. Pasan los dos primeros de cada grupo." : "Cuartos, semifinales y final en el Campo 2. Pasan el tercero y el cuarto de cada grupo."}</p>
+        <PhaseNote kind={K} />
+        <p className="note">{kind === "oro" ? "Pasan los dos primeros de cada grupo." : "Pasan el tercero y el cuarto de cada grupo."}</p>
         {champ && <div className={"champion " + kind}><CupMark size={30} /><div><small>Campeón Fase {K}</small><b>{T(champ).name}</b></div><Crest id={champ} size={52} /></div>}
         <Bracket kind={K} games={games} />
       </TabPanel>

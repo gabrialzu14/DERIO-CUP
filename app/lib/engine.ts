@@ -74,8 +74,11 @@ export function makeEngine(tn: Tournament) {
     return table(g, ms)[n - 1]?.id || null;
   }
 
+  /** Campo en el que se disputa toda una fase final. */
+  const koField = (kind: KOKind) => (kind === "Oro" ? 1 : 2) as 1 | 2;
+
   function knockout(kind: KOKind, ms: Match[], results: Record<string, ResultRow>): KOGame[] {
-    const field = (kind === "Oro" ? 1 : 2) as 1 | 2, k = kind.toLowerCase(), p = tn.idPrefix;
+    const field = koField(kind), k = kind.toLowerCase(), p = tn.idPrefix;
     const qs = kind === "Oro" ? [["A1", "B2"], ["B1", "A2"], ["C1", "D2"], ["D1", "C2"]] : [["A3", "B4"], ["B3", "A4"], ["C3", "D4"], ["D3", "C4"]];
     const cf: KOGame[] = qs.map((q, i) => ({ id: p + k + "-cf" + (i + 1), kind, round: "CF", code: "CF" + (i + 1), time: tn.ko.cf[i], field, home: seed(q[0], ms), away: seed(q[1], ms), homeLabel: q[0], awayLabel: q[1], result: results[p + k + "-cf" + (i + 1)] }));
     const sf: KOGame[] = [
@@ -90,7 +93,7 @@ export function makeEngine(tn: Tournament) {
   const fanKey = (teamId: string) => (tn.idPrefix ? tn.idPrefix + teamId : teamId);
   const fanTeam = (key: string) => (tn.idPrefix ? (key.startsWith(tn.idPrefix) ? key.slice(tn.idPrefix.length) : null) : /^\d/.test(key) ? null : key);
 
-  return { tn, groups: GROUP_LIST, T, teamIds, matches, owns, isGroupId, complete, table, zoneFor, matchState, knockout, fanKey, fanTeam };
+  return { tn, groups: GROUP_LIST, T, teamIds, matches, owns, isGroupId, complete, table, zoneFor, matchState, knockout, koField, fanKey, fanTeam };
 }
 
 export type Engine = ReturnType<typeof makeEngine>;

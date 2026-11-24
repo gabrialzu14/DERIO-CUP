@@ -111,10 +111,11 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const ms = useMemo(() => engine.matches.map(m => (scores[m.id] ? { ...m, hs: scores[m.id][0], as: scores[m.id][1] } : m)), [engine, scores]);
 
   /* ---- selección de equipo ---- */
+  // Un registro por visitante y torneo: la afición de cada torneo se cuenta aparte.
   const registerFan = async (id: string) => {
     let vid = store.get(VISITOR_KEY);
     if (!vid) { vid = crypto.randomUUID(); store.set(VISITOR_KEY, vid); }
-    try { await fetch(SB_URL + "/rest/v1/derio_cup_fans?on_conflict=visitor_id", { method: "POST", headers: { ...sbHeaders, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates" }, body: JSON.stringify({ visitor_id: vid, team_id: engine.fanKey(id), updated_at: new Date().toISOString() }) }); } catch {}
+    try { await fetch(SB_URL + "/rest/v1/derio_cup_fans?on_conflict=visitor_id", { method: "POST", headers: { ...sbHeaders, "Content-Type": "application/json", Prefer: "resolution=merge-duplicates" }, body: JSON.stringify({ visitor_id: tn.idPrefix ? vid + ":" + tn.id : vid, team_id: engine.fanKey(id), updated_at: new Date().toISOString() }) }); } catch {}
   };
   const pick = (id: string) => {
     if (choosing) return;

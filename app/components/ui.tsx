@@ -28,10 +28,10 @@ export function TeamLink({ id, className = "", children }: { id: string; classNa
   return <button type="button" className={className + " team-link"} onClick={() => open(id)} aria-label={"Ver el perfil de " + T(id).name}>{children}</button>;
 }
 
-export function SectionHead({ title, action }: { title: string; action?: { label: string; onClick: () => void } }) {
+export function SectionHead({ title, icon, action }: { title: string; icon?: IconName; action?: { label: string; onClick: () => void } }) {
   return (
     <div className="section-head">
-      <h2>{title}</h2>
+      <h2>{icon && <Icon name={icon} size={20} />}{title}</h2>
       {action && <button type="button" className="link-btn" onClick={action.onClick}>{action.label}<Icon name="chevron" size={16} /></button>}
     </div>
   );
@@ -63,6 +63,12 @@ export function Tabs<K extends string>({ label, value, onChange, items, idPrefix
 
 export function TabPanel({ idPrefix, tab, children }: { idPrefix: string; tab: string; children: ReactNode }) {
   return <div role="tabpanel" id={idPrefix + "-panel"} aria-labelledby={idPrefix + "-tab-" + tab} className="tab-panel" key={tab}>{children}</div>;
+}
+
+/** «Toda la Fase Oro se disputa en el Campo 1»: las fases finales usan un único campo. */
+export function PhaseNote({ kind }: { kind: "Oro" | "Plata" }) {
+  const { koField } = useEngine();
+  return <p className="phase-note"><Icon name="pin" size={16} /><span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span></p>;
 }
 
 export function EmptyState({ icon, title, text }: { icon: IconName; title: string; text?: string }) {

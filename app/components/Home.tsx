@@ -2,7 +2,7 @@
 import { useState, type CSSProperties } from "react";
 import { Icon } from "./icons";
 import { clubTone } from "../lib/crests";
-import { Crest, CupMark, KOGameRow, TeamLink, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
+import { Crest, CupMark, KOGameRow, PhaseNote, TeamLink, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
 import { BRAND, GROUPS, byTime, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type Match, type ResultRow } from "../lib/tournament";
@@ -48,6 +48,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
               ))}
             </div>
           </> : <>
+            <PhaseNote kind={phase === "oro" ? "Oro" : "Plata"} />
             <p className="note">{phase === "oro" ? "Pasan los dos primeros de cada grupo." : "Pasan el tercero y el cuarto de cada grupo."}</p>
             <Bracket kind={phase === "oro" ? "Oro" : "Plata"} games={phase === "oro" ? oro : plata} compact />
             <button type="button" className="btn btn-ghost block" onClick={() => go("fases", { phase })}>Ver fase {phase === "oro" ? "Oro" : "Plata"} completa<Icon name="chevron" size={18} /></button>
@@ -134,10 +135,15 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
 function FanRanking({ counts }: { counts: Record<string, number> }) {
   const { T } = useEngine();
   const list = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3).filter(([id, n]) => n > 0 && !!T(id));
-  if (!list.length) return null;
+  if (!list.length) return (
+    <section>
+      <SectionHead title="Afición" icon="fans" />
+      <p className="note">Todavía no hay afición en este torneo. Los equipos más seguidos aparecerán aquí.</p>
+    </section>
+  );
   return (
     <section>
-      <SectionHead title="Afición" />
+      <SectionHead title="Afición" icon="fans" />
       <ol className="fans">
         {list.map(([id, n], i) => <li key={id}><TeamLink id={id} className="fan-row"><b className="rank">{i + 1}</b><Crest id={id} size={30} /><span>{T(id).name}</span><small>{n} {n === 1 ? "seguidor" : "seguidores"}</small></TeamLink></li>)}
       </ol>
