@@ -267,7 +267,6 @@ sup { font-size: .625rem; font-weight: 700; color: var(--text-3); vertical-align
 .bk-team .pen { margin-left: 4px; font-size: .8125rem; font-weight: 700; color: var(--text-2); }
 .bk-team.win strong, .bk-team.win .pen { color: var(--accent); }
 .bk-team.out { color: var(--text-3); font-weight: 500; }
-.bk-team.out > span:not(.sr-only) { text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--text-3) 70%, transparent); }
 .bk-team.out strong, .bk-team.out .pen { color: var(--text-3); font-weight: 600; }
 .bk-team.out .crest { filter: grayscale(1); opacity: .45; }
 
