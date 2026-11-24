@@ -14,3 +14,5 @@ npm run crests -- ruta/a/la/carpeta   # o uno o varios archivos
 ```
 
 El **nombre del archivo es el nombre del club** (`Cultural Durango.png` → `cultural-durango.webp`). Cualquier torneo con un equipo de ese mismo nombre lo reutiliza automáticamente; un equipo «B» usa el escudo de su club si no tiene uno propio. Sin escudo se muestra un monograma. En la app se sirven reducidos (`next/image`), así que los originales de 1024 px no pesan en el móvil.
+
+Los originales de los escudos se guardan en `assets/escudos-originales/` para poder regenerarlos. Si un escudo tiene un hueco cerrado de fondo liso (p. ej. entre dos bandas), añade un punto dentro de él en `scripts/crest-fixes.json` (coordenadas del archivo original) y vuelve a ejecutar el script.

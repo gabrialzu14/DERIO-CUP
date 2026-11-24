@@ -28,7 +28,7 @@ async function listInputs(paths) {
 }
 
 /** Si la imagen no tiene transparencia, quita el fondo liso (blanco/gris/viñeta) que toca los bordes. */
-async function removeBackground(buf) {
+async function removeBackground(buf, holes = []) {
   const { data, info } = await sharp(buf).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const { width: w, height: h } = info, N = w * h;
   for (let p = 0; p < N; p++) if (data[p * 4 + 3] < 250) return buf; // ya es transparente
@@ -38,6 +38,8 @@ async function removeBackground(buf) {
   const push = p => { if (!seen[p] && neutral(p)) { seen[p] = 1; queue[qt++] = p; } };
   for (let x = 0; x < w; x++) { push(x); push((h - 1) * w + x); }
   for (let y = 0; y < h; y++) { push(y * w); push(y * w + w - 1); }
+  // Huecos que quedan cerrados por el propio escudo (p. ej. entre dos bandas): se indican con un punto semilla.
+  for (const [hx, hy] of holes) { const p = hy * w + hx; if (neutral(p)) push(p); else console.warn("  ⚠ el punto", hx, hy, "no es fondo liso"); }
   while (qh < qt) { const p = queue[qh++], x = p % w; if (x > 0) push(p - 1); if (x < w - 1) push(p + 1); if (p >= w) push(p - w); if (p < N - w) push(p + w); }
   // Quita también el halo claro del borde (antialiasing contra el fondo).
   for (let pass = 0; pass < 2; pass++) {
@@ -56,8 +58,8 @@ async function removeBackground(buf) {
 }
 
 /** Recorta márgenes vacíos, ajusta al lienzo SIZE × SIZE y centra con margen uniforme. */
-async function prepare(buf) {
-  let img = sharp(await removeBackground(await sharp(buf, { density: 600 }).rotate().ensureAlpha().png().toBuffer()));
+async function prepare(buf, holes = []) {
+  let img = sharp(await removeBackground(await sharp(buf, { density: 600 }).rotate().ensureAlpha().png().toBuffer(), holes));
   try { img = sharp(await img.trim({ threshold: 12 }).png().toBuffer()); } catch { /* imagen sin márgenes recortables */ }
   const inner = Math.round(SIZE * (1 - PAD * 2));
   const { data, info } = await img.resize({ width: inner, height: inner, fit: "inside", kernel: "lanczos3" }).png().toBuffer({ resolveWithObject: true });
@@ -103,13 +105,15 @@ async function writeManifest() {
   return slugs.length;
 }
 
+// Retoques por club (coordenadas en píxeles de la imagen original), p. ej. {"lagun-artea": {"holes": [[200, 87]]}}
+const FIXES = JSON.parse(await readFile(resolve("scripts/crest-fixes.json"), "utf8").catch(() => "{}"));
 const args = process.argv.slice(2);
 await mkdir(OUT, { recursive: true });
 if (args.length) {
   for (const file of await listInputs(args)) {
     const slug = slugify(basename(file, extname(file)));
     if (!slug) { console.warn("Nombre no válido:", file); continue; }
-    const { buf, mode } = await encode(await prepare(await readFile(file)));
+    const { buf, mode } = await encode(await prepare(await readFile(file), FIXES[slug]?.holes ?? []));
     await writeFile(join(OUT, slug + ".webp"), buf);
     console.log(`✓ ${slug}.webp  ${(buf.length / 1024).toFixed(1)} KB  (${mode})`);
   }

@@ -13,7 +13,7 @@ const rows = (r: [string, 1 | 2, Team["group"], string, string][]): GroupMatchDe
 const TEAMS_2015: Team[] = [
   T("leioa", "Leioa", "A"), T("bermeo", "Bermeo", "A"), T("gernika", "Gernika", "A"), T("ermua", "Ermua Blues", "A"),
   T("ariznabarra", "Ariznabarra", "B"), T("sestao", "Sestao River", "B"), T("portugalete", "Portugalete", "B"), T("lagun-artea", "Lagun Artea", "B"),
-  T("bge-aiboa", "BGE 2015 Aiboa", "C"), T("durango-b", "Cultural Durango B", "C"), T("derio", "Derio", "C"), T("arrupe", "Arrupe Chaminade", "C"),
+  T("bge-aiboa", "BGE Aiboa", "C"), T("durango-b", "Cultural Durango B", "C"), T("derio", "Derio", "C"), T("arrupe", "Arrupe Chaminade", "C"),
   T("arrupe-b", "Arrupe Chaminade B", "D"), T("etxebarri", "Etxebarri", "D"), T("durango", "Cultural Durango", "D"), T("abadino", "Abadiño", "D"),
 ];
 
