@@ -26,8 +26,8 @@
   --accent-soft: light-dark(rgb(10 92 194 / .09), rgb(90 169 255 / .14));
   --red: light-dark(#cf1738, #ff6e86);
   --red-soft: light-dark(rgb(207 23 56 / .08), rgb(255 110 134 / .13));
-  --gold: light-dark(#8f5b00, #efc75f);
-  --gold-soft: light-dark(rgb(214 150 10 / .14), rgb(239 199 95 / .14));
+  --gold: light-dark(#d4a00a, #ffd54a);
+  --gold-soft: light-dark(rgb(255 196 20 / .2), rgb(255 213 74 / .16));
   --silver: light-dark(#53647a, #b9c6d6);
   --silver-soft: light-dark(rgb(83 100 122 / .12), rgb(185 198 214 / .13));
   --green: light-dark(#0d7a43, #4fd899);
