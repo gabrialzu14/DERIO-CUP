@@ -40,7 +40,7 @@
   --r-inner: 12px;
   --ease: cubic-bezier(.23, 1, .32, 1);
   --tabbar-h: 64px;
-  --header-h: 56px;
+  --header-h: 52px;
 }
 :root[data-theme="light"] { color-scheme: light; }
 :root[data-theme="dark"] { color-scheme: dark; }
@@ -49,7 +49,7 @@
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--bg); height: 100%; overflow: hidden; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
 /* La página no se mueve nunca: el único scroll es el de #scroller (sin rebote ni pull-to-refresh). */
 body { height: 100%; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-.scroller { position: fixed; inset: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; scroll-padding-top: calc(var(--header-h) + 12px); scrollbar-width: none; }
+.scroller { position: fixed; inset: env(safe-area-inset-top, 0px) 0 0 0; /* nada pegado al borde superior: evita el desenfoque automático de iOS bajo la barra de estado */ overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; scroll-padding-top: calc(var(--header-h) + 12px); scrollbar-width: none; }
 .scroller::-webkit-scrollbar { display: none; }
 /* Lo que sí se puede seleccionar/copiar: textos informativos y campos */
 .prose, .prose *, input, textarea { -webkit-user-select: text; user-select: text; }
@@ -79,7 +79,7 @@ a { color: inherit; }
 .skip { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--accent); color: var(--accent-fg); padding: 10px 14px; border-radius: 10px; font-weight: 700; text-decoration: none; }
 .skip:focus { top: calc(env(safe-area-inset-top) + 8px); }
 
-.app-header { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top); background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: saturate(1.4) blur(16px); -webkit-backdrop-filter: saturate(1.4) blur(16px); border-bottom: 1px solid var(--line); }
+.app-header { position: sticky; top: 0; z-index: 30; background: var(--bg); /* opaco: sin desenfoque, que en Safari/iOS deja efectos fantasma */ border-bottom: 1px solid var(--line); }
 .app-header-in { max-width: 680px; margin-inline: auto; height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right)); }
 .brand { display: flex; align-items: center; gap: 10px; min-height: 44px; color: var(--brand-ink); text-align: left; }
 .brand span { display: grid; line-height: 1.15; }
@@ -102,7 +102,7 @@ a { color: inherit; }
 .banner button { color: var(--accent); font-weight: 700; min-height: 36px; padding-inline: 4px; }
 
 /* ---------- Barra inferior ---------- */
-.tabbar { position: fixed; inset: auto 0 0 0; z-index: 30; padding-bottom: env(safe-area-inset-bottom); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: saturate(1.4) blur(18px); -webkit-backdrop-filter: saturate(1.4) blur(18px); border-top: 1px solid var(--line); }
+.tabbar { position: fixed; inset: auto 0 0 0; z-index: 30; padding-bottom: env(safe-area-inset-bottom); background: var(--surface); border-top: 1px solid var(--line); }
 .tabbar ul { max-width: 680px; margin-inline: auto; padding-inline: env(safe-area-inset-left) env(safe-area-inset-right); display: grid; grid-template-columns: repeat(5, 1fr); }
 .tabbar button { width: 100%; height: var(--tabbar-h); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--text-3); font-size: .6875rem; font-weight: 600; letter-spacing: -.005em; transition: color .15s; }
 .tabbar button .icon { width: 24px; height: 24px; padding: 0; }
@@ -428,7 +428,7 @@ button.menu-item:active { background: var(--surface-3); }
 .splash { position: fixed; inset: 0; z-index: 100; display: grid; place-content: center; justify-items: center; gap: 14px; background: var(--bg); }
 .splash b { font-size: 1.375rem; font-weight: 800; letter-spacing: -.03em; animation: fade-in .4s .1s var(--ease) both; }
 .splash-cup { animation: pop-in .5s var(--ease) both; }
-.welcome { max-width: 680px; margin-inline: auto; padding: calc(env(safe-area-inset-top) + 28px) max(16px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 112px) max(16px, env(safe-area-inset-left)); display: grid; gap: 14px; animation: screen-in .3s var(--ease); }
+.welcome { max-width: 680px; margin-inline: auto; padding: 28px max(16px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 112px) max(16px, env(safe-area-inset-left)); display: grid; gap: 14px; animation: screen-in .3s var(--ease); }
 .welcome-head { display: grid; justify-items: center; gap: 6px; text-align: center; padding-bottom: 8px; }
 .welcome-head h1 { font-size: 1.875rem; font-weight: 800; letter-spacing: -.04em; line-height: 1.1; margin-top: 8px; }
 .welcome-head p { font-size: .8125rem; font-weight: 600; color: var(--text-2); }
@@ -507,7 +507,7 @@ button.menu-item:active { background: var(--surface-3); }
 }
 
 /* ---------- Pantalla previa: elección de torneo ---------- */
-.landing { position: relative; isolation: isolate; max-width: 680px; min-height: 100%; margin-inline: auto; padding: calc(env(safe-area-inset-top) + 16px) max(16px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 28px) max(16px, env(safe-area-inset-left)); display: flex; flex-direction: column; animation: screen-in .3s var(--ease); }
+.landing { position: relative; isolation: isolate; max-width: 680px; min-height: 100%; margin-inline: auto; padding: 16px max(16px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 28px) max(16px, env(safe-area-inset-left)); display: flex; flex-direction: column; animation: screen-in .3s var(--ease); }
 .landing::before { content: ""; position: fixed; inset: 0 0 auto; height: 420px; z-index: -1; background: radial-gradient(48% 70% at 26% 0, color-mix(in srgb, var(--red) 22%, transparent), transparent 70%), radial-gradient(48% 70% at 76% 0, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%); pointer-events: none; }
 .landing-theme { align-self: flex-end; margin-right: -8px; }
 .landing-head { display: grid; justify-items: center; gap: 6px; padding: 8px 0 28px; text-align: center; }
