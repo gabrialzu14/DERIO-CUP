@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
-import { AndroidLogo, AppleLogo, Icon, type IconName } from "./icons";
+import { Icon, type IconName } from "./icons";
 import { CupMark } from "./ui";
 import { BRAND } from "../lib/tournament";
 import { detectPlatform, type Platform } from "../lib/platform";
@@ -60,8 +60,8 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
           <h2 className="onb-title">¿Qué móvil tienes?</h2>
           <p className="onb-text">Los pasos son distintos en cada sistema.</p>
           <div className="onb-options">
-            <button type="button" className="onb-option" onClick={() => pick("ios")}><span className="onb-ico logo"><AppleLogo size={26} /></span><span><b>iPhone</b><small>{detected === "ios" ? "Es el que estás usando" : "iOS · Safari"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
-            <button type="button" className="onb-option" onClick={() => pick("android")}><span className="onb-ico logo"><AndroidLogo size={26} /></span><span><b>Android</b><small>{detected === "android" ? "Es el que estás usando" : "Chrome"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
+            <button type="button" className="onb-option" onClick={() => pick("ios")}><span className="onb-ico logo ios" role="img" aria-label="Apple" /><span><b>iPhone</b><small>{detected === "ios" ? "Es el que estás usando" : "iOS · Safari"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
+            <button type="button" className="onb-option" onClick={() => pick("android")}><span className="onb-ico logo android"><img src="/plataformas/android.webp" alt="Android" width={34} height={34} /></span><span><b>Android</b><small>{detected === "android" ? "Es el que estás usando" : "Chrome"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
           </div>
         </>}
         {step === "steps" && <>
