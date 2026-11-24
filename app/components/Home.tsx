@@ -90,7 +90,7 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
               {!common && <small className="hero-where">{where(g.where)}</small>}
               <div className="hero-pair">
                 <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={48} /><b>{T(g.home).name}</b></TeamLink>
-                <span className="hero-mid"><b>{g.time}</b><i>vs</i><small>{fieldName(g.field, eu)}</small></span>
+                <span className="hero-mid"><b>{g.time}</b><small>{fieldName(g.field, eu)}</small></span>
                 <TeamLink id={g.away} className="hero-team"><Crest id={g.away} size={48} /><b>{T(g.away).name}</b></TeamLink>
               </div>
             </div>
@@ -141,7 +141,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       {next ? (
         <span className="duel">
           <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
-          <span className="duel-mid"><b>{next.time}</b><i>vs</i><small>{fieldName(next.field, eu)}</small></span>
+          <span className="duel-mid"><b>{next.time}</b><small>{fieldName(next.field, eu)}</small></span>
           <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik")}</span>}
