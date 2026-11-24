@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Crest, CupMark, KOGameRow, TabPanel, Tabs } from "./ui";
+import { Crest, CupMark, KOGameRow, TabPanel, TeamLink, Tabs } from "./ui";
 import { useEngine } from "../lib/engine";
 import { ROUND_LABEL, byTime, koWinner, validKO, type KOGame, type KOKind, type Match, type ResultRow } from "../lib/tournament";
 
@@ -61,14 +61,13 @@ function BkGame({ g }: { g: KOGame }) {
       <header><b>{g.code}</b><span>{g.time} · Campo {g.field}</span></header>
       {sides.map((t, i) => {
         const state = w && t.id ? (w === t.id ? " win" : " out") : "";
-        return (
-          <div key={i} className={"bk-team" + state}>
-            {t.id ? <Crest id={t.id} size={24} /> : <i className="crest-ph sm" />}
-            <span className={t.id ? "" : "tbd"}>{t.id ? T(t.id).name : t.label}</span>
-            {state === " out" && <span className="sr-only">(eliminado)</span>}
-            <strong>{t.s ?? "–"}{tie && t.p != null && <span className="pen"> ({t.p})</span>}</strong>
-          </div>
-        );
+        const inner = <>
+          {t.id ? <Crest id={t.id} size={24} /> : <i className="crest-ph sm" />}
+          <span className={t.id ? "" : "tbd"}>{t.id ? T(t.id).name : t.label}</span>
+          {state === " out" && <span className="sr-only">(eliminado)</span>}
+          <strong>{t.s ?? "–"}{tie && t.p != null && <span className="pen"> ({t.p})</span>}</strong>
+        </>;
+        return t.id ? <TeamLink key={i} id={t.id} className={"bk-team" + state}>{inner}</TeamLink> : <div key={i} className={"bk-team" + state}>{inner}</div>;
       })}
     </article>
   );

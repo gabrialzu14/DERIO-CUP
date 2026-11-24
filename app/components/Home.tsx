@@ -2,13 +2,13 @@
 import { useState, type CSSProperties } from "react";
 import { Icon } from "./icons";
 import { clubTone } from "../lib/crests";
-import { Crest, CupMark, KOGameRow, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
+import { Crest, CupMark, KOGameRow, TeamLink, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
 import { BRAND, GROUPS, byTime, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type Match, type ResultRow } from "../lib/tournament";
 import type { TabId } from "./TournamentApp";
 
-type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata" }) => void };
+type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata"; team?: string }) => void };
 
 export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) {
   const { tn, complete, knockout, matchState, table, teamIds } = useEngine();
@@ -28,7 +28,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
         : live.length ? <section className="hero hero-live" aria-label="Partidos en juego"><div className="hero-top"><LiveBadge /><span>{live.length === 1 ? "1 partido" : live.length + " partidos"}</span></div><div className="match-list flush">{live.map(m => <MatchRow key={m.id} m={m} showGroup />)}</div></section>
         : <NextHero match={pending[0]} ko={pending.length ? undefined : nextKO} loaded={loaded} />}
 
-      {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("mi")} />}
+      {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("equipo", { team: selected })} />}
 
       <section aria-labelledby="home-phases">
         <SectionHead title="Torneo" />
@@ -75,9 +75,9 @@ function NextHero({ match, ko, loaded }: { match?: Match; ko?: KOGame; loaded: b
     <section className="hero" aria-label="Próximo partido">
       <div className="hero-top"><span className="eyebrow">{today ? "Próximo partido" : "Primer partido"}</span></div>
       <div className="hero-vs">
-        <div><Crest id={home!} size={64} /><b>{T(home!).name}</b></div>
+        <TeamLink id={home!} className="hero-team"><Crest id={home!} size={64} /><b>{T(home!).name}</b></TeamLink>
         <span className="hero-mid"><small>{where}</small><b className="hero-time">{time}</b><small>Campo {field}</small></span>
-        <div><Crest id={away!} size={64} /><b>{T(away!).name}</b></div>
+        <TeamLink id={away!} className="hero-team"><Crest id={away!} size={64} /><b>{T(away!).name}</b></TeamLink>
       </div>
     </section>
   );
@@ -89,7 +89,7 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
   const ru = (g: KOGame, w: string) => (g.home === w ? g.away : g.home);
   const score = (g: KOGame) => { const r = g.result!; return r.home_penalties != null ? `${r.home_score} (${r.home_penalties}) - (${r.away_penalties}) ${r.away_score}` : `${r.home_score} - ${r.away_score}`; };
   const Cell = ({ kind, id, role }: { kind: "gold" | "silver"; id: string | null; role: string }) => (
-    <div className={"podium-cell " + kind}><small>{role}</small>{id ? <Crest id={id} size={52} /> : <i className="crest-ph" />}<b>{id ? T(id).name : "—"}</b></div>
+    id ? <TeamLink id={id} className={"podium-cell " + kind}><small>{role}</small><Crest id={id} size={52} /><b>{T(id).name}</b></TeamLink> : <div className={"podium-cell " + kind}><small>{role}</small><i className="crest-ph" /><b>—</b></div>
   );
   return (
     <section className="hero hero-final" aria-label="Resultados finales">
@@ -139,7 +139,7 @@ function FanRanking({ counts }: { counts: Record<string, number> }) {
     <section>
       <SectionHead title="Afición" />
       <ol className="fans">
-        {list.map(([id, n], i) => <li key={id}><b className="rank">{i + 1}</b><Crest id={id} size={30} /><span>{T(id).name}</span><small>{n} {n === 1 ? "seguidor" : "seguidores"}</small></li>)}
+        {list.map(([id, n], i) => <li key={id}><TeamLink id={id} className="fan-row"><b className="rank">{i + 1}</b><Crest id={id} size={30} /><span>{T(id).name}</span><small>{n} {n === 1 ? "seguidor" : "seguidores"}</small></TeamLink></li>)}
       </ol>
     </section>
   );

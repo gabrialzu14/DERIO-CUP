@@ -10,13 +10,13 @@ import { Team } from "./Team";
 import { More } from "./More";
 import { Dialog } from "./Dialog";
 import { Welcome } from "./Welcome";
-import { EngineContext, makeEngine } from "../lib/engine";
+import { EngineContext, OpenTeamContext, makeEngine } from "../lib/engine";
 import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament } from "../lib/tournament";
 import type { useTheme } from "../lib/useTheme";
 
-export type TabId = "inicio" | "partidos" | "clasificacion" | "fases" | "mas" | "mi";
-const TAB_IDS: TabId[] = ["inicio", "partidos", "clasificacion", "fases", "mas", "mi"];
-const NAV: { id: Exclude<TabId, "mi">; label: string; icon: IconName }[] = [
+export type TabId = "inicio" | "partidos" | "clasificacion" | "fases" | "mas" | "equipo";
+const TAB_IDS: TabId[] = ["inicio", "partidos", "clasificacion", "fases", "mas"];
+const NAV: { id: Exclude<TabId, "equipo">; label: string; icon: IconName }[] = [
   { id: "inicio", label: "Inicio", icon: "home" }, { id: "partidos", label: "Partidos", icon: "ball" }, { id: "clasificacion", label: "Clasificación", icon: "table" }, { id: "fases", label: "Fases", icon: "trophy" }, { id: "mas", label: "Más", icon: "more" },
 ];
 const VISITOR_KEY = "derio-cup-visitor";
@@ -28,7 +28,12 @@ const store = {
   set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch {} },
   del: (k: string) => { try { localStorage.removeItem(k); } catch {} },
 };
-const tabFromHash = (): TabId => { const h = window.location.hash.replace("#", "") as TabId; return TAB_IDS.includes(h) ? h : "inicio"; };
+/** Ruta actual a partir del hash: «#partidos», «#equipo/derio»… */
+const routeFromHash = (teams: string[]): { tab: TabId; team: string | null } => {
+  const h = window.location.hash.replace("#", "");
+  if (h.startsWith("equipo/")) { const id = decodeURIComponent(h.slice(7)); if (teams.includes(id)) return { tab: "equipo", team: id }; }
+  return { tab: TAB_IDS.includes(h as TabId) ? (h as TabId) : "inicio", team: null };
+};
 
 export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit: () => void; themeCtl: ReturnType<typeof useTheme> }) {
   const engine = useMemo(() => makeEngine(tn), [tn]);
@@ -36,12 +41,12 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const teamKey = tn.idPrefix ? "derio-cup-team:" + tn.id : "derio-cup-team", cacheKey = "derio-cup-cache-v2" + (tn.idPrefix ? ":" + tn.id : "");
 
   const [selected, setSelected] = useState<string | null>(() => store.get(teamKey)), [choosing, setChoosing] = useState<string | null>(null);
-  const [tab, setTab] = useState<TabId>(() => tabFromHash()), [group, setGroup] = useState<G>("A"), [phase, setPhase] = useState<"oro" | "plata">("oro");
+  const [tab, setTab] = useState<TabId>(() => routeFromHash(tn.teams.map(t => t.id)).tab), [viewTeam, setViewTeam] = useState<string | null>(() => routeFromHash(tn.teams.map(t => t.id)).team), [group, setGroup] = useState<G>("A"), [phase, setPhase] = useState<"oro" | "plata">("oro");
   const [scores, setScores] = useState<Scores>({}), [koResults, setKoResults] = useState<Results>({});
   const [fanCounts, setFanCounts] = useState<Record<string, number>>({});
   const [loaded, setLoaded] = useState(false), [offline, setOffline] = useState(false), [syncing, setSyncing] = useState(false), [lastSync, setLastSync] = useState<Date | null>(null);
   const [rules, setRules] = useState(false);
-  const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true);
+  const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio"), depth = useRef(0);
   const { theme, resolved, setTheme, toggle } = themeCtl;
 
   /* ---- caché del último estado conocido ---- */
@@ -50,18 +55,28 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   }, [cacheKey]);
 
   /* ---- navegación por hash: el botón Atrás del móvil cambia de pestaña ---- */
-  useEffect(() => { const on = () => setTab(tabFromHash()); window.addEventListener("hashchange", on); return () => window.removeEventListener("hashchange", on); }, []);
-  const go = useCallback((t: TabId, o?: { group?: G; phase?: "oro" | "plata" }) => {
+  useEffect(() => { tabRef.current = tab; }, [tab]);
+  useEffect(() => {
+    const ids = tn.teams.map(t => t.id);
+    const on = () => { const r = routeFromHash(ids); setTab(r.tab); setViewTeam(r.team); };
+    window.addEventListener("hashchange", on); return () => window.removeEventListener("hashchange", on);
+  }, [tn]);
+  const go = useCallback((t: TabId, o?: { group?: G; phase?: "oro" | "plata"; team?: string }) => {
     if (o?.group) setGroup(o.group);
     if (o?.phase) setPhase(o.phase);
-    const hash = t === "inicio" ? "" : "#" + t;
-    if (window.location.hash !== hash) { if (hash) window.location.hash = hash; else history.pushState(null, "", window.location.pathname + window.location.search); setTab(t); }
+    if (t === "equipo" && o?.team) { if (tabRef.current !== "equipo") fromTab.current = tabRef.current; setViewTeam(o.team); }
+    const hash = t === "inicio" ? "" : t === "equipo" && o?.team ? "#equipo/" + encodeURIComponent(o.team) : "#" + t;
+    depth.current++;
+    if (window.location.hash !== hash) { if (hash) window.location.hash = hash; else history.pushState(null, "", window.location.pathname + window.location.search); setTab(t); if (!hash) setViewTeam(null); }
   }, []);
+  const openTeam = useCallback((id: string) => go("equipo", { team: id }), [go]);
+  /** «Volver»: al punto anterior si venimos de dentro de la app; si no, a Inicio. */
+  const back = useCallback(() => { if (depth.current > 0) { depth.current = Math.max(0, depth.current - 2); history.back(); } else go("inicio"); }, [go]);
   useEffect(() => {
     if (firstTab.current) { firstTab.current = false; return; }
     window.scrollTo({ top: 0 });
     mainRef.current?.focus({ preventScroll: true });
-  }, [tab]);
+  }, [tab, viewTeam]);
 
   /* ---- datos de este torneo ---- */
   const load = useCallback(async (manual = false) => {
@@ -115,9 +130,10 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   if (!validTeam) return <EngineContext.Provider value={engine}><Welcome choosing={choosing} onPick={pick} onNeutral={neutral} onBack={exit} /></EngineContext.Provider>;
   const mine = selected!;
 
-  const activeNav = tab === "mi" ? "inicio" : tab;
+  const activeNav = tab === "equipo" ? (viewTeam === mine ? "inicio" : fromTab.current) : tab;
   return (
     <EngineContext.Provider value={engine}>
+      <OpenTeamContext.Provider value={openTeam}>
       <div className="app">
         <a className="skip" href="#contenido" onClick={e => { e.preventDefault(); mainRef.current?.focus(); }}>Saltar al contenido</a>
         <header className="app-header">
@@ -127,7 +143,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
               <span><b>{BRAND}</b><small>{tournamentTag(tn)}</small></span>
             </button>
             <div className="header-actions">
-              {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={"Mi equipo: " + engine.T(mine).name} onClick={() => go("mi")}><Crest id={mine} size={26} /></button>}
+              {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={"Mi equipo: " + engine.T(mine).name} onClick={() => go("equipo", { team: mine })}><Crest id={mine} size={26} /></button>}
               <button type="button" className={"icon-btn" + (syncing ? " is-spinning" : "")} aria-label="Actualizar resultados" onClick={() => load(true)}><Icon name="refresh" size={20} /></button>
               <button type="button" className="icon-btn" aria-label={resolved === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"} onClick={toggle}><Icon name={resolved === "dark" ? "sun" : "moon"} size={20} /></button>
             </div>
@@ -141,7 +157,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           {tab === "partidos" && <Partidos ms={ms} koResults={koResults} />}
           {tab === "clasificacion" && <Clasificacion group={group} setGroup={setGroup} ms={ms} onRules={() => setRules(true)} />}
           {tab === "fases" && <Fases kind={phase} setKind={setPhase} ms={ms} koResults={koResults} />}
-          {tab === "mi" && mine !== "neutral" && <Team id={mine} ms={ms} koResults={koResults} back={() => go("inicio")} />}
+          {tab === "equipo" && viewTeam && <Team key={viewTeam} id={viewTeam} ms={ms} koResults={koResults} back={back} isMine={viewTeam === mine} goGroup={g => go("clasificacion", { group: g })} />}
           {tab === "mas" && <More ms={ms} koResults={koResults} setKoResults={setKoResults} scores={scores} setScores={setScores} changeTeam={changeTeam} changeTournament={exit} theme={theme} setTheme={setTheme} />}
           {lastSync && tab !== "mas" && <p className="sync-note">Actualizado a las {lastSync.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" })}</p>}
         </main>
@@ -156,6 +172,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
 
         {rules && <Dialog title="Criterios de desempate" onClose={() => setRules(false)}><div className="prose"><p>Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:</p><ol>{tn.info.tiebreaks.map(t => <li key={t}>{t}</li>)}</ol></div></Dialog>}
       </div>
+      </OpenTeamContext.Provider>
     </EngineContext.Provider>
   );
 }

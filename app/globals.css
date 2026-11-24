@@ -135,7 +135,7 @@ a { color: inherit; }
 .tabs + .tab-panel { align-content: start; }
 
 /* ---------- Escudos ---------- */
-.crest { flex: none; object-fit: contain; filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff); }
+.crest { flex: none; object-fit: contain; filter: drop-shadow(.6px 0 0 #fff) drop-shadow(-.6px 0 0 #fff) drop-shadow(0 .6px 0 #fff) drop-shadow(0 -.6px 0 #fff); }
 .welcome .team-pick .crest { filter: none; }
 .mono { --s: 28px; container-type: size; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; background: linear-gradient(145deg, hsl(var(--h) 48% 44%), hsl(var(--h) 50% 28%)); color: #fff; box-shadow: 0 0 0 1px #fff; filter: none; }
 .mono b { font-size: 36cqw; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
@@ -155,7 +155,7 @@ a { color: inherit; }
 .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .hero-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; text-wrap: balance; }
 .hero-vs { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 8px; }
-.hero-vs > div { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.hero-vs > .hero-team, .hero-vs > div { display: grid; justify-items: center; gap: 8px; text-align: center; }
 .hero-vs b { font-size: .875rem; font-weight: 700; line-height: 1.25; text-wrap: balance; }
 .hero-vs .crest { width: 64px; height: 64px; }
 .hero-time { font-size: 2.125rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; padding-inline: 4px; }
@@ -190,7 +190,7 @@ a { color: inherit; }
 .duel-mid small { font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 72%, transparent); line-height: 1; }
 .duel-mid b { font-size: 1.625rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
 /* Escudo sin fondo: contorno blanco fino siguiendo su silueta */
-.team-card .duel-crest { width: 56px; height: 56px; filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff); }
+.team-card .duel-crest { width: 56px; height: 56px; filter: drop-shadow(.6px 0 0 #fff) drop-shadow(-.6px 0 0 #fff) drop-shadow(0 .6px 0 #fff) drop-shadow(0 -.6px 0 #fff); }
 .team-card .duel-crest.mono { filter: none; box-shadow: 0 0 0 1.5px #fff; }
 .team-card .duel-ph { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid #fff; }
 .next-none { font-size: .9375rem; font-weight: 600; padding-block: 8px; }
@@ -302,10 +302,12 @@ sup { font-size: .625rem; font-weight: 700; color: var(--text-3); vertical-align
 .legend span { display: inline-flex; align-items: center; }
 
 /* ---------- Mi equipo (pantalla) ---------- */
-.team-hero { display: grid; justify-items: center; gap: 6px; padding: 8px 0 4px; text-align: center; }
-.team-hero .crest { width: 88px; height: 88px; margin-bottom: 6px; }
-.team-hero h1 { font-size: 1.625rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; text-wrap: balance; }
-.team-hero p { color: var(--text-2); font-size: .8125rem; font-weight: 600; }
+.profile-hero { --tc-bg: var(--surface); --tc-fg: var(--text); display: flex; align-items: center; gap: 18px; padding: 20px; border-radius: var(--r-card); background: var(--tc-bg); color: var(--tc-fg); box-shadow: 0 10px 22px -12px var(--tc-bg), 0 1px 2px var(--shadow); }
+.profile-hero .profile-crest { width: 84px; height: 84px; flex: none; }
+.profile-name { display: grid; gap: 2px; min-width: 0; }
+.profile-name small { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 80%, transparent); }
+.profile-name h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; text-wrap: balance; }
+.profile-name p { font-size: .875rem; font-weight: 600; color: color-mix(in srgb, var(--tc-fg) 85%, transparent); }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); padding: 14px 4px; }
 .stats > div { display: grid; justify-items: center; gap: 4px; }
 .stats > div + div { border-left: 1px solid var(--line); }
@@ -315,7 +317,7 @@ sup { font-size: .625rem; font-weight: 700; color: var(--text-3); vertical-align
 
 /* ---------- Afición ---------- */
 .fans { overflow: hidden; }
-.fans li { display: grid; grid-template-columns: 28px 30px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; font-weight: 700; font-size: .875rem; }
+.fans .fan-row { width: 100%; display: grid; grid-template-columns: 28px 30px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; font-weight: 700; font-size: .875rem; text-align: left; }
 .fans li + li { border-top: 1px solid var(--line); }
 .fans .rank { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); font-size: .75rem; font-weight: 800; color: var(--text-2); }
 .fans li:first-child .rank { background: var(--gold-soft); color: var(--gold); }
@@ -430,7 +432,7 @@ button.menu-item:active { background: var(--surface-3); }
 .team-pick.is-dim { opacity: .4; }
 /* Equipo marcado: se activa el color del club y se anima (pulso de la tarjeta, ripple y escudo) */
 .team-pick.is-picked { background: var(--pk-bg); color: var(--pk-fg); border-color: transparent; box-shadow: 0 10px 22px -12px var(--pk-bg), 0 1px 2px var(--shadow); animation: pick-pulse .46s var(--ease) both; }
-.team-pick.is-picked .crest:not(.mono) { filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff); animation: crest-pop .55s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
+.team-pick.is-picked .crest:not(.mono) { filter: drop-shadow(.6px 0 0 #fff) drop-shadow(-.6px 0 0 #fff) drop-shadow(0 .6px 0 #fff) drop-shadow(0 -.6px 0 #fff); animation: crest-pop .55s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
 .team-pick.is-picked .crest.mono { box-shadow: 0 0 0 1.5px #fff; animation: crest-pop .55s var(--ease) both, crest-breathe 2.6s ease-in-out .55s infinite; }
 .pick-ring { position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--pk-bg); pointer-events: none; animation: pick-ring .65s var(--ease) both; }
 .chosen-mark { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--pk-fg); color: var(--pk-bg); animation: pop-in .3s var(--ease) .08s both; }
@@ -529,3 +531,14 @@ button.menu-item:active { background: var(--surface-3); }
 .sponsor-text { display: grid; justify-items: center; line-height: 1; color: var(--sponsor-ink); }
 .sponsor-text small { font-size: .625rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 4px; }
 .sponsor-text b { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; }
+
+/* ---------- Equipos pulsables ---------- */
+.team-link { cursor: pointer; transition: transform .12s var(--ease); }
+.team-link:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .team-link:hover span, .team-link:hover > b, .team-link:hover strong { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; } }
+.c-team .c-link { display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; text-align: left; }
+.hero-vs > .hero-team { justify-items: center; }
+button.bk-team { width: 100%; text-align: left; }
+button.podium-cell { width: 100%; }
+.fans li > .fan-row .rank { margin: 0; }
+.match-list > .ko-wrap:not(:first-child) { border-top: 1px solid var(--line); }

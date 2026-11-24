@@ -100,3 +100,7 @@ export function useEngine() {
   if (!e) throw new Error("useEngine fuera de un torneo");
   return e;
 }
+
+/** Abre el perfil de un equipo (lo provee TournamentApp; sin él los nombres no son pulsables). */
+export const OpenTeamContext = createContext<((id: string) => void) | null>(null);
+export const useOpenTeam = () => useContext(OpenTeamContext);

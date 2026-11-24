@@ -1,5 +1,5 @@
 "use client";
-import { Crest, MatchRow, TabPanel, Tabs } from "./ui";
+import { Crest, MatchRow, TabPanel, TeamLink, Tabs } from "./ui";
 import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
 import { GROUPS, byTime, type G, type Match } from "../lib/tournament";
@@ -19,7 +19,7 @@ export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setG
           {tb.map((r, i) => { const z = zoneFor(r.id, group, ms); return (
             <div key={r.id} role="row" className={"trow z-" + (done ? (i < 2 ? "oro" : "plata") : z ?? "none")}>
               <span role="cell" className="c-pos"><b>{i + 1}</b></span>
-              <span role="cell" className="c-team"><Crest id={r.id} size={28} /><strong>{T(r.id).name}</strong>{z && !done && <em className={"badge " + z}>{z === "oro" ? "Oro" : "Plata"}</em>}</span>
+              <span role="cell" className="c-team"><TeamLink id={r.id} className="c-link"><Crest id={r.id} size={28} /><strong>{T(r.id).name}</strong>{z && !done && <em className={"badge " + z}>{z === "oro" ? "Oro" : "Plata"}</em>}</TeamLink></span>
               <span role="cell">{r.pj}</span><span role="cell">{r.gf}</span><span role="cell">{r.gc}</span><span role="cell">{r.dg > 0 ? "+" + r.dg : r.dg}</span><span role="cell" className="c-pts"><b>{r.pts}</b></span>
             </div>); })}
         </div>

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
-import { useEngine } from "../lib/engine";
+import { useEngine, useOpenTeam } from "../lib/engine";
 import { crestFor, monoHue } from "../lib/crests";
 import { BRAND, type KOGame, type Match } from "../lib/tournament";
 
@@ -19,6 +19,13 @@ export function Crest({ id, size = 36, className = "" }: { id: string; size?: nu
 /** Trofeo de marca: se tiñe con el color del tema (el logo original es blanco). */
 export function CupMark({ size = 40, className = "" }: { size?: number; className?: string }) {
   return <span className={"cup-mark " + className} style={{ width: size, height: size * 1.1 }} role="img" aria-label={BRAND} />;
+}
+
+/** Contenido de un equipo que abre su perfil al pulsarlo. */
+export function TeamLink({ id, className = "", children }: { id: string; className?: string; children: ReactNode }) {
+  const open = useOpenTeam(), { T } = useEngine();
+  if (!open) return <div className={className}>{children}</div>;
+  return <button type="button" className={className + " team-link"} onClick={() => open(id)} aria-label={"Ver el perfil de " + T(id).name}>{children}</button>;
 }
 
 export function SectionHead({ title, action }: { title: string; action?: { label: string; onClick: () => void } }) {
@@ -80,7 +87,7 @@ export function MatchRow({ m, showGroup = false, groupAbove = false }: { m: Matc
   const label = st === "final" ? `${home} ${m.hs}, ${away} ${m.as}. Final` : `${home} contra ${away}, ${m.time}, campo ${m.field}`;
   return (
     <div className={"match-row is-" + st} role="group" aria-label={label}>
-      <div className="match-team home"><span>{home}</span><Crest id={m.home} size={32} /></div>
+      <TeamLink id={m.home} className="match-team home"><span>{home}</span><Crest id={m.home} size={32} /></TeamLink>
       <div className="match-mid">
         {groupAbove && <small className="mid-group">Grupo {m.group}</small>}
         {st === "final" ? <><b className="score">{m.hs}<i>–</i>{m.as}</b><small>Final</small></>
@@ -88,7 +95,7 @@ export function MatchRow({ m, showGroup = false, groupAbove = false }: { m: Matc
           : st === "awaiting" ? <><b className="time">{m.time}</b><small>Sin resultado</small></>
           : <><b className="time">{m.time}</b><small>Campo {m.field}</small></>}
       </div>
-      <div className="match-team away"><Crest id={m.away} size={32} /><span>{away}</span></div>
+      <TeamLink id={m.away} className="match-team away"><Crest id={m.away} size={32} /><span>{away}</span></TeamLink>
       {showGroup && <span className="match-group">Grupo {m.group}</span>}
     </div>
   );
@@ -101,9 +108,9 @@ export function KOGameRow({ g }: { g: KOGame }) {
   return (
     <div className="ko-row">
       <div className="ko-meta"><b>{g.time}</b><small>{g.code} · C{g.field}</small></div>
-      <div className="ko-team">{g.home ? <Crest id={g.home} size={28} /> : <i className="crest-ph" />}<span className={g.home ? "" : "tbd"}>{g.home ? T(g.home).name : g.homeLabel}</span></div>
+      {g.home ? <TeamLink id={g.home} className="ko-team"><Crest id={g.home} size={28} /><span>{T(g.home).name}</span></TeamLink> : <div className="ko-team"><i className="crest-ph" /><span className="tbd">{g.homeLabel}</span></div>}
       <div className="ko-score">{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <span className="pen"> ({r!.home_penalties})</span>}<i>-</i>{tie && r!.away_penalties != null && <span className="pen">({r!.away_penalties}) </span>}{r!.away_score}</b> : <b className="dash">vs</b>}</div>
-      <div className="ko-team away"><span className={g.away ? "" : "tbd"}>{g.away ? T(g.away).name : g.awayLabel}</span>{g.away ? <Crest id={g.away} size={28} /> : <i className="crest-ph" />}</div>
+      {g.away ? <TeamLink id={g.away} className="ko-team away"><span>{T(g.away).name}</span><Crest id={g.away} size={28} /></TeamLink> : <div className="ko-team away"><span className="tbd">{g.awayLabel}</span><i className="crest-ph" /></div>}
     </div>
   );
 }
