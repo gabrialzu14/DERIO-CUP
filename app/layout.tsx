@@ -1,20 +1,20 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { EVENT } from "./lib/tournament";
+import { BRAND } from "./lib/tournament";
 import { THEME_COLORS, themeInitScript } from "./lib/theme";
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-derio", display: "swap" });
-const description = `${EVENT.category} • ${EVENT.dateLabel}`;
+const description = "Torneos de fútbol base · CD Derio";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://derio-cup.vercel.app"),
-  title: EVENT.name,
+  title: BRAND,
   description,
-  applicationName: EVENT.name,
-  openGraph: { title: EVENT.name, description, url: "/", siteName: EVENT.name, images: [{ url: "/icon-512.png", width: 512, height: 512, alt: EVENT.name }], type: "website" },
-  twitter: { card: "summary", title: EVENT.name, description, images: ["/icon-512.png"] },
-  appleWebApp: { capable: true, title: EVENT.name, statusBarStyle: "black-translucent" },
+  applicationName: BRAND,
+  openGraph: { title: BRAND, description, url: "/", siteName: BRAND, images: [{ url: "/icon-512.png", width: 512, height: 512, alt: BRAND }], type: "website" },
+  twitter: { card: "summary", title: BRAND, description, images: ["/icon-512.png"] },
+  appleWebApp: { capable: true, title: BRAND, statusBarStyle: "black-translucent" },
   icons: { icon: [{ url: "/icon-192.png", type: "image/png", sizes: "192x192" }, { url: "/icon-512.png", type: "image/png", sizes: "512x512" }], shortcut: "/icon-192.png", apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }] },
   manifest: "/manifest.webmanifest",
 };

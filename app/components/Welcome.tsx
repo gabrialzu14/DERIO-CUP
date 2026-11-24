@@ -1,24 +1,28 @@
 "use client";
 import { Crest, CupMark } from "./ui";
 import { Icon } from "./icons";
-import { EVENT, GROUPS, TEAMS } from "../lib/tournament";
+import { useEngine } from "../lib/engine";
+import { BRAND, GROUPS, dateParts } from "../lib/tournament";
 
 export function Splash() {
   return (
     <div className="splash" role="status" aria-label="Cargando">
       <CupMark size={92} className="splash-cup" />
-      <b>{EVENT.name}</b>
+      <b>{BRAND}</b>
     </div>
   );
 }
 
-export function Welcome({ choosing, onPick, onNeutral }: { choosing: string | null; onPick: (id: string) => void; onNeutral: () => void }) {
+/** Elección de equipo dentro de un torneo. */
+export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: string | null; onPick: (id: string) => void; onNeutral: () => void; onBack: () => void }) {
+  const { tn } = useEngine();
   return (
     <main className="welcome">
+      <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />Torneos</button>
       <header className="welcome-head">
         <CupMark size={64} />
-        <h1>{EVENT.name}</h1>
-        <p>{EVENT.category} · {EVENT.dateLabel}</p>
+        <h1>{BRAND} {tn.category}</h1>
+        <p>{dateParts(tn.date).label} · {tn.venueShort}</p>
         <h2>¿Con quién vas?</h2>
         <small>Elige tu equipo para seguirlo de cerca. Puedes cambiarlo cuando quieras.</small>
       </header>
@@ -26,7 +30,7 @@ export function Welcome({ choosing, onPick, onNeutral }: { choosing: string | nu
         <section key={g} aria-labelledby={"wg-" + g}>
           <h3 id={"wg-" + g} className="welcome-group">Grupo {g}</h3>
           <div className="team-grid">
-            {TEAMS.filter(t => t.group === g).map(t => (
+            {tn.teams.filter(t => t.group === g).map(t => (
               <button key={t.id} type="button" className={"team-pick" + (choosing === t.id ? " is-chosen" : "") + (choosing && choosing !== t.id ? " is-dim" : "")} disabled={!!choosing} onClick={() => onPick(t.id)}>
                 <Crest id={t.id} size={56} /><b>{t.name}</b>
                 {choosing === t.id && <span className="chosen-mark"><Icon name="check" size={16} /></span>}

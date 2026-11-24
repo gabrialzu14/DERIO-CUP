@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import { Crest, CupMark, KOGameRow, TabPanel, Tabs } from "./ui";
-import { ROUND_LABEL, T, byTime, knockout, koWinner, validKO, type KOGame, type KOKind, type Match, type ResultRow } from "../lib/tournament";
+import { useEngine } from "../lib/engine";
+import { ROUND_LABEL, byTime, koWinner, validKO, type KOGame, type KOKind, type Match, type ResultRow } from "../lib/tournament";
 
 const ROUNDS = ["CF", "SF", "FINAL"] as const;
 
 export function Fases({ kind, setKind, ms, koResults }: { kind: "oro" | "plata"; setKind: (k: "oro" | "plata") => void; ms: Match[]; koResults: Record<string, ResultRow> }) {
+  const { T, knockout } = useEngine();
   const K: KOKind = kind === "oro" ? "Oro" : "Plata";
   const games = knockout(K, ms, koResults), champ = koWinner(games.find(g => g.round === "FINAL")!);
   return (
@@ -50,6 +52,7 @@ export function Bracket({ kind, games, compact = false }: { kind: KOKind; games:
 }
 
 function BkGame({ g }: { g: KOGame }) {
+  const { T } = useEngine();
   const valid = validKO(g), r = valid ? g.result : undefined, w = koWinner(g);
   const tie = !!r && r.home_score === r.away_score;
   const sides = [{ id: g.home, label: g.homeLabel, s: r?.home_score, p: r?.home_penalties }, { id: g.away, label: g.awayLabel, s: r?.away_score, p: r?.away_penalties }];

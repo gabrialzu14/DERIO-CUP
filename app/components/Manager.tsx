@@ -3,7 +3,8 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { Dialog } from "./Dialog";
 import { Crest } from "./ui";
 import { Icon } from "./icons";
-import { EVENT, SB_KEY, SB_URL, T, byTime, knockout, validKO, type KOGame, type Match, type ResultRow } from "../lib/tournament";
+import { useEngine } from "../lib/engine";
+import { SB_KEY, SB_URL, byTime, validKO, type KOGame, type Match, type ResultRow } from "../lib/tournament";
 
 // El acceso real lo valida la función de Supabase; este código solo evita pulsaciones accidentales.
 const ACCESS = "1802", AUTH_KEY = "derio-cup-manager-auth-v2";
@@ -12,10 +13,10 @@ type Results = Record<string, ResultRow>;
 type Payload = { match_id: string; home_score: number; away_score: number; home_penalties?: number | null; away_penalties?: number | null; home_team: string | null; away_team: string | null; phase: string; round: string };
 type Props = { ms: Match[]; koResults: Results; setKoResults: Dispatch<SetStateAction<Results>>; scores: Scores; setScores: Dispatch<SetStateAction<Scores>>; onClose: () => void };
 
-const isGroup = (id: string) => id.startsWith("grupo-");
 const json = { "Content-Type": "application/json", apikey: SB_KEY };
 
 export function Manager({ ms, koResults, setKoResults, scores, setScores, onClose }: Props) {
+  const { knockout, isGroupId: isGroup } = useEngine();
   const [ok, setOk] = useState(() => { try { return localStorage.getItem(AUTH_KEY) === ACCESS; } catch { return false; } });
   const [code, setCode] = useState(ok ? ACCESS : "");
   const [err, setErr] = useState("");
@@ -75,7 +76,7 @@ export function Manager({ ms, koResults, setKoResults, scores, setScores, onClos
         </form>
       ) : (
         <div className="manager">
-          <div className="manager-bar"><b>{done}/{EVENT.groupMatchCount} grupos publicados</b><span>{EVENT.groupMatchCount - done} pendientes</span></div>
+          <div className="manager-bar"><b>{done}/{ms.length} grupos publicados</b><span>{ms.length - done} pendientes</span></div>
           {err && <p className="form-error" role="alert">{err}</p>}
           <h3>Fase de grupos</h3>
           {ms.slice().sort(byTime).map(m => <ManagerMatch key={m.id} m={m} current={scores[m.id]} saving={saving === m.id} save={save} remove={del} />)}
@@ -99,6 +100,7 @@ function Remove({ onConfirm, disabled }: { onConfirm: () => void; disabled: bool
 }
 
 function ManagerMatch({ m, current, saving, save, remove }: { m: Match; current?: [number, number]; saving: boolean; save: (p: Payload) => void; remove: (id: string) => void }) {
+  const { T } = useEngine();
   const [h, setH] = useState(current?.[0]?.toString() ?? ""), [a, setA] = useState(current?.[1]?.toString() ?? "");
   useEffect(() => { setH(current?.[0]?.toString() ?? ""); setA(current?.[1]?.toString() ?? ""); }, [current]);
   return (
@@ -115,6 +117,7 @@ function ManagerMatch({ m, current, saving, save, remove }: { m: Match; current?
 }
 
 function ManagerKO({ g, saving, save, remove }: { g: KOGame; saving: boolean; save: (p: Payload) => void; remove: (id: string) => void }) {
+  const { T } = useEngine();
   const r = g.result, valid = validKO(g);
   const init = () => [valid ? String(r!.home_score) : "", valid ? String(r!.away_score) : "", valid && r!.home_penalties != null ? String(r!.home_penalties) : "", valid && r!.away_penalties != null ? String(r!.away_penalties) : ""];
   const [[h, a, hp, ap], setV] = useState(init);

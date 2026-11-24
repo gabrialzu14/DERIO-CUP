@@ -135,6 +135,8 @@ a { color: inherit; }
 
 /* ---------- Escudos ---------- */
 .crest { flex: none; object-fit: contain; filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / .22)); }
+.mono { --s: 28px; container-type: size; display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%; background: linear-gradient(145deg, hsl(var(--h) 48% 44%), hsl(var(--h) 50% 28%)); color: #fff; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .28); filter: none; }
+.mono b { font-size: 36cqw; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
 .crest-ph { display: inline-block; flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px dashed var(--line-strong); }
 .crest-ph.sm { width: 22px; height: 22px; }
 .cup-mark { display: inline-block; flex: none; background: currentColor; color: var(--brand-ink); -webkit-mask: url(/logo-derio-cup.png) center / contain no-repeat; mask: url(/logo-derio-cup.png) center / contain no-repeat; }
@@ -461,3 +463,50 @@ button.menu-item:active { background: var(--surface-3); }
   .tabbar button { height: 60px; }
   .bk-scroll { margin-inline: 0; padding-inline: 0; }
 }
+
+/* ---------- Pantalla previa: elección de torneo ---------- */
+.landing { position: relative; isolation: isolate; max-width: 680px; min-height: 100dvh; margin-inline: auto; padding: calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 28px); display: flex; flex-direction: column; animation: screen-in .3s var(--ease); }
+.landing::before { content: ""; position: fixed; inset: 0 0 auto; height: 420px; z-index: -1; background: radial-gradient(48% 70% at 26% 0, color-mix(in srgb, var(--red) 22%, transparent), transparent 70%), radial-gradient(48% 70% at 76% 0, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%); pointer-events: none; }
+.landing-theme { align-self: flex-end; margin-right: -8px; }
+.landing-head { display: grid; justify-items: center; gap: 6px; padding: 8px 0 28px; text-align: center; }
+.landing-cup { filter: drop-shadow(0 6px 18px var(--shadow)); animation: pop-in .5s var(--ease) both; }
+.wordmark { margin: 14px 0 0; font-size: 2.625rem; line-height: 1; letter-spacing: -.045em; }
+.wordmark b { font-weight: 800; }
+.wordmark span { font-weight: 300; margin-left: .06em; }
+.landing-head p { margin-top: 8px; font-size: .8125rem; font-weight: 600; color: var(--text-2); }
+.landing-list { display: grid; gap: 10px; align-content: start; }
+.landing-list .list-title { margin: 0 0 2px 4px; }
+.landing-foot { margin-top: auto; padding-top: 32px; text-align: center; font-size: .75rem; font-weight: 600; color: var(--text-3); }
+.empty { display: grid; justify-items: center; gap: 6px; padding: 32px 20px; text-align: center; color: var(--text-3); border: 1px dashed var(--line-strong); border-radius: var(--r-card); }
+.empty b { color: var(--text); font-size: .9375rem; }
+.empty p { font-size: .8125rem; }
+
+.date-acc { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 1px 2px var(--shadow); overflow: hidden; transition: border-color .2s; }
+.date-acc.is-open { border-color: var(--line-strong); }
+.date-head { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 76px; padding: 10px 16px 10px 12px; text-align: left; }
+.date-head:active { background: var(--surface-2); }
+.date-tile { display: grid; justify-items: center; align-content: center; width: 54px; height: 56px; border-radius: 14px; background: var(--accent-soft); color: var(--accent); line-height: 1; }
+.date-tile b { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; }
+.date-tile small { margin-top: 3px; font-size: .6875rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.date-text { display: grid; gap: 3px; min-width: 0; }
+.date-text b { font-size: 1rem; font-weight: 800; letter-spacing: -.02em; }
+.date-text small { font-size: .8125rem; font-weight: 600; color: var(--text-2); }
+.date-text em { font-style: normal; font-weight: 700; color: var(--accent); }
+.date-chev { color: var(--text-3); transition: transform .28s var(--ease); }
+.is-open > .date-head .date-chev { transform: rotate(90deg); }
+.date-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s var(--ease); }
+.is-open > .date-panel { grid-template-rows: 1fr; }
+.date-panel-in { min-height: 0; overflow: hidden; }
+.date-list { display: grid; gap: 8px; padding: 0 10px 10px; }
+.tourney { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; width: 100%; min-height: 68px; padding: 10px 14px 10px 10px; border-radius: 14px; background: var(--surface-2); text-align: left; transition: background-color .15s, transform .12s var(--ease); }
+.tourney:hover { background: var(--surface-3); }
+.tourney:active { transform: scale(.985); }
+.tourney-cat { display: grid; place-items: center; min-width: 58px; height: 44px; padding-inline: 10px; border-radius: 12px; background: var(--accent); color: var(--accent-fg); font-size: .875rem; font-weight: 800; letter-spacing: -.01em; text-align: center; line-height: 1.1; }
+.tourney-text { display: grid; gap: 2px; min-width: 0; }
+.tourney-text b { font-size: .9375rem; font-weight: 800; letter-spacing: -.01em; }
+.tourney-text small { font-size: .75rem; font-weight: 600; color: var(--text-2); text-wrap: pretty; }
+.tourney > .icon { color: var(--text-3); }
+.figure { margin: 0; display: grid; gap: 8px; }
+.figure figcaption { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-3); }
+.venue-img.wide { aspect-ratio: auto; }
+.back-btn { display: inline-flex; align-items: center; gap: 2px; }

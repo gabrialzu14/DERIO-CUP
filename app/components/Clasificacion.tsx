@@ -1,9 +1,11 @@
 "use client";
 import { Crest, MatchRow, TabPanel, Tabs } from "./ui";
 import { Icon } from "./icons";
-import { GROUPS, T, byTime, complete, table, zoneFor, type G, type Match } from "../lib/tournament";
+import { useEngine } from "../lib/engine";
+import { GROUPS, byTime, type G, type Match } from "../lib/tournament";
 
 export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setGroup: (g: G) => void; ms: Match[]; onRules: () => void }) {
+  const { T, complete, table, zoneFor } = useEngine();
   const tb = table(group, ms), gm = ms.filter(m => m.group === group).sort(byTime);
   const rounds = [gm.slice(0, 2), gm.slice(2, 4), gm.slice(4, 6)];
   const done = complete(group, ms);

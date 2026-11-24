@@ -1,18 +1,20 @@
 "use client";
 import { useState } from "react";
 import { EmptyState, KOGameRow, MatchRow, TabPanel, Tabs } from "./ui";
-import { EVENT, knockout, byTime, type Match, type ResultRow } from "../lib/tournament";
+import { useEngine } from "../lib/engine";
+import { byTime, dateParts, type Match, type ResultRow } from "../lib/tournament";
 
 type F = "todos" | "grupos" | "oro" | "plata";
 
 export function Partidos({ ms, koResults }: { ms: Match[]; koResults: Record<string, ResultRow> }) {
+  const { tn, knockout } = useEngine();
   const [f, setF] = useState<F>("todos");
   const slots = [...new Set(ms.map(m => m.time))].sort();
   const showGroups = f === "todos" || f === "grupos", showOro = f === "todos" || f === "oro", showPlata = f === "todos" || f === "plata";
   return (
     <div className="screen">
       <h1 className="screen-title">Partidos</h1>
-      <p className="note">{EVENT.dateLong} · {EVENT.venueShort}</p>
+      <p className="note">{dateParts(tn.date).long} · {tn.venueShort}</p>
       <Tabs label="Filtrar partidos" idPrefix="partidos" value={f} onChange={setF} items={[
         { key: "todos", label: "Todos" }, { key: "grupos", label: "Grupos" }, { key: "oro", label: <><i className="dot gold" aria-hidden="true" />Oro</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />Plata</> },
       ]} />
