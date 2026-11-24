@@ -6,10 +6,10 @@ import { SPONSOR_ASSETS } from "./sponsors.generated";
 export type Sponsor = { id: string; name: string; height: number; text?: { small?: string; main: string } };
 
 export const SPONSORS: Sponsor[] = [
-  { id: "derioko-udala", name: "Derioko Udala", height: 56 },
-  { id: "dimension-football", name: "Dimension Football", height: 38 },
-  { id: "adidas", name: "adidas", height: 30 },
-  { id: "restaurante-la-ofi", name: "Restaurante La Ofi", height: 38, text: { small: "Restaurante", main: "La Ofi" } },
+  { id: "derioko-udala", name: "Derioko Udala", height: 34 },
+  { id: "dimension-football", name: "Dimension Football", height: 24 },
+  { id: "adidas", name: "adidas", height: 18 },
+  { id: "restaurante-la-ofi", name: "Restaurante La Ofi", height: 24, text: { small: "Restaurante", main: "La Ofi" } },
 ];
 
 export const sponsorAsset = (id: string) => SPONSOR_ASSETS[id] ?? null;

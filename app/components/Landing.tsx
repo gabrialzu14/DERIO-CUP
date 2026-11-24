@@ -16,7 +16,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
       <header className="landing-head">
         <CupMark size={150} className="landing-cup" />
         <h1 className="wordmark"><b>DERIO</b><span>CUP</span></h1>
-        <p>Torneos de fútbol base · CD Derio</p>
+        <p>Organizado por el CD Derio</p>
       </header>
 
       <section aria-labelledby={uid + "-t"} className="landing-list">
@@ -30,9 +30,8 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
             <button key={t.id} type="button" className="tourney-card" onClick={() => onSelect(t.id)} aria-label={`${BRAND} ${tournamentTag(t)}`}>
               <span className="date-tile"><b>{p.day}</b><small>{p.monthShort}</small></span>
               <span className="tourney-text">
-                <b>{tournamentTag(t)}</b>
-                <small>{p.long.split(" ")[0]} · {t.venue}</small>
-                <small><em>{when(t.date)}</em> · {t.teams.length} equipos</small>
+                <b>{t.category}</b>
+                <small><em>{when(t.date)}</em></small>
               </span>
               <Icon name="chevron" size={20} className="icon" />
             </button>
@@ -54,7 +53,6 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
             );
           })}
         </ul>
-        <p className="sponsors-credit">Organizado por el CD Derio</p>
       </section>
     </main>
   );

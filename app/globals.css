@@ -31,7 +31,7 @@
   --silver: light-dark(#53647a, #b9c6d6);
   --silver-soft: light-dark(rgb(83 100 122 / .12), rgb(185 198 214 / .13));
   --green: light-dark(#0d7a43, #4fd899);
-  --sponsor-ink: light-dark(#0a5cc2, #ffffff);
+  --sponsor-ink: var(--brand-ink); /* mismo tono que el logo */
   --brand-ink: light-dark(#0b2a52, #ffffff);
   --shadow: light-dark(rgb(12 27 51 / .09), rgb(0 0 0 / .45));
   --scrim: light-dark(rgb(8 18 31 / .45), rgb(0 0 0 / .62));
@@ -499,7 +499,6 @@ button.menu-item:active { background: var(--surface-3); }
 .landing-head p { margin-top: 8px; font-size: .8125rem; font-weight: 600; color: var(--text-2); }
 .landing-list { display: grid; gap: 10px; align-content: start; }
 .landing-list .list-title { margin: 0 0 2px 4px; }
-.landing-foot { margin-top: auto; padding-top: 32px; text-align: center; font-size: .75rem; font-weight: 600; color: var(--text-3); }
 .empty { display: grid; justify-items: center; gap: 6px; padding: 32px 20px; text-align: center; color: var(--text-3); border: 1px dashed var(--line-strong); border-radius: var(--r-card); }
 .empty b { color: var(--text); font-size: .9375rem; }
 .empty p { font-size: .8125rem; }
@@ -513,7 +512,7 @@ button.menu-item:active { background: var(--surface-3); }
 .date-tile small { margin-top: 4px; font-size: .6875rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
 .tourney-card em { font-style: normal; font-weight: 700; color: var(--accent); }
 .tourney-text { display: grid; gap: 2px; min-width: 0; }
-.tourney-text b { font-size: 1.0625rem; font-weight: 800; letter-spacing: -.02em; }
+.tourney-text b { font-size: 1.375rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
 .tourney-text small { font-size: .75rem; font-weight: 600; color: var(--text-2); text-wrap: pretty; }
 .figure { margin: 0; display: grid; gap: 8px; }
 .figure figcaption { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-3); }
@@ -521,14 +520,14 @@ button.menu-item:active { background: var(--surface-3); }
 .back-btn { display: inline-flex; align-items: center; gap: 2px; }
 
 /* ---------- Patrocinadores (monocolor: azul en claro, rojo en oscuro) ---------- */
-.sponsors { margin-top: 36px; display: grid; justify-items: center; gap: 18px; }
+.sponsors { margin-top: 36px; display: grid; justify-items: center; gap: 16px; }
 .sponsors-rule { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent) 18%, var(--accent) 82%, transparent); opacity: .7; }
 .sponsors-label { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
-.sponsors-list { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 22px 34px; padding-inline: 8px; }
+.sponsors-list { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; padding-inline: 8px; opacity: .6; }
 .sponsor-logo { display: block; height: var(--h); aspect-ratio: var(--ar); background: var(--sponsor-ink); -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
 .sponsor-text { display: grid; justify-items: center; line-height: 1; color: var(--sponsor-ink); }
-.sponsor-text small { font-size: .625rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 4px; }
-.sponsor-text b { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; }
+.sponsor-text small { font-size: .4375rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 3px; }
+.sponsor-text b { font-size: 1rem; font-weight: 800; letter-spacing: -.03em; }
 
 /* ---------- Equipos pulsables ---------- */
 .team-link { cursor: pointer; transition: transform .12s var(--ease); }
@@ -543,4 +542,3 @@ button.podium-cell { width: 100%; }
 .phase-note { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; border-radius: var(--r-inner); background: var(--accent-soft); color: var(--text); font-size: .8125rem; font-weight: 600; line-height: 1.4; }
 .phase-note .icon { margin-top: 1px; color: var(--accent); }
 .phase-note b { font-weight: 800; }
-.sponsors-credit { margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--line); width: 100%; text-align: center; font-size: .75rem; font-weight: 600; color: var(--text-3); }
