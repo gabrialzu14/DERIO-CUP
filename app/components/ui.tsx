@@ -90,7 +90,7 @@ export function KOGameRow({ g }: { g: KOGame }) {
     <div className="ko-row">
       <div className="ko-meta"><b>{g.time}</b><small>{g.code} · C{g.field}</small></div>
       <div className="ko-team">{g.home ? <Crest id={g.home} size={28} /> : <i className="crest-ph" />}<span className={g.home ? "" : "tbd"}>{g.home ? T(g.home).name : g.homeLabel}</span></div>
-      <div className="ko-score">{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <span className="pen"> ({r!.home_penalties})</span>}<i>-</i>{r!.away_score}{tie && r!.away_penalties != null && <span className="pen"> ({r!.away_penalties})</span>}</b> : <b className="dash">vs</b>}</div>
+      <div className="ko-score">{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <span className="pen"> ({r!.home_penalties})</span>}<i>-</i>{tie && r!.away_penalties != null && <span className="pen">({r!.away_penalties}) </span>}{r!.away_score}</b> : <b className="dash">vs</b>}</div>
       <div className="ko-team away"><span className={g.away ? "" : "tbd"}>{g.away ? T(g.away).name : g.awayLabel}</span>{g.away ? <Crest id={g.away} size={28} /> : <i className="crest-ph" />}</div>
     </div>
   );

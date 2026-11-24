@@ -83,7 +83,7 @@ function NextHero({ match, ko, loaded }: { match?: Match; ko?: KOGame; loaded: b
 function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
   const ow = koWinner(oro)!, pw = koWinner(plata)!;
   const ru = (g: KOGame, w: string) => (g.home === w ? g.away : g.home);
-  const score = (g: KOGame) => { const r = g.result!; return r.home_penalties != null ? `${r.home_score} (${r.home_penalties}) - ${r.away_score} (${r.away_penalties})` : `${r.home_score} - ${r.away_score}`; };
+  const score = (g: KOGame) => { const r = g.result!; return r.home_penalties != null ? `${r.home_score} (${r.home_penalties}) - (${r.away_penalties}) ${r.away_score}` : `${r.home_score} - ${r.away_score}`; };
   const Cell = ({ kind, id, role }: { kind: "gold" | "silver"; id: string | null; role: string }) => (
     <div className={"podium-cell " + kind}><small>{role}</small>{id ? <Crest id={id} size={52} /> : <i className="crest-ph" />}<b>{id ? T(id).name : "—"}</b></div>
   );
