@@ -60,7 +60,7 @@ function BkGame({ g }: { g: KOGame }) {
         <div key={i} className={"bk-team" + (t.id && w === t.id ? " win" : "")}>
           {t.id ? <Crest id={t.id} size={22} /> : <i className="crest-ph sm" />}
           <span className={t.id ? "" : "tbd"}>{t.id ? T(t.id).name : t.label}</span>
-          <strong>{t.s ?? "–"}{tie && t.p != null && <sup>({t.p})</sup>}</strong>
+          <strong>{t.s ?? "–"}{tie && t.p != null && <span className="pen"> ({t.p})</span>}</strong>
         </div>
       ))}
     </article>
