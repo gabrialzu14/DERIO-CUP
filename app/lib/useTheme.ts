@@ -9,7 +9,8 @@ export function useTheme() {
   useEffect(() => {
     let pref: string | null = null;
     try { pref = localStorage.getItem(THEME_KEY); } catch {}
-    setThemeState(pref === "light" || pref === "dark" ? pref : "system");
+    const p: ThemePref = pref === "dark" || pref === "system" ? pref : "light"; // por defecto, modo claro
+    setThemeState(p); applyTheme(p);
   }, []);
   useEffect(() => {
     const sync = () => setResolved(resolveTheme(theme));
