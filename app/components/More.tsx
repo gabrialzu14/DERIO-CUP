@@ -1,9 +1,11 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
 import { CupMark, Tabs } from "./ui";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
+import { Onboarding } from "./Onboarding";
+import { isInstalled } from "../lib/platform";
 import { useEngine } from "../lib/engine";
 import { BRAND, dateParts, type InfoSpec, type Match, type ResultRow, type Tournament } from "../lib/tournament";
 import type { ThemePref } from "../lib/theme";
@@ -40,7 +42,8 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
   const { tn } = useEngine();
   const INFO = buildInfo(tn);
   const [open, setOpen] = useState<string | null>(null);
-  const [manager, setManager] = useState(false);
+  const [manager, setManager] = useState(false), [install, setInstall] = useState(false), [installed, setInstalled] = useState(true);
+  useEffect(() => setInstalled(isInstalled()), []);
   const item = INFO.find(i => i.key === open);
   return (
     <div className="screen">
@@ -60,6 +63,7 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
           <span className="menu-icon"><Icon name="sun" /></span><span className="menu-text"><b>Apariencia</b><small>Sigue el sistema o fija un modo</small></span>
         </div>
         <div className="menu-pad"><Tabs label="Apariencia" idPrefix="theme" value={theme} onChange={setTheme} items={[{ key: "system", label: "Sistema" }, { key: "light", label: "Claro" }, { key: "dark", label: "Oscuro" }]} /></div>
+        {!installed && <button type="button" className="menu-item" onClick={() => setInstall(true)}><span className="menu-icon"><Icon name="install" /></span><span className="menu-text"><b>Instalar la app</b><small>Añádela a tu pantalla de inicio</small></span><Icon name="chevron" size={18} className="icon chev" /></button>}
         <button type="button" className="menu-item" onClick={changeTournament}><span className="menu-icon"><Icon name="list" /></span><span className="menu-text"><b>Cambiar de torneo</b><small>Volver a la lista de torneos</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
         <button type="button" className="menu-item" onClick={changeTeam}><span className="menu-icon"><Icon name="switch" /></span><span className="menu-text"><b>Cambiar de equipo</b><small>Seleccionar otro participante</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
         <button type="button" className="menu-item" onClick={() => setManager(true)}><span className="menu-icon"><Icon name="lock" /></span><span className="menu-text"><b>Acceso responsables</b><small>Publicar y editar resultados</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
@@ -68,6 +72,7 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
       <footer className="more-brand"><CupMark size={34} /><b>{BRAND}</b><small>{tn.category}</small></footer>
 
       {item && <Dialog title={item.title} onClose={() => setOpen(null)}><div className="prose">{item.body}</div></Dialog>}
+      {install && <div className="onb-overlay"><Onboarding start="platform" onDone={() => setInstall(false)} onSkip={() => setInstall(false)} /></div>}
       {manager && <Manager ms={ms} koResults={koResults} setKoResults={setKoResults} scores={scores} setScores={setScores} onClose={() => setManager(false)} />}
     </div>
   );

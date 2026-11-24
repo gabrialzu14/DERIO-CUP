@@ -9,7 +9,7 @@ const swipe=async(p,x,y1,y2)=>{const cdp=await p.context().newCDPSession(p);
 (async()=>{const b=await chromium.launch();
 for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices['Pixel 5']]]){
  const T=`[${name}]`;
- const ctx=await b.newContext({...prof,colorScheme:'light'});const p=await ctx.newPage();
+ const ctx=await b.newContext({...prof,colorScheme:'light'});const p=await ctx.newPage();await p.addInitScript(()=>localStorage.setItem('derio-cup-onboarded','1'));
  const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error'&&!/Failed to load resource/.test(m.text()))errs.push(m.text())});
  await p.route('**/derio_cup_fans*',r=>r.request().method()==='POST'?r.fulfill({status:201,body:''}):r.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1300);

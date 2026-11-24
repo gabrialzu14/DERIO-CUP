@@ -33,4 +33,8 @@ Con la app compilada y en marcha (`npm run build && npx next start -p 3100`) y P
 node scripts/qa/dispositivos.cjs   # 10 móviles × claro/oscuro: desbordes, barra inferior, scroll
 node scripts/qa/navegacion.cjs     # flujos, historial, diálogos, gestos, sin conexión, tema
 node scripts/qa/sin-conexion.cjs   # service worker y modo sin conexión
+node scripts/qa/instalacion.cjs    # guion de bienvenida e instalación (iOS / Android)
 ```
+
+## Guion de instalación
+Antes de elegir torneo, en el navegador y la primera vez: bienvenida → «¿Sabes cómo se instala?» → («Sí» va a elegir torneo; «No» pregunta iPhone o Android y enseña los pasos) → «busca Derio Cup en el menú principal de tu móvil». La app ya instalada salta el guion y abre directamente la elección de torneo. Se puede volver a abrir desde Más → «Instalar la app». Los textos están en `app/components/Onboarding.tsx`.

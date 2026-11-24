@@ -1,0 +1,81 @@
+const {chromium,devices}=require('playwright');
+let pass=0,fail=0;const ok=(c,m)=>{if(c)pass++;else{fail++;console.log('FAIL '+m)}};
+const URL='http://localhost:3100/';
+(async()=>{const b=await chromium.launch();
+const mk=async(prof,scheme,init)=>{const ctx=await b.newContext({...prof,colorScheme:scheme||'light'});const p=await ctx.newPage();
+ const errs=[];p.on('pageerror',e=>errs.push(e.message));
+ await p.route('**/derio_cup_*',r=>r.fulfill({status:200,contentType:'application/json',body:'[]'}));
+ if(init)await p.addInitScript(init);return {ctx,p,errs}};
+// --- iPhone: flujo "No, ayúdame"
+let {ctx,p,errs}=await mk(devices['iPhone 14 Pro'],'light');
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1400);
+ok(await p.locator('.onb').count()===1,'aparece el guion la primera vez');
+ok((await p.locator('.onb-title').innerText()).includes('Bienvenido'),'1. bienvenida');
+await p.screenshot({path:'shots/ob-1-welcome.png'});
+await p.locator('.btn',{hasText:'Empezar'}).tap();await p.waitForTimeout(400);
+ok((await p.locator('.onb-title').innerText()).includes('cómo se instala'),'2. pregunta si sabe instalar');
+ok(await p.locator('.onb-option').count()===2,'2 opciones');
+await p.screenshot({path:'shots/ob-2-ask.png'});
+await p.locator('.onb-option',{hasText:'No, necesito'}).tap();await p.waitForTimeout(400);
+ok((await p.locator('.onb-title').innerText()).includes('móvil'),'3. elegir iPhone / Android');
+ok(await p.locator('.onb-option svg').count()>=2,'logos de Apple y Android');
+ok((await p.locator('.onb-option small').first().innerText()).includes('estás usando'),'detecta iPhone');
+await p.screenshot({path:'shots/ob-3-platform.png'});
+await p.locator('.onb-option',{hasText:'iPhone'}).tap();await p.waitForTimeout(400);
+ok((await p.locator('.onb-kicker').textContent()).includes('Paso 1 de 4'),'4. pasos iOS');
+await p.screenshot({path:'shots/ob-4-ios1.png'});
+for(let i=2;i<=4;i++){await p.locator('.btn',{hasText:'Siguiente'}).tap();await p.waitForTimeout(350);ok((await p.locator('.onb-kicker').textContent()).includes('Paso '+i+' de 4'),'iOS paso '+i);}
+ok((await p.locator('.onb-title').innerText()).includes('Añadir'),'iOS paso 4 = Añadir');
+await p.screenshot({path:'shots/ob-5-ios4.png'});
+await p.locator('.onb-link',{hasText:'Atrás'}).tap();await p.waitForTimeout(300);ok((await p.locator('.onb-kicker').textContent()).includes('Paso 3'),'Atrás retrocede');
+await p.locator('.btn',{hasText:'Siguiente'}).tap();await p.waitForTimeout(300);
+await p.locator('.btn',{hasText:'Ya lo he hecho'}).tap();await p.waitForTimeout(400);
+ok((await p.locator('.onb-text').first().innerText()).includes('menú principal'),'5. indica buscar en el menú principal');
+await p.screenshot({path:'shots/ob-6-done.png'});
+await p.locator('.onb-link',{hasText:'Continuar en el navegador'}).tap();await p.waitForTimeout(500);
+ok(await p.locator('.tourney-card').count()===1,'→ elegir torneo');
+await p.reload({waitUntil:'networkidle'});await p.waitForTimeout(1200);
+ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()===1,'no vuelve a aparecer');
+ok(errs.length===0,'sin errores '+errs);await ctx.close();
+// --- Android: pasos
+({ctx,p,errs}=await mk(devices['Pixel 5'],'dark'));
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1400);
+await p.locator('.btn',{hasText:'Empezar'}).tap();await p.waitForTimeout(300);
+await p.locator('.onb-option',{hasText:'No, necesito'}).tap();await p.waitForTimeout(300);
+ok((await p.locator('.onb-option small').nth(1).innerText()).includes('estás usando'),'detecta Android');
+await p.locator('.onb-option',{hasText:'Android'}).tap();await p.waitForTimeout(300);
+ok((await p.locator('.onb-kicker').textContent()).includes('Android · Paso 1 de 4'),'pasos Android');
+await p.screenshot({path:'shots/ob-7-android1.png'});
+await p.locator('.btn',{hasText:'Siguiente'}).tap();await p.waitForTimeout(300);
+// simular beforeinstallprompt
+await p.evaluate(()=>{const e=new Event('beforeinstallprompt');e.prompt=async()=>{window.__prompted=1};e.userChoice=Promise.resolve({outcome:'accepted'});window.dispatchEvent(e)});await p.waitForTimeout(300);
+ok(await p.locator('button',{hasText:'Instalar ahora'}).count()===1,'Android: botón «Instalar ahora» si el navegador lo permite');
+await p.locator('button',{hasText:'Instalar ahora'}).tap();await p.waitForTimeout(500);
+ok(await p.evaluate(()=>window.__prompted===1)&&(await p.locator('.onb-title').innerText()).includes('casi'),'Instalar ahora lanza el aviso y pasa al final');
+await p.screenshot({path:'shots/ob-8-android-done.png'});
+await ctx.close();
+// --- Opción 1: "Sí, ya lo he hecho"
+({ctx,p,errs}=await mk(devices['iPhone 12'],'light'));
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1400);
+await p.locator('.btn',{hasText:'Empezar'}).tap();await p.waitForTimeout(300);
+await p.locator('.onb-option',{hasText:'Sí, ya lo he hecho'}).tap();await p.waitForTimeout(500);
+ok(await p.locator('.tourney-card').count()===1,'Opción 1 → elegir torneo');
+await ctx.close();
+// --- App instalada: sin guion
+({ctx,p,errs}=await mk(devices['iPhone 12'],'light',()=>Object.defineProperty(navigator,'standalone',{value:true})));
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(1400);
+ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()===1,'instalada: va directa a elegir torneo');
+await p.locator('.tourney-card').tap();await p.locator('.team-pick').first().tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(700);
+await p.locator('nav button',{hasText:'Más'}).tap();await p.waitForTimeout(300);
+ok(await p.locator('.menu-item',{hasText:'Instalar la app'}).count()===0,'instalada: no ofrece instalar');
+await ctx.close();
+// --- Más → Instalar la app (en navegador)
+({ctx,p,errs}=await mk(devices['Pixel 5'],'light',()=>{localStorage.setItem('derio-cup-onboarded','1');localStorage.setItem('derio-cup-tournament','2015');localStorage.setItem('derio-cup-team:2015','derio');sessionStorage.setItem('derio-cup-splash','1')}));
+await p.goto(URL+'#mas',{waitUntil:'networkidle'});await p.waitForTimeout(800);
+await p.locator('.menu-item',{hasText:'Instalar la app'}).tap();await p.waitForTimeout(400);
+ok(await p.locator('.onb-overlay .onb').count()===1&&(await p.locator('.onb-title').innerText()).includes('móvil'),'Más → Instalar la app abre la elección de móvil');
+await p.locator('.onb-link',{hasText:'Atrás'}).tap();await p.waitForTimeout(400);
+ok(await p.locator('.onb-overlay').count()===0&&await p.locator('.tabbar').count()===1,'Atrás cierra y vuelve a Más');
+ok(errs.length===0,'sin errores '+errs);
+await ctx.close();
+await b.close();console.log(`RESULT pass=${pass} fail=${fail}`);})();
