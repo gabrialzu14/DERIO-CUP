@@ -28,7 +28,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
         : live.length ? <section className="hero hero-live" aria-label="Partidos en juego"><div className="hero-top"><LiveBadge /><span>{live.length === 1 ? "1 partido" : live.length + " partidos"}</span></div><div className="match-list flush">{live.map(m => <MatchRow key={m.id} m={m} showGroup />)}</div></section>
         : <NextHero match={pending[0]} ko={pending.length ? undefined : nextKO} loaded={loaded} />}
 
-      {!neutral && <TeamCard id={selected} ms={ms} onOpen={() => go("mi")} />}
+      {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("mi")} />}
 
       <section aria-labelledby="home-phases">
         <SectionHead title="Torneo" />
@@ -104,25 +104,35 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
   );
 }
 
-function TeamCard({ id, ms, onOpen }: { id: string; ms: Match[]; onOpen: () => void }) {
-  const { T, table } = useEngine();
-  const t = T(id), own = ms.filter(m => m.home === id || m.away === id).sort(byTime);
-  const last = [...own].reverse().find(m => m.hs !== null), next = own.find(m => m.hs === null);
-  const tb = table(t.group, ms), pos = tb.findIndex(x => x.id === id) + 1, pts = tb.find(x => x.id === id)?.pts ?? 0, played = (tb.find(x => x.id === id)?.pj ?? 0) > 0;
-  const bg = clubColor(t.name, id);
-  const res = (m: Match) => (m.home === id ? `${m.hs}–${m.as}` : `${m.as}–${m.hs}`) + " vs " + T(m.home === id ? m.away : m.home).name;
+function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koResults: Record<string, ResultRow>; onOpen: () => void }) {
+  const { T, knockout, matchState } = useEngine();
+  const t = T(id), bg = clubColor(t.name, id);
+  // Próximo partido del equipo: primero los de grupos; si ya acabaron, su próxima eliminatoria.
+  const groupNext = ms.filter(m => (m.home === id || m.away === id) && m.hs === null).sort(byTime)[0];
+  const koNext = groupNext ? undefined : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && !validKO(g)).sort(byTime)[0];
+  const next = groupNext
+    ? { time: groupNext.time, field: groupNext.field, opp: groupNext.home === id ? groupNext.away : groupNext.home, oppLabel: "", where: "Grupo " + groupNext.group, live: matchState(groupNext.time, false) === "live" }
+    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: "Fase " + koNext.kind + " · " + koNext.code, live: false } : null;
   return (
     <button type="button" className="team-card" onClick={onOpen} aria-label={"Mi equipo: " + t.name} style={{ "--tc-bg": bg, "--tc-fg": readableOn(bg) } as CSSProperties}>
-      <span className="team-card-crest"><Crest id={id} size={44} /></span>
-      <span className="team-card-main">
-        <small>Mi equipo · Grupo {t.group}</small>
-        <b>{t.name}</b>
-        <span className="team-card-meta">
-          <span><em>Último</em>{last ? res(last) : "—"}</span>
-          <span><em>Próximo</em>{next ? next.time + " vs " + T(next.home === id ? next.away : next.home).name : "—"}</span>
-        </span>
+      <span className="team-card-head">
+        <span className="chip"><Crest id={id} size={26} /></span>
+        <span className="team-card-name"><small>Mi equipo · Grupo {t.group}</small><b>{t.name}</b></span>
+        <Icon name="chevron" size={20} className="icon" />
       </span>
-      <span className="team-card-pos"><b>{played ? pos + "º" : "–"}</b><small>{pts} pts</small></span>
+      <span className="team-card-next">
+        <span className="next-label"><small>{next?.live ? "En juego ahora" : "Próximo partido"}</small>{next && <small>Campo {next.field} · {next.where}</small>}</span>
+        {next ? (
+          <span className="next-row">
+            <b className="next-time">{next.time}</b>
+            <span className="next-opp">
+              <em>vs</em>
+              {next.opp ? <span className="chip sm"><Crest id={next.opp} size={20} /></span> : null}
+              <b>{next.opp ? T(next.opp).name : next.oppLabel}</b>
+            </span>
+          </span>
+        ) : <span className="next-none">No quedan partidos por jugar</span>}
+      </span>
     </button>
   );
 }

@@ -176,20 +176,25 @@ a { color: inherit; }
 .finals dd { font-size: .875rem; font-weight: 700; }
 
 /* ---------- Mi equipo ---------- */
-.team-card { --tc-bg: var(--surface); --tc-fg: var(--text); width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 14px; text-align: left; color: var(--tc-fg); background: var(--tc-bg); border: 1px solid color-mix(in srgb, var(--tc-fg) 14%, transparent); border-radius: var(--r-card); box-shadow: 0 6px 18px -10px var(--tc-bg), 0 1px 2px var(--shadow); transition: transform .12s var(--ease); }
+.team-card { --tc-bg: var(--surface); --tc-fg: var(--text); width: 100%; display: grid; gap: 12px; padding: 14px; text-align: left; color: var(--tc-fg); background: var(--tc-bg); border: 1px solid color-mix(in srgb, var(--tc-fg) 14%, transparent); border-radius: var(--r-card); box-shadow: 0 6px 18px -10px var(--tc-bg), 0 1px 2px var(--shadow); transition: transform .12s var(--ease); }
 .team-card:active { transform: scale(.985); }
-.team-card-crest { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc-fg) 22%, transparent); }
-.team-card-crest .crest { width: 44px; height: 44px; filter: none; }
-.team-card-main { display: grid; gap: 2px; min-width: 0; }
-.team-card-main small { font-size: .6875rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 78%, transparent); }
-.team-card-main > b { font-size: 1.125rem; font-weight: 800; letter-spacing: -.02em; }
-.team-card-meta { display: grid; gap: 1px; margin-top: 4px; font-size: .75rem; font-weight: 600; }
-.team-card-meta > span { display: flex; gap: 6px; min-width: 0; }
-.team-card-meta em { font-style: normal; width: 52px; flex: none; font-weight: 600; color: color-mix(in srgb, var(--tc-fg) 72%, transparent); }
-.team-card-pos { display: grid; justify-items: center; padding-left: 14px; border-left: 1px solid color-mix(in srgb, var(--tc-fg) 28%, transparent); }
-.team-card-pos b { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
-.team-card-pos small { font-size: .6875rem; font-weight: 600; margin-top: 4px; color: color-mix(in srgb, var(--tc-fg) 78%, transparent); }
 .team-card:focus-visible { outline-color: var(--tc-fg); outline-offset: 3px; }
+.team-card .chip { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px color-mix(in srgb, var(--tc-fg) 22%, transparent); }
+.team-card .chip .crest { filter: none; }
+.team-card .chip.sm { width: 28px; height: 28px; box-shadow: none; }
+.team-card-head { display: flex; align-items: center; gap: 12px; }
+.team-card-name { flex: 1; display: grid; gap: 1px; min-width: 0; }
+.team-card-name small, .team-card-next small { font-size: .6875rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: color-mix(in srgb, var(--tc-fg) 78%, transparent); }
+.team-card-name b { font-size: 1.1875rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+.team-card-head > .icon { color: color-mix(in srgb, var(--tc-fg) 70%, transparent); }
+.team-card-next { display: grid; gap: 8px; padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--tc-fg) 13%, transparent); }
+.next-label { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.next-row { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; }
+.next-time { font-size: 1.625rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+.next-opp { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: .9375rem; }
+.next-opp em { font-style: normal; font-weight: 600; opacity: .75; }
+.next-opp b { font-weight: 700; line-height: 1.2; text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
+.next-none { font-size: .875rem; font-weight: 600; }
 
 /* ---------- Grupos (inicio) ---------- */
 .progress-row { display: flex; align-items: center; gap: 12px; }
