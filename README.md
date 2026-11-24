@@ -7,10 +7,10 @@ Edita `app/lib/editions.ts`: copia un bloque de `TOURNAMENTS` y cambia fecha, eq
 El torneo se oculta solo al pasar su fecha (hora de Madrid). Usa un `idPrefix` único (p. ej. `"2016-"`) para separar sus resultados en Supabase.
 
 ## Escudos
-Pásalos por el script; los deja en `public/escudos/` como WebP en la máxima calidad que quepa por debajo de 1 MB (sin pérdida si cabe) y actualiza el manifiesto:
+Pásalos por el script; los deja en `public/escudos/` como WebP de **1024 × 1024 px** (todos iguales, con el escudo centrado y margen uniforme) en la máxima calidad que quepa por debajo de 1 MB (sin pérdida si cabe). Si la imagen tiene fondo liso (blanco o gris) lo quita solo. Actualiza también el manifiesto:
 
 ```bash
 npm run crests -- ruta/a/la/carpeta   # o uno o varios archivos
 ```
 
-El **nombre del archivo es el nombre del club** (`Cultural Durango.png` → `cultural-durango.webp`). Cualquier torneo con un equipo de ese mismo nombre lo reutiliza automáticamente; un equipo «B» usa el escudo de su club si no tiene uno propio. Sin escudo se muestra un monograma.
+El **nombre del archivo es el nombre del club** (`Cultural Durango.png` → `cultural-durango.webp`). Cualquier torneo con un equipo de ese mismo nombre lo reutiliza automáticamente; un equipo «B» usa el escudo de su club si no tiene uno propio. Sin escudo se muestra un monograma. En la app se sirven reducidos (`next/image`), así que los originales de 1024 px no pesan en el móvil.
