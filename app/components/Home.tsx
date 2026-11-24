@@ -25,7 +25,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
   const played = ms.filter(m => m.hs !== null).length;
   // «Primer partido» / «En juego»: todos los que empiezan a la misma hora (uno por campo).
   const asGame = (m: Match): HeroGame => ({ id: m.id, home: m.home, away: m.away, time: m.time, field: m.field, where: "g:" + m.group });
-  const koGame = (g: KOGame): HeroGame => ({ id: g.id, home: g.home!, away: g.away!, time: g.time, field: g.field, where: "k:" + g.kind + " · " + g.code, final: g.round === "FINAL" ? g.kind : undefined });
+  const koGame = (g: KOGame): HeroGame => ({ id: g.id, home: g.home!, away: g.away!, time: g.time, field: g.field, where: "k:" + g.kind + " · " + g.code });
   const heroGames: HeroGame[] = live.length ? live.map(asGame) : pending.length ? pending.filter(m => m.time === pending[0].time).map(asGame) : nextKO ? [...oro, ...plata].filter(g => g.home && g.away && !validKO(g) && g.time === nextKO.time).map(koGame) : [];
 
   return (
@@ -69,14 +69,9 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
   );
 }
 
-type HeroGame = { id: string; home: string; away: string; time: string; field: number; where: string; final?: KOKind };
+type HeroGame = { id: string; home: string; away: string; time: string; field: number; where: string };
 
 /** Tarjeta de «Primer partido» / «En juego»: los partidos simultáneos, uno por campo, separados por una línea fina. */
-/** Mini trofeo de la Derio Cup sobre el «vs» de las finales: dorado (Oro) o plateado (Plata), con halo. */
-function FinalCup({ kind }: { kind: KOKind }) {
-  return <CupMark size={19} className={"final-cup " + (kind === "Oro" ? "gold" : "silver")} />;
-}
-
 function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | "next"; loaded?: boolean }) {
   const { tn, T } = useEngine(), { t, lang, locale } = useLang(), eu = lang === "eu";
   const today = madridNow().date === tn.date;
@@ -95,7 +90,7 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
               {!common && <small className="hero-where">{where(g.where)}</small>}
               <div className="hero-pair">
                 <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={48} /><b>{T(g.home).name}</b></TeamLink>
-                <span className="hero-mid"><b>{g.time}</b>{g.final && <FinalCup kind={g.final} />}<i>vs</i><small>{fieldName(g.field, eu)}</small></span>
+                <span className="hero-mid"><b>{g.time}</b><i>vs</i><small>{fieldName(g.field, eu)}</small></span>
                 <TeamLink id={g.away} className="hero-team"><Crest id={g.away} size={48} /><b>{T(g.away).name}</b></TeamLink>
               </div>
             </div>
@@ -135,7 +130,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
   const koNext = groupNext ? undefined : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && !validKO(g)).sort(byTime)[0];
   const next = groupNext
     ? { time: groupNext.time, field: groupNext.field, opp: groupNext.home === id ? groupNext.away : groupNext.home, oppLabel: "", where: groupName(groupNext.group, eu), live: matchState(groupNext.time, false) === "live" }
-    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, eu) + " · " + koCode(koNext.code, eu), live: false, final: koNext.round === "FINAL" ? koNext.kind : undefined } : null;
+    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, eu) + " · " + koCode(koNext.code, eu), live: false } : null;
   const oppName = next ? (next.opp ? T(next.opp).name : koLabel(next.oppLabel, eu)) : "";
   return (
     <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea")}: ${t.name} ${tr("contra", "eta")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
@@ -146,7 +141,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       {next ? (
         <span className="duel">
           <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
-          <span className="duel-mid"><b>{next.time}</b>{next.final && <FinalCup kind={next.final} />}<i>vs</i><small>{fieldName(next.field, eu)}</small></span>
+          <span className="duel-mid"><b>{next.time}</b><i>vs</i><small>{fieldName(next.field, eu)}</small></span>
           <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik")}</span>}

@@ -117,7 +117,7 @@ export function KOGameRow({ g }: { g: KOGame }) {
     <div className={"ko-row" + (g.round === "FINAL" ? " ko-final ko-" + (g.kind === "Oro" ? "gold" : "silver") : "")}>
       <div className="ko-meta"><b>{g.time}</b><small>{koCode(g.code, eu)} · {eu ? "Z" : "C"}{g.field}</small></div>
       {g.home ? <TeamLink id={g.home} className="ko-team"><Crest id={g.home} size={28} /><span>{T(g.home).name}</span></TeamLink> : <div className="ko-team"><i className="crest-ph" /><span className="tbd">{koLabel(g.homeLabel, eu)}</span></div>}
-      <div className="ko-score">{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <span className="pen"> ({r!.home_penalties})</span>}<i>-</i>{tie && r!.away_penalties != null && <span className="pen">({r!.away_penalties}) </span>}{r!.away_score}</b> : <b className="dash">vs</b>}</div>
+      <div className="ko-score">{g.round === "FINAL" && <CupMark size={20} className={"final-cup " + (g.kind === "Oro" ? "gold" : "silver")} />}{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <span className="pen"> ({r!.home_penalties})</span>}<i>-</i>{tie && r!.away_penalties != null && <span className="pen">({r!.away_penalties}) </span>}{r!.away_score}</b> : <b className="dash">vs</b>}</div>
       {g.away ? <TeamLink id={g.away} className="ko-team away"><span>{T(g.away).name}</span><Crest id={g.away} size={28} /></TeamLink> : <div className="ko-team away"><span className="tbd">{koLabel(g.awayLabel, eu)}</span><i className="crest-ph" /></div>}
     </div>
   );

@@ -65,6 +65,7 @@ function BkGame({ g }: { g: KOGame }) {
   const sides = [{ id: g.home, label: g.homeLabel, s: r?.home_score, p: r?.home_penalties }, { id: g.away, label: g.awayLabel, s: r?.away_score, p: r?.away_penalties }];
   return (
     <article className={"bk-game" + (g.round === "FINAL" ? " is-final " + (g.kind === "Oro" ? "gold" : "silver") : "")} aria-label={`${koCode(g.code, eu)}, ${g.time}, ${fieldName(g.field, eu)}`}>
+      {g.round === "FINAL" && <CupMark size={22} className={"final-cup " + (g.kind === "Oro" ? "gold" : "silver")} />}
       <header><b>{koCode(g.code, eu)}</b><span>{g.time} · {fieldName(g.field, eu)}</span></header>
       {sides.map((t, i) => {
         const state = w && t.id ? (w === t.id ? " win" : " out") : "";

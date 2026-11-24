@@ -844,3 +844,6 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .final-cup.silver { --cup-fill: linear-gradient(170deg, light-dark(#bcc5d1, #ffffff), light-dark(#8693a6, #d5dbe4) 50%, light-dark(#5d6a7e, #98a3b3)); --cup-halo: light-dark(rgb(120 135 160 / .75), rgb(215 225 240 / .6)); }
 .hero-cols.two .final-cup { width: 15px !important; height: 16px !important; }
 @media (max-width: 340px) { .hero-mid, .hero-cols.two .hero-mid { height: 64px; } }
+.bk-game > .final-cup { display: block; margin: 10px auto -2px; }
+.ko-score { display: grid; justify-items: center; align-content: center; gap: 4px; }
+.ko-score > .final-cup { margin-block: 0 2px; }
