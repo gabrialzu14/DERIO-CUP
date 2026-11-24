@@ -11,7 +11,7 @@ import { More } from "./More";
 import { Dialog } from "./Dialog";
 import { Welcome } from "./Welcome";
 import { EngineContext, makeEngine } from "../lib/engine";
-import { BRAND, SB_URL, dateParts, sbHeaders, type G, type ResultRow, type Tournament } from "../lib/tournament";
+import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament } from "../lib/tournament";
 import type { useTheme } from "../lib/useTheme";
 
 export type TabId = "inicio" | "partidos" | "clasificacion" | "fases" | "mas" | "mi";
@@ -43,7 +43,6 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [rules, setRules] = useState(false);
   const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true);
   const { theme, resolved, setTheme, toggle } = themeCtl;
-  const dp = dateParts(tn.date);
 
   /* ---- caché del último estado conocido ---- */
   useEffect(() => {
@@ -125,7 +124,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           <div className="app-header-in">
             <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ir al inicio`}>
               <CupMark size={30} />
-              <span><b>{BRAND}</b><small>{tn.category} · {dp.short}</small></span>
+              <span><b>{BRAND}</b><small>{tournamentTag(tn)}</small></span>
             </button>
             <div className="header-actions">
               {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={"Mi equipo: " + engine.T(mine).name} onClick={() => go("mi")}><Crest id={mine} size={26} /></button>}

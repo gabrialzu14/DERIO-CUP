@@ -2,6 +2,7 @@
 import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
 import { useEngine } from "../lib/engine";
+import { crestFor } from "../lib/crests";
 import { BRAND, type KOGame, type Match } from "../lib/tournament";
 
 const hue = (id: string) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
@@ -9,10 +10,10 @@ const initials = (name: string) => { const w = name.split(/\s+/).filter(x => x &
 
 /** Escudo del equipo; si aún no hay imagen se muestra un monograma con color propio. */
 export function Crest({ id, size = 36, className = "" }: { id: string; size?: number; className?: string }) {
-  const { T } = useEngine(), t = T(id);
-  if (!t?.crest) return <span className={"crest mono " + className} style={{ "--s": size + "px", "--h": hue(id) } as CSSProperties} aria-hidden="true"><b>{initials(t?.name ?? id)}</b></span>;
+  const { T } = useEngine(), t = T(id), src = t ? crestFor(t.name) : null;
+  if (!src) return <span className={"crest mono " + className} style={{ "--s": size + "px", "--h": hue(id) } as CSSProperties} aria-hidden="true"><b>{initials(t?.name ?? id)}</b></span>;
   // eslint-disable-next-line @next/next/no-img-element
-  return <img className={"crest " + className} src={"/" + t.crest + ".png"} width={size} height={size} alt="" loading="lazy" decoding="async" />;
+  return <img className={"crest " + className} src={src} width={size} height={size} alt="" loading="lazy" decoding="async" />;
 }
 
 /** Trofeo de marca: se tiñe con el color del tema (el logo original es blanco). */

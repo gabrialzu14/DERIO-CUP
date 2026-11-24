@@ -2,7 +2,7 @@
    Los datos de cada edición viven en editions.tsx; la lógica de cálculo, en engine.ts. */
 
 export type G = "A" | "B" | "C" | "D";
-export type Team = { id: string; name: string; group: G; /** Nombre del archivo en /public (sin .png). Sin escudo → monograma. */ crest?: string };
+export type Team = { id: string; name: string; group: G };
 export type Match = { id: string; group: G; home: string; away: string; time: string; field: 1 | 2; hs: number | null; as: number | null };
 export type ResultRow = { match_id: string; home_score: number; away_score: number; home_penalties: number | null; away_penalties: number | null; home_team?: string | null; away_team?: string | null; phase?: string | null; round?: string | null; updated_at?: string | null };
 export type KOKind = "Oro" | "Plata";
@@ -73,9 +73,11 @@ export function madridNow() {
 const at = (iso: string) => new Date(iso + "T12:00:00");
 export const dateParts = (iso: string) => {
   const d = at(iso), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString("es-ES", o);
-  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-  return { day: String(d.getDate()), monthShort: f({ month: "short" }).replace(".", ""), label: `${d.getDate()} de ${f({ month: "long" })}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
+  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1), month = f({ month: "long" });
+  return { day: String(d.getDate()), monthShort: f({ month: "short" }).replace(".", ""), label: `${d.getDate()} de ${month}`, tag: `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
 };
+/** Etiqueta de cabecera: «2015 • 8 de Diciembre». */
+export const tournamentTag = (t: Pick<Tournament, "category" | "date">) => `${t.category} • ${dateParts(t.date).tag}`;
 export function daysUntil(iso: string) {
   const a = at(madridNow().date).getTime(), b = at(iso).getTime();
   return Math.round((b - a) / 86400000);

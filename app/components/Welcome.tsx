@@ -2,7 +2,7 @@
 import { Crest, CupMark } from "./ui";
 import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
-import { BRAND, GROUPS, dateParts } from "../lib/tournament";
+import { BRAND, GROUPS, tournamentTag } from "../lib/tournament";
 
 export function Splash() {
   return (
@@ -21,8 +21,8 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
       <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />Torneos</button>
       <header className="welcome-head">
         <CupMark size={64} />
-        <h1>{BRAND} {tn.category}</h1>
-        <p>{dateParts(tn.date).label} · {tn.venueShort}</p>
+        <h1>{BRAND}</h1>
+        <p>{tournamentTag(tn)}</p>
         <h2>¿Con quién vas?</h2>
         <small>Elige tu equipo para seguirlo de cerca. Puedes cambiarlo cuando quieras.</small>
       </header>

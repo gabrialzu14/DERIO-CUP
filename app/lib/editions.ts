@@ -5,16 +5,16 @@ import type { GroupMatchDef, InfoSpec, Team, Tournament } from "./tournament";
 
 const MAPS = "https://maps.app.goo.gl/q2zy9gfVQ1dPcaqS6";
 const VENUE = "Instalaciones Deportivas de Ibaiondo";
-const T = (id: string, name: string, group: Team["group"], crest?: string): Team => ({ id, name, group, crest });
+const T = (id: string, name: string, group: Team["group"]): Team => ({ id, name, group });
 /** Genera la lista de partidos de grupos a partir de filas «hora, campo, grupo, local, visitante». */
 const rows = (r: [string, 1 | 2, Team["group"], string, string][]): GroupMatchDef[] => r.map(([time, field, group, home, away]) => ({ time, field, group, home, away }));
 
 /* ------------------------------------------------------------------ 2015 */
 const TEAMS_2015: Team[] = [
-  T("leioa", "Leioa", "A", "leioa"), T("bermeo", "Bermeo", "A"), T("gernika", "Gernika", "A"), T("ermua", "Ermua Blues", "A", "ermua"),
-  T("ariznabarra", "Ariznabarra", "B", "ariznabarra"), T("sestao", "Sestao River", "B"), T("portugalete", "Portugalete", "B", "portugalete"), T("lagun-artea", "Lagun Artea", "B"),
-  T("bge-aiboa", "BGE 2015 Aiboa", "C"), T("durango-b", "Cultural Durango B", "C", "durango"), T("derio", "Derio", "C", "derio"), T("arrupe", "Arrupe Chaminade", "C", "arrupe"),
-  T("arrupe-b", "Arrupe Chaminade B", "D", "arrupe"), T("etxebarri", "Etxebarri", "D"), T("durango", "Cultural Durango", "D", "durango"), T("abadino", "Abadiño", "D"),
+  T("leioa", "Leioa", "A"), T("bermeo", "Bermeo", "A"), T("gernika", "Gernika", "A"), T("ermua", "Ermua Blues", "A"),
+  T("ariznabarra", "Ariznabarra", "B"), T("sestao", "Sestao River", "B"), T("portugalete", "Portugalete", "B"), T("lagun-artea", "Lagun Artea", "B"),
+  T("bge-aiboa", "BGE 2015 Aiboa", "C"), T("durango-b", "Cultural Durango B", "C"), T("derio", "Derio", "C"), T("arrupe", "Arrupe Chaminade", "C"),
+  T("arrupe-b", "Arrupe Chaminade B", "D"), T("etxebarri", "Etxebarri", "D"), T("durango", "Cultural Durango", "D"), T("abadino", "Abadiño", "D"),
 ];
 
 const SCHEDULE_2015 = rows([
@@ -57,10 +57,10 @@ const INFO_2015: InfoSpec = {
 
 /* ------------------------------------------------------------------ 2017 (edición anterior) */
 const TEAMS_2017: Team[] = [
-  T("danok-a", "Danok Bat A", "A", "danok-a"), T("portugalete", "Portugalete", "A", "portugalete"), T("ermua", "Ermua Blues", "A", "ermua"), T("urduliz", "Urduliz", "A", "urduliz"),
-  T("leioa", "Leioa", "B", "leioa"), T("indautxu", "Indautxu", "B", "indautxu"), T("deusto", "Deusto", "B", "deusto"), T("etorkizuna", "Etorkizuna", "B", "etorkizuna"),
-  T("santutxu", "Santutxu", "C", "santutxu"), T("durango", "Cultural Durango", "C", "durango"), T("arrupe", "Arrupe Chaminade", "C", "arrupe"), T("derio", "Derio", "C", "derio"),
-  T("danok-b", "Danok Bat B", "D", "danok-b"), T("retuerto", "Retuerto", "D", "retuerto"), T("ariznabarra", "Ariznabarra", "D", "ariznabarra"), T("trapagaran", "Trapagaran", "D", "trapagaran"),
+  T("danok-a", "Danok Bat A", "A"), T("portugalete", "Portugalete", "A"), T("ermua", "Ermua Blues", "A"), T("urduliz", "Urduliz", "A"),
+  T("leioa", "Leioa", "B"), T("indautxu", "Indautxu", "B"), T("deusto", "Deusto", "B"), T("etorkizuna", "Etorkizuna", "B"),
+  T("santutxu", "Santutxu", "C"), T("durango", "Cultural Durango", "C"), T("arrupe", "Arrupe Chaminade", "C"), T("derio", "Derio", "C"),
+  T("danok-b", "Danok Bat B", "D"), T("retuerto", "Retuerto", "D"), T("ariznabarra", "Ariznabarra", "D"), T("trapagaran", "Trapagaran", "D"),
 ];
 const SCHEDULE_2017 = rows([
   ["12:00", 1, "A", "danok-a", "portugalete"], ["12:00", 2, "A", "ermua", "urduliz"], ["12:25", 1, "B", "leioa", "indautxu"], ["12:25", 2, "B", "deusto", "etorkizuna"],

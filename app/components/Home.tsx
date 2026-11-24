@@ -4,7 +4,7 @@ import { Icon } from "./icons";
 import { Crest, CupMark, KOGameRow, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
-import { BRAND, GROUPS, byTime, dateParts, koWinner, madridNow, validKO, type G, type KOGame, type Match, type ResultRow } from "../lib/tournament";
+import { BRAND, GROUPS, byTime, dateParts, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type Match, type ResultRow } from "../lib/tournament";
 import type { TabId } from "./TournamentApp";
 
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata" }) => void };
@@ -67,7 +67,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
 function NextHero({ match, ko, loaded }: { match?: Match; ko?: KOGame; loaded: boolean }) {
   const { tn, T } = useEngine();
   const today = madridNow().date === tn.date, dp = dateParts(tn.date);
-  if (!match && !ko) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tn.category}</span></div><p className="hero-title">{loaded ? "Fase de grupos finalizada" : "Cargando resultados…"}</p></section>;
+  if (!match && !ko) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn)}</span></div><p className="hero-title">{loaded ? "Fase de grupos finalizada" : "Cargando resultados…"}</p></section>;
   const home = match ? match.home : ko!.home, away = match ? match.away : ko!.away, time = match ? match.time : ko!.time, field = match ? match.field : ko!.field;
   return (
     <section className="hero" aria-label="Próximo partido">
