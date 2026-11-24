@@ -12,8 +12,8 @@ const initials = (name: string) => { const w = name.split(/\s+/).filter(x => x &
 export function Crest({ id, size = 36, className = "" }: { id: string; size?: number; className?: string }) {
   const { T } = useEngine(), t = T(id), src = t ? crestFor(t.name) : null;
   if (!src) return <span className={"crest mono " + className} style={{ "--s": size + "px", "--h": monoHue(id) } as CSSProperties} aria-hidden="true"><b>{initials(t?.name ?? id)}</b></span>;
-  // Los originales son de 1024 × 1024; next/image sirve la versión del tamaño que se pinta.
-  return <Image className={"crest " + className} src={src} width={size} height={size} quality={90} alt="" />;
+  // Los originales son de 1024 × 1024; next/image sirve el tamaño justo para la densidad de pantalla (hasta 3×), en WebP calidad 100.
+  return <Image className={"crest " + className} src={src} width={size} height={size} sizes={size + "px"} quality={100} alt="" />;
 }
 
 /** Trofeo de marca: se tiñe con el color del tema (el logo original es blanco). */
