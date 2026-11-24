@@ -18,7 +18,7 @@ ok((await p.locator('.onb-title').innerText()).includes('Ongi etorri'),'bienveni
 await p.screenshot({path:'shots/i-welcome-eu.png'});
 await p.locator('.btn').tap();await p.waitForTimeout(300);await p.locator('.onb-card').nth(0).tap();await p.waitForTimeout(500);
 await p.screenshot({path:'shots/i-landing-eu.png'});
-await p.locator('.tourney-card').tap();await p.waitForTimeout(400);await p.locator('.team-pick',{hasText:'Leioa'}).tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(900);
+await p.locator('.tourney-card').tap();await p.waitForTimeout(400);await p.locator('.team-pick',{hasText:'Leioa'}).tap();await p.locator('.continue-btn').tap();await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);await p.waitForTimeout(900);
 const leaks=new Map();
 for(const h of ['','#partidos','#clasificacion','#fases','#mas','#equipo/leioa','#equipo/ariznabarra']){
  await p.goto(URL+h,{waitUntil:'networkidle'});await p.waitForTimeout(700);

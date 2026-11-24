@@ -906,3 +906,9 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 /* Modo oscuro: sin línea fina bajo la cabecera */
 :root[data-theme="dark"] .app-header { border-bottom-color: transparent; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .app-header { border-bottom-color: transparent; } }
+
+/* Aviso de juego limpio al entrar al torneo */
+.fairplay { display: grid; gap: 14px; text-align: center; }
+.fairplay p { font-size: .9375rem; line-height: 1.5; color: var(--text-2); text-wrap: balance; }
+.fairplay p.fairplay-key { color: var(--text); font-weight: 700; }
+.fairplay .btn { margin-top: 4px; }

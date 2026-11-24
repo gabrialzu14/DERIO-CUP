@@ -65,7 +65,7 @@ await ctx.close();
 ({ctx,p,errs}=await mk(devices['iPhone 12'],'light',()=>Object.defineProperty(navigator,'standalone',{value:true})));
 await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
 ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()===1,'instalada: va directa a elegir torneo');
-await p.locator('.tourney-card').tap();await p.locator('.team-pick').first().tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(700);
+await p.locator('.tourney-card').tap();await p.locator('.team-pick').first().tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
 await p.locator('nav button',{hasText:'Info'}).tap();await p.waitForTimeout(300);
 ok(await p.locator('.menu-item',{hasText:'Instalar la app'}).count()===0,'instalada: no ofrece instalar');
 await ctx.close();

@@ -23,6 +23,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  ok(!(await p.locator('.continue-btn').isVisible()),T+' desmarcar oculta Continuar');
  await p.locator('.team-pick',{hasText:'Etxebarri'}).tap();await p.waitForTimeout(500);
  await p.locator('.continue-btn').tap();await p.waitForTimeout(900);
+ ok(await p.locator('.fairplay').isVisible(),T+' aviso de juego limpio al elegir equipo');await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.tabbar').isVisible(),T+' entra al torneo');
  // 2 pestañas e historial
  for(const l of ['Partidos','Clasificación','Fases','Info'])await p.locator('nav button',{hasText:l}).tap(),await p.waitForTimeout(250);
@@ -84,7 +85,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  await p.locator('.back-btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.landing').count()===1,T+' Torneos desde elegir equipo');
  await p.locator('.tourney-card').tap();await p.waitForTimeout(400);
- await p.locator('button',{hasText:'No tengo equipo'}).tap();await p.waitForTimeout(700);
+ await p.locator('button',{hasText:'No tengo equipo'}).tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.tabbar').isVisible()&&await p.locator('.team-card').count()===0,T+' sin equipo: entra sin tarjeta de equipo');
  // 6 gestos: arrastrar hacia abajo/arriba en el borde no mueve la página
  await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(500);
