@@ -1,4 +1,5 @@
 "use client";
+import { scrollToTop } from "./lib/scroll";
 import { useEffect, useState } from "react";
 import { Icon } from "./components/icons";
 import { Landing } from "./components/Landing";
@@ -32,7 +33,7 @@ export default function App() {
   const choose = (id: string | null) => {
     setCurrent(id);
     try { id ? localStorage.setItem(TOURNAMENT_KEY, id) : localStorage.removeItem(TOURNAMENT_KEY); } catch {}
-    window.scrollTo({ top: 0 });
+    scrollToTop();
   };
 
   if (!ready || splash) return <Splash />;

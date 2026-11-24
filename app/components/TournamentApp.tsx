@@ -10,6 +10,7 @@ import { Team } from "./Team";
 import { More } from "./More";
 import { Dialog } from "./Dialog";
 import { Welcome } from "./Welcome";
+import { scrollToTop } from "../lib/scroll";
 import { EngineContext, OpenTeamContext, makeEngine } from "../lib/engine";
 import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament } from "../lib/tournament";
 import type { useTheme } from "../lib/useTheme";
@@ -46,7 +47,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [fanCounts, setFanCounts] = useState<Record<string, number>>({});
   const [loaded, setLoaded] = useState(false), [offline, setOffline] = useState(false), [syncing, setSyncing] = useState(false), [lastSync, setLastSync] = useState<Date | null>(null);
   const [rules, setRules] = useState(false);
-  const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio"), depth = useRef(0);
+  const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
   const { theme, resolved, setTheme, toggle } = themeCtl;
 
   /* ---- caché del último estado conocido ---- */
@@ -54,27 +55,30 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
     try { const c = JSON.parse(store.get(cacheKey) || "null"); if (c) { setScores(c.scores || {}); setKoResults(c.ko || {}); setLoaded(true); } } catch {}
   }, [cacheKey]);
 
-  /* ---- navegación por hash: el botón Atrás del móvil cambia de pestaña ---- */
+  /* ---- navegación: cada pantalla es un paso del historial, así que Atrás (móvil/gesto) vuelve a la anterior ---- */
   useEffect(() => { tabRef.current = tab; }, [tab]);
   useEffect(() => {
     const ids = tn.teams.map(t => t.id);
     const on = () => { const r = routeFromHash(ids); setTab(r.tab); setViewTeam(r.team); };
-    window.addEventListener("hashchange", on); return () => window.removeEventListener("hashchange", on);
+    window.addEventListener("popstate", on); return () => window.removeEventListener("popstate", on);
   }, [tn]);
   const go = useCallback((t: TabId, o?: { group?: G; phase?: "oro" | "plata"; team?: string }) => {
     if (o?.group) setGroup(o.group);
     if (o?.phase) setPhase(o.phase);
     if (t === "equipo" && o?.team) { if (tabRef.current !== "equipo") fromTab.current = tabRef.current; setViewTeam(o.team); }
     const hash = t === "inicio" ? "" : t === "equipo" && o?.team ? "#equipo/" + encodeURIComponent(o.team) : "#" + t;
-    depth.current++;
-    if (window.location.hash !== hash) { if (hash) window.location.hash = hash; else history.pushState(null, "", window.location.pathname + window.location.search); setTab(t); if (!hash) setViewTeam(null); }
+    if (window.location.hash !== hash) {
+      // «dc» = posición dentro de la app; permite saber si «Volver» puede retroceder sin salir de ella.
+      history.pushState({ dc: ((history.state?.dc as number | undefined) ?? 0) + 1 }, "", window.location.pathname + window.location.search + hash);
+      setTab(t); setViewTeam(t === "equipo" ? o?.team ?? null : null);
+    }
   }, []);
   const openTeam = useCallback((id: string) => go("equipo", { team: id }), [go]);
-  /** «Volver»: al punto anterior si venimos de dentro de la app; si no, a Inicio. */
-  const back = useCallback(() => { if (depth.current > 0) { depth.current = Math.max(0, depth.current - 2); history.back(); } else go("inicio"); }, [go]);
+  /** «Volver»: al paso anterior si venimos de dentro de la app; si no, a Inicio. */
+  const back = useCallback(() => { if (((history.state?.dc as number | undefined) ?? 0) > 0) history.back(); else go("inicio"); }, [go]);
   useEffect(() => {
     if (firstTab.current) { firstTab.current = false; return; }
-    window.scrollTo({ top: 0 });
+    scrollToTop();
     mainRef.current?.focus({ preventScroll: true });
   }, [tab, viewTeam]);
 
@@ -121,9 +125,9 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
     if (choosing) return;
     setChoosing(id);
     registerFan(id).then(loadFans);
-    setTimeout(() => { store.set(teamKey, id); setSelected(id); setChoosing(null); window.scrollTo({ top: 0 }); history.replaceState(null, "", window.location.pathname); setTab("inicio"); }, 220);
+    setTimeout(() => { store.set(teamKey, id); setSelected(id); setChoosing(null); scrollToTop(); history.replaceState(null, "", window.location.pathname); setTab("inicio"); }, 220);
   };
-  const neutral = () => { store.set(teamKey, "neutral"); setSelected("neutral"); window.scrollTo({ top: 0 }); setTab("inicio"); };
+  const neutral = () => { store.set(teamKey, "neutral"); setSelected("neutral"); scrollToTop(); setTab("inicio"); };
   const changeTeam = () => { store.del(teamKey); setSelected(null); };
   const exit = () => { history.replaceState(null, "", window.location.pathname); onExit(); };
 
