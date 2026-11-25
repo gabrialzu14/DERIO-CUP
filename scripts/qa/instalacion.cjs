@@ -33,9 +33,9 @@ await p.locator('.btn',{hasText:'Ya lo he hecho'}).tap();await p.waitForTimeout(
 ok((await p.locator('.onb-text').first().innerText()).includes('menú principal'),'5. indica buscar en el menú principal');
 await p.screenshot({path:'shots/ob-6-done.png'});
 await p.locator('.onb-link',{hasText:'Continuar en el navegador'}).tap();await p.waitForTimeout(500);
-ok(await p.locator('.tourney-card').count()===1,'→ elegir torneo');
+ok(await p.locator('.tourney-card',{hasText:'2015'}).count()===1,'→ elegir torneo');
 await p.reload({waitUntil:'networkidle'});await p.waitForTimeout(1200);
-ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()===1,'no vuelve a aparecer');
+ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card',{hasText:'2015'}).count()===1,'no vuelve a aparecer');
 ok(errs.length===0,'sin errores '+errs);await ctx.close();
 // --- Android: pasos
 ({ctx,p,errs}=await mk(devices['Pixel 5'],'dark'));
@@ -59,13 +59,13 @@ await ctx.close();
 await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
 await p.locator('.btn',{hasText:'Empezar'}).tap();await p.waitForTimeout(300);
 await p.locator('.onb-card',{hasText:'Sí, ya lo he hecho'}).tap();await p.waitForTimeout(500);
-ok(await p.locator('.tourney-card').count()===1,'Opción 1 → elegir torneo');
+ok(await p.locator('.tourney-card',{hasText:'2015'}).count()===1,'Opción 1 → elegir torneo');
 await ctx.close();
 // --- App instalada: sin guion
 ({ctx,p,errs}=await mk(devices['iPhone 12'],'light',()=>Object.defineProperty(navigator,'standalone',{value:true})));
 await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
-ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()===1,'instalada: va directa a elegir torneo');
-await p.locator('.tourney-card').tap();await p.locator('.team-pick').first().tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
+ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card',{hasText:'2015'}).count()===1,'instalada: va directa a elegir torneo');
+await p.locator('.tourney-card',{hasText:'2015'}).tap();await p.locator('.team-pick').first().tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
 await p.locator('nav button',{hasText:'Info'}).tap();await p.waitForTimeout(300);
 ok(await p.locator('.menu-item',{hasText:'Instalar la app'}).count()===0,'instalada: no ofrece instalar');
 await ctx.close();

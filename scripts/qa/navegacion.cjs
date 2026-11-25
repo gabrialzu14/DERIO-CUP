@@ -14,7 +14,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  await p.route('**/derio_cup_fans*',r=>r.request().method()==='POST'?r.fulfill({status:201,body:''}):r.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
  // 1 flujo inicial
- await p.locator('.tourney-card').tap();await p.waitForTimeout(400);
+ await p.locator('.tourney-card',{hasText:'2015'}).tap();await p.waitForTimeout(400);
  ok(await p.locator('.welcome').isVisible(),T+' abre elegir equipo');
  await p.locator('.continue-btn').count();
  ok(!(await p.locator('.continue-btn').isVisible()),T+' Continuar oculto sin elegir');
@@ -77,14 +77,14 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  ok(await p.locator('.landing').count()===1,T+' Cambiar de torneo → lista');
  await p.reload({waitUntil:'networkidle'});await p.waitForTimeout(1000);
  ok(await p.locator('.landing').count()===1,T+' recarga mantiene la lista');
- await p.locator('.tourney-card').tap();await p.waitForTimeout(500);
+ await p.locator('.tourney-card',{hasText:'2015'}).tap();await p.waitForTimeout(500);
  ok(await p.locator('.tabbar').count()===1,T+' vuelve al torneo con equipo recordado');
  await p.locator('nav button',{hasText:'Info'}).tap();await p.waitForTimeout(300);
  await p.locator('.menu-item',{hasText:'Cambiar de equipo'}).tap();await p.waitForTimeout(500);
  ok(await p.locator('.welcome').count()===1,T+' Cambiar de equipo → elegir');
  await p.locator('.back-btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.landing').count()===1,T+' Torneos desde elegir equipo');
- await p.locator('.tourney-card').tap();await p.waitForTimeout(400);
+ await p.locator('.tourney-card',{hasText:'2015'}).tap();await p.waitForTimeout(400);
  await p.locator('button',{hasText:'No tengo equipo'}).tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.tabbar').isVisible()&&await p.locator('.team-card').count()===0,T+' sin equipo: entra sin tarjeta de equipo');
  // 6 gestos: arrastrar hacia abajo en la cima no recarga ni desplaza

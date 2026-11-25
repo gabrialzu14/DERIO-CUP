@@ -26,11 +26,11 @@ for(const [name,prof] of profiles){
   await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
   const ov=await p.evaluate(()=>({sx:document.documentElement.scrollWidth-innerWidth,bx:document.body.scrollWidth-innerWidth}));
   ok(ov.sx<=0&&ov.bx<=0,`${tag} landing sin desborde horizontal (${JSON.stringify(ov)})`);
-  ok(await p.locator('.tourney-card').isVisible(),`${tag} landing muestra el torneo`);
+  ok(await p.locator('.tourney-card',{hasText:'2015'}).isVisible(),`${tag} landing muestra el torneo`);
   const sponsors=await p.locator('.sponsors-list li').evaluateAll(els=>els.every(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth}));
   ok(sponsors,`${tag} patrocinadores dentro de pantalla`);
   // pick team and continue
-  await p.locator('.tourney-card').click();await p.waitForTimeout(500);
+  await p.locator('.tourney-card',{hasText:'2015'}).click();await p.waitForTimeout(500);
   await p.locator('.team-pick',{hasText:'Derio'}).first().click();await p.waitForTimeout(500);
   const cbtn=p.locator('.continue-btn');ok(await cbtn.isVisible(),`${tag} botón Continuar visible`);
   const bb=await cbtn.boundingBox();const vp=p.viewportSize();

@@ -56,6 +56,33 @@ const INFO_2015: InfoSpec = {
   ],
 };
 
+/* ------------------------------------------------------------------ 2018 (6 de diciembre) */
+const S1 = { crest: "Arrupe Chaminade", pick: "Arrupe Chaminade 1 • Sanse 1" }, S2 = { crest: "Arrupe Chaminade", pick: "Arrupe Chaminade 2 • Sanse 2" };
+const BGE = { crest: "BGE Aiboa" };
+const TEAMS_2018: Team[] = [
+  T("santutxu-b", "Santutxu B", "A", { crest: "Santutxu" }), T("arrupe-1", "Sanse 1", "A", S1), T("derio", "Derio", "A"), T("portugalete", "Portugalete", "A"),
+  T("baskauri", "Baskauri", "B"), T("durango", "Cultural Durango", "B"), T("danok-a", "Danok Bat A", "B"), T("bermeo", "Bermeo", "B"),
+  T("danok-b", "Danok Bat B", "C"), T("abadino", "Abadiño", "C"), T("bge-algorta", "BGE Algorta", "C", BGE), T("santutxu-a", "Santutxu A", "C", { crest: "Santutxu" }),
+  T("romo", "Romo", "D"), T("arrupe-2", "Sanse 2", "D", S2), T("bge-arrigunaga", "BGE Arrigunaga", "D", BGE), T("athletic", "Athletic Academy", "D"),
+];
+const SCHEDULE_2018 = rows([
+  // Jornada 1
+  ["10:15", 1, "A", "santutxu-b", "arrupe-1"], ["10:15", 2, "A", "derio", "portugalete"],
+  ["10:40", 1, "B", "baskauri", "durango"], ["10:40", 2, "B", "danok-a", "bermeo"],
+  ["11:05", 1, "C", "danok-b", "abadino"], ["11:05", 2, "C", "bge-algorta", "santutxu-a"],
+  ["11:30", 1, "D", "romo", "arrupe-2"], ["11:30", 2, "D", "bge-arrigunaga", "athletic"],
+  // Jornada 2
+  ["11:55", 1, "A", "santutxu-b", "derio"], ["11:55", 2, "A", "arrupe-1", "portugalete"],
+  ["12:20", 1, "B", "baskauri", "danok-a"], ["12:20", 2, "B", "durango", "bermeo"],
+  ["12:45", 1, "C", "danok-b", "bge-algorta"], ["12:45", 2, "C", "abadino", "santutxu-a"],
+  ["13:10", 1, "D", "romo", "bge-arrigunaga"], ["13:10", 2, "D", "arrupe-2", "athletic"],
+  // Jornada 3
+  ["13:35", 1, "A", "santutxu-b", "portugalete"], ["13:35", 2, "A", "arrupe-1", "derio"],
+  ["14:00", 1, "B", "baskauri", "bermeo"], ["14:00", 2, "B", "durango", "danok-a"],
+  ["14:25", 1, "C", "danok-b", "santutxu-a"], ["14:25", 2, "C", "abadino", "bge-algorta"],
+  ["14:50", 1, "D", "romo", "athletic"], ["14:50", 2, "D", "arrupe-2", "bge-arrigunaga"],
+]);
+
 /* ------------------------------------------------------------------ 2017 (edición anterior) */
 const TEAMS_2017: Team[] = [
   T("danok-a", "Danok Bat A", "A"), T("portugalete", "Portugalete", "A"), T("ermua", "Ermua Blues", "A"), T("urduliz", "Urduliz", "A"),
@@ -130,6 +157,14 @@ const INFO_2017_EU: InfoSpec = {
 };
 
 export const TOURNAMENTS: Tournament[] = [
+  {
+    id: "2018", name: "Derio Cup", category: "2018", season: "2026/27", date: "2026-12-06",
+    venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2018-",
+    teams: TEAMS_2018, schedule: SCHEDULE_2018,
+    ko: { cf: ["15:15", "15:40", "16:05", "16:30"], sf: ["16:55", "17:20"], final: "17:45" },
+    info: { ...INFO_2015, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" } },
+    infoEu: { ...INFO_2015_EU, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" } },
+  },
   {
     id: "2015", name: "Derio Cup", category: "2015", season: "2026/27", date: "2026-12-08",
     venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2015-",
