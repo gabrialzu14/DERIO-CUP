@@ -157,15 +157,30 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
 
   // ---- selección, día/noche, vista general ----
   let cur: ZoneKey | null = null;
-  const select = (k: ZoneKey | null) => { cur = k; z1.material.opacity = k === "c1" ? .28 : 0; z1.material.color.set(0xffd54a); z2.material.opacity = k === "c2" ? .28 : 0; z2.material.color.set(0xe6ecf3); wake(); };
+  let onSelect: (k: ZoneKey | null) => void = () => {};
+  const select = (k: ZoneKey | null) => { onSelect(k); cur = k; z1.material.opacity = k === "c1" ? .28 : 0; z1.material.color.set(0xffd54a); z2.material.opacity = k === "c2" ? .28 : 0; z2.material.color.set(0xe6ecf3); wake(); };
   const setNight = (n: boolean) => {
     S.background = new THREE.Color(n ? 0x0a1424 : 0xcfe3f2); S.fog = new THREE.Fog(S.background, 220, 520);
     hemi.intensity = n ? .25 : 1.0; sun.intensity = n ? .15 : 2.2;
     lamps.forEach(l => { if (l.isSpotLight) l.intensity = n ? 170 : 0; else l.material.emissive = new THREE.Color(n ? 0xfff3c4 : 0); });
     R.shadowMap.needsUpdate = true; wake();
   };
-  let fly: any = null; const ease = (t: number) => 1 - Math.pow(1 - t, 3);
-  const resetView = () => { if (opts.reduceMotion) { cam.position.copy(HOME.p); ctl.target.copy(HOME.t); wake(); return; } fly = { t0: performance.now(), fp: cam.position.clone(), ft: ctl.target.clone() }; };
+  // Vuelo de cámara suave: pequeño zoom a la zona elegida y, pasado un momento, vuelta a la vista general
+  let fly: any = null, back: ReturnType<typeof setTimeout> | null = null; const easeIO = (t: number) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const flyTo = (tp: THREE.Vector3, tt: THREE.Vector3, dur: number) => { if (opts.reduceMotion) { cam.position.copy(tp); ctl.target.copy(tt); wake(); return; } fly = { t0: performance.now(), dur, fp: cam.position.clone(), ft: ctl.target.clone(), tp, tt }; };
+  const clearBack = () => { if (back) { clearTimeout(back); back = null; } };
+  const resetView = () => { clearBack(); flyTo(HOME.p.clone(), HOME.t.clone(), 1000); };
+  onSelect = (k) => {
+    clearBack();
+    if (!k) { flyTo(HOME.p.clone(), HOME.t.clone(), 1000); return; }
+    if (opts.reduceMotion) return;
+    // acercamiento sutil (≈ 30 %) centrado a medias en la zona; si ya estás muy cerca, apenas se mueve
+    const a = anchors[k], dir = cam.position.clone().sub(ctl.target), dist = Math.max(48, dir.length() * .72);
+    const tt = ctl.target.clone().lerp(new THREE.Vector3(a.x, 0, a.z), .55), tp = tt.clone().add(dir.normalize().multiplyScalar(dist));
+    flyTo(tp, tt, 950);
+    back = setTimeout(() => { back = null; flyTo(HOME.p.clone(), HOME.t.clone(), 1100); }, 4200); // tras verla, vuelve a la vista general
+  };
+  ctl.addEventListener("start", () => { clearBack(); fly = null; }); // si el usuario toca el mapa, manda él
   const proj: any = { far: false };
   // toque en el modelo
   const ray = new THREE.Raycaster(), pt = new THREE.Vector2(); let down: number[] | null = null;
@@ -186,7 +201,7 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   const v = new THREE.Vector3(); let raf = 0, alive = true;
   const loop = (now: number) => {
     if (!alive) return; raf = requestAnimationFrame(loop);
-    if (fly) { const k = Math.min(1, (now - fly.t0) / 700), e = ease(k); cam.position.lerpVectors(fly.fp, HOME.p, e); ctl.target.lerpVectors(fly.ft, HOME.t, e); if (k === 1) fly = null; wake(); }
+    if (fly) { const k = Math.min(1, (now - fly.t0) / fly.dur), e = easeIO(k); cam.position.lerpVectors(fly.fp, fly.tp, e); ctl.target.lerpVectors(fly.ft, fly.tt, e); if (k === 1) fly = null; wake(); }
     const moved = ctl.update(); if (!moved && !dirty) return; dirty = false; R.render(S, cam);
     const w = map.clientWidth, h = map.clientHeight; proj.far = cam.position.distanceTo(ctl.target) > 135;
     const sc = Math.max(.74, Math.min(1.08, 125 / cam.position.distanceTo(ctl.target)));
@@ -199,7 +214,7 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   };
   raf = requestAnimationFrame(loop);
   const dispose = () => {
-    alive = false; cancelAnimationFrame(raf); ro.disconnect(); cv.removeEventListener("pointerdown", onDown); cv.removeEventListener("pointerup", onUp); ctl.dispose();
+    alive = false; clearBack(); cancelAnimationFrame(raf); ro.disconnect(); cv.removeEventListener("pointerdown", onDown); cv.removeEventListener("pointerup", onUp); ctl.dispose();
     S.traverse((o: any) => { if (o.geometry) o.geometry.dispose(); if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach((m: any) => { m.map?.dispose?.(); m.dispose(); }); });
     R.dispose();
   };
