@@ -59,25 +59,27 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   const roof=box(11.5,.5,47,mat(0xf5f7f8,{roughness:.5}),-42,7.7,1);roof.rotation.z=-.06;
   box(.4,.5,47.4,mat(0x2a5db0),-36.4,7.15,1); // canto azul de la cubierta
   // rótulo «Derio Cup» sobre el tejado: copa + «Derio» en negrita y «Cup» fino, con el degradado de marca y muy sutil
-  { const W = 2048, H = Math.round(2048 * 9 / 42), cvs = document.createElement("canvas"); cvs.width = W; cvs.height = H;
+  { const W = 2048, H = Math.round(2048 * 10.4 / 44), cvs = document.createElement("canvas"); cvs.width = W; cvs.height = H;
     const tx = new THREE.CanvasTexture(cvs); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 8;
     const grp = new THREE.Group(); grp.position.set(-42, 7.7, 1); grp.rotation.z = -.06; S.add(grp);
-    const sign = new THREE.Mesh(new THREE.PlaneGeometry(42, 9), new THREE.MeshBasicMaterial({ map: tx, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }));
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(44, 10.4), new THREE.MeshBasicMaterial({ map: tx, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }));
     sign.rotation.set(-Math.PI / 2, 0, Math.PI / 2); sign.position.y = .28; grp.add(sign);
     (async () => {
       const ff = getComputedStyle(document.body).fontFamily || "system-ui";
       try { await Promise.all([document.fonts.load(`800 150px ${ff}`), document.fonts.load(`300 150px ${ff}`)]); } catch {}
       const img = new Image(); img.src = "/logo-derio-cup.webp"; try { await img.decode(); } catch { return; }
       const g = cvs.getContext("2d")!; g.clearRect(0, 0, W, H);
-      const fs = 150, ih = 196, iw = ih * (img.naturalWidth / img.naturalHeight), gap = 34;
-      g.textBaseline = "alphabetic"; g.font = `800 ${fs}px ${ff}`; const wd = g.measureText("Derio").width; g.font = `300 ${fs}px ${ff}`; const wc = g.measureText("Cup").width;
-      const total = iw + gap + wd + 10 + wc, x0 = (W - total) / 2, cy = H / 2;
+      const fs0 = 150, ih0 = 196, ar = img.naturalWidth / img.naturalHeight, gap0 = 34;
+      g.textBaseline = "alphabetic"; g.font = `800 ${fs0}px ${ff}`; const wd0 = g.measureText("Derio").width; g.font = `300 ${fs0}px ${ff}`; const wc0 = g.measureText("Cup").width;
+      // se escala para ocupar casi todo el largo y buena parte del ancho de la cubierta
+      const k = Math.min(W * .92 / (ih0 * ar + gap0 + wd0 + 10 + wc0), H * .84 / ih0), fs = fs0 * k, ih = ih0 * k, iw = ih * ar, gap = gap0 * k, wd = wd0 * k, wc = wc0 * k;
+      const total = iw + gap + wd + 10 * k + wc, x0 = (W - total) / 2, cy = H / 2;
       const grad = g.createLinearGradient(x0, 0, x0 + total, 0); grad.addColorStop(0, "#0a5cc2"); grad.addColorStop(.55, "#7a2a9a"); grad.addColorStop(1, "#cf1738");
       // la copa se tiñe con el degradado (el logo original es blanco)
       const ic = document.createElement("canvas"); ic.width = Math.ceil(iw); ic.height = ih; const ig = ic.getContext("2d")!; ig.drawImage(img, 0, 0, iw, ih); ig.globalCompositeOperation = "source-in";
       const ig2 = ig.createLinearGradient(-(x0), 0, total, 0); ig2.addColorStop(0, "#0a5cc2"); ig2.addColorStop(.55, "#7a2a9a"); ig2.addColorStop(1, "#cf1738"); ig.fillStyle = ig2; ig.fillRect(0, 0, iw, ih);
       g.globalAlpha = .62; g.drawImage(ic, x0, cy - ih / 2);
-      g.fillStyle = grad; g.font = `800 ${fs}px ${ff}`; g.fillText("Derio", x0 + iw + gap, cy + fs * .36); g.font = `300 ${fs}px ${ff}`; g.fillText("Cup", x0 + iw + gap + wd + 10, cy + fs * .36);
+      g.fillStyle = grad; g.font = `800 ${fs}px ${ff}`; g.fillText("Derio", x0 + iw + gap, cy + fs * .36); g.font = `300 ${fs}px ${ff}`; g.fillText("Cup", x0 + iw + gap + wd + 10 * k, cy + fs * .36);
       tx.needsUpdate = true; wake();
     })(); }
   [-20,-6,8,22].forEach(z=>box(.5,7.5,.5,mat(0xdde1e5),-37.2,3.8,z));
