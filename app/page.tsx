@@ -49,7 +49,7 @@ function App() {
 
   const finishOnboarding = () => { try { localStorage.setItem(ONBOARDED_KEY, "1"); } catch {} smooth(() => setOnboarding(false)); scrollToTop(); };
   if (!ready || splash) return <Splash />;
-  if (onboarding) return <Onboarding onDone={finishOnboarding} onSkip={finishOnboarding} />;
+  if (onboarding) return <Onboarding onDone={finishOnboarding} onSkip={finishOnboarding} themeCtl={themeCtl} />;
   const tn = getTournament(current);
   if (tn) return <TournamentApp key={tn.id} tn={tn} onExit={() => choose(null)} themeCtl={themeCtl} />;
 

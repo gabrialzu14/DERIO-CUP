@@ -1080,3 +1080,19 @@ dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
 .when-pill i { width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--dg1), var(--dg3)); }
 @keyframes tile-sheen { 0%, 62% { transform: translateX(-140%) skewX(-18deg); } 100% { transform: translateX(260%) skewX(-18deg); } }
 @media (prefers-reduced-motion: reduce) { .date-tile::after { animation: none; opacity: 0; } }
+
+/* ---- Degradado de la Derio Cup (azul → violeta → rojo) en los elementos de acción de toda la app ---- */
+:root { --bg1: light-dark(#0a5cc2, #2f7be8); --bg2: light-dark(#7a2a9a, #7a45c4); --bg3: light-dark(#cf1738, #e0405f); --grad: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%); }
+.onb-left { display: flex; align-items: center; gap: 4px; }
+.onb-left .onb-theme { margin-left: -8px; }
+.btn-primary { background: var(--grad); color: #fff; box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--bg3) 70%, transparent); }
+.btn-primary:hover:not(:disabled) { background: var(--grad); filter: brightness(1.06); }
+.onb-dots i.on { background: var(--grad); }
+.lang-bar { background: var(--grad); }
+.tabs-underline .tab[aria-selected="true"]::after { background: var(--grad); }
+.tabbar button[aria-current="page"] { background: linear-gradient(135deg, color-mix(in srgb, var(--bg1) 17%, transparent), color-mix(in srgb, var(--bg3) 17%, transparent)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bg2) 20%, transparent); }
+.tabs-pill .tab[aria-selected="true"] { box-shadow: 0 1px 2px var(--shadow), inset 0 -2px 0 0 transparent, 0 0 0 1px var(--line); background: linear-gradient(var(--seg-on), var(--seg-on)) padding-box, var(--grad) border-box; border: 1.5px solid transparent; }
+.v3-chip[aria-pressed="true"] { background: var(--grad); border-color: transparent; color: #fff; }
+.appear-opt.is-on, .lang-row.is-on { background: linear-gradient(135deg, color-mix(in srgb, var(--bg1) 14%, transparent), color-mix(in srgb, var(--bg3) 14%, transparent)); }
+.link-btn { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.link-btn .icon { color: var(--bg3); }

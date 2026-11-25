@@ -42,7 +42,7 @@ const guides = (lang: "es" | "eu"): { ios: Guide[]; android: Guide[] } => lang =
 type InstallEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: "accepted" | "dismissed" }> };
 
 /** Guion de bienvenida e instalación de la app. `start="platform"` lo abre directamente en la elección de móvil. */
-export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step; onDone: () => void; onSkip: () => void }) {
+export function Onboarding({ start = "welcome", onDone, onSkip, themeCtl }: { start?: Step; onDone: () => void; onSkip: () => void; themeCtl?: { resolved: "light" | "dark"; toggle: () => void } }) {
   const { lang, t } = useLang();
   const [step, setStep] = useState<Step>(start), [platform, setPlatform] = useState<Platform>("other"), [detected, setDetected] = useState<Platform>("other"), [n, setN] = useState(0);
   const goStep = (s: Step) => smooth(() => setStep(s)), goN = (v: number) => smooth(() => setN(v));
@@ -60,7 +60,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
 
   return (
     <main className="onb" aria-live="polite">
-      <div className="onb-top">{step !== "welcome" && step !== "done" ? <button type="button" className="onb-skip" onClick={onSkip}>{t("Omitir", "Saltatu")}</button> : <span />}<LangToggle /></div>
+      <div className="onb-top"><div className="onb-left">{themeCtl && <button type="button" className="icon-btn onb-theme" aria-label={themeCtl.resolved === "dark" ? t("Cambiar a modo claro", "Aldatu modu argira") : t("Cambiar a modo oscuro", "Aldatu modu ilunera")} onClick={themeCtl.toggle}><Icon name={themeCtl.resolved === "dark" ? "sun" : "moon"} size={20} /></button>}{step !== "welcome" && step !== "done" ? <button type="button" className="onb-skip" onClick={onSkip}>{t("Omitir", "Saltatu")}</button> : null}</div><LangToggle /></div>
       <div className={"onb-body" + (step === "welcome" || step === "done" ? "" : " top")} key={step + n}>
         {step === "welcome" && <>
           <CupMark size={120} className="landing-cup brand-grad" />
