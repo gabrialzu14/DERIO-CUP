@@ -71,8 +71,8 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
       const g = cvs.getContext("2d")!; g.clearRect(0, 0, W, H);
       const fs0 = 150, ih0 = 196, ar = img.naturalWidth / img.naturalHeight, gap0 = 34;
       g.textBaseline = "alphabetic"; g.font = `800 ${fs0}px ${ff}`; const wd0 = g.measureText("Derio").width; g.font = `300 ${fs0}px ${ff}`; const wc0 = g.measureText("Cup").width;
-      // se escala para ocupar casi todo el largo y buena parte del ancho de la cubierta
-      const k = Math.min(W * .92 / (ih0 * ar + gap0 + wd0 + 10 + wc0), H * .84 / ih0), fs = fs0 * k, ih = ih0 * k, iw = ih * ar, gap = gap0 * k, wd = wd0 * k, wc = wc0 * k;
+      // tamaño intermedio entre el original (x1) y el que llenaría toda la cubierta (kMax)
+      const kMax = Math.min(W * .92 / (ih0 * ar + gap0 + wd0 + 10 + wc0), H * .84 / ih0), k = 1 + (kMax - 1) * .5, fs = fs0 * k, ih = ih0 * k, iw = ih * ar, gap = gap0 * k, wd = wd0 * k, wc = wc0 * k;
       const total = iw + gap + wd + 10 * k + wc, x0 = (W - total) / 2, cy = H / 2;
       const grad = g.createLinearGradient(x0, 0, x0 + total, 0); grad.addColorStop(0, "#0a5cc2"); grad.addColorStop(.55, "#7a2a9a"); grad.addColorStop(1, "#cf1738");
       // la copa se tiñe con el degradado (el logo original es blanco)
