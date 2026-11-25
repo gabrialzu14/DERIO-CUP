@@ -965,3 +965,13 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .landing-theme, .onb-top { position: sticky; top: 0; z-index: 20; background: var(--bg); margin-inline: -16px; padding-inline: 16px; margin-top: -16px; padding-top: 16px; align-self: stretch; }
 .onb-top { margin-inline: -20px; padding-inline: 20px; }
 body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 95; pointer-events: none; }
+
+/* Apariencia: desplegable Claro / Oscuro */
+.appear-chev { transition: transform .2s var(--ease-out); transform: rotate(90deg); }
+.appear-chev.open { transform: rotate(-90deg); }
+.appear-menu { display: grid; gap: 4px; padding: 4px 12px 12px 60px; animation: fade-in .18s ease both; }
+.appear-opt { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--text-2); text-align: left; transition: background-color .15s; }
+.appear-opt b { flex: 1; font-weight: 700; font-size: .9375rem; }
+.appear-opt.is-on { background: var(--accent-soft); color: var(--accent); }
+.appear-opt:active { transform: scale(.98); }
+.appear-opt .lang-check { color: var(--accent); background: none; }

@@ -2,7 +2,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Icon, type IconName } from "./icons";
-import { BrandName, CupMark, Tabs } from "./ui";
+import { BrandName, CupMark } from "./ui";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
@@ -83,7 +83,8 @@ type Props = { ms: Match[]; koResults: Record<string, ResultRow>; setKoResults: 
 export function More({ ms, koResults, setKoResults, scores, setScores, changeTeam, changeTournament, theme, setTheme }: Props) {
   const { tn } = useEngine(), { lang, t, locale } = useLang();
   const INFO = buildInfo(tn, lang, locale), [langOpen, setLangOpen] = useState(false);
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>(null), [appearOpen, setAppearOpen] = useState(false);
+  const isDark = theme === "dark" || (theme === "system" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [manager, setManager] = useState(false), [install, setInstall] = useState(false), [installed, setInstalled] = useState(true);
   useEffect(() => setInstalled(isInstalled()), []);
   const item = INFO.find(i => i.key === open);
@@ -102,10 +103,17 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
       <h2 className="list-title">{t("Ajustes", "Ezarpenak")}</h2>
       <div className="menu-card">
         <button type="button" className="menu-item" onClick={() => setLangOpen(true)}><span className="menu-icon"><Icon name="langs" /></span><span className="menu-text"><b>{t("Idioma", "Hizkuntza")}</b><small>{lang === "eu" ? "Euskara" : "Castellano"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
-        <div className="menu-item static">
-          <span className="menu-icon"><Icon name="sun" /></span><span className="menu-text"><b>{t("Apariencia", "Itxura")}</b><small>{t("Sigue el sistema o fija un modo", "Sistemaren araberakoa edo modu finkoa")}</small></span>
-        </div>
-        <div className="menu-pad"><Tabs label={t("Apariencia", "Itxura")} idPrefix="theme" value={theme} onChange={setTheme} items={[{ key: "system", label: t("Sistema", "Sistema") }, { key: "light", label: t("Claro", "Argia") }, { key: "dark", label: t("Oscuro", "Iluna") }]} /></div>
+        <button type="button" className="menu-item" aria-expanded={appearOpen} onClick={() => setAppearOpen(o => !o)}>
+          <span className="menu-icon"><Icon name={isDark ? "moon" : "sun"} /></span><span className="menu-text"><b>{t("Apariencia", "Itxura")}</b><small>{isDark ? t("Oscuro", "Iluna") : t("Claro", "Argia")}</small></span>
+          <Icon name="chevron" size={18} className={"icon chev appear-chev" + (appearOpen ? " open" : "")} />
+        </button>
+        {appearOpen && <div className="appear-menu" role="radiogroup" aria-label={t("Apariencia", "Itxura")}>
+          {([["light", "sun", t("Claro", "Argia")], ["dark", "moon", t("Oscuro", "Iluna")]] as const).map(([k, ic, lb]) => (
+            <button key={k} type="button" role="radio" aria-checked={(isDark ? "dark" : "light") === k} className={"appear-opt" + ((isDark ? "dark" : "light") === k ? " is-on" : "")} onClick={() => { setTheme(k); setAppearOpen(false); }}>
+              <Icon name={ic} size={20} /><b>{lb}</b><span className="lang-check" aria-hidden="true">{(isDark ? "dark" : "light") === k && <Icon name="check" size={16} />}</span>
+            </button>
+          ))}
+        </div>}
         {!installed && <button type="button" className="menu-item" onClick={() => setInstall(true)}><span className="menu-icon"><Icon name="install" /></span><span className="menu-text"><b>{t("Instalar la app", "Instalatu aplikazioa")}</b><small>{t("Añádela a tu pantalla de inicio", "Gehitu zure hasierako pantailara")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>}
         <button type="button" className="menu-item" onClick={changeTournament}><span className="menu-icon"><Icon name="list" /></span><span className="menu-text"><b>{t("Cambiar de torneo", "Aldatu txapelketa")}</b><small>{t("Volver a la lista de torneos", "Itzuli txapelketen zerrendara")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
         <button type="button" className="menu-item" onClick={changeTeam}><span className="menu-icon"><Icon name="switch" /></span><span className="menu-text"><b>{t("Cambiar de equipo", "Aldatu taldea")}</b><small>{t("Seleccionar otro participante", "Aukeratu beste talde bat")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
