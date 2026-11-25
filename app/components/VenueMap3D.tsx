@@ -79,7 +79,6 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
         <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra")}</button>
         <button type="button" className="v3-btn fs" aria-label={full ? t("Salir de pantalla completa", "Irten pantaila osotik") : t("Pantalla completa", "Pantaila osoa")} onClick={() => setFull(f => !f)}><Icon name={full ? "close" : "chevron"} size={16} className={full ? "" : "v3-expand"} /></button>
         {!ready && <span className="v3-load">{t("Cargando plano…", "Planoa kargatzen…")}</span>}
-        <span className="v3-hint">{t("1 dedo: mover · 2 dedos: girar y zoom", "Hatz bat: mugitu · bi hatz: biratu eta zoom")}</span>
       </div>
       <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak")}>
         {KEYS.map(k => <button key={k} type="button" className="v3-chip" aria-pressed={cur === k} onClick={() => pick(k)}>{k === "wc" ? <b className="v3-wc" style={{ fontSize: 13 }}>WC</b> : <><Ico k={k} size={15} />{name[k]}</>}</button>)}
