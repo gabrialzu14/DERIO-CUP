@@ -955,3 +955,8 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 /* Copa de oro legible en modo claro: dorado más intenso y una sombra fina que la recorta del fondo */
 .final-cup.gold { --cup-fill: linear-gradient(170deg, light-dark(#ffd54a, #fff6b0), light-dark(#e3a400, #ffcf33) 50%, light-dark(#9c6a00, #e09a00));
   filter: drop-shadow(0 0 .6px light-dark(rgb(110 70 0 / .9), transparent)) drop-shadow(0 1px 1.5px light-dark(rgb(110 70 0 / .45), transparent)) drop-shadow(0 0 6px var(--cup-halo)); }
+/* Barra inferior por encima del indicador de inicio del iPhone (app instalada) */
+@media (display-mode: standalone) {
+  .tabbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 26px); }
+  .main { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 48px); }
+}
