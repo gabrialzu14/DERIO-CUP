@@ -29,6 +29,14 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   // césped con líneas
   const tc=document.createElement('canvas');tc.width=2000;tc.height=1280;const g=tc.getContext('2d');
   for(let i=0;i<20;i++){g.fillStyle=i%2?'#2f8a45':'#2b8040';g.fillRect(i*100,0,100,1280)}
+  // dos campos de fútbol 7 transversales (mismas medidas que el plano 3D de cdderio.com/ibaiondo): de banda a banda, línea de 13 m a ±18,5 m y áreas de 25 m junto a cada banda
+  { const CX = (z: number) => 1000 + z * (960 / 51.75), CY = (x: number) => 640 + x * (600 / 31.25), TL = 31.25;
+    g.strokeStyle = 'rgba(244,184,52,.95)'; g.lineWidth = 6; g.lineJoin = 'miter';
+    const poly = (pts: [number, number][]) => { g.beginPath(); pts.forEach(([z, x], i) => i ? g.lineTo(CX(z), CY(x)) : g.moveTo(CX(z), CY(x))); g.stroke(); };
+    [[-47, -5, -38.5, -13.5], [4.5, 47, 13, 38.5]].forEach(([z0, z1, a0, a1]) => {
+      poly([[z0, -TL], [z0, TL]]); poly([[z1, -TL], [z1, TL]]);
+      [-1, 1].forEach(sx => { poly([[z0, sx * 18.5], [z1, sx * 18.5]]); poly([[a0, sx * TL], [a0, sx * 22.5], [a1, sx * 22.5], [a1, sx * TL]]); });
+    }); }
   g.strokeStyle='rgba(255,255,255,.92)';g.lineWidth=7;const L=(x,y,w,h)=>g.strokeRect(x,y,w,h);
   L(40,40,1920,1200);g.beginPath();g.moveTo(1000,40);g.lineTo(1000,1240);g.stroke();
   g.beginPath();g.arc(1000,640,176,0,Math.PI*2);g.stroke();g.fillStyle='#fff';g.beginPath();g.arc(1000,640,7,0,7);g.fill();
@@ -85,7 +93,7 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   [-20,-6,8,22].forEach(z=>box(.5,7.5,.5,mat(0xdde1e5),-37.2,3.8,z));
   box(9,2.2,6,mat(0xd8d4cc),-42,1.1,27); // escaleras al sur de la grada
   // banquillos cubiertos (rojos) frente a la grada
-  [-4,8,20].forEach(z=>{box(1.6,1.2,3.2,mat(0x8a2f2a),-35.6,.7,z);box(2,.12,3.6,mat(0xcfd6dc),-35.6,1.9,z)});
+  [[-9, 0x8a2f2a], [11, 0x2f4f8a]].forEach(([z, c]) => { box(1.8, 1.3, 6.6, mat(c as number), -35.6, .75, z as number); box(2.3, .14, 7, mat(0xcfd6dc), -35.6, 2.0, z as number); [-3, 3].forEach(d => box(.12, 1.3, .12, mat(0xdde1e5), -34.7, 1.3, (z as number) + d)); });
 
   // caseta (bar) al norte de la grada
   const hut=box(6,3.2,15,mat(0xf0f0ee),-43,1.6,-36);const hroof=box(6.6,.35,15.6,mat(0xb86a3e),-43,3.4,-36);
