@@ -11,6 +11,7 @@ import { Team } from "./Team";
 import { More } from "./More";
 import { Dialog } from "./Dialog";
 import { Welcome } from "./Welcome";
+import { startReveal } from "../lib/reveal";
 import { smooth } from "../lib/smooth";
 import { scrollToTop } from "../lib/scroll";
 import { useLang } from "../lib/i18n";
@@ -135,6 +136,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const changeTeam = () => { store.del(teamKey); setSelected(null); };
   const exit = () => { history.replaceState(null, "", window.location.pathname); onExit(); };
 
+  useEffect(() => { const m = mainRef.current; return m ? startReveal(m) : undefined; }, [selected]);
   const validTeam = selected === "neutral" || (!!selected && tn.teams.some(t => t.id === selected));
   if (!validTeam) return <EngineContext.Provider value={engine}><Welcome choosing={choosing} onPick={pick} onNeutral={neutral} onBack={exit} /></EngineContext.Provider>;
   const mine = selected!;
