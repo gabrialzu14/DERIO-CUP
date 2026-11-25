@@ -80,8 +80,8 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
           <h2 className="onb-title">{t("¿Qué móvil tienes?", "Zer mugikor duzu?")}</h2>
           <p className="onb-text">{t("Los pasos son distintos en cada sistema.", "Pausoak desberdinak dira sistema bakoitzean.")}</p>
           <div className="onb-cards">
-            <button type="button" className={"onb-card" + (detected === "ios" ? " is-mine" : "")} onClick={() => pick("ios")}><span className="onb-card-ico logo ios" role="img" aria-label="Apple" /><b>iPhone</b><small>{detected === "ios" ? t("Es el que estás usando", "Erabiltzen ari zaren hori da") : "iOS · Safari"}</small></button>
-            <button type="button" className={"onb-card" + (detected === "android" ? " is-mine" : "")} onClick={() => pick("android")}><span className="onb-card-ico logo android"><img src="/plataformas/android.webp" alt="Android" width={56} height={56} decoding="async" /></span><b>Android</b><small>{detected === "android" ? t("Es el que estás usando", "Erabiltzen ari zaren hori da") : "Chrome"}</small></button>
+            <button type="button" className={"onb-card" + (detected === "ios" ? " is-mine" : "")} onClick={() => pick("ios")}><span className="onb-card-ico logo ios" role="img" aria-label="Apple" /><b>iPhone</b><small>Safari</small></button>
+            <button type="button" className={"onb-card" + (detected === "android" ? " is-mine" : "")} onClick={() => pick("android")}><span className="onb-card-ico logo android"><img src="/plataformas/android.webp" alt="Android" width={56} height={56} decoding="async" /></span><b>Android</b><small>Chrome</small></button>
           </div>
         </>}
         {step === "steps" && <>
