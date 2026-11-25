@@ -16,7 +16,7 @@ import type { ThemePref } from "../lib/theme";
 import type { Dispatch, SetStateAction } from "react";
 
 type InfoItem = { key: string; icon: IconName; title: string; sub: string; body: ReactNode };
-function buildInfo(tn: Tournament, lang: Lang, locale: string, live: Record<1 | 2, boolean>): InfoItem[] {
+function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
   const eu = lang === "eu", t = <T,>(es: T, e: T) => (eu ? e : es);
   const i: InfoSpec = (eu && tn.infoEu) || tn.info, dp = dateParts(tn.date, locale), items: InfoItem[] = [];
   const kind = (es: string, e: string) => t(es, e);
@@ -25,7 +25,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string, live: Record<1 | 
     <div className="chips"><span>{tn.teams.length} {t("equipos", "talde")}</span><span>{dp.short}</span><span>{tn.venueShort}</span><span>{t("Temporada", "Denboraldia")} {tn.season}</span></div></> });
   items.push({ key: "ubicacion", icon: "pin", title: t("Ubicación · ", "Kokalekua · ") + tn.venueShort, sub: eu ? tn.venueEu ?? tn.venue : tn.venue, body: <>
     {eu ? <p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p> : <p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>}
-    <VenueMap3D fallback={i.venueImage} live={live} />
+    <VenueMap3D fallback={i.venueImage} />
     <a className="btn btn-primary block" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Abrir en Maps", "Ireki Maps-en")}</a></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean"), body: <>
     {i.parking.map(p => <figure key={p.src} className="figure">{/* eslint-disable-next-line @next/next/no-img-element */}<img className="venue-img wide" src={p.src} alt={p.alt} loading="lazy" /><figcaption>{p.title}</figcaption></figure>)}</> });
@@ -82,12 +82,8 @@ function LangPopup({ onClose }: { onClose: () => void }) {
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; setKoResults: Dispatch<SetStateAction<Record<string, ResultRow>>>; scores: Record<string, [number, number]>; setScores: Dispatch<SetStateAction<Record<string, [number, number]>>>; changeTeam: () => void; changeTournament: () => void; theme: ThemePref; setTheme: (t: ThemePref) => void };
 
 export function More({ ms, koResults, setKoResults, scores, setScores, changeTeam, changeTournament, theme, setTheme }: Props) {
-  const { tn, matchState, knockout } = useEngine(), { lang, t, locale } = useLang();
-  // campos con un partido en juego ahora mismo (grupos y eliminatorias)
-  const live: Record<1 | 2, boolean> = { 1: false, 2: false };
-  for (const m of ms) if (matchState(m.time, m.hs !== null) === "live") live[m.field] = true;
-  for (const k of ["Oro", "Plata"] as const) for (const g of knockout(k, ms, koResults)) if (g.home && g.away && !(g.result && g.result.home_team === g.home && g.result.away_team === g.away) && matchState(g.time, false) === "live") live[g.field] = true;
-  const INFO = buildInfo(tn, lang, locale, live), [langOpen, setLangOpen] = useState(false);
+  const { tn } = useEngine(), { lang, t, locale } = useLang();
+  const INFO = buildInfo(tn, lang, locale), [langOpen, setLangOpen] = useState(false);
   const [open, setOpen] = useState<string | null>(null), [appearOpen, setAppearOpen] = useState(false);
   const isDark = theme === "dark" || (theme === "system" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [manager, setManager] = useState(false), [install, setInstall] = useState(false), [installed, setInstalled] = useState(true);

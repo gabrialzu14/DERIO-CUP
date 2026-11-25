@@ -17,7 +17,7 @@ const ICON: Record<ZoneKey, string> = {
 const Ico = ({ k, size = 14 }: { k: ZoneKey; size?: number }) => k === "wc" ? <b className="v3-wc" style={{ fontSize: size * .78 }}>WC</b> : <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" dangerouslySetInnerHTML={{ __html: ICON[k] }} />;
 
 /** Plano 3D interactivo de Ibaiondo. Si el móvil no admite WebGL, se muestra la foto aérea. */
-export function VenueMap3D({ fallback, live }: { fallback?: { src: string; alt: string }; live?: Record<1 | 2, boolean> }) {
+export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string } }) {
   const { t, lang } = useLang(), eu = lang === "eu";
   const host = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), pop = useRef<HTMLDivElement>(null);
   const labs = useRef<Partial<Record<ZoneKey, HTMLDivElement | null>>>({});
@@ -73,7 +73,7 @@ export function VenueMap3D({ fallback, live }: { fallback?: { src: string; alt: 
             <span className="body"><span className="pin"><Ico k={k} size={19} /></span><span className="lbl">{name[k]}</span></span>
           </div>
         ))}
-        <div ref={pop} className="v3-pop" hidden={!cur}>{cur && <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} live={(cur === "c1" && live?.[1]) || (cur === "c2" && live?.[2]) || false} liveText={t("En juego", "Jokoan")} />}</div>
+        <div ref={pop} className="v3-pop" hidden={!cur}>{cur && <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} />}</div>
         <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra")}</button>
         <button type="button" className="v3-btn fs" aria-label={full ? t("Salir de pantalla completa", "Irten pantaila osotik") : t("Pantalla completa", "Pantaila osoa")} onClick={() => setFull(f => !f)}><Icon name={full ? "close" : "chevron"} size={16} className={full ? "" : "v3-expand"} /></button>
         {!ready && <span className="v3-load">{t("Cargando plano…", "Planoa kargatzen…")}</span>}
@@ -81,11 +81,11 @@ export function VenueMap3D({ fallback, live }: { fallback?: { src: string; alt: 
       <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak")}>
         {KEYS.map(k => <button key={k} type="button" className="v3-chip" aria-pressed={cur === k} onClick={() => pick(k)}>{k === "wc" ? <b className="v3-wc" style={{ fontSize: 13 }}>WC</b> : <><Ico k={k} size={15} />{name[k]}</>}</button>)}
       </div>
-      {cur && <div className="v3-card" aria-live="polite"><Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} live={(cur === "c1" && live?.[1]) || (cur === "c2" && live?.[2]) || false} liveText={t("En juego", "Jokoan")} /></div>}
+      {cur && <div className="v3-card" aria-live="polite"><Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} /></div>}
     </div>
   );
 }
 
-function Card({ name, phase, desc, live, liveText }: { k: ZoneKey; name: string; phase: string | null; desc?: string; live?: boolean; liveText?: string }) {
-  return <><b>{name}{phase && <span className={"v3-ph " + (phase.toLowerCase().startsWith("urrezko") || phase.endsWith("Oro") ? "oro" : "plata")}>{phase}</span>}</b>{live && <span className="v3-live"><i aria-hidden="true" />{liveText}</span>}{desc && <p>{desc}</p>}</>;
+function Card({ name, phase, desc }: { k: ZoneKey; name: string; phase: string | null; desc?: string }) {
+  return <><b>{name}{phase && <span className={"v3-ph " + (phase.toLowerCase().startsWith("urrezko") || phase.endsWith("Oro") ? "oro" : "plata")}>{phase}</span>}</b>{desc && <p>{desc}</p>}</>;
 }
