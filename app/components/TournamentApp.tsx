@@ -21,7 +21,7 @@ import type { useTheme } from "../lib/useTheme";
 export type TabId = "inicio" | "partidos" | "clasificacion" | "fases" | "mas" | "equipo";
 const TAB_IDS: TabId[] = ["inicio", "partidos", "clasificacion", "fases", "mas"];
 const NAV: { id: Exclude<TabId, "equipo">; label: string; icon: IconName }[] = [
-  { id: "inicio", label: "Inicio", icon: "home" }, { id: "partidos", label: "Partidos", icon: "ball" }, { id: "clasificacion", label: "Clasificación", icon: "table" }, { id: "fases", label: "Fases", icon: "trophy" }, { id: "mas", label: "Más", icon: "more" },
+  { id: "inicio", label: "Inicio", icon: "home" }, { id: "partidos", label: "Partidos", icon: "ball" }, { id: "clasificacion", label: "Clasificaciones", icon: "table" }, { id: "fases", label: "Fases", icon: "trophy" }, { id: "mas", label: "Más", icon: "more" },
 ];
 const VISITOR_KEY = "derio-cup-visitor";
 type Scores = Record<string, [number, number]>;
@@ -52,7 +52,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [rules, setRules] = useState(false), [fairplay, setFairplay] = useState(false);
   const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
   const { theme, resolved, setTheme, toggle } = themeCtl, { lang, t, locale } = useLang();
-  const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapena", fases: "Faseak", mas: "Info" } : { mas: "Info" };
+  const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapenak", fases: "Faseak", mas: "Info" } : { mas: "Info" };
 
   /* ---- caché del último estado conocido ---- */
   useEffect(() => {

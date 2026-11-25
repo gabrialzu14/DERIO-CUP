@@ -26,7 +26,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  ok(await p.locator('.fairplay').isVisible(),T+' aviso de juego limpio al elegir equipo');await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.tabbar').isVisible(),T+' entra al torneo');
  // 2 pestañas e historial
- for(const l of ['Partidos','Clasificación','Fases','Info'])await p.locator('nav button',{hasText:l}).tap(),await p.waitForTimeout(250);
+ for(const l of ['Partidos','Clasificaciones','Fases','Info'])await p.locator('nav button',{hasText:l}).tap(),await p.waitForTimeout(250);
  ok(await hash(p)==='#mas',T+' hash #mas');
  await p.goBack();await p.waitForTimeout(250);ok(await hash(p)==='#fases',T+' Atrás→fases');
  await p.goBack();await p.waitForTimeout(250);ok(await hash(p)==='#clasificacion',T+' Atrás→clasificación');
@@ -101,7 +101,7 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  ok(sel.body==='none'&&sel.btn==='none',T+' selección desactivada en la app '+JSON.stringify(sel));
  // 7 pulsaciones rápidas
  await p.goto(URL+'#partidos',{waitUntil:'networkidle'});await p.waitForTimeout(400);
- for(let i=0;i<12;i++){for(const l of ['Inicio','Partidos','Clasificación','Fases','Info'])await p.locator('nav button',{hasText:l}).tap({timeout:3000});}
+ for(let i=0;i<12;i++){for(const l of ['Inicio','Partidos','Clasificaciones','Fases','Info'])await p.locator('nav button',{hasText:l}).tap({timeout:3000});}
  await p.waitForTimeout(400);
  ok(await hash(p)==='#mas'&&(await p.locator('nav button[aria-current=page]').innerText()).includes('Info'),T+' pulsaciones rápidas coherentes');
  // 8 rotación
