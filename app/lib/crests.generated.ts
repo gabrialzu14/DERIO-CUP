@@ -21,6 +21,7 @@ export const CRESTS: Readonly<Record<string, string>> = {
   "leioa": "#fe010e",
   "portugalete": "#fcec00",
   "retuerto": "#da261e",
+  "romo": "#e20e18",
   "santutxu": "#ce3932",
   "sestao-river": "#225b37",
   "trapagaran": "#2458a9",

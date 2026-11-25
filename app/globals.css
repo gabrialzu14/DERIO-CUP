@@ -1014,3 +1014,32 @@ dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
 
 .tabbar .tab-cup { color: currentColor; width: 20px !important; height: 22px !important; margin-block: 1px; }
 .link-btn .sort-ico { margin-right: 6px; }
+
+/* ---- Plano 3D de Ibaiondo (Información → Ubicación) ---- */
+.v3 { display: grid; gap: 10px; }
+.v3-map { position: relative; width: 100%; aspect-ratio: 4 / 3.5; border-radius: 18px; overflow: hidden; background: var(--surface-2); box-shadow: 0 10px 30px -16px var(--shadow); touch-action: none; overscroll-behavior: contain; }
+.v3-map canvas { display: block; width: 100%; height: 100%; touch-action: none; opacity: 0; transition: opacity .35s var(--ease-out); }
+.v3-map.ready canvas { opacity: 1; }
+.v3-map.full { position: fixed; inset: 0; width: 100vw; height: 100dvh; aspect-ratio: auto; border-radius: 0; z-index: 60; }
+.v3-lab { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 5px; min-width: 30px; min-height: 30px; padding: 4px 9px 4px 5px; border-radius: 999px; background: rgb(255 255 255 / .94); color: #0b1b33; font-size: .6875rem; font-weight: 800; white-space: nowrap; box-shadow: 0 3px 10px rgb(0 0 0 / .25); transition: opacity .2s; will-change: transform; }
+.v3-lab i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; }
+:root[data-theme="dark"] .v3-lab i { color: #06162b; }
+.v3-lab.on { background: var(--accent); color: #fff; } .v3-lab.on i { background: #fff; color: var(--accent); }
+:root[data-theme="dark"] .v3-lab.on { color: #06162b; }
+.v3-lab.big { background: rgb(10 25 50 / .55); color: #fff; padding: 5px 10px; letter-spacing: .06em; text-transform: uppercase; box-shadow: none; }
+.v3-lab.big.on { background: var(--accent); }
+.v3-map.far .v3-lab:not(.big):not(.on) .t { display: none; } .v3-map.far .v3-lab:not(.big):not(.on) { padding: 4px; }
+.v3-pop { position: absolute; left: 0; top: 0; z-index: 5; max-width: 230px; padding: 9px 12px; border-radius: 14px; background: var(--surface); color: var(--text); box-shadow: 0 8px 24px rgb(0 0 0 / .3); font-size: .75rem; line-height: 1.35; pointer-events: none; animation: fade-in .18s ease both; }
+.v3-pop[hidden] { display: none; } .v3-pop b { display: block; font-size: .8125rem; } .v3-pop p { margin-top: 2px; color: var(--text-2); font-weight: 600; }
+.v3-ph { margin-left: 6px; padding: 2px 7px; border-radius: 999px; font-size: .625rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
+.v3-ph.oro { background: var(--gold-soft); color: var(--gold-ink); } .v3-ph.plata { background: var(--silver-soft); color: var(--text-2); }
+.v3-btn { position: absolute; z-index: 6; border-radius: 12px; background: rgb(255 255 255 / .94); color: #0b1b33; font-size: .75rem; font-weight: 800; padding: 7px 11px; box-shadow: 0 3px 10px rgb(0 0 0 / .25); }
+.v3-btn.top { right: 10px; top: 10px; } .v3-btn.fs { right: 10px; bottom: 10px; padding: 7px; display: grid; place-items: center; }
+.v3-expand { transform: rotate(-45deg); }
+.v3-hint { position: absolute; left: 10px; bottom: 10px; z-index: 4; max-width: calc(100% - 70px); padding: 4px 9px; border-radius: 999px; background: rgb(0 0 0 / .5); color: #fff; font-size: .6875rem; font-weight: 700; pointer-events: none; }
+.v3-load { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-2); font-size: .8125rem; font-weight: 700; }
+.v3-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.v3-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: .8125rem; font-weight: 700; }
+.v3-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg, #fff); }
+.v3-card { min-height: 60px; padding: 12px 14px; border-radius: 16px; background: var(--surface-2); } .v3-card b { display: block; font-size: .9375rem; } .v3-card p { margin-top: 3px; color: var(--text-2); font-size: .875rem; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .v3-pop { animation: none; } .v3-map canvas { transition: none; } }

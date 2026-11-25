@@ -33,7 +33,7 @@ const idle = (fn: () => void) => {
 };
 
 const crests = (list: Tournament[]) => list.flatMap(tn => tn.teams.map(t => crestFor(t.crest ?? t.name)).filter((s): s is string => !!s));
-const venue = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.infoEu].flatMap(i => i ? [i.venueImage?.src, ...(i.parking ?? []).map(p => p.src)] : []).filter((s): s is string => !!s));
+const venue = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.infoEu].flatMap(i => i ? (i.parking ?? []).map(p => p.src) : []).filter((s): s is string => !!s));
 
 /**
  * Precarga las imágenes de la app mientras se muestra la pantalla de carga, por niveles:

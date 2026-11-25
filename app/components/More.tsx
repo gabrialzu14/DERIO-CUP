@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Icon, type IconName } from "./icons";
 import { BrandName, CupMark } from "./ui";
+import { VenueMap3D } from "./VenueMap3D";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
@@ -24,7 +25,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <div className="chips"><span>{tn.teams.length} {t("equipos", "talde")}</span><span>{dp.short}</span><span>{tn.venueShort}</span><span>{t("Temporada", "Denboraldia")} {tn.season}</span></div></> });
   items.push({ key: "ubicacion", icon: "pin", title: t("Ubicación · ", "Kokalekua · ") + tn.venueShort, sub: eu ? tn.venueEu ?? tn.venue : tn.venue, body: <>
     {eu ? <p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p> : <p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>}
-    {i.venueImage && /* eslint-disable-next-line @next/next/no-img-element */ <img className="venue-img" src={i.venueImage.src} alt={i.venueImage.alt} loading="lazy" />}
+    <VenueMap3D fallback={i.venueImage} />
     <a className="btn btn-primary block" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Abrir en Maps", "Ireki Maps-en")}</a></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean"), body: <>
     {i.parking.map(p => <figure key={p.src} className="figure">{/* eslint-disable-next-line @next/next/no-img-element */}<img className="venue-img wide" src={p.src} alt={p.alt} loading="lazy" /><figcaption>{p.title}</figcaption></figure>)}</> });
