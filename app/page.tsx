@@ -3,7 +3,7 @@ import { scrollToTop } from "./lib/scroll";
 import { useEffect, useState } from "react";
 import { Icon } from "./components/icons";
 import { Landing } from "./components/Landing";
-import { Splash } from "./components/Welcome";
+import { Splash, SPLASH_MS } from "./components/Welcome";
 import { TournamentApp } from "./components/TournamentApp";
 import { TOURNAMENTS, getTournament } from "./lib/editions";
 import { isUpcoming } from "./lib/tournament";
@@ -37,7 +37,7 @@ function App() {
     let seen = false;
     try { seen = !!sessionStorage.getItem("derio-cup-splash"); sessionStorage.setItem("derio-cup-splash", "1"); } catch {}
     if (seen) { setSplash(false); return; }
-    const t = setTimeout(() => smooth(() => setSplash(false)), 2100);
+    const t = setTimeout(() => smooth(() => setSplash(false)), SPLASH_MS);
     return () => clearTimeout(t);
   }, []);
 

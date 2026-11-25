@@ -23,7 +23,7 @@ for(const [name,prof] of profiles){
   await p.route('**/derio_cup_fans*',r=>r.request().method()==='POST'?r.fulfill({status:201,body:''}):r.fulfill({status:200,contentType:'application/json',body:'[]'}));
   const tag=`[${name}/${scheme}]`;
   // landing
-  await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
+  await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
   const ov=await p.evaluate(()=>({sx:document.documentElement.scrollWidth-innerWidth,bx:document.body.scrollWidth-innerWidth}));
   ok(ov.sx<=0&&ov.bx<=0,`${tag} landing sin desborde horizontal (${JSON.stringify(ov)})`);
   ok(await p.locator('.tourney-card').isVisible(),`${tag} landing muestra el torneo`);

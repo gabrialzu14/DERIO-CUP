@@ -752,18 +752,22 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .callout.warn .icon { margin-top: 1px; color: var(--red); }
 
 /* ---------- Pantalla de carga animada ---------- */
-.splash { gap: 18px; }
-.splash-logo { width: 150px; height: auto; color: var(--brand-ink); overflow: visible; }
-.splash-fill { fill: currentColor; fill-opacity: 0; stroke: none; animation: splash-fill .6s ease 1.25s forwards; }
-.splash-path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: splash-draw 1.15s var(--ease) calc(var(--i) * 55ms) forwards, splash-stroke-out .4s ease 1.5s forwards; }
-.splash-name { font-size: 1.5rem; font-weight: 800; letter-spacing: -.04em; color: var(--text); opacity: 0; animation: fade-in .5s ease 1.2s forwards; }
-.splash-name span { font-weight: 300; margin-left: .06em; }
-.splash-bar { position: relative; width: 96px; height: 2px; border-radius: 2px; background: var(--surface-3); overflow: hidden; opacity: 0; animation: fade-in .3s ease .2s forwards; }
-.splash-bar::after { content: ""; position: absolute; inset: 0; border-radius: 2px; background: var(--accent); transform: translateX(-100%); animation: splash-load 1.9s var(--ease) forwards; }
-@keyframes splash-draw { to { stroke-dashoffset: 0; } }
-@keyframes splash-fill { to { fill-opacity: 1; } }
-@keyframes splash-stroke-out { to { stroke-opacity: 0; } }
-@keyframes splash-load { to { transform: translateX(0); } }
+.splash { gap: 22px; }
+.sp-logo { width: 168px; height: auto; overflow: visible; display: block; }
+.sp-path { fill: none; stroke: url(#sp-g); stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; animation: sp-draw var(--d) var(--ease-in-out) var(--t) forwards; }
+.sp-fill { fill: url(#sp-g); opacity: 0; animation: sp-fill .6s var(--ease-out) 1.95s forwards; }
+.sp-spark { fill: #fff; opacity: 0; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 9px var(--accent)) drop-shadow(0 0 16px var(--red)); }
+.sp-glint { fill: url(#sp-gl); transform: translateX(-300px); animation: sp-glint .85s var(--ease-in-out) 2.3s forwards; }
+.sp-halo { position: absolute; left: 50%; top: 50%; width: 300px; height: 300px; margin: -190px 0 0 -150px; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 38%, transparent), transparent); opacity: 0; animation: sp-halo 1s ease-out 1.95s forwards; pointer-events: none; }
+.sp-word { display: flex; gap: .02em; font-size: 1.5rem; font-weight: 800; letter-spacing: -.04em; color: var(--brand-ink); line-height: 1; }
+.sp-word i { font-style: normal; opacity: 0; transform: translateY(8px); filter: blur(4px); animation: sp-letter .45s var(--ease-out) calc(2.1s + var(--k) * 45ms) forwards; }
+.sp-word i.l { font-weight: 300; }
+@keyframes sp-draw { to { stroke-dashoffset: 0; } }
+@keyframes sp-fill { to { opacity: 1; } }
+@keyframes sp-glint { to { transform: translateX(1150px); } }
+@keyframes sp-halo { 0% { opacity: 0; transform: scale(.7); } 40% { opacity: 1; } 100% { opacity: 0; transform: scale(1.15); visibility: hidden; } }
+@keyframes sp-letter { to { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) { .sp-path, .sp-fill, .sp-glint, .sp-halo, .sp-word i { animation-duration: .01ms !important; animation-delay: 0s !important; } .sp-path { stroke-opacity: 0; } }
 .date-tile.month-first { grid-auto-flow: row; }
 .date-tile.month-first b { order: 2; margin-top: 4px; }
 .date-tile.month-first small { order: 1; margin-top: 0; }

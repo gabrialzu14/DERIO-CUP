@@ -8,7 +8,7 @@ const mk=async(prof,scheme,init)=>{const ctx=await b.newContext({...prof,colorSc
  await p.addInitScript(()=>localStorage.setItem('derio-cup-lang','es'));if(init)await p.addInitScript(init);return {ctx,p,errs}};
 // --- iPhone: flujo "No, ayúdame"
 let {ctx,p,errs}=await mk(devices['iPhone 14 Pro'],'light');
-await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
 ok(await p.locator('.onb').count()===1,'aparece el guion la primera vez');
 ok((await p.locator('.onb-title').innerText()).includes('Bienvenido'),'1. bienvenida');
 await p.screenshot({path:'shots/ob-1-welcome.png'});
@@ -39,7 +39,7 @@ ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()
 ok(errs.length===0,'sin errores '+errs);await ctx.close();
 // --- Android: pasos
 ({ctx,p,errs}=await mk(devices['Pixel 5'],'dark'));
-await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
 await p.locator('.btn',{hasText:'Empezar'}).tap();await p.waitForTimeout(300);
 await p.locator('.onb-card',{hasText:'No, ayúdame'}).tap();await p.waitForTimeout(300);
 ok((await p.locator('.onb-card small').nth(1).innerText()).includes('estás usando'),'detecta Android');
@@ -56,14 +56,14 @@ await p.screenshot({path:'shots/ob-8-android-done.png'});
 await ctx.close();
 // --- Opción 1: "Sí, ya lo he hecho"
 ({ctx,p,errs}=await mk(devices['iPhone 12'],'light'));
-await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
 await p.locator('.btn',{hasText:'Empezar'}).tap();await p.waitForTimeout(300);
 await p.locator('.onb-card',{hasText:'Sí, ya lo he hecho'}).tap();await p.waitForTimeout(500);
 ok(await p.locator('.tourney-card').count()===1,'Opción 1 → elegir torneo');
 await ctx.close();
 // --- App instalada: sin guion
 ({ctx,p,errs}=await mk(devices['iPhone 12'],'light',()=>Object.defineProperty(navigator,'standalone',{value:true})));
-await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(2700);
+await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3700);
 ok(await p.locator('.onb').count()===0&&await p.locator('.tourney-card').count()===1,'instalada: va directa a elegir torneo');
 await p.locator('.tourney-card').tap();await p.locator('.team-pick').first().tap();await p.locator('.continue-btn').tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
 await p.locator('nav button',{hasText:'Info'}).tap();await p.waitForTimeout(300);
