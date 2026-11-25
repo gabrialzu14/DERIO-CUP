@@ -2,7 +2,7 @@
 import { createPortal } from "react-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "./icons";
-import { Crest, CupMark } from "./ui";
+import { BrandName, Crest, CupMark } from "./ui";
 import { Home } from "./Home";
 import { Partidos } from "./Partidos";
 import { Clasificacion } from "./Clasificacion";
@@ -149,7 +149,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           <div className="app-header-in">
             <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ${t("ir al inicio", "joan hasierara")}`}>
               <CupMark size={30} className="brand-grad" />
-              <span><b>{BRAND}</b><small>{tournamentTag(tn, locale)}</small></span>
+              <span><BrandName as="b" /><small>{tournamentTag(tn, locale)}</small></span>
             </button>
             <div className="header-actions">
               {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={t("Mi equipo: ", "Nire taldea: ") + engine.T(mine).name} onClick={() => go("equipo", { team: mine })}><Crest id={mine} size={26} /></button>}

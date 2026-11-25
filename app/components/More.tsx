@@ -2,7 +2,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Icon, type IconName } from "./icons";
-import { CupMark, Tabs } from "./ui";
+import { BrandName, CupMark, Tabs } from "./ui";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
@@ -112,7 +112,7 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
         <button type="button" className="menu-item" onClick={() => setManager(true)}><span className="menu-icon"><Icon name="lock" /></span><span className="menu-text"><b>{t("Acceso responsables", "Arduradunen sarbidea")}</b><small>{t("Publicar y editar resultados", "Argitaratu eta editatu emaitzak")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
       </div>
 
-      <footer className="more-brand"><CupMark size={34} className="brand-grad" /><b>{BRAND}</b><small>{tn.category}</small></footer>
+      <footer className="more-brand"><CupMark size={34} className="brand-grad" /><BrandName as="b" /><small>{tn.category}</small></footer>
 
       {langOpen && <LangPopup onClose={() => setLangOpen(false)} />}
       {item && <Dialog title={item.title} onClose={() => setOpen(null)}><div className="prose">{item.body}</div></Dialog>}

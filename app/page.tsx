@@ -33,7 +33,7 @@ function App() {
     let done = false; try { done = !!localStorage.getItem(ONBOARDED_KEY); } catch {}
     setOnboarding(!isInstalled() && !done && !(tn && isUpcoming(tn)));
     setReady(true);
-    preloadImages(TOURNAMENTS.filter(isUpcoming)); // durante la carga inicial
+    preloadImages(TOURNAMENTS.filter(isUpcoming), tn && isUpcoming(tn) ? tn.id : null); // durante la pantalla de carga
     let seen = false;
     try { seen = !!sessionStorage.getItem("derio-cup-splash"); sessionStorage.setItem("derio-cup-splash", "1"); } catch {}
     if (seen) { setSplash(false); return; }

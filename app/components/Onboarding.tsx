@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
-import { CupMark } from "./ui";
+import { BrandName, CupMark } from "./ui";
 import { LangToggle } from "./LanguageScreen";
 import { BRAND } from "../lib/tournament";
 import { useLang } from "../lib/i18n";
@@ -96,7 +96,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
           <div className="onb-art ok"><Icon name="check" size={52} /></div>
           <h2 className="onb-title">{t("¡Ya casi está!", "Ia eginda!")}</h2>
           <p className="onb-text">{lang === "eu" ? <>Itxi orri hau eta bilatu <b>Derio Cup</b> zure <b>mugikorraren menu nagusian</b>: hasierako pantailan edo, Androiden, aplikazioen zerrendan.</> : <>Cierra esta página y busca <b>Derio Cup</b> en el <b>menú principal de tu móvil</b>: la pantalla de inicio o, en Android, la lista de aplicaciones.</>}</p>
-          <div className="onb-appicon"><span className="onb-appicon-img"><CupMark size={34} /></span><b>Derio Cup</b></div>
+          <div className="onb-appicon"><span className="onb-appicon-img"><CupMark size={34} /></span><BrandName as="b" /></div>
           <p className="onb-text sm">{t("Al abrirla podrás elegir tu torneo.", "Irekitzean zure txapelketa aukeratu ahal izango duzu.")}</p>
         </>}
       </div>

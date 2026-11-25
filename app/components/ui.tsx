@@ -22,6 +22,11 @@ export function CupMark({ size = 40, className = "" }: { size?: number; classNam
   return <span className={"cup-mark " + className} style={{ width: size, height: size * 1.1 }} role="img" aria-label={BRAND} />;
 }
 
+/** Nombre de marca con la tipografía de la Derio Cup: «Derio» en negrita y «Cup» en trazo fino. */
+export function BrandName({ as: Tag = "span" }: { as?: "span" | "b" }) {
+  return <Tag className="brand-name" aria-label={BRAND}><span className="d" aria-hidden="true">Derio</span><span className="c" aria-hidden="true">Cup</span></Tag>;
+}
+
 /** Contenido de un equipo que abre su perfil al pulsarlo. */
 export function TeamLink({ id, className = "", children }: { id: string; className?: string; children: ReactNode }) {
   const open = useOpenTeam(), { T } = useEngine(), { t } = useLang();

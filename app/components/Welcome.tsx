@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { LOGO_PATHS, LOGO_VIEWBOX } from "../lib/logoPaths";
-import { Crest, CupMark } from "./ui";
+import { BrandName, Crest, CupMark } from "./ui";
 import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
 import { clubTone } from "../lib/crests";
@@ -79,7 +79,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
       <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />{tr("Torneos", "Txapelketak")}</button>
       <header className="welcome-head">
         <CupMark size={64} className="brand-grad" />
-        <h1>{BRAND}</h1>
+        <h1><BrandName /></h1>
         <p>{tournamentTag(tn, locale)}</p>
         <h2>{tr("¿Con quién vas?", "Zeinekin zoaz?")}</h2>
         <small>{tr("Elige tu equipo para seguirlo de cerca. Puedes cambiarlo cuando quieras.", "Aukeratu zure taldea gertutik jarraitzeko. Nahi duzunean alda dezakezu.")}</small>

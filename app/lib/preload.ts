@@ -1,19 +1,60 @@
 import { crestFor } from "./crests";
 import { SPONSORS } from "./sponsors";
+import { isInstalled } from "./platform";
 import type { Tournament } from "./tournament";
 
+type Priority = "high" | "auto" | "low";
 const seen = new Set<string>();
-const load = (src: string) => { if (typeof window === "undefined" || seen.has(src)) return; seen.add(src); const i = new Image(); i.decoding = "async"; i.src = src; };
+const keep: HTMLImageElement[] = []; // se conservan para que el navegador no descarte la imagen ya decodificada
 
-/** Precarga escudos, patrocinadores y logos para que ya estén listos cuando se llegue a cada pantalla. */
-export function preloadImages(tournaments: Tournament[]) {
-  // Primero lo que se ve antes (instalación, torneos y patrocinadores); después los escudos y planos.
-  const run = () => {
-    load("/plataformas/ios.webp"); load("/plataformas/android.webp"); load("/logo-derio-cup.webp");
-    for (const s of SPONSORS) load("/patrocinadores/" + s.id + ".webp");
-    for (const tn of tournaments) for (const t of tn.teams) { const s = crestFor(t.crest ?? t.name); if (s) load(s); }
-    load("/ibaiondo-campo.jpg"); load("/aparcamiento-1.jpg"); load("/aparcamiento-2.jpg");
-  };
-  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => void };
-  void w; setTimeout(run, 0);
+/** Descarga y decodifica una imagen (así aparece de golpe, sin parpadeos). Nunca falla: si no carga, se sigue. */
+const load = (src: string, priority: Priority = "auto") =>
+  new Promise<void>(done => {
+    if (typeof window === "undefined" || seen.has(src)) return done();
+    seen.add(src);
+    const img = new Image();
+    img.decoding = "async";
+    (img as HTMLImageElement & { fetchPriority?: string }).fetchPriority = priority;
+    img.src = src;
+    keep.push(img);
+    if (img.decode) img.decode().then(() => done(), () => done());
+    else { img.onload = img.onerror = () => done(); }
+  });
+
+/** Descarga una lista con un máximo de peticiones a la vez, para no competir con lo que se está viendo. */
+const pool = async (srcs: string[], limit: number, priority: Priority) => {
+  const queue = [...new Set(srcs)];
+  await Promise.all(Array.from({ length: Math.min(limit, queue.length) }, async () => { for (let s = queue.shift(); s; s = queue.shift()) await load(s, priority); }));
+};
+
+const idle = (fn: () => void) => {
+  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+  if (w.requestIdleCallback) w.requestIdleCallback(fn, { timeout: 2000 }); else setTimeout(fn, 250);
+};
+
+const crests = (list: Tournament[]) => list.flatMap(tn => tn.teams.map(t => crestFor(t.crest ?? t.name)).filter((s): s is string => !!s));
+const venue = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.infoEu].flatMap(i => i ? [i.venueImage?.src, ...(i.parking ?? []).map(p => p.src)] : []).filter((s): s is string => !!s));
+
+/**
+ * Precarga las imágenes de la app mientras se muestra la pantalla de carga, por niveles:
+ *  1) lo primero que se ve: logo, patrocinadores y escudos del torneo recordado (prioridad alta);
+ *  2) lo que se usa justo después: logos de instalación (solo si la app no está instalada) y escudos del resto de torneos;
+ *  3) cuando el navegador está libre: planos y aparcamientos (prioridad baja).
+ * Con «ahorro de datos» o una conexión 2G solo se carga el primer nivel.
+ */
+export function preloadImages(tournaments: Tournament[], rememberedId?: string | null) {
+  if (typeof window === "undefined") return;
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const light = !!conn && (conn.saveData === true || /(^|-)2g$/.test(conn.effectiveType ?? ""));
+  const first = tournaments.find(t => t.id === rememberedId) ?? tournaments[0];
+  const rest = tournaments.filter(t => t !== first);
+
+  const tier1 = ["/logo-derio-cup.webp", ...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : [])];
+  const tier2 = ["/animo.webp", ...(isInstalled() ? [] : ["/plataformas/ios.webp", "/plataformas/android.webp", "/plataformas/safari.webp", "/plataformas/chrome.webp"]), ...crests(rest)];
+  const tier3 = venue(tournaments);
+
+  void pool(tier1, 6, "high").then(() => {
+    if (light) return;
+    void pool(tier2, 4, "auto").then(() => idle(() => void pool(tier3, 2, "low")));
+  });
 }

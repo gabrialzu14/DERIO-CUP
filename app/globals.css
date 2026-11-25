@@ -921,3 +921,10 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 
 /* Logo de marca con el degradado azul-rojo de la pantalla de carga (bienvenida, inicio y cabecera) */
 .cup-mark.brand-grad { background: linear-gradient(140deg, var(--accent), var(--red)); }
+
+/* Nombre de marca: «Derio» en negrita y «Cup» en trazo fino (como el logotipo) */
+.brand-name .d { font-weight: 800; }
+.brand-name .c { font-weight: 300; margin-left: .12em; }
+.eyebrow .brand-name .d { font-weight: 800; } .eyebrow .brand-name .c { font-weight: 400; }
+.brand .brand-name, .more-brand .brand-name, .onb-appicon .brand-name { white-space: nowrap; display: block; }
+.brand-name > .d, .brand-name > .c { display: inline; }

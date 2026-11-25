@@ -2,7 +2,7 @@
 import { useState, type CSSProperties } from "react";
 import { Icon } from "./icons";
 import { clubTone } from "../lib/crests";
-import { Crest, CupMark, KOGameRow, PhaseNote, TeamLink, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
+import { BrandName, Crest, CupMark, KOGameRow, PhaseNote, TeamLink, LiveBadge, MatchRow, SectionHead, TabPanel, Tabs } from "./ui";
 import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
 import { useLang } from "../lib/i18n";
@@ -112,7 +112,7 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
   );
   return (
     <section className="hero hero-final" aria-label={t("Resultados finales", "Azken emaitzak")}>
-      <div className="hero-top"><span className="eyebrow">{BRAND} · {t("Finalizada", "Amaituta")}</span><CupMark size={26} /></div>
+      <div className="hero-top"><span className="eyebrow"><BrandName /> · {t("Finalizada", "Amaituta")}</span><CupMark size={26} /></div>
       <p className="hero-title">{t("Resultados finales", "Azken emaitzak")}</p>
       <div className="podium">
         <Cell kind="gold" id={ow} role={t("Campeón Oro", "Urrezko txapeldun")} /><Cell kind="gold" id={ru(oro, ow)} role={t("Subcampeón Oro", "Urrezko azpitxapeldun")} />
