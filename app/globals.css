@@ -985,3 +985,4 @@ body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-
 @keyframes fp-wave-l { 0%, 100% { transform: none; } 25% { transform: rotate(22deg); } 50% { transform: rotate(4deg); } 75% { transform: rotate(16deg); } }
 @keyframes fp-wave-r { 0%, 100% { transform: none; } 25% { transform: rotate(-22deg); } 50% { transform: rotate(-4deg); } 75% { transform: rotate(-16deg); } }
 @media (prefers-reduced-motion: reduce) { .fp-arm { animation: none; } }
+dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
