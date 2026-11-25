@@ -960,3 +960,8 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
   .tabbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 26px); }
   .main { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 48px); }
 }
+/* Primera pantalla (torneos) y guía: franja superior opaca y fija, como la cabecera de la app,
+   para que iOS no dibuje su difuminado de borde sobre el contenido al desplazarse. */
+.landing-theme, .onb-top { position: sticky; top: 0; z-index: 20; background: var(--bg); margin-inline: -16px; padding-inline: 16px; margin-top: -16px; padding-top: 16px; align-self: stretch; }
+.onb-top { margin-inline: -20px; padding-inline: 20px; }
+body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 95; pointer-events: none; }
