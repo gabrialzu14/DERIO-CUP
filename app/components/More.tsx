@@ -46,7 +46,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
       <li><span className="fmt-n">1</span><div><b>{t("Fase de grupos", "Multzo-fasea")}</b><p>{t(`${ng} grupos de ${per} equipos. Todos juegan contra todos.`, `${per} taldeko ${ng} multzo. Guztiek guztien aurka jokatzen dute.`)}</p></div></li>
       <li><span className="fmt-n">2</span><div><b>{t("Fases finales", "Azken faseak")}</b>
         <div className="fmt-split"><div className="gold"><i className="dot gold" />{t("Fase Oro", "Urrezko fasea")}<small>{t("1.º y 2.º de cada grupo", "Multzo bakoitzeko 1. eta 2.")}</small></div><div className="silver"><i className="dot silver" />{t("Fase Plata", "Zilarrezko fasea")}<small>{t("3.º y 4.º de cada grupo", "Multzo bakoitzeko 3. eta 4.")}</small></div></div>
-        <p>{t("Cuartos de final, semifinales y final.", "Finallaurdenak, finalerdiak eta finala.")}</p></div></li>
+        <p>{t("Cuartos de final, semifinales y final.", "Final-laurdenak, finalerdiak eta finala.")}</p></div></li>
     </ol>
     <div className="fmt-note"><Icon name="switch" size={18} /><span>{t("Los cambios son ", "Aldaketak ")}<b>{t("ilimitados", "mugagabeak")}</b>{t(" durante todo el partido.", " dira partida osoan zehar.")}</span></div>
     <div className="fmt-note"><Icon name="ball" size={18} /><span>{i.penaltyRule}</span></div>
