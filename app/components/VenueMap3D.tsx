@@ -83,7 +83,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
       <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak")}>
         {KEYS.map(k => <button key={k} type="button" className="v3-chip" aria-pressed={cur === k} onClick={() => pick(k)}>{k === "wc" ? <b className="v3-wc" style={{ fontSize: 13 }}>WC</b> : <><Ico k={k} size={15} />{name[k]}</>}</button>)}
       </div>
-      <div className="v3-card" aria-live="polite">{cur ? <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} /> : <b>{t("Toca una zona del plano", "Ukitu planoaren gune bat")}</b>}</div>
+      {cur && <div className="v3-card" aria-live="polite"><Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} /></div>}
     </div>
   );
 }
