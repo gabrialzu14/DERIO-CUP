@@ -986,3 +986,8 @@ body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-
 @keyframes fp-wave-r { 0%, 100% { transform: none; } 25% { transform: rotate(-22deg); } 50% { transform: rotate(-4deg); } 75% { transform: rotate(-16deg); } }
 @media (prefers-reduced-motion: reduce) { .fp-arm { animation: none; } }
 dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
+/* La barra inferior no participa en la transición de pantalla (antes se movía y perdía el efecto cristal 1-2 s al cargar). */
+.tabbar { view-transition-name: tabbar; }
+::view-transition-group(tabbar) { animation: none; }
+::view-transition-old(tabbar) { display: none; }
+::view-transition-new(tabbar) { animation: none; opacity: 0; }
