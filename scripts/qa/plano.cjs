@@ -51,7 +51,7 @@ for(const [name] of list){try{const T=`[${name}]`;const d=devices[name];if(!d){c
  await p.screenshot({path:S+name.replace(/ /g,'_')+'_'+lg+'_full.png'});
  await p.locator('.v3-btn.fs').evaluate(e=>e.click());await p.waitForTimeout(500);
  // 8) etiquetas dentro del plano y sin recorte
- const out=await p.evaluate(()=>{const m=document.querySelector('.v3-map').getBoundingClientRect();return [...document.querySelectorAll('.v3-lab')].filter(l=>getComputedStyle(l).opacity==='1').filter(l=>{const r=l.getBoundingClientRect();return r.left<m.left-2||r.right>m.right+2}).length});
+ const out=await p.evaluate(()=>{const m=document.querySelector('.v3-map').getBoundingClientRect();return [...document.querySelectorAll('.v3-mk .pin')].filter(l=>l.closest('.v3-mk').style.opacity==='1').filter(l=>{const r=l.getBoundingClientRect();return r.left<m.left-2||r.right>m.right+2}).length});
  ok(out===0,tag+' etiquetas visibles no se salen del plano ('+out+')');
  // 9) Atrás cierra la ventana
  await p.goBack();await p.waitForTimeout(500);ok(await p.locator('.dialog[open]').count()===0,tag+' Atrás cierra la ventana');

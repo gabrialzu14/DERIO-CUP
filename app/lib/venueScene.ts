@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { MapControls } from "three/examples/jsm/controls/MapControls.js";
 
 export type ZoneKey = "c1" | "c2" | "bar" | "wc" | "parking" | "entrada";
-export type Proj = Record<ZoneKey, { x: number; y: number; vis: boolean }> & { far: boolean };
+export type Proj = Record<ZoneKey, { x: number; y: number; vis: boolean; s: number; h: number }> & { far: boolean };
 
 /** Plano 3D de Ibaiondo: gira, mueve y amplía; al pulsar una zona solo se resalta (sin zoom). */
 export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, opts: { onPick: (k: ZoneKey | null) => void; onFrame: (p: Proj) => void; reduceMotion: boolean }) {
@@ -70,9 +70,9 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   [[455,985,'L'],[262,1105,'U'],[622,1105,'U']].forEach(([x,z,d])=>{const[p,q]=PX(x,z);const a=new THREE.Mesh(new THREE.ConeGeometry(.7,1.6,3),lineM);a.rotation.x=-Math.PI/2;a.rotation.z=d==='L'?Math.PI/2:0;a.position.set(p,.12,q);a.scale.y=.15;S.add(a)});
   box(6,.07,110,asph,-48,.04,12); // vial por detrás de la grada hasta el aparcamiento
   // calles: del aparcamiento a la rotonda (sur) y calle Errekalde subiendo por el este hasta las casas del norte
-  const road=(pts,w=9)=>{const c=new THREE.CatmullRomCurve3(pts.map(([x,z])=>new THREE.Vector3(x,.05,z)));const n=60,pos=[];for(let i=0;i<n;i++){const a=c.getPoint(i/n),b=c.getPoint((i+1)/n),d=b.clone().sub(a);const len=d.length();const m=new THREE.Mesh(new THREE.BoxGeometry(w,.07,len+.6),asph);m.position.copy(a.clone().add(b).multiplyScalar(.5));m.rotation.y=Math.atan2(d.x,d.z);m.receiveShadow=true;S.add(m)}};
+  const road=(pts,w=9)=>{const c=new THREE.CatmullRomCurve3(pts.map(([x,z])=>new THREE.Vector3(x,.05,z)));const n=60,pos=[];for(let i=0;i<n;i++){const a=c.getPoint(i/n),b=c.getPoint((i+1)/n),d=b.clone().sub(a);const len=d.length();const m=new THREE.Mesh(new THREE.BoxGeometry(w,.07,len+.6),asph);m.position.copy(a.clone().add(b).multiplyScalar(.5));m.rotation.y=Math.atan2(d.x,d.z);m.receiveShadow=true;S.add(m)}return c};
   // carretera calcada de la vista cenital (escala ≈0,157 m/px): del aparcamiento al este, curva al sur y rotonda de Camino Untzaga
-  road([[-25,79],[-16,83],[-1,82],[18,79],[36,79],[50,84],[65,93],[74,101]]);
+  const mainRoad=road([[-32,68],[-31,78],[-22,83],[-1,82],[18,79],[36,79],[50,84],[65,93],[74,101]]);
   road([[92,98],[96,68],[90,47],[73,12],[74,-30],[60,-62],[40,-72]]); // calle Errekalde por el este del campo
   road([[74,114],[58,132],[35,164]]);road([[86,118],[112,138],[146,156]]);box(4,.08,20,mat(0xcfd2d0),-13,.06,66);
   // detalles: setos rojizos al norte del aparcamiento, carril rayado al este, banco, papelera y porterías pequeñas
@@ -81,8 +81,17 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
 
 
 
-  // línea de valla norte-sur del campo seco y farolas de la calle
-  for(let i=0;i<5;i++){box(.25,6,.25,mat(0x9aa3a8),-4+i*15,3,86);box(1.4,.3,.4,mat(0xdfe3e8),-4+i*15,6,86)}road([[-48,74],[-75,74]],4);
+  // farolas a un lado de la carretera, orientadas según su dirección y con el brazo hacia el asfalto
+  { const poleLamp=mat(0x9aa3a8), head=mat(0xdfe3e8); const len=mainRoad.getLength();
+    for (let d = 20; d < len - 6; d += 17) {
+      const u = d / len, pt = mainRoad.getPointAt(u), tg = mainRoad.getTangentAt(u).setY(0).normalize(), nx = new THREE.Vector3(-tg.z, 0, tg.x); // normal hacia la izquierda
+      const side = nx.clone().multiplyScalar(-6.5), base = pt.clone().add(side), ang = Math.atan2(tg.x, tg.z);
+      const pole = box(.25, 6, .25, poleLamp, base.x, 3, base.z);
+      const arm = box(.2, .2, 2.4, head, base.x - side.x / 6.5 * 1.0, 6, base.z - side.z / 6.5 * 1.0); arm.rotation.y = Math.atan2(-side.x, -side.z);
+      const lamp = box(.5, .25, 1.1, head, base.x - side.x / 6.5 * 2.1, 5.85, base.z - side.z / 6.5 * 2.1); lamp.rotation.y = ang;
+      void pole;
+    } }
+  road([[-48,74],[-75,74]],4);
   const rb=new THREE.Mesh(new THREE.RingGeometry(9,15,40),asph);rb.rotation.x=-Math.PI/2;rb.position.set(81,.06,106);S.add(rb);
   const rbc=new THREE.Mesh(new THREE.CircleGeometry(9,40),mat(0x5f8f45));rbc.rotation.x=-Math.PI/2;rbc.position.set(81,.07,106);S.add(rbc);
   // edificio de tejado naranja al norte
@@ -102,7 +111,7 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   [[-10,58],[0,60],[10,58],[24,62]].forEach(([x,z])=>cypress(x,z));for(let i=0;i<14;i++)tree(rnd(82,130),rnd(-40,110),rnd(.9,1.4));
 
   // posiciones 3D de las etiquetas
-  const anchors: Record<ZoneKey, THREE.Vector3> = { c1: new THREE.Vector3(0, 1, 25), c2: new THREE.Vector3(0, 1, -25), wc: new THREE.Vector3(-50, 5, 1), bar: new THREE.Vector3(-38, 6, 26), parking: new THREE.Vector3(-32, 3, 66), entrada: new THREE.Vector3(-13, 3, 58) };
+  const anchors: Record<ZoneKey, THREE.Vector3> = { c1: new THREE.Vector3(0, .4, 25), c2: new THREE.Vector3(0, .4, -25), wc: new THREE.Vector3(-50, .4, 1), bar: new THREE.Vector3(-38, .4, 26), parking: new THREE.Vector3(-32, .4, 64), entrada: new THREE.Vector3(-13, .4, 59) };
 
   // ---- selección, día/noche, vista general ----
   let cur: ZoneKey | null = null;
@@ -122,9 +131,9 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   const onUp = (e: PointerEvent) => {
     if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
     const r = cv.getBoundingClientRect(); pt.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(pt, cam);
-    const lx = e.clientX - r.left, ly = e.clientY - r.top; let best: ZoneKey | null = null, bd = 28;
+    const lx = e.clientX - r.left, ly = e.clientY - r.top; let best: ZoneKey | null = null, bd = 34;
     // las etiquetas no capturan toques (para no bloquear el arrastre): se detecta la más cercana al dedo
-    (["bar", "wc", "parking", "entrada"] as ZoneKey[]).forEach(k => { const q = proj[k]; if (!q || !q.vis) return; const d = Math.hypot(q.x - lx, q.y - ly); if (d < bd) { bd = d; best = k; } });
+    (Object.keys(anchors) as ZoneKey[]).forEach(k => { const q = proj[k]; if (!q || !q.vis) return; const d = Math.min(Math.hypot(q.x - lx, q.y - q.h * q.s - 22 * q.s - ly), Math.hypot(q.x - lx, q.y - ly)); if (d < bd) { bd = d; best = k; } });
     if (best) { opts.onPick(best); return; }
     const h = ray.intersectObjects(zones)[0]; opts.onPick(h ? h.object.userData.k : null);
   };
@@ -138,7 +147,11 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
     if (fly) { const k = Math.min(1, (now - fly.t0) / 700), e = ease(k); cam.position.lerpVectors(fly.fp, HOME.p, e); ctl.target.lerpVectors(fly.ft, HOME.t, e); if (k === 1) fly = null; wake(); }
     const moved = ctl.update(); if (!moved && !dirty) return; dirty = false; R.render(S, cam);
     const w = map.clientWidth, h = map.clientHeight; proj.far = cam.position.distanceTo(ctl.target) > 135;
-    (Object.keys(anchors) as ZoneKey[]).forEach(k => { v.copy(anchors[k]).project(cam); proj[k] = { x: (v.x * .5 + .5) * w, y: (-v.y * .5 + .5) * h, vis: v.z < 1 && Math.abs(v.x) < .86 && Math.abs(v.y) < .9 }; });
+    const sc = Math.max(.74, Math.min(1.08, 125 / cam.position.distanceTo(ctl.target)));
+    (Object.keys(anchors) as ZoneKey[]).forEach(k => { v.copy(anchors[k]).project(cam); proj[k] = { x: (v.x * .5 + .5) * w, y: (-v.y * .5 + .5) * h, vis: v.z < 1 && Math.abs(v.x) < .9 && Math.abs(v.y) < .92, s: sc, h: 34 }; });
+    // los pines se ordenan de delante hacia atrás; si dos chocan, el de detrás sube
+    const placed: { L: number; W: number; top: number; H: number }[] = [], W = 38 * sc, H = 44 * sc;
+    (Object.keys(anchors) as ZoneKey[]).sort((a, b) => proj[b].y - proj[a].y).forEach(k => { const q = proj[k]; let hh = 34 * sc; for (let t = 0; t < 14; t++) { const top = q.y - hh - H, L = q.x - W / 2; if (!placed.some(o => L < o.L + o.W + 4 && L + W + 4 > o.L && top < o.top + o.H + 4 && top + H + 4 > o.top)) break; hh += H * .55; } placed.push({ L: q.x - W / 2, W, top: q.y - hh - H, H }); q.h = hh / sc; });
     opts.onFrame(proj);
   };
   raf = requestAnimationFrame(loop);
