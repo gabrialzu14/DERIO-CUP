@@ -1068,3 +1068,15 @@ dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
 @media (max-height: 520px) { .v3-map:not(.full) { aspect-ratio: auto; height: 74dvh; } .v3-chip { min-height: 36px; } }
 .v3-mk .lbl { display: none; }
 
+
+/* Fecha del torneo: ficha con el degradado del logo y destello; cuenta atrás en pastilla con borde degradado */
+:root { --dg1: light-dark(#0a5cc2, #3b8cff); --dg2: light-dark(#7a2a9a, #8b4fd0); --dg3: light-dark(#cf1738, #ff4f72); }
+.date-tile { position: relative; width: 62px; height: 66px; border-radius: 18px; overflow: hidden; color: #fff; background: linear-gradient(150deg, var(--dg1) 0%, var(--dg2) 55%, var(--dg3) 100%); box-shadow: 0 10px 22px -8px color-mix(in srgb, var(--dg3) 70%, transparent), inset 0 1px 0 rgb(255 255 255 / .35); }
+.date-tile::after { content: ""; position: absolute; inset: 0; width: 45%; background: linear-gradient(90deg, transparent, rgb(255 255 255 / .5), transparent); animation: tile-sheen 4.2s ease-in-out infinite; }
+.date-tile b { margin-top: 3px; font-size: 1.75rem; letter-spacing: -.04em; }
+.date-tile small { margin-top: 0; font-size: .625rem; letter-spacing: .1em; opacity: .92; }
+.date-tile:not(.month-first) small { order: -1; } .date-tile:not(.month-first) b { margin-top: 3px; }
+.when-pill { display: inline-flex; align-items: center; gap: 5px; width: max-content; padding: 3px 9px; border-radius: 999px; font-size: .6875rem; font-weight: 800; letter-spacing: .02em; color: var(--text); background: linear-gradient(var(--surface), var(--surface)) padding-box, linear-gradient(90deg, var(--dg1), var(--dg3)) border-box; border: 1.5px solid transparent; }
+.when-pill i { width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--dg1), var(--dg3)); }
+@keyframes tile-sheen { 0%, 62% { transform: translateX(-140%) skewX(-18deg); } 100% { transform: translateX(260%) skewX(-18deg); } }
+@media (prefers-reduced-motion: reduce) { .date-tile::after { animation: none; opacity: 0; } }

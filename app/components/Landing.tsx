@@ -33,7 +33,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
               <span className={"date-tile" + (lang === "eu" ? " month-first" : "")}><b>{p.day}</b><small>{p.monthShort}</small></span>
               <span className="tourney-text">
                 <b>{t.category}</b>
-                <small><em>{when(t.date, lang === "eu")}</em></small>
+                <span className="when-pill"><i aria-hidden="true" />{when(t.date, lang === "eu")}</span>
               </span>
               <Icon name="chevron" size={20} className="icon" />
             </button>
