@@ -50,7 +50,7 @@ export function preloadImages(tournaments: Tournament[], rememberedId?: string |
   const rest = tournaments.filter(t => t !== first);
 
   const tier1 = ["/logo-derio-cup.webp", ...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : [])];
-  const tier2 = ["/animo.webp", ...(isInstalled() ? [] : ["/plataformas/ios.webp", "/plataformas/android.webp", "/plataformas/safari.webp", "/plataformas/chrome.webp"]), ...crests(rest)];
+  const tier2 = ["/animo-cuerpo.webp", "/animo-brazo-izq.webp", "/animo-brazo-der.webp", ...(isInstalled() ? [] : ["/plataformas/ios.webp", "/plataformas/android.webp", "/plataformas/safari.webp", "/plataformas/chrome.webp"]), ...crests(rest)];
   const tier3 = venue(tournaments);
 
   void pool(tier1, 6, "high").then(() => {

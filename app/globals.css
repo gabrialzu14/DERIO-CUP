@@ -975,3 +975,13 @@ body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-
 .appear-opt.is-on { background: var(--accent-soft); color: var(--accent); }
 .appear-opt:active { transform: scale(.98); }
 .appear-opt .lang-check { color: var(--accent); background: none; }
+
+/* Aficionados del aviso: al aparecer levantan los brazos una vez y se quedan quietos */
+.fairplay-ico { position: relative; background: none !important; -webkit-mask: none !important; mask: none !important; }
+.fairplay-ico i { position: absolute; inset: 0; background: var(--accent); -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat; }
+.fp-body { -webkit-mask-image: url(/animo-cuerpo.webp) !important; mask-image: url(/animo-cuerpo.webp) !important; }
+.fp-arm.l { -webkit-mask-image: url(/animo-brazo-izq.webp) !important; mask-image: url(/animo-brazo-izq.webp) !important; transform-origin: 19% 48%; animation: fp-wave-l 1.1s var(--ease-in-out) .25s 1 both; }
+.fp-arm.r { -webkit-mask-image: url(/animo-brazo-der.webp) !important; mask-image: url(/animo-brazo-der.webp) !important; transform-origin: 81.5% 48%; animation: fp-wave-r 1.1s var(--ease-in-out) .25s 1 both; }
+@keyframes fp-wave-l { 0%, 100% { transform: none; } 25% { transform: rotate(22deg); } 50% { transform: rotate(4deg); } 75% { transform: rotate(16deg); } }
+@keyframes fp-wave-r { 0%, 100% { transform: none; } 25% { transform: rotate(-22deg); } 50% { transform: rotate(-4deg); } 75% { transform: rotate(-16deg); } }
+@media (prefers-reduced-motion: reduce) { .fp-arm { animation: none; } }
