@@ -13,7 +13,7 @@ export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setG
   const done = complete(group, ms);
   return (
     <div className="screen">
-      <div className="screen-title-row"><h1 className="screen-title">{t("Clasificación", "Sailkapena")}</h1><button type="button" className="link-btn" onClick={onRules}><Icon name="sort" size={18} />{t("Desempates", "Berdinketak")}</button></div>
+      <div className="screen-title-row"><h1 className="screen-title">{t("Clasificación", "Sailkapena")}</h1><button type="button" className="link-btn" onClick={onRules}><Icon name="sort" size={18} strokeWidth={2.6} className="icon sort-ico" />{t("Desempates", "Berdinketak")}</button></div>
       <Tabs label={t("Grupo", "Multzoa")} idPrefix="grupo" value={group} onChange={setGroup} items={GROUPS.map(g => ({ key: g, label: groupName(g, eu), ariaLabel: groupName(g, eu) }))} />
       <TabPanel idPrefix="grupo" tab={group}>
         <GroupTable group={group} ms={ms} />

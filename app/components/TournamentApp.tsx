@@ -174,7 +174,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
         {createPortal(<nav className="tabbar" aria-label={t("Navegación principal", "Nabigazio nagusia")}>
           <ul>
             {NAV.map(n => (
-              <li key={n.id}><button type="button" aria-current={activeNav === n.id ? "page" : undefined} onClick={() => go(n.id)}><Icon name={n.icon} size={24} /><span>{navLabel[n.id] ?? n.label}</span></button></li>
+              <li key={n.id}><button type="button" aria-current={activeNav === n.id ? "page" : undefined} onClick={() => go(n.id)}>{n.id === "fases" ? <CupMark size={22} className="tab-cup" /> : <Icon name={n.icon} size={24} />}<span>{navLabel[n.id] ?? n.label}</span></button></li>
             ))}
           </ul>
         </nav>, document.body)}

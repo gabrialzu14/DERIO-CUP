@@ -1011,3 +1011,6 @@ dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
 /* Perfil: el equipo destacado en su tabla */
 .trow.is-me { background: var(--accent-soft); border-radius: 12px; }
 .trow.is-me strong { color: var(--accent); }
+
+.tabbar .tab-cup { color: currentColor; width: 20px !important; height: 22px !important; margin-block: 1px; }
+.link-btn .sort-ico { margin-right: 6px; }
