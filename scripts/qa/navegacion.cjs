@@ -50,10 +50,10 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  const n0=await p.evaluate(()=>history.length);
  await p.locator('.menu-item',{hasText:'Normas'}).tap();await p.waitForTimeout(500);
  ok(await p.locator('dialog[open]').count()===1,T+' diálogo abierto');
- ok(await p.evaluate(()=>document.getElementById('scroller').style.overflowY)==='hidden',T+' scroll del fondo bloqueado con diálogo');
+ ok(await p.evaluate(()=>document.documentElement.style.overflow)==='hidden',T+' scroll del fondo bloqueado con diálogo');
  await p.goBack();await p.waitForTimeout(500);
  ok(await p.locator('dialog').count()===0&&await hash(p)==='#mas',T+' Atrás cierra el diálogo y se queda en Más');
- ok(await p.evaluate(()=>document.getElementById('scroller').style.overflowY)==='',T+' scroll desbloqueado');
+ ok(await p.evaluate(()=>document.documentElement.style.overflow)==='',T+' scroll desbloqueado');
  await p.locator('.menu-item',{hasText:'Normas'}).tap();await p.waitForTimeout(500);
  await p.locator('.dialog-panel .icon-btn').tap();await p.waitForTimeout(600);
  ok(await p.locator('dialog').count()===0,T+' cerrar con ✕');
@@ -87,18 +87,15 @@ for(const [name,prof] of [['iPhone 12',devices['iPhone 12']],['Pixel 5',devices[
  await p.locator('.tourney-card').tap();await p.waitForTimeout(400);
  await p.locator('button',{hasText:'No tengo equipo'}).tap();await p.waitForTimeout(700);await p.locator('.fairplay .btn').tap();await p.waitForTimeout(400);
  ok(await p.locator('.tabbar').isVisible()&&await p.locator('.team-card').count()===0,T+' sin equipo: entra sin tarjeta de equipo');
- // 6 gestos: arrastrar hacia abajo/arriba en el borde no mueve la página
+ // 6 gestos: arrastrar hacia abajo en la cima no recarga ni desplaza
  await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(500);
  await swipe(p,200,200,700);
- let st=await p.evaluate(()=>({sy:scrollY,top:document.getElementById('scroller').scrollTop,vv:visualViewport.offsetTop,pageTop:document.documentElement.scrollTop}));
- ok(st.sy===0&&st.top===0&&st.vv===0&&st.pageTop===0,T+' arrastrar abajo en la cima no mueve nada '+JSON.stringify(st));
- await p.evaluate(()=>document.getElementById('scroller').scrollTo(0,99999));await swipe(p,200,700,200);
- st=await p.evaluate(()=>({sy:scrollY,vv:visualViewport.offsetTop,pageTop:document.documentElement.scrollTop}));
- ok(st.sy===0&&st.vv===0&&st.pageTop===0,T+' arrastrar arriba al final no mueve la página '+JSON.stringify(st));
+ let st=await p.evaluate(()=>({sy:scrollY,vv:visualViewport.offsetTop}));
+ ok(st.sy===0&&st.vv===0,T+' arrastrar abajo en la cima no mueve nada '+JSON.stringify(st));
  // swipe horizontal
  const sx=await p.evaluate(()=>scrollX);const cdp=await ctx.newCDPSession(p);
  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:300,y:400}]});for(let i=1;i<=8;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:300-30*i,y:400}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await p.waitForTimeout(250);
- ok(await p.evaluate(()=>scrollX)===sx&&await p.evaluate(()=>document.getElementById('scroller').scrollLeft)===0,T+' arrastre horizontal no mueve la pantalla');
+ ok(await p.evaluate(()=>scrollX)===sx,T+' arrastre horizontal no mueve la pantalla');
  // selección y arrastre
  const sel=await p.evaluate(()=>({body:getComputedStyle(document.body).userSelect,btn:getComputedStyle(document.querySelector('button')).userSelect,img:getComputedStyle(document.querySelector('img')||document.body).getPropertyValue('-webkit-user-drag')}));
  ok(sel.body==='none'&&sel.btn==='none',T+' selección desactivada en la app '+JSON.stringify(sel));

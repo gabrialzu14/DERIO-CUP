@@ -46,10 +46,10 @@
 :root[data-theme="dark"] { color-scheme: dark; }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--bg); height: 100%; overflow: hidden; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
-/* La página no se mueve nunca: el único scroll es el de #scroller (sin rebote ni pull-to-refresh). */
-body { height: 100%; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-.scroller { position: absolute; inset: env(safe-area-inset-top, 0px) 0 0 0; /* nada pegado al borde superior: evita el desenfoque automático de iOS bajo la barra de estado */ overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; -webkit-overflow-scrolling: touch; scroll-padding-top: calc(var(--header-h) + 12px); scrollbar-width: none; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--bg); min-height: 100%; overflow-x: hidden; overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; }
+/* Scroll normal del documento (como La Porra): así iOS no dibuja el difuminado de borde sobre un contenedor interno. Sin rebote ni pull-to-refresh. */
+body { min-height: 100%; overflow-x: hidden; overscroll-behavior-y: none; touch-action: manipulation; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.scroller { min-height: 100vh; min-height: 100dvh; scroll-padding-top: calc(var(--header-h) + 12px); }
 .scroller::-webkit-scrollbar { display: none; }
 /* Lo que sí se puede seleccionar/copiar: textos informativos y campos */
 .prose, .prose *, input, textarea { -webkit-user-select: text; user-select: text; }

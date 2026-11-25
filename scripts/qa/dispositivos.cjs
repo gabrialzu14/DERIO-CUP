@@ -41,10 +41,7 @@ for(const [name,prof] of profiles){
    await p.goto(URL+r,{waitUntil:'networkidle'});await p.waitForTimeout(500);
    const o=await p.evaluate(()=>({sx:document.documentElement.scrollWidth-innerWidth,bx:document.body.scrollWidth-innerWidth,sy:window.scrollY,dtop:document.documentElement.scrollTop,sc:document.getElementById('scroller').scrollWidth-document.getElementById('scroller').clientWidth}));
    ok(o.sx<=0&&o.bx<=0&&o.sc<=0,`${tag} ${r||'inicio'} sin desborde horizontal ${JSON.stringify(o)}`);
-   // el documento no debe poder moverse
-   await p.evaluate(()=>{window.scrollTo(0,500);document.documentElement.scrollTop=500;document.body.scrollTop=500});
-   const moved=await p.evaluate(()=>({y:window.scrollY,d:document.documentElement.scrollTop,b:document.body.scrollTop}));
-   ok(moved.y===0&&moved.d===0&&moved.b===0,`${tag} ${r||'inicio'} la página no se desplaza ${JSON.stringify(moved)}`);
+   await p.evaluate(()=>window.scrollTo(0,0));
    // tabbar: dentro y etiquetas sin recorte
    const tb=await p.evaluate(()=>{const bar=document.querySelector('.tabbar').getBoundingClientRect();const spans=[...document.querySelectorAll('.tabbar button span')];return {bottom:bar.bottom,vh:innerHeight,cx:(bar.left+bar.right)/2,vw:innerWidth,l:bar.left,r:bar.right,clipped:spans.filter(s=>s.scrollWidth>s.clientWidth+1||s.getBoundingClientRect().right>innerWidth).length}});
    ok(tb.vh-tb.bottom>=4&&tb.vh-tb.bottom<=60&&Math.abs(tb.cx-tb.vw/2)<=1&&tb.l>=0&&tb.r<=tb.vw,`${tag} ${r||'inicio'} barra flotante, centrada y dentro de pantalla (${tb.bottom}/${tb.vh}, ${tb.l}-${tb.r})`);
@@ -55,8 +52,8 @@ for(const [name,prof] of profiles){
   }
   // scroll interno funciona y llega al final sin tapar contenido
   await p.goto(URL+'#partidos',{waitUntil:'networkidle'});await p.waitForTimeout(400);
-  const sc=await p.evaluate(()=>{const s=document.getElementById('scroller');s.scrollTo(0,99999);return {top:s.scrollTop,max:s.scrollHeight-s.clientHeight}});
-  ok(sc.max>50&&sc.top>=sc.max-2,`${tag} el scroller interno llega al final`);
+  const sc=await p.evaluate(()=>{const s=document.scrollingElement;s.scrollTo(0,99999);return {top:s.scrollTop,max:s.scrollHeight-s.clientHeight}});
+  ok(sc.max>50&&sc.top>=sc.max-2,`${tag} el scroll llega al final`);
   const lastVisible=await p.evaluate(()=>{const rows=[...document.querySelectorAll('.match-row,.ko-row')];const last=rows[rows.length-1].getBoundingClientRect();const bar=document.querySelector('.tabbar').getBoundingClientRect();return last.bottom<=bar.top+1});
   ok(lastVisible,`${tag} el último elemento no queda tapado por la barra`);
   ok(errs.length===0,`${tag} sin errores JS: ${errs.slice(0,2)}`);
