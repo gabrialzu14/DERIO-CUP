@@ -991,3 +991,12 @@ dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
 ::view-transition-group(tabbar) { animation: none; }
 ::view-transition-old(tabbar) { display: none; }
 ::view-transition-new(tabbar) { animation: none; opacity: 0; }
+
+/* Saludo suave (boceto B): hombros escondidos tras el cuerpo, brazos contenidos y leve balanceo del grupo */
+.fp-arm.l { transform-origin: 19% 50%; animation: fp-b-l 1.4s cubic-bezier(.45, 0, .55, 1) .25s 1 both; }
+.fp-arm.r { transform-origin: 81.5% 50%; animation: fp-b-r 1.4s cubic-bezier(.45, 0, .55, 1) .25s 1 both; }
+.fairplay-ico { animation: fp-b-bob 1.4s cubic-bezier(.45, 0, .55, 1) .25s 1 both; }
+@keyframes fp-b-l { 0%, 100% { transform: none; } 30% { transform: rotate(12deg); } 60% { transform: rotate(-3deg); } 80% { transform: rotate(6deg); } }
+@keyframes fp-b-r { 0%, 100% { transform: none; } 30% { transform: rotate(-12deg); } 60% { transform: rotate(3deg); } 80% { transform: rotate(-6deg); } }
+@keyframes fp-b-bob { 0%, 100% { transform: none; } 30% { transform: translateY(-3px); } 60% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fp-arm, .fairplay-ico { animation: none; } }

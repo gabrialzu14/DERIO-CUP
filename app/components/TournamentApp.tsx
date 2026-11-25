@@ -181,7 +181,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
 
         {fairplay && <Dialog title={t("¡ANIMA A TU EQUIPO!", "ANIMATU ZURE TALDEA!")} onClose={() => setFairplay(false)} compact centered>
           <div className="fairplay">
-            <span className="fairplay-ico" role="img" aria-label={t("Familias animando juntas", "Familiak elkarrekin animatzen")}><i className="fp-body" /><i className="fp-arm l" /><i className="fp-arm r" /></span>
+            <span className="fairplay-ico" role="img" aria-label={t("Familias animando juntas", "Familiak elkarrekin animatzen")}><i className="fp-arm l" /><i className="fp-arm r" /><i className="fp-body" /></span>
             <p>{t("Lo importante no es el resultado, es que los niños y niñas disfruten del día.", "Garrantzitsuena ez da emaitza, haurrek egunaz gozatzea baizik.")}</p>
             <p>{t("Los insultos y faltas de respeto desde la grada podrán ser motivo de expulsión de las instalaciones.", "Harmailatik egindako irainak eta errespetu faltak instalazioetatik kanporatzeko arrazoi izan daitezke.")}</p>
             <p className="fairplay-key">{t("RESPETA al rival,", "ERRESPETATU aurkaria,")}<br />{t("RESPETA a los árbitros,", "ERRESPETATU epaileak,")}<br />{t("RESPETA los valores de este deporte.", "ERRESPETATU kirol honen balioak.")}</p>
