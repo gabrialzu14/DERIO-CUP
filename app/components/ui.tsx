@@ -1,5 +1,5 @@
 "use client";
-import { useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type RefObject, type KeyboardEvent, type ReactNode } from "react";
 import { Icon, type IconName } from "./icons";
 import { useEngine, useOpenTeam } from "../lib/engine";
 import { useLang } from "../lib/i18n";
@@ -43,9 +43,23 @@ export function SectionHead({ title, icon, cup, action }: { title: string; icon?
   );
 }
 
+/** Mide el elemento activo y deja su posición/ancho en --ix / --iw del contenedor: el indicador se desliza hasta él. */
+export function useSlider(ref: RefObject<HTMLElement | null>, selector: string, dep: unknown) {
+  useLayoutEffect(() => {
+    const c = ref.current; if (!c) return;
+    const apply = () => { const el = c.querySelector<HTMLElement>(selector); if (!el) return; c.style.setProperty("--ix", el.offsetLeft + "px"); c.style.setProperty("--iw", el.offsetWidth + "px"); };
+    apply();
+    const raf = requestAnimationFrame(() => { c.dataset.ind = "1"; }); // las animaciones se activan tras la primera medida
+    const ro = new ResizeObserver(apply); ro.observe(c);
+    document.fonts?.ready.then(apply);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, [ref, selector, dep]);
+}
+
 /** Pestañas accesibles (role=tablist) con navegación por flechas. */
 export function Tabs<K extends string>({ label, value, onChange, items, idPrefix, variant = "pill" }: { label: string; value: K; onChange: (k: K) => void; items: { key: K; label: ReactNode; ariaLabel?: string }[]; idPrefix: string; variant?: "pill" | "underline" }) {
   const ref = useRef<HTMLDivElement>(null);
+  useSlider(ref, "[role=tab][aria-selected=true]", value);
   const onKey = (e: KeyboardEvent) => {
     const i = items.findIndex(x => x.key === value);
     let n = -1;
@@ -60,6 +74,7 @@ export function Tabs<K extends string>({ label, value, onChange, items, idPrefix
   };
   return (
     <div ref={ref} className={"tabs tabs-" + variant} role="tablist" aria-label={label} onKeyDown={onKey}>
+      <span className="slide-ind" aria-hidden="true" />
       {items.map(it => (
         <button key={it.key} type="button" role="tab" id={idPrefix + "-tab-" + it.key} aria-controls={idPrefix + "-panel"} aria-selected={value === it.key} aria-label={it.ariaLabel} tabIndex={value === it.key ? 0 : -1} className="tab" onClick={() => onChange(it.key)}>{it.label}</button>
       ))}

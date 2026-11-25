@@ -28,7 +28,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <VenueMap3D fallback={i.venueImage} />
     <a className="btn btn-primary block" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Abrir en Maps", "Ireki Maps-en")}</a></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean"), body: <>
-    {i.parking.map(p => <figure key={p.src} className="figure">{/* eslint-disable-next-line @next/next/no-img-element */}<img className="venue-img wide" src={p.src} alt={p.alt} loading="lazy" /><figcaption>{p.title}</figcaption></figure>)}</> });
+    {i.parking.map(p => <figure key={p.src} className="figure">{/* eslint-disable-next-line @next/next/no-img-element */}<img className="venue-img wide" src={p.src} alt={p.alt} loading="eager" decoding="async" /><figcaption>{p.title}</figcaption></figure>)}</> });
   const ng = new Set(tn.teams.map(x => x.group)).size, per = Math.round(tn.teams.length / ng);
   items.push({ key: "formato", icon: "trophy", title: t("Formato del torneo", "Txapelketaren formatua"), sub: t("Puntuación, fases y desempates", "Puntuazioa, faseak eta berdinketak"), body: <div className="fmt">
     <div className="fmt-facts">

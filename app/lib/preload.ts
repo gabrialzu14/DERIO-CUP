@@ -33,7 +33,7 @@ const idle = (fn: () => void) => {
 };
 
 const crests = (list: Tournament[]) => list.flatMap(tn => tn.teams.map(t => crestFor(t.crest ?? t.name)).filter((s): s is string => !!s));
-const venue = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.infoEu].flatMap(i => i ? (i.parking ?? []).map(p => p.src) : []).filter((s): s is string => !!s));
+const parkingImgs = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.infoEu].flatMap(i => i ? (i.parking ?? []).map(p => p.src) : []).filter((s): s is string => !!s));
 
 /**
  * Precarga las imágenes de la app mientras se muestra la pantalla de carga, por niveles:
@@ -49,12 +49,11 @@ export function preloadImages(tournaments: Tournament[], rememberedId?: string |
   const first = tournaments.find(t => t.id === rememberedId) ?? tournaments[0];
   const rest = tournaments.filter(t => t !== first);
 
-  const tier1 = ["/logo-derio-cup.webp", ...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : [])];
+  const tier1 = ["/logo-derio-cup.webp", ...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : []), ...parkingImgs(tournaments)]; // los planos de aparcamiento también van en el primer nivel
   const tier2 = ["/animo-cuerpo.webp", "/animo-brazo-izq.webp", "/animo-brazo-der.webp", ...(isInstalled() ? [] : ["/plataformas/ios.webp", "/plataformas/android.webp", "/plataformas/safari.webp", "/plataformas/chrome.webp"]), ...crests(rest)];
-  const tier3 = venue(tournaments);
 
   void pool(tier1, 6, "high").then(() => {
     if (light) return;
-    void pool(tier2, 4, "auto").then(() => idle(() => void pool(tier3, 2, "low")));
+    void pool(tier2, 4, "auto").then(() => idle(() => void 0));
   });
 }

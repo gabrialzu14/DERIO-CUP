@@ -51,8 +51,8 @@ const INFO_2015: InfoSpec = {
   meals: { price: "8 €", includes: "Hamaiketako, plato de pasta (blancos, con tomate o carne con tomate), pan, agua y postre.", contact: "Si estáis interesados, contactad con el responsable del torneo para gestionar el número de comensales." },
   bar: "Para las familias habrá servicio de bar con variedad de pintxos y bocadillos durante todo el torneo.",
   parking: [
-    { src: "/aparcamiento-1.jpg", title: "Aparcamiento", alt: "Plano de aparcamiento junto al campo de Ibaiondo" },
-    { src: "/aparcamiento-2.jpg", title: "Aparcamiento alternativo", alt: "Plano del aparcamiento alternativo cercano a Ibaiondo" },
+    { src: "/aparcamiento-1.webp", title: "Aparcamiento", alt: "Plano de aparcamiento junto al campo de Ibaiondo" },
+    { src: "/aparcamiento-2.webp", title: "Aparcamiento alternativo", alt: "Plano del aparcamiento alternativo cercano a Ibaiondo" },
   ],
 };
 
@@ -134,8 +134,8 @@ const INFO_2015_EU: InfoSpec = {
   meals: { price: "8 €", includes: "Hamaiketakoa, pasta-platera (zuriak, tomatearekin edo haragia tomatearekin), ogia, ura eta postrea.", contact: "Interesatuta bazaudete, jarri harremanetan txapelketaren arduradunarekin otordu kopurua kudeatzeko." },
   bar: "Familientzat, pintxo eta ogitarteko askotariko tabernaren zerbitzua egongo da txapelketa osoan zehar.",
   parking: [
-    { src: "/aparcamiento-1.jpg", title: "Aparkalekua", alt: "Ibaiondo zelaiaren ondoko aparkalekuaren planoa" },
-    { src: "/aparcamiento-2.jpg", title: "Ordezko aparkalekua", alt: "Ibaiondotik gertu dagoen ordezko aparkalekuaren planoa" },
+    { src: "/aparcamiento-1.webp", title: "Aparkalekua", alt: "Ibaiondo zelaiaren ondoko aparkalekuaren planoa" },
+    { src: "/aparcamiento-2.webp", title: "Ordezko aparkalekua", alt: "Ibaiondotik gertu dagoen ordezko aparkalekuaren planoa" },
   ],
 };
 const INFO_2017_EU: InfoSpec = {

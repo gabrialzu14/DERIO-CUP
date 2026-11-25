@@ -2,7 +2,7 @@
 import { createPortal } from "react-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "./icons";
-import { BrandName, Crest, CupMark } from "./ui";
+import { BrandName, Crest, CupMark, useSlider } from "./ui";
 import { Home } from "./Home";
 import { Partidos } from "./Partidos";
 import { Clasificacion } from "./Clasificacion";
@@ -51,7 +51,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [fanCounts, setFanCounts] = useState<Record<string, number>>({});
   const [loaded, setLoaded] = useState(false), [offline, setOffline] = useState(false), [syncing, setSyncing] = useState(false), [lastSync, setLastSync] = useState<Date | null>(null);
   const [rules, setRules] = useState(false), [fairplay, setFairplay] = useState(false);
-  const mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
+  const tabsRef = useRef<HTMLUListElement>(null), mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
   const { theme, resolved, setTheme, toggle } = themeCtl, { lang, t, locale } = useLang();
   const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapenak", fases: "Faseak", mas: "Info" } : { mas: "Info" };
 
@@ -137,6 +137,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const exit = () => { history.replaceState(null, "", window.location.pathname); onExit(); };
 
   useEffect(() => { const m = mainRef.current; return m ? startReveal(m) : undefined; }, [selected]);
+  useSlider(tabsRef, "[aria-current=page]", tab + "|" + viewTeam + "|" + selected);
   const validTeam = selected === "neutral" || (!!selected && tn.teams.some(t => t.id === selected));
   if (!validTeam) return <EngineContext.Provider value={engine}><Welcome choosing={choosing} onPick={pick} onNeutral={neutral} onBack={exit} /></EngineContext.Provider>;
   const mine = selected!;
@@ -174,7 +175,8 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
         </main>
 
         {createPortal(<nav className="tabbar" aria-label={t("Navegación principal", "Nabigazio nagusia")}>
-          <ul>
+          <ul ref={tabsRef}>
+            <span className="tb-ind" aria-hidden="true" />
             {NAV.map(n => (
               <li key={n.id}><button type="button" aria-current={activeNav === n.id ? "page" : undefined} onClick={() => go(n.id)}>{n.id === "fases" ? <CupMark size={22} className="tab-cup" /> : <Icon name={n.icon} size={24} />}<span>{navLabel[n.id] ?? n.label}</span></button></li>
             ))}
