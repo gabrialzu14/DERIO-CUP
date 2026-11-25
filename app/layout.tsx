@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   applicationName: BRAND,
   openGraph: { title: BRAND, description, url: "/", siteName: BRAND, images: [{ url: "/icon-512.png", width: 512, height: 512, alt: BRAND }], type: "website" },
   twitter: { card: "summary", title: BRAND, description, images: ["/icon-512.png"] },
-  appleWebApp: { capable: true, title: BRAND, statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: BRAND, statusBarStyle: "black-translucent" },
   formatDetection: { telephone: false, email: false, address: false },
   other: { "mobile-web-app-capable": "yes" },
   icons: { icon: [{ url: "/icon-192.png", type: "image/png", sizes: "192x192" }, { url: "/icon-512.png", type: "image/png", sizes: "512x512" }], shortcut: "/icon-192.png", apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }] },
