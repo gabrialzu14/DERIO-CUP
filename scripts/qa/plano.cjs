@@ -39,7 +39,7 @@ for(const [name] of list){try{const T=`[${name}]`;const d=devices[name];if(!d){c
  [cx,cy]=await C();await pinch(cdp,[cx,cy],60,60,0.9);await p.waitForTimeout(900);const h4=await hash(map);ok(h4!==h3,tag+' dos dedos giran');
  // 5) tocar un edificio del modelo (centro del campo)
  await map.scrollIntoViewIfNeeded();await p.locator('.v3-btn.top').evaluate(e=>e.click());await p.waitForTimeout(1200);
- let q;[cx,cy,q]=await C();await touch(cdp,'touchStart',[[cx+q.width*0.12,cy+q.height*0.05]]);await touch(cdp,'touchEnd',[]);await p.waitForTimeout(500);
+ const pb=await p.locator('.v3-mk.k-bar .pin').boundingBox();await touch(cdp,'touchStart',[[pb.x+pb.width/2,pb.y+pb.height/2]]);await touch(cdp,'touchEnd',[]);await p.waitForTimeout(500);
  const selNow=await p.locator('.v3-chip[aria-pressed=true]').count();ok(selNow===1,tag+' tocar el modelo selecciona una zona');
  // 6) fluidez: fotogramas durante un arrastre continuo
  await p.evaluate(()=>{window.__f=0;const c=()=>{window.__f++;window.__r=requestAnimationFrame(c)};c()});

@@ -151,7 +151,8 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
     (Object.keys(anchors) as ZoneKey[]).forEach(k => { v.copy(anchors[k]).project(cam); proj[k] = { x: (v.x * .5 + .5) * w, y: (-v.y * .5 + .5) * h, vis: v.z < 1 && Math.abs(v.x) < .9 && Math.abs(v.y) < .92, s: sc, h: 34 }; });
     // los pines se ordenan de delante hacia atrás; si dos chocan, el de detrás sube
     const placed: { L: number; W: number; top: number; H: number }[] = [], W = 38 * sc, H = 44 * sc;
-    (Object.keys(anchors) as ZoneKey[]).sort((a, b) => proj[b].y - proj[a].y).forEach(k => { const q = proj[k]; let hh = 34 * sc; for (let t = 0; t < 14; t++) { const top = q.y - hh - H, L = q.x - W / 2; if (!placed.some(o => L < o.L + o.W + 4 && L + W + 4 > o.L && top < o.top + o.H + 4 && top + H + 4 > o.top)) break; hh += H * .55; } placed.push({ L: q.x - W / 2, W, top: q.y - hh - H, H }); q.h = hh / sc; });
+    (Object.keys(anchors) as ZoneKey[]).sort((a, b) => proj[b].y - proj[a].y).forEach(k => { const q = proj[k]; let hh = 34 * sc; for (let t = 0; t < 14; t++) { const top = q.y - hh - H, L = q.x - W / 2; if (!placed.some(o => L < o.L + o.W + 4 && L + W + 4 > o.L && top < o.top + o.H + 4 && top + H + 4 > o.top)) break; hh += H * .55; } hh = Math.max(14 * sc, Math.min(hh, q.y - H - 6)); // el pin nunca se sale por arriba del plano
+      placed.push({ L: q.x - W / 2, W, top: q.y - hh - H, H }); q.h = hh / sc; });
     opts.onFrame(proj);
   };
   raf = requestAnimationFrame(loop);
