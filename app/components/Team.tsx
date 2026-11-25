@@ -4,7 +4,8 @@ import { Crest, EmptyState, KOGameRow, MatchRow } from "./ui";
 import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
 import { useLang } from "../lib/i18n";
-import { groupName } from "../lib/labels";
+import { groupName, phaseName, roundName } from "../lib/labels";
+import { GroupTable } from "./Clasificacion";
 import { clubTone } from "../lib/crests";
 import { byTime, validKO, type G, type Match, type ResultRow } from "../lib/tournament";
 
@@ -40,32 +41,22 @@ export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string;
       </dl>
 
       <section>
-        <h2 className="list-title">{tr("Próximo partido", "Hurrengo partida")}</h2>
-        {nextGroup ? <div className="match-list"><MatchRow m={nextGroup} /></div>
-          : nextKO ? <div className="ko-list"><KOGameRow g={nextKO} /></div>
-          : <p className="note">{tr("No quedan partidos por jugar.", "Ez dago jokatzeko partidarik.")}</p>}
+        <h2 className="list-title">{tr("Fase de grupos", "Multzo-fasea")}</h2>
+        {own.length ? <div className="match-list">{own.map(m => <MatchRow key={m.id} m={m} />)}</div> : <EmptyState icon="ball" title={tr("Sin partidos", "Partidarik ez")} />}
       </section>
+
+      {kos.map(g => (
+        <section key={g.id}>
+          <h2 className="list-title">{phaseName(g.kind, eu)} · {roundName(g.round, eu)}</h2>
+          <div className="ko-list"><KOGameRow g={g} /></div>
+        </section>
+      ))}
 
       <section>
-        <h2 className="list-title">{tr("Resultados", "Emaitzak")}</h2>
-        {played.length || koPlayed.length
-          ? <div className="match-list">{played.map(m => <MatchRow key={m.id} m={m} />)}{koPlayed.map(g => <div key={g.id} className="ko-wrap"><KOGameRow g={g} /></div>)}</div>
-          : <p className="note">{tr("Todavía no hay resultados.", "Oraindik ez dago emaitzarik.")}</p>}
+        <h2 className="list-title">{eu ? `${t.group} multzoaren sailkapena` : `Clasificación · Grupo ${t.group}`}</h2>
+        <GroupTable group={t.group} ms={ms} highlight={id} />
       </section>
 
-      {(pending.length > 1 || koPending.length > (nextKO ? 1 : 0)) && (
-        <section>
-          <h2 className="list-title">{tr("Próximos partidos", "Hurrengo partidak")}</h2>
-          <div className="match-list">
-            {pending.slice(1).map(m => <MatchRow key={m.id} m={m} />)}
-            {(nextGroup ? koPending : koPending.slice(1)).map(g => <div key={g.id} className="ko-wrap"><KOGameRow g={g} /></div>)}
-          </div>
-        </section>
-      )}
-
-      {!own.length && !kos.length && <EmptyState icon="ball" title={tr("Sin partidos", "Partidarik ez")} />}
-
-      <button type="button" className="btn btn-ghost block" onClick={() => goGroup(t.group)}>{eu ? `Ikusi ${t.group} multzoaren sailkapena` : `Ver clasificación del Grupo ${t.group}`}<Icon name="chevron" size={18} /></button>
     </div>
   );
 }
