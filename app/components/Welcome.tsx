@@ -81,7 +81,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
         <CupMark size={64} className="brand-grad" />
         <h1><BrandName /></h1>
         <p>{tournamentTag(tn, locale)}</p>
-        <h2>{tr("Escoge tu equipo", "Aukeratu zure taldea")}</h2>
+        <h2>{tr("Elige tu equipo", "Aukeratu zure taldea")}</h2>
         <small>{tr("Para seguirlo de cerca. Puedes cambiarlo cuando quieras.", "Gertutik jarraitzeko. Nahi duzunean alda dezakezu.")}</small>
       </header>
       {GROUPS.map(g => (
