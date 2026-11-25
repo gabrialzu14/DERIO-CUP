@@ -53,6 +53,8 @@ export function readableOn(hex: string): "#ffffff" | "#1f2937" {
 export function clubTone(name: string, id: string): { bg: string; fg: string } {
   const s = crestSlug(name), o = s && COLOR_OVERRIDES[s];
   if (o && typeof o === "object") return { bg: `light-dark(${o.light}, ${o.dark})`, fg: `light-dark(${readableOn(o.light)}, ${readableOn(o.dark)})` };
-  const bg = clubColor(name, id);
+  let bg = clubColor(name, id);
+  // Si el texto va en blanco y el contraste no llega a 4.5:1, se oscurece un poco el color del club.
+  if (readableOn(bg) === "#ffffff") for (let i = 0; i < 12 && 1.05 / (luminance(bg) + 0.05) < 4.5; i++) bg = "#" + [16, 8, 0].map(s => Math.round(((parseInt(bg.slice(1), 16) >> s) & 255) * 0.94).toString(16).padStart(2, "0")).join("");
   return { bg, fg: readableOn(bg) };
 }

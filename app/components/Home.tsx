@@ -21,16 +21,18 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
   const oroFinal = oro.find(g => g.round === "FINAL")!, plataFinal = plata.find(g => g.round === "FINAL")!;
   const finished = !!koWinner(oroFinal) && !!koWinner(plataFinal);
   const nextKO = [...oro, ...plata].filter(g => g.home && g.away && !validKO(g)).sort(byTime)[0];
+  // Eliminatorias que se están jugando ahora (también cuentan como «En juego»).
+  const koLive = [...oro, ...plata].filter(g => g.home && g.away && !validKO(g) && matchState(g.time, false) === "live");
   const [phase, setPhase] = useState<"grupos" | "oro" | "plata">("grupos");
   const played = ms.filter(m => m.hs !== null).length;
   // «Primer partido» / «En juego»: todos los que empiezan a la misma hora (uno por campo).
   const asGame = (m: Match): HeroGame => ({ id: m.id, home: m.home, away: m.away, time: m.time, field: m.field, where: "g:" + m.group });
   const koGame = (g: KOGame): HeroGame => ({ id: g.id, home: g.home!, away: g.away!, time: g.time, field: g.field, where: "k:" + g.kind + " · " + g.code });
-  const heroGames: HeroGame[] = live.length ? live.map(asGame) : pending.length ? pending.filter(m => m.time === pending[0].time).map(asGame) : nextKO ? [...oro, ...plata].filter(g => g.home && g.away && !validKO(g) && g.time === nextKO.time).map(koGame) : [];
+  const heroGames: HeroGame[] = live.length ? live.map(asGame) : koLive.length ? koLive.map(koGame) : pending.length ? pending.filter(m => m.time === pending[0].time).map(asGame) : nextKO ? [...oro, ...plata].filter(g => g.home && g.away && !validKO(g) && g.time === nextKO.time).map(koGame) : [];
 
   return (
     <div className="screen home">
-      {finished ? <Podium oro={oroFinal} plata={plataFinal} /> : <MatchHero games={heroGames} kind={live.length ? "live" : "next"} loaded={loaded} />}
+      {finished ? <Podium oro={oroFinal} plata={plataFinal} /> : <MatchHero games={heroGames} kind={live.length || koLive.length ? "live" : "next"} loaded={loaded} />}
 
       {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("equipo", { team: selected })} />}
 
@@ -131,7 +133,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
   const koNext = groupNext ? undefined : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && !validKO(g)).sort(byTime)[0];
   const next = groupNext
     ? { time: groupNext.time, field: groupNext.field, opp: groupNext.home === id ? groupNext.away : groupNext.home, oppLabel: "", where: groupName(groupNext.group, eu), live: matchState(groupNext.time, false) === "live" }
-    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, eu) + " · " + koCode(koNext.code, eu), live: false } : null;
+    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, eu) + " · " + koCode(koNext.code, eu), live: matchState(koNext.time, false) === "live" } : null;
   const oppName = next ? (next.opp ? T(next.opp).name : koLabel(next.oppLabel, eu)) : "";
   return (
     <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea")}: ${t.name} ${tr("contra", "eta")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>

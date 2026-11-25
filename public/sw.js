@@ -2,7 +2,7 @@
    - Pantallas (HTML): red primero (siempre la última versión) y, sin conexión, la última copia guardada.
    - Ficheros estáticos, escudos, logos e imágenes optimizadas: copia local + actualización en segundo plano.
    - Los resultados (Supabase) no pasan por aquí: la app guarda su propia copia de los últimos datos. */
-const VERSION = "dc-v1";
+const VERSION = "dc-v2";
 const STATIC = VERSION + "-static", PAGES = VERSION + "-pages", IMAGES = VERSION + "-img";
 const MAX_IMAGES = 160;
 
@@ -11,6 +11,14 @@ self.addEventListener("activate", e => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (!k.startsWith(VERSION)) await caches.delete(k);
     await self.clients.claim();
+    // Guarda ya los CSS, JS y fuentes de la página: así funciona sin conexión desde la primera visita.
+    try {
+      const html = await (await fetch("/", { cache: "no-store" })).text();
+      const assets = [...new Set(html.match(/\/_next\/static\/[^"'\s)]+/g) || [])];
+      const cache = await caches.open(STATIC);
+      await Promise.all(assets.map(a => cache.add(a).catch(() => {})));
+      (await caches.open(PAGES)).put("/", new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } }));
+    } catch {}
   })());
 });
 

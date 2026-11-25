@@ -1,7 +1,7 @@
 const {chromium,devices}=require('playwright');
 let pass=0,fail=0;const ok=(c,m)=>{if(c)pass++;else{fail++;console.log('FAIL '+m)}};
 const URL='http://localhost:3100/';
-const SPANISH=/\b(el|la|los|las|de|del|para|con|por|una|un|que|sin|más|partidos?|equipos?|grupos?|campo|fase|resultados?|clasificaci[oó]n|jornada|torneo|volver|inicio|ver|todos|siguiente|atrás|continuar|elegir|ahora|juego|final|cuartos|semifinales|oro|plata|aficion|afición|seguidores?|idioma|ajustes|apariencia|claro|oscuro|información|normas|comidas|aparcamiento|instalar|cambiar|acceso|responsables|guardar|eliminar|publicado)\b/i;
+const SPANISH=/\b(el|la|los|las|de|del|para|con|por|una|un|que|sin|más|partidos?|equipos?|grupos?|campo|fase|resultados?|clasificaci[oó]n|jornada|torneo|volver|inicio|ver|todos|siguiente|atrás|continuar|elegir|ahora|juego|final(?!-)|cuartos|semifinales|oro|plata|aficion|afición|seguidores?|idioma|ajustes|apariencia|claro|oscuro|información|normas|comidas|aparcamiento|instalar|cambiar|acceso|responsables|guardar|eliminar|publicado)\b/i;
 (async()=>{const b=await chromium.launch();
 const ctx=await b.newContext({...devices['iPhone 14 Pro'],colorScheme:'light'});const p=await ctx.newPage();
 await p.route('**/derio_cup_results*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{match_id:'2015-grupo-A-1015-c1',home_score:2,away_score:1},{match_id:'2015-grupo-A-1015-c2',home_score:1,away_score:1},{match_id:'2015-oro-cf1',home_score:3,away_score:3,home_penalties:4,away_penalties:3,home_team:'leioa',away_team:'ariznabarra'}])}));

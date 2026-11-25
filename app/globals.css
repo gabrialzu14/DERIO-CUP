@@ -928,3 +928,27 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .eyebrow .brand-name .d { font-weight: 800; } .eyebrow .brand-name .c { font-weight: 400; }
 .brand .brand-name, .more-brand .brand-name, .onb-appicon .brand-name { white-space: nowrap; display: block; }
 .brand-name > .d, .brand-name > .c { display: inline; }
+
+/* ---- Correcciones de la revisión por emulación ---- */
+/* Texto dorado legible en modo claro (el oro brillante se mantiene en barras y rellenos) */
+:root { --gold-ink: light-dark(#8a6400, #ffd54a); }
+.badge.oro, .champion.oro, .podium-cell.gold small, .podium-cell.gold:nth-child(1) small { color: var(--gold-ink); }
+.group-card-head b { white-space: nowrap; }
+.podium { align-items: start; }
+.podium-cell small { min-height: 2.5em; display: flex; align-items: flex-end; justify-content: center; text-align: center; }
+.hero-pair .hero-team b { overflow-wrap: anywhere; hyphens: auto; }
+@media (max-width: 340px) { .hero-cols.two .hero-pair .hero-team b { font-size: .5625rem; } }
+/* Horizontal / pantallas bajas: cabecera y barra compactas para dejar sitio al contenido */
+@media (max-height: 500px) {
+  :root { --header-h: 44px; }
+  .brand small { display: none; }
+  .tabbar { bottom: 6px; padding: 3px; }
+  .tabbar button { height: 38px; flex-direction: row; gap: 6px; min-width: 0; padding-inline: 10px; font-size: .625rem; }
+  .tabbar button .icon { width: 18px; height: 18px; }
+  .main { padding-bottom: 64px; }
+}
+@media (max-height: 500px) {
+  .screen-title { font-size: 1.25rem; }
+  .screen { gap: 12px; }
+  .main { padding-top: 10px; }
+}
