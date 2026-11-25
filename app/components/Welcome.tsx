@@ -78,7 +78,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
     <main className="welcome">
       <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />{tr("Torneos", "Txapelketak")}</button>
       <header className="welcome-head">
-        <CupMark size={64} />
+        <CupMark size={64} className="brand-grad" />
         <h1>{BRAND}</h1>
         <p>{tournamentTag(tn, locale)}</p>
         <h2>{tr("¿Con quién vas?", "Zeinekin zoaz?")}</h2>

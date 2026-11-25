@@ -16,7 +16,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
     <main className="landing">
       <div className="landing-theme"><LangToggle /></div>
       <header className="landing-head">
-        <CupMark size={150} className="landing-cup" />
+        <CupMark size={150} className="landing-cup brand-grad" />
         <h1 className="wordmark"><b>DERIO</b><span>CUP</span></h1>
         <p>{tr("Organizado por el CD Derio", "CD Derio-k antolatua")}</p>
       </header>

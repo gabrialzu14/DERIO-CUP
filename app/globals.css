@@ -918,3 +918,6 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 .fairplay .btn { margin-top: 4px; }
 .fairplay-ico { display: block; width: 148px; height: 62px; margin: 2px auto 2px; background: var(--accent); -webkit-mask: url(/animo.webp) center / contain no-repeat; mask: url(/animo.webp) center / contain no-repeat; }
 .dialog-panel > header.centered { justify-content: center; padding: 18px 20px 14px; text-align: center; }
+
+/* Logo de marca con el degradado azul-rojo de la pantalla de carga (bienvenida, inicio y cabecera) */
+.cup-mark.brand-grad { background: linear-gradient(140deg, var(--accent), var(--red)); }

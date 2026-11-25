@@ -148,7 +148,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
         <header className="app-header">
           <div className="app-header-in">
             <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ${t("ir al inicio", "joan hasierara")}`}>
-              <CupMark size={30} />
+              <CupMark size={30} className="brand-grad" />
               <span><b>{BRAND}</b><small>{tournamentTag(tn, locale)}</small></span>
             </button>
             <div className="header-actions">

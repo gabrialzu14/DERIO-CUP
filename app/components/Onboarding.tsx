@@ -63,7 +63,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip }: { start?: Step
       <div className="onb-top">{step !== "welcome" && step !== "done" ? <button type="button" className="onb-skip" onClick={onSkip}>{t("Omitir", "Saltatu")}</button> : <span />}<LangToggle /></div>
       <div className={"onb-body" + (step === "welcome" || step === "done" ? "" : " top")} key={step + n}>
         {step === "welcome" && <>
-          <CupMark size={120} className="landing-cup" />
+          <CupMark size={120} className="landing-cup brand-grad" />
           <h1 className="wordmark"><b>DERIO</b><span>CUP</span></h1>
           <h2 className="onb-title">{t("¡Bienvenido!", "Ongi etorri!")}</h2>
           <p className="onb-text">{t(`Aquí tendrás los partidos, los resultados y las clasificaciones de ${BRAND} en tu móvil.`, `Hemen izango dituzu ${BRAND}-eko partidak, emaitzak eta sailkapenak zure mugikorrean.`)}</p>
