@@ -34,10 +34,10 @@ export function TeamLink({ id, className = "", children }: { id: string; classNa
   return <button type="button" className={className + " team-link"} onClick={() => open(id)} aria-label={t("Ver el perfil de ", "Ikusi profila: ") + T(id).name}>{children}</button>;
 }
 
-export function SectionHead({ title, icon, action }: { title: string; icon?: IconName; action?: { label: string; onClick: () => void } }) {
+export function SectionHead({ title, icon, cup, action }: { title: string; icon?: IconName; cup?: boolean; action?: { label: string; onClick: () => void } }) {
   return (
     <div className="section-head">
-      <h2>{icon && <Icon name={icon} size={20} />}{title}</h2>
+      <h2>{cup && <CupMark size={22} className="sec-cup" />}{icon && <Icon name={icon} size={20} />}{title}</h2>
       {action && <button type="button" className="link-btn" onClick={action.onClick}>{action.label}<Icon name="chevron" size={16} /></button>}
     </div>
   );

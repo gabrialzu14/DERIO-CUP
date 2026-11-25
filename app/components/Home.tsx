@@ -37,7 +37,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
       {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("equipo", { team: selected })} />}
 
       <section aria-labelledby="home-phases">
-        <SectionHead title={t("Torneo", "Txapelketa")} />
+        <SectionHead title={t("Torneo", "Txapelketa")} cup />
         <h2 id="home-phases" className="sr-only">{t("Fases del torneo", "Txapelketaren faseak")}</h2>
         <Tabs label={t("Fase del torneo", "Txapelketaren fasea")} idPrefix="home-phase" value={phase} onChange={setPhase} items={[
           { key: "grupos", label: t("Grupos", "Multzoak") }, { key: "oro", label: <><i className="dot gold" aria-hidden="true" />{t("Oro", "Urrea")}</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />{t("Plata", "Zilarra")}</> },
@@ -62,7 +62,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
       </section>
 
       {!finished && pending.length > 0 && <section>
-        <SectionHead title={live.length ? t("A continuación", "Jarraian") : t("Próximos partidos", "Hurrengo partidak")} action={{ label: t("Calendario", "Egutegia"), onClick: () => go("partidos") }} />
+        <SectionHead icon="ball" title={live.length ? t("A continuación", "Jarraian") : t("Próximos partidos", "Hurrengo partidak")} action={{ label: t("Calendario", "Egutegia"), onClick: () => go("partidos") }} />
         <div className="match-list">{pending.filter(m => !live.includes(m)).slice(0, 4).map(m => <MatchRow key={m.id} m={m} groupAbove />)}</div>
       </section>}
 
