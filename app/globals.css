@@ -1043,3 +1043,4 @@ dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
 .v3-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg, #fff); }
 .v3-card { min-height: 60px; padding: 12px 14px; border-radius: 16px; background: var(--surface-2); } .v3-card b { display: block; font-size: .9375rem; } .v3-card p { margin-top: 3px; color: var(--text-2); font-size: .875rem; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .v3-pop { animation: none; } .v3-map canvas { transition: none; } }
+.v3-lab { pointer-events: none; }

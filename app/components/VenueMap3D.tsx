@@ -20,7 +20,7 @@ const Ico = ({ k, size = 14 }: { k: ZoneKey; size?: number }) => <svg viewBox="0
 export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string } }) {
   const { t, lang } = useLang(), eu = lang === "eu";
   const host = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), pop = useRef<HTMLDivElement>(null);
-  const labs = useRef<Partial<Record<ZoneKey, HTMLButtonElement | null>>>({});
+  const labs = useRef<Partial<Record<ZoneKey, HTMLDivElement | null>>>({});
   const api = useRef<{ select: (k: ZoneKey | null) => void; setNight: (n: boolean) => void; resetView: () => void; dispose: () => void } | null>(null);
   const [sel, setSel] = useState<ZoneKey | null>(null), [full, setFull] = useState(false), [failed, setFailed] = useState(false), [ready, setReady] = useState(false);
   const selRef = useRef<ZoneKey | null>(null); selRef.current = sel;
@@ -46,9 +46,10 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
         if (dead || !canvas.current || !host.current) return;
         const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
         const place = (p: Proj) => {
-          const popEl = pop.current, w = host.current!.clientWidth;
-          host.current!.classList.toggle("far", p.far);
-          for (const k of KEYS) { const el = labs.current[k]; if (!el) continue; const q = p[k]; el.style.opacity = q.vis ? "1" : "0"; el.style.pointerEvents = q.vis ? "auto" : "none"; el.style.transform = `translate(${q.x}px,${q.y}px) translate(-50%,-50%)`; }
+          if (!host.current) return;
+          const popEl = pop.current, w = host.current.clientWidth;
+          host.current.classList.toggle("far", p.far);
+          for (const k of KEYS) { const el = labs.current[k]; if (!el) continue; const q = p[k]; el.style.opacity = q.vis ? "1" : "0"; el.style.transform = `translate(${q.x}px,${q.y}px) translate(-50%,-50%)`; }
           const cur = selRef.current;
           if (popEl && cur) { const q = p[cur], pw = popEl.offsetWidth || 150, px = Math.max(8 + pw / 2, Math.min(w - 8 - pw / 2, q.x)); popEl.style.transform = `translate(${px}px,${Math.max(8, q.y - 30)}px) translate(-50%,-100%)`; }
         };
@@ -67,9 +68,9 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
       <div ref={host} className={"v3-map" + (full ? " full" : "") + (ready ? " ready" : "")} aria-label={t("Plano 3D de las instalaciones de Ibaiondo", "Ibaiondoko instalazioen 3D planoa")}>
         <canvas ref={canvas} />
         {KEYS.map(k => (
-          <button key={k} ref={el => { labs.current[k] = el; }} type="button" className={"v3-lab" + (k === "c1" || k === "c2" ? " big" : "") + (cur === k ? " on" : "")} onClick={() => pick(k)} aria-pressed={cur === k} style={{ opacity: 0 } as CSSProperties}>
+          <div key={k} ref={el => { labs.current[k] = el; }} aria-hidden="true" className={"v3-lab" + (k === "c1" || k === "c2" ? " big" : "") + (cur === k ? " on" : "")} style={{ opacity: 0 } as CSSProperties}>
             {k === "c1" || k === "c2" ? <span className="t">{name[k]}</span> : <><i><Ico k={k} size={13} /></i><span className="t">{name[k]}</span></>}
-          </button>
+          </div>
         ))}
         <div ref={pop} className="v3-pop" hidden={!cur}>{cur && <Card k={cur} name={name[cur]} phase={phase(cur)} desc={desc[cur]} />}</div>
         <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra")}</button>

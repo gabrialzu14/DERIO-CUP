@@ -115,12 +115,17 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   };
   let fly: any = null; const ease = (t: number) => 1 - Math.pow(1 - t, 3);
   const resetView = () => { if (opts.reduceMotion) { cam.position.copy(HOME.p); ctl.target.copy(HOME.t); wake(); return; } fly = { t0: performance.now(), fp: cam.position.clone(), ft: ctl.target.clone() }; };
+  const proj: any = { far: false };
   // toque en el modelo
   const ray = new THREE.Raycaster(), pt = new THREE.Vector2(); let down: number[] | null = null;
   const onDown = (e: PointerEvent) => { down = [e.clientX, e.clientY]; };
   const onUp = (e: PointerEvent) => {
     if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
     const r = cv.getBoundingClientRect(); pt.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(pt, cam);
+    const lx = e.clientX - r.left, ly = e.clientY - r.top; let best: ZoneKey | null = null, bd = 28;
+    // las etiquetas no capturan toques (para no bloquear el arrastre): se detecta la más cercana al dedo
+    (["bar", "wc", "parking", "entrada"] as ZoneKey[]).forEach(k => { const q = proj[k]; if (!q || !q.vis) return; const d = Math.hypot(q.x - lx, q.y - ly); if (d < bd) { bd = d; best = k; } });
+    if (best) { opts.onPick(best); return; }
     const h = ray.intersectObjects(zones)[0]; opts.onPick(h ? h.object.userData.k : null);
   };
   cv.addEventListener("pointerdown", onDown); cv.addEventListener("pointerup", onUp);
@@ -128,13 +133,12 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   const ro = new ResizeObserver(size); ro.observe(map); size();
   // bucle: solo se dibuja cuando algo cambia
   const v = new THREE.Vector3(); let raf = 0, alive = true;
-  const proj: any = { far: false };
   const loop = (now: number) => {
     if (!alive) return; raf = requestAnimationFrame(loop);
     if (fly) { const k = Math.min(1, (now - fly.t0) / 700), e = ease(k); cam.position.lerpVectors(fly.fp, HOME.p, e); ctl.target.lerpVectors(fly.ft, HOME.t, e); if (k === 1) fly = null; wake(); }
     const moved = ctl.update(); if (!moved && !dirty) return; dirty = false; R.render(S, cam);
     const w = map.clientWidth, h = map.clientHeight; proj.far = cam.position.distanceTo(ctl.target) > 135;
-    (Object.keys(anchors) as ZoneKey[]).forEach(k => { v.copy(anchors[k]).project(cam); proj[k] = { x: (v.x * .5 + .5) * w, y: (-v.y * .5 + .5) * h, vis: v.z < 1 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1 }; });
+    (Object.keys(anchors) as ZoneKey[]).forEach(k => { v.copy(anchors[k]).project(cam); proj[k] = { x: (v.x * .5 + .5) * w, y: (-v.y * .5 + .5) * h, vis: v.z < 1 && Math.abs(v.x) < .86 && Math.abs(v.y) < .9 }; });
     opts.onFrame(proj);
   };
   raf = requestAnimationFrame(loop);
