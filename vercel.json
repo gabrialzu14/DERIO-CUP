@@ -1,0 +1,8 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "claude/ryocap-app-redesign-pgko3w": false,
+      "claude/*": false
+    }
+  }
+}
