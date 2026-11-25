@@ -44,12 +44,24 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   // zonas: Campo 1 = mitad norte, Campo 2 = mitad sur
   const zones=[];const zone=(k,w,d,x,z)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.set(x,.18,z);m.userData.k=k;S.add(m);zones.push(m);return m};
   const z1=zone('c1',64,50,0,25),z2=zone('c2',64,50,0,-25);
-  const goalM=mat(0xffffff,{roughness:.4});[-50,50].forEach(z=>box(7.3,2.4,.3,goalM,0,1.2,z));
-  // grada en el lado oeste
-  const body=box(9,5,44,mat(0x4a505a),-43,2.5,1);const steps=[0,1,2,3].map(i=>box(1.6,.6,42,mat(0x7b828c),-39.2-i*1.4,1+i*.9,1));
-  const roof=box(11,.5,46,mat(0xf2f4f6,{roughness:.5}),-42,7.6,1);[-20,1,22].forEach(z=>box(.5,7.5,.5,mat(0xdde1e5),-37.2,3.8,z));
+  const goalM=mat(0xffffff,{roughness:.4}), netM=new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.28,roughness:1});
+  [-50,50].forEach(z=>{const sg=z<0?-1:1; box(.18,2.4,.18,goalM,-3.65,1.2,z); box(.18,2.4,.18,goalM,3.65,1.2,z); box(7.5,.18,.18,goalM,0,2.4,z); box(7.3,2.3,2.2,netM,0,1.15,z+sg*1.1);});
+  // banderines de córner
+  [[-32,-50],[32,-50],[-32,50],[32,50]].forEach(([x,z])=>{box(.08,1.5,.08,mat(0xf5f5f5),x,.75,z);box(.5,.35,.04,mat(0xf2c200),x+.25,1.3,z)});
+  // vallas publicitarias alrededor del campo (morado y granate, como las del campo real)
+  { const bm=[mat(0x8e2a7a),mat(0x7a1f3a)]; for(let k=0;k<16;k++){const z=-48+k*6.4;[-34.4,34.4].forEach((x,j)=>box(.25,.9,6.2,bm[(k+j)%2],x,.45,z+3.1-3.1))}
+    for(let k=0;k<10;k++){[-54,54].forEach((z,j)=>box(6.4,.9,.25,bm[(k+j)%2],-32+k*6.4+3.2,.45,z))} }
+  // grada en el lado oeste: estructura, fachada con puertas y ventanas, gradas azules y granates, cubierta blanca con borde azul
+  const body=box(9,5,44,mat(0x4a505a),-43,2.5,1);
+  const tierCol=[0x2f5fb0,0xa83232];const steps=[0,1,2,3].map(i=>box(1.6,.6,42,mat(tierCol[i%2]),-39.2-i*1.4,1+i*.9,1));
+  box(.12,.9,42,mat(0x2a5db0),-38.2,1.7,1); // barandilla azul del frente
+  { const win=mat(0x1d252e),door=mat(0xe9eef2); for(let k=0;k<11;k++){const z=-18+k*4;box(.1,1.4,1.6,k%3===1?door:win,-38.45,1.9,z)} }
+  const roof=box(11.5,.5,47,mat(0xf5f7f8,{roughness:.5}),-42,7.7,1);roof.rotation.z=-.06;
+  box(.4,.5,47.4,mat(0x2a5db0),-36.4,7.15,1); // canto azul de la cubierta
+  [-20,-6,8,22].forEach(z=>box(.5,7.5,.5,mat(0xdde1e5),-37.2,3.8,z));
   box(9,2.2,6,mat(0xd8d4cc),-42,1.1,27); // escaleras al sur de la grada
-  [-4,8,20].forEach(z=>box(1.6,1.4,3,mat(0x8a2f2a),-38.3,.8,z));
+  // banquillos cubiertos (rojos) frente a la grada
+  [-4,8,20].forEach(z=>{box(1.6,1.2,3.2,mat(0x8a2f2a),-35.6,.7,z);box(2,.12,3.6,mat(0xcfd6dc),-35.6,1.9,z)});
 
   // caseta (bar) al norte de la grada
   const hut=box(6,3.2,15,mat(0xf0f0ee),-43,1.6,-36);const hroof=box(6.6,.35,15.6,mat(0xb86a3e),-43,3.4,-36);
@@ -68,6 +80,13 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   [345,385,425,468,510,550].forEach(x=>seg(x,1110,x,1196));
   // flechas de sentido
   [[455,985,'L'],[262,1105,'U'],[622,1105,'U']].forEach(([x,z,d])=>{const[p,q]=PX(x,z);const a=new THREE.Mesh(new THREE.ConeGeometry(.7,1.6,3),lineM);a.rotation.x=-Math.PI/2;a.rotation.z=d==='L'?Math.PI/2:0;a.position.set(p,.12,q);a.scale.y=.15;S.add(a)});
+  // coches aparcados (colores sobrios), colocados en las plazas de la vista cenital
+  { let sd=11;const rr=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};const cols=[0xd8dde3,0x2b3a52,0xa83232,0x3a6ea5,0x1f1f24,0xe9e6df,0x6b7b8c,0x8a9aa8];
+    const car=(x,z,ry)=>{const c=cols[Math.floor(rr()*cols.length)];const g=new THREE.Group();const b=new THREE.Mesh(new THREE.BoxGeometry(1.8,.9,4.2),mat(c,{roughness:.5}));b.position.y=.7;const t=new THREE.Mesh(new THREE.BoxGeometry(1.6,.75,2.2),mat(0x20262d,{roughness:.3}));t.position.set(0,1.4,-.1);g.add(b,t);g.position.set(x,0,z);g.rotation.y=ry;g.traverse(o=>{o.castShadow=true});S.add(g)};
+    const P=(px,pz)=>[-45+(px-225)*0.059,56.5+(pz-860)*0.059];
+    [290,330,370,410,455,495,540].forEach(px=>{if(rr()>.25){const [x,z]=P(px+10,905);car(x,z,.12)}});
+    [350,390,430,470,510,550].forEach(px=>{if(rr()>.4){const [x,z]=P(px+6,1065);car(x,z,.1)}});
+    [345,385,425,468,510,550].forEach(px=>{if(rr()>.4){const [x,z]=P(px,1153);car(x,z,0)}}); }
   box(6,.07,110,asph,-48,.04,12); // vial por detrás de la grada hasta el aparcamiento
   // calles: del aparcamiento a la rotonda (sur) y calle Errekalde subiendo por el este hasta las casas del norte
   const road=(pts,w=9)=>{const c=new THREE.CatmullRomCurve3(pts.map(([x,z])=>new THREE.Vector3(x,.05,z)));const n=60,pos=[];for(let i=0;i<n;i++){const a=c.getPoint(i/n),b=c.getPoint((i+1)/n),d=b.clone().sub(a);const len=d.length();const m=new THREE.Mesh(new THREE.BoxGeometry(w,.07,len+.6),asph);m.position.copy(a.clone().add(b).multiplyScalar(.5));m.rotation.y=Math.atan2(d.x,d.z);m.receiveShadow=true;S.add(m)}return c};
@@ -100,8 +119,9 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   house(18,-82,34,12,5);house(6,-72,12,18,5);house(46,-80,12,9,4);
   // focos
   const poleM=mat(0xb9bec4,{metalness:.6,roughness:.4});const lamps=[];
-  [[-38,-30],[-38,30],[38,-30],[38,30]].forEach(([x,z])=>{box(.5,18,.5,poleM,x,9,z);const h=box(1,1,3,mat(0xe9ecef),x,18,z);lamps.push(h);
- const sp=new THREE.SpotLight(0xfff6d8,0,140,0.7,0.5,1.2);sp.position.set(x,18,z);sp.target.position.set(x*.2,0,z*.2);S.add(sp,sp.target);lamps.push(sp)});
+  const lampM=mat(0xe9ecef);[[-38,-30],[-38,30],[38,-30],[38,30]].forEach(([x,z])=>{box(.5,20,.5,poleM,x,10,z);const h=box(.5,.5,3,lampM,x,20,z);lamps.push(h);for(let r=0;r<2;r++)for(let c=0;c<3;c++)box(.7,.7,.5,lampM,x+(x<0?.5:-.5),19.5+r*.9,z-1+c*1);
+
+ const sp=new THREE.SpotLight(0xfff6d8,0,140,0.7,0.5,1.2);sp.position.set(x,20,z);sp.target.position.set(x*.2,0,z*.2);S.add(sp,sp.target);lamps.push(sp)});
   // árboles: banda densa al oeste, cipreses al sur, arbolado al norte
   const tr=mat(0x2f6b34),trunk=mat(0x5a4632),cyp=mat(0x2a5a2f);let seed=7;const rand=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};const rnd=(a,b)=>a+rand()*(b-a);
   function tree(x,z,s=1){box(.6*s,3*s,.6*s,trunk,x,1.5*s,z);const t=new THREE.Mesh(new THREE.IcosahedronGeometry(3.6*s,0),tr);t.position.set(x,5.2*s,z);t.castShadow=true;S.add(t)}
