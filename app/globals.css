@@ -1146,7 +1146,6 @@ html[data-seen] .splash { display: none; }
 .pk-legend .sw.entry { width: 14px; height: 14px; border-radius: 50%; background: var(--pk-red); }
 .pk-legend .sw.alt { border: 2px solid var(--pk-blue); background: color-mix(in srgb, var(--pk-blue) 18%, transparent); }
 .pk-legend .sw.walk { height: 4px; background: repeating-linear-gradient(90deg, var(--pk-red) 0 4px, transparent 4px 8px); }
-.pk-photo { margin-left: auto; color: var(--accent); font-weight: 700; text-decoration: none; }
 .dir-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
 .dir-row .btn { justify-content: center; }
 

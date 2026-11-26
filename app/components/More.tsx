@@ -30,7 +30,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <VenueMap3D fallback={i.venueImage} />
     <div className="dir-row"><a className="btn btn-primary" href={directionsUrl("ibaiondo")} target="_blank" rel="noreferrer"><Icon name="car" size={18} />{t("Cómo llegar", "Nola iritsi")}</a><a className="btn btn-ghost" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Ver en Maps", "Ikusi Maps-en")}</a></div></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean"), body: <>
-    <ParkingMaps photos={i.parking} /></> });
+    <ParkingMaps /></> });
   const ng = new Set(tn.teams.map(x => x.group)).size, per = Math.round(tn.teams.length / ng);
   items.push({ key: "formato", icon: "trophy", title: t("Formato del torneo", "Txapelketaren formatua"), sub: t("Puntuación, fases y desempates", "Puntuazioa, faseak eta berdinketak"), body: <div className="fmt">
     <div className="fmt-facts">
