@@ -37,32 +37,32 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
       {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("equipo", { team: selected })} />}
 
       <section aria-labelledby="home-phases">
-        <SectionHead title={t("Torneo", "Txapelketa")} cup />
-        <h2 id="home-phases" className="sr-only">{t("Fases del torneo", "Txapelketaren faseak")}</h2>
-        <Tabs label={t("Fase del torneo", "Txapelketaren fasea")} idPrefix="home-phase" value={phase} onChange={setPhase} items={[
-          { key: "grupos", label: t("Grupos", "Multzoak") }, { key: "oro", label: <><i className="dot gold" aria-hidden="true" />{t("Oro", "Urrea")}</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />{t("Plata", "Zilarra")}</> },
+        <SectionHead title={t("Torneo", "Txapelketa", "Tournoi")} cup />
+        <h2 id="home-phases" className="sr-only">{t("Fases del torneo", "Txapelketaren faseak", "Phases du tournoi")}</h2>
+        <Tabs label={t("Fase del torneo", "Txapelketaren fasea", "Phase du tournoi")} idPrefix="home-phase" value={phase} onChange={setPhase} items={[
+          { key: "grupos", label: t("Grupos", "Multzoak", "Groupes") }, { key: "oro", label: <><i className="dot gold" aria-hidden="true" />{t("Oro", "Urrea", "Or")}</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />{t("Plata", "Zilarra", "Argent")}</> },
         ]} />
         <TabPanel idPrefix="home-phase" tab={phase}>
           {phase === "grupos" ? <>
-            <div className="progress-row"><div className="progress" role="progressbar" aria-label={t("Partidos de grupos jugados", "Jokatutako multzo-partidak")} aria-valuemin={0} aria-valuemax={ms.length} aria-valuenow={played}><span style={{ width: (played / ms.length) * 100 + "%" }} /></div><small>{played}/{ms.length} {t("partidos", "partida")}</small></div>
+            <div className="progress-row"><div className="progress" role="progressbar" aria-label={t("Partidos de grupos jugados", "Jokatutako multzo-partidak", "Matchs de groupe joués")} aria-valuemin={0} aria-valuemax={ms.length} aria-valuenow={played}><span style={{ width: (played / ms.length) * 100 + "%" }} /></div><small>{played}/{ms.length} {t("partidos", "partida", "matchs")}</small></div>
             <div className="group-grid">
               {GROUPS.map(g => (
-                <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t("Ver clasificación del grupo ", "Ikusi sailkapena, multzoa: ") + g}>
-                  <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done"><Icon name="check" size={14} />{t("Cerrado", "Itxita")}</span>}</span>
+                <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t("Ver clasificación del grupo ", "Ikusi sailkapena, multzoa: ", "Voir le classement du groupe ") + g}>
+                  <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done"><Icon name="check" size={14} />{t("Cerrado", "Itxita", "Terminé")}</span>}</span>
                   <span className="group-crests">{(complete(g, ms) || ms.some(m => m.group === g && m.hs !== null) ? table(g, ms).map(r => r.id) : teamIds(g)).map(id => <Crest key={id} id={id} size={32} />)}</span>
                 </button>
               ))}
             </div>
           </> : <>
             <PhaseNote kind={phase === "oro" ? "Oro" : "Plata"} />
-            <p className="note">{phase === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak pasatzen dira.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.")}</p>
+            <p className="note">{phase === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak pasatzen dira.", "Les deux premiers de chaque groupe se qualifient.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.", "Le troisième et le quatrième de chaque groupe se qualifient.")}</p>
             <Bracket kind={phase === "oro" ? "Oro" : "Plata"} games={phase === "oro" ? oro : plata} compact />
           </>}
         </TabPanel>
       </section>
 
       {!finished && pending.length > 0 && <section>
-        <SectionHead icon="ball" title={live.length ? t("A continuación", "Jarraian") : t("Próximos partidos", "Hurrengo partidak")} action={{ label: t("Calendario", "Egutegia"), onClick: () => go("partidos") }} />
+        <SectionHead icon="ball" title={live.length ? t("A continuación", "Jarraian", "À suivre") : t("Próximos partidos", "Hurrengo partidak", "Prochains matchs")} action={{ label: t("Calendario", "Egutegia", "Programme"), onClick: () => go("partidos") }} />
         <div className="match-list">{pending.filter(m => !live.includes(m)).slice(0, 4).map(m => <MatchRow key={m.id} m={m} groupAbove />)}</div>
       </section>}
 
@@ -77,13 +77,13 @@ type HeroGame = { id: string; home: string; away: string; time: string; field: n
 function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | "next"; loaded?: boolean }) {
   const { tn, T } = useEngine(), { t, lang, locale } = useLang(), eu = lang === "eu";
   const today = madridNow().date === tn.date;
-  if (!games.length) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn, locale)}</span></div><p className="hero-title">{loaded ? t("Fase de grupos finalizada", "Multzo-fasea amaitu da") : t("Cargando resultados…", "Emaitzak kargatzen…")}</p></section>;
+  if (!games.length) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn, locale)}</span></div><p className="hero-title">{loaded ? t("Fase de grupos finalizada", "Multzo-fasea amaitu da", "Phase de groupes terminée") : t("Cargando resultados…", "Emaitzak kargatzen…", "Chargement des scores…")}</p></section>;
   const where = (w: string) => (w.startsWith("g:") ? groupName(w.slice(2), lang) : phaseName(w.slice(2).split(" · ")[0] as KOKind, lang) + " · " + koCode(w.split(" · ")[1], lang));
   const sorted = [...games].sort((a, b) => a.field - b.field);
   const common = new Set(sorted.map(g => g.where)).size === 1; // mismo grupo en todas las columnas: se indica una sola vez, arriba a la derecha
   return (
-    <section className={"hero" + (kind === "live" ? " hero-live" : "")} aria-label={kind === "live" ? t("Partidos en juego", "Jokoan dauden partidak") : t("Próximo partido", "Hurrengo partida")}>
-      <div className="hero-top">{kind === "live" ? <span className="eyebrow live">{t("Ahora mismo", "Orain bertan")}</span> : <span className="eyebrow">{today ? t("Próximo partido", "Hurrengo partida") : t("Primer partido", "Lehen partida")}</span>}{common && <small className="hero-where">{where(sorted[0].where)}</small>}</div>
+    <section className={"hero" + (kind === "live" ? " hero-live" : "")} aria-label={kind === "live" ? t("Partidos en juego", "Jokoan dauden partidak", "Matchs en cours") : t("Próximo partido", "Hurrengo partida", "Prochain match")}>
+      <div className="hero-top">{kind === "live" ? <span className="eyebrow live">{t("Ahora mismo", "Orain bertan", "En ce moment")}</span> : <span className="eyebrow">{today ? t("Próximo partido", "Hurrengo partida", "Prochain match") : t("Primer partido", "Lehen partida", "Premier match")}</span>}{common && <small className="hero-where">{where(sorted[0].where)}</small>}</div>
       <div className={"hero-cols" + (sorted.length > 1 ? " two" : "")}>
         {sorted.map((g, i) => (
           <div key={g.id} className="hero-col-wrap">
@@ -113,14 +113,14 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
     id ? <TeamLink id={id} className={"podium-cell " + kind}><small>{role}</small><Crest id={id} size={52} /><b>{T(id).name}</b></TeamLink> : <div className={"podium-cell " + kind}><small>{role}</small><i className="crest-ph" /><b>—</b></div>
   );
   return (
-    <section className="hero hero-final" aria-label={t("Resultados finales", "Azken emaitzak")}>
-      <div className="hero-top"><span className="eyebrow"><BrandName /> · {t("Finalizada", "Amaituta")}</span><CupMark size={26} /></div>
-      <p className="hero-title">{t("Resultados finales", "Azken emaitzak")}</p>
+    <section className="hero hero-final" aria-label={t("Resultados finales", "Azken emaitzak", "Palmarès")}>
+      <div className="hero-top"><span className="eyebrow"><BrandName /> · {t("Finalizada", "Amaituta", "Terminée")}</span><CupMark size={26} /></div>
+      <p className="hero-title">{t("Resultados finales", "Azken emaitzak", "Palmarès")}</p>
       <div className="podium">
-        <Cell kind="gold" id={ow} role={t("Campeón Oro", "Urrezko txapeldun")} /><Cell kind="gold" id={ru(oro, ow)} role={t("Subcampeón Oro", "Urrezko azpitxapeldun")} />
-        <Cell kind="silver" id={pw} role={t("Campeón Plata", "Zilarrezko txapeldun")} /><Cell kind="silver" id={ru(plata, pw)} role={t("Subcampeón Plata", "Zilarrezko azpitxapeldun")} />
+        <Cell kind="gold" id={ow} role={t("Campeón Oro", "Urrezko txapeldun", "Vainqueur Or")} /><Cell kind="gold" id={ru(oro, ow)} role={t("Subcampeón Oro", "Urrezko azpitxapeldun", "Finaliste Or")} />
+        <Cell kind="silver" id={pw} role={t("Campeón Plata", "Zilarrezko txapeldun", "Vainqueur Argent")} /><Cell kind="silver" id={ru(plata, pw)} role={t("Subcampeón Plata", "Zilarrezko azpitxapeldun", "Finaliste Argent")} />
       </div>
-      <dl className="finals"><div><dt>{t("Final Oro", "Urrezko finala")}</dt><dd>{score(oro)}</dd></div><div><dt>{t("Final Plata", "Zilarrezko finala")}</dt><dd>{score(plata)}</dd></div></dl>
+      <dl className="finals"><div><dt>{t("Final Oro", "Urrezko finala", "Finale Or")}</dt><dd>{score(oro)}</dd></div><div><dt>{t("Final Plata", "Zilarrezko finala", "Finale Argent")}</dt><dd>{score(plata)}</dd></div></dl>
     </section>
   );
 }
@@ -136,9 +136,9 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
     : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, lang) + " · " + koCode(koNext.code, lang), live: matchState(koNext.time, false) === "live" } : null;
   const oppName = next ? (next.opp ? T(next.opp).name : koLabel(next.oppLabel, lang)) : "";
   return (
-    <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea")}: ${t.name} ${tr("contra", "eta")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
+    <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name} ${tr("contra", "eta", "contre")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
       <span className="team-card-label">
-        {next?.live ? <LiveBadge /> : <span>{tr("Próximo partido", "Hurrengo partida")}</span>}
+        {next?.live ? <LiveBadge /> : <span>{tr("Próximo partido", "Hurrengo partida", "Prochain match")}</span>}
         {next && <span className="team-card-where">{next.where}</span>}
       </span>
       {next ? (
@@ -147,7 +147,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
           <span className="duel-mid"><b>{next.time}</b><small>{fieldName(next.field, lang)}</small></span>
           <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
-      ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik")}</span>}
+      ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik", "Plus aucun match à jouer")}</span>}
     </button>
   );
 }
@@ -157,13 +157,13 @@ function FanRanking({ counts }: { counts: Record<string, number> }) {
   const list = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3).filter(([id, n]) => n > 0 && !!T(id));
   if (!list.length) return (
     <section>
-      <SectionHead title={t("Afición", "Zaleak")} icon="fans" />
-      <p className="note">{t("Todavía no hay afición en este torneo. Los equipos más seguidos aparecerán aquí.", "Oraindik ez dago zalerik txapelketa honetan. Jarraitzaile gehien dituzten taldeak hemen agertuko dira.")}</p>
+      <SectionHead title={t("Afición", "Zaleak", "Supporters")} icon="fans" />
+      <p className="note">{t("Todavía no hay afición en este torneo. Los equipos más seguidos aparecerán aquí.", "Oraindik ez dago zalerik txapelketa honetan. Jarraitzaile gehien dituzten taldeak hemen agertuko dira.", "Pas encore de supporters dans ce tournoi. Les équipes les plus suivies apparaîtront ici.")}</p>
     </section>
   );
   return (
     <section>
-      <SectionHead title={t("Afición", "Zaleak")} icon="fans" />
+      <SectionHead title={t("Afición", "Zaleak", "Supporters")} icon="fans" />
       <ol className="fans">
         {list.map(([id, n], i) => <li key={id}><TeamLink id={id} className="fan-row"><b className="rank">{i + 1}</b><Crest id={id} size={30} /><span>{T(id).name}</span><small>{followers(n, lang)}</small></TeamLink></li>)}
       </ol>

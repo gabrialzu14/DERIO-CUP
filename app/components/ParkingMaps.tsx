@@ -34,7 +34,7 @@ const Pin = ({ x, y, color, r = 20 }: { x: number; y: number; color: string; r?:
 export function ParkingNear() {
   const { t } = useLang();
   return (
-    <svg className="pk-map" viewBox="0 0 1000 515" role="img" aria-label={t("Plano del aparcamiento junto al campo de Ibaiondo", "Ibaiondo zelaiaren ondoko aparkalekuaren planoa")}>
+    <svg className="pk-map" viewBox="0 0 1000 515" role="img" aria-label={t("Plano del aparcamiento junto al campo de Ibaiondo", "Ibaiondo zelaiaren ondoko aparkalekuaren planoa", "Plan du parking à côté du stade d’Ibaiondo")}>
       <defs><pattern id="pk-hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" stroke="var(--pk-red)" strokeWidth="3" opacity=".35" /></pattern></defs>
       <rect width="1000" height="515" fill="var(--pk-ground)" />
       <path d="M0 0H470L430 190 380 200 0 190Z" fill="var(--pk-grass)" /><path d="M700 0H1000V330L850 250 740 150Z" fill="var(--pk-grass)" />
@@ -54,8 +54,8 @@ export function ParkingNear() {
       <path d="M512 425 693 198 848 320 685 512 612 512Z" fill="url(#pk-hatch)" stroke="var(--pk-red)" strokeWidth="5" strokeLinejoin="round" />
       <Pin x={680} y={360} color="var(--pk-red)" /><Pin x={424} y={452} color="var(--pk-red)" r={16} />
       <Entry x={382} y={404} />
-      <g className="pk-lbl"><text x="197" y="212" textAnchor="middle">Ibaiondo</text><text x="680" y="408" textAnchor="middle">{t("Campa", "Zelaigunea")}</text></g>
-      <g className="pk-st"><text x="170" y="62" transform="rotate(-15 170 62)">Calle Errekalde</text><text x="500" y="330" transform="rotate(-82 500 330)">Camino Untzaga</text><text x="760" y="160" transform="rotate(36 760 160)">Camino Untzaga</text><text x="575" y="122" textAnchor="middle">{t("Rotonda", "Biribilgunea")}</text></g>
+      <g className="pk-lbl"><text x="197" y="212" textAnchor="middle">Ibaiondo</text><text x="680" y="408" textAnchor="middle">{t("Campa", "Zelaigunea", "Pré")}</text></g>
+      <g className="pk-st"><text x="170" y="62" transform="rotate(-15 170 62)">Calle Errekalde</text><text x="500" y="330" transform="rotate(-82 500 330)">Camino Untzaga</text><text x="760" y="160" transform="rotate(36 760 160)">Camino Untzaga</text><text x="575" y="122" textAnchor="middle">{t("Rotonda", "Biribilgunea", "Rond-point")}</text></g>
     </svg>
   );
 }
@@ -67,7 +67,7 @@ export function ParkingAlt() {
   const { t } = useLang();
   const road = (k: string, c: string, w: number) => <g key={k} stroke={c} strokeWidth={w}><path d="M0 182 120 140 225 148" /><path d="M262 130 330 60 380 0" /><path d="M228 172 210 230 210 300" /><path d="M296 178 400 252 500 322 560 392 760 396 860 350 940 400" /><path d="M700 200 800 70 860 0" /></g>;
   return (
-    <svg className="pk-map" viewBox="0 0 1000 414" role="img" aria-label={t("Plano del aparcamiento del Seminario y ruta a pie hasta Ibaiondo", "Seminarioko aparkalekuaren planoa eta Ibaiondora oinez joateko bidea")}>
+    <svg className="pk-map" viewBox="0 0 1000 414" role="img" aria-label={t("Plano del aparcamiento del Seminario y ruta a pie hasta Ibaiondo", "Seminarioko aparkalekuaren planoa eta Ibaiondora oinez joateko bidea", "Plan du parking du Seminario et trajet à pied jusqu’à Ibaiondo")}>
       <rect width="1000" height="414" fill="var(--pk-ground)" />
       <path d="M0 0H330L240 120 0 160Z" fill="var(--pk-trees)" /><path d="M400 30 600 20 560 270 430 250Z" fill="var(--pk-grass)" /><path d="M860 260 1000 120V414H780Z" fill="var(--pk-grass)" />
       <g fill="var(--pk-bld)"><path d="M480 290 560 165 600 180 520 305Z" /><rect x="600" y="80" width="90" height="70" rx="4" transform="rotate(30 645 115)" /><rect x="560" y="170" width="70" height="55" rx="4" transform="rotate(30 595 197)" /><rect x="520" y="290" width="60" height="70" rx="4" transform="rotate(30 550 325)" /><rect x="700" y="10" width="110" height="80" rx="4" transform="rotate(30 755 50)" /><rect x="610" y="230" width="50" height="45" rx="4" transform="rotate(30 635 252)" /></g>
@@ -80,7 +80,7 @@ export function ParkingAlt() {
       <g stroke="var(--pk-blue)" strokeWidth="2" opacity=".35"><path d="M660 330 770 190M700 340 820 190M760 310 900 130M800 270 930 100M690 300 800 160" /></g>
       <path className="pk-walk" d={"M" + WALK.map(p => p.join(" ")).join(" ")} fill="none" stroke="var(--pk-red)" strokeWidth="7" />
       <Entry x={210} y={300} /><Pin x={820} y={190} color="var(--pk-blue)" />
-      <g className="pk-lbl"><text x="85" y="224" textAnchor="middle">Ibaiondo</text><text x="210" y="348" textAnchor="middle">{t("Entrada", "Sarrera")}</text><text x="880" y="236" textAnchor="middle">Seminario</text></g>
+      <g className="pk-lbl"><text x="85" y="224" textAnchor="middle">Ibaiondo</text><text x="210" y="348" textAnchor="middle">{t("Entrada", "Sarrera", "Entrée")}</text><text x="880" y="236" textAnchor="middle">Seminario</text></g>
       <g className="pk-st"><text x="60" y="150" transform="rotate(-18 60 150)">Calle Errekalde</text><text x="400" y="240" transform="rotate(35 400 240)">Camino Untzaga</text><text x="650" y="408">Camino Untzaga</text></g>
     </svg>
   );
@@ -93,16 +93,16 @@ export function ParkingMaps() {
   return (
     <div className="pk-wrap">
       <figure className="pk-fig">
-        <figcaption><b>{t("Aparcamiento", "Aparkalekua")}</b><span>{t("Junto al campo: en batería en el vial de acceso y en Camino Untzaga, al final del vial y en la campa.", "Zelaiaren ondoan: bateria-aparkalekua sarbide-bidean eta Untzaga bidean, bidearen amaieran eta zelaigunean.")}</span></figcaption>
+        <figcaption><b>{t("Aparcamiento", "Aparkalekua", "Parking")}</b><span>{t("Junto al campo: en batería en el vial de acceso y en Camino Untzaga, al final del vial y en la campa.", "Zelaiaren ondoan: bateria-aparkalekua sarbide-bidean eta Untzaga bidean, bidearen amaieran eta zelaigunean.", "À côté du stade : en bataille le long de la voie d’accès et du Camino Untzaga, au bout de la voie d’accès et dans le pré.")}</span></figcaption>
         <ParkingNear />
-        <div className="pk-legend"><span><i className="sw hatch" />{t("Zona de aparcamiento", "Aparkatzeko gunea")}</span><span><i className="sw batt" />{t("Aparcamiento en batería", "Bateria-aparkalekua")}</span><span><i className="sw entry" />{t("Entrada al campo", "Zelairako sarrera")}</span></div>
-        {go("ibaiondo", t("Cómo llegar al campo", "Nola iritsi zelaira"))}
+        <div className="pk-legend"><span><i className="sw hatch" />{t("Zona de aparcamiento", "Aparkatzeko gunea", "Zone de stationnement")}</span><span><i className="sw batt" />{t("Aparcamiento en batería", "Bateria-aparkalekua", "Parking en bataille")}</span><span><i className="sw entry" />{t("Entrada al campo", "Zelairako sarrera", "Entrée du stade")}</span></div>
+        {go("ibaiondo", t("Cómo llegar al campo", "Nola iritsi zelaira", "Itinéraire vers le stade"))}
       </figure>
       <figure className="pk-fig">
-        <figcaption><b>{t("Aparcamiento alternativo · Seminario", "Ordezko aparkalekua · Seminarioa")}</b><span>{t("Si el de junto al campo está lleno. Desde allí, unos 350 m a pie (≈ 5 min) por Camino Untzaga hasta la entrada.", "Zelaiaren ondokoa beteta badago. Handik, 350 m inguru oinez (≈ 5 min) Untzaga bidetik sarreraraino.")}</span></figcaption>
+        <figcaption><b>{t("Aparcamiento alternativo · Seminario", "Ordezko aparkalekua · Seminarioa", "Parking de délestage · Seminario")}</b><span>{t("Si el de junto al campo está lleno. Desde allí, unos 350 m a pie (≈ 5 min) por Camino Untzaga hasta la entrada.", "Zelaiaren ondokoa beteta badago. Handik, 350 m inguru oinez (≈ 5 min) Untzaga bidetik sarreraraino.", "Si le parking du stade est complet. De là, environ 350 m à pied (≈ 5 min) par le Camino Untzaga jusqu’à l’entrée.")}</span></figcaption>
         <ParkingAlt />
-        <div className="pk-legend"><span><i className="sw alt" />{t("Aparcamiento del Seminario", "Seminarioko aparkalekua")}</span><span><i className="sw walk" />{t("Ruta a pie hasta la entrada", "Oinezko bidea sarreraraino")}</span></div>
-        {go("seminario", t("Cómo llegar al Seminario", "Nola iritsi Seminariora"))}
+        <div className="pk-legend"><span><i className="sw alt" />{t("Aparcamiento del Seminario", "Seminarioko aparkalekua", "Parking du Seminario")}</span><span><i className="sw walk" />{t("Ruta a pie hasta la entrada", "Oinezko bidea sarreraraino", "Trajet à pied jusqu’à l’entrée")}</span></div>
+        {go("seminario", t("Cómo llegar al Seminario", "Nola iritsi Seminariora", "Itinéraire vers le Seminario"))}
       </figure>
     </div>
   );

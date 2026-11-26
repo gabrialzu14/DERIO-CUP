@@ -84,7 +84,7 @@ export const dateParts = (iso: string, locale = "es-ES") => {
   const d = at(iso), eu = locale.startsWith("eu"), fr = locale.startsWith("fr"), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString(locale, o);
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1), month = eu ? EU_MONTHS[d.getMonth()] : f({ month: "long" });
   // francés: «8 décembre», «mardi 8 décembre» (mes en minúscula, como manda la norma francesa)
-  if (fr) return { day: String(d.getDate()), monthShort: f({ month: "short" }).replace(".", ""), label: `${d.getDate()} ${month}`, tag: `${d.getDate()} ${month}`, short: `${d.getDate()} ${f({ month: "short" })}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" })), monthYear: cap(f({ month: "long", year: "numeric" })) };
+  if (fr) { const n = d.getDate() === 1 ? "1er" : String(d.getDate()); return { day: String(d.getDate()), monthShort: f({ month: "short" }).replace(".", ""), label: `${n}\u00a0${month}`, tag: `${n}\u00a0${month}`, short: `${n}\u00a0${f({ month: "short" })}`, long: cap(f({ weekday: "long" })) + " " + n + "\u00a0" + month, monthYear: cap(f({ month: "long", year: "numeric" })) }; }
   return { day: String(d.getDate()), monthShort: eu ? EU_MONTHS[d.getMonth()].slice(0, 3) : f({ month: "short" }).replace(".", ""), label: eu ? `${month}ren ${d.getDate()}a` : `${d.getDate()} de ${month}`, tag: eu ? `${cap(month)}ren ${d.getDate()}a` : `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: eu ? `${EU_DAYS[d.getDay()]}, ${month}ren ${d.getDate()}a` : cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
 };
 /** Etiqueta de cabecera: «2015 • 8 de Diciembre». */

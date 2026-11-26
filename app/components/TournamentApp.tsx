@@ -150,22 +150,22 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
     <EngineContext.Provider value={engine}>
       <OpenTeamContext.Provider value={openTeam}>
       <div className="app">
-        <a className="skip" href="#contenido" onClick={e => { e.preventDefault(); mainRef.current?.focus(); }}>{t("Saltar al contenido", "Joan edukira")}</a>
+        <a className="skip" href="#contenido" onClick={e => { e.preventDefault(); mainRef.current?.focus(); }}>{t("Saltar al contenido", "Joan edukira", "Aller au contenu")}</a>
         <header className="app-header">
           <div className="app-header-in">
-            <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ${t("ir al inicio", "joan hasierara")}`}>
+            <button type="button" className="brand" onClick={() => go("inicio")} aria-label={`${BRAND} ${tn.category}, ${t("ir al inicio", "joan hasierara", "aller à l’accueil")}`}>
               <CupMark size={30} className="brand-grad" />
               <span><BrandName as="b" /><small>{tournamentTag(tn, locale)}</small></span>
             </button>
             <div className="header-actions">
-              {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={t("Mi equipo: ", "Nire taldea: ") + engine.T(mine).name} onClick={() => go("equipo", { team: mine })}><Crest id={mine} size={26} /></button>}
-              <button type="button" className={"icon-btn" + (syncing ? " is-spinning" : "")} aria-label={t("Actualizar resultados", "Eguneratu emaitzak")} onClick={() => load(true)}><Icon name="refresh" size={20} /></button>
-              <button type="button" className="icon-btn" aria-label={resolved === "dark" ? t("Cambiar a modo claro", "Aldatu modu argira") : t("Cambiar a modo oscuro", "Aldatu modu ilunera")} onClick={toggle}><Icon name={resolved === "dark" ? "sun" : "moon"} size={20} /></button>
+              {mine !== "neutral" && <button type="button" className="icon-btn avatar" aria-label={t("Mi equipo: ", "Nire taldea: ", "Mon équipe : ") + engine.T(mine).name} onClick={() => go("equipo", { team: mine })}><Crest id={mine} size={26} /></button>}
+              <button type="button" className={"icon-btn" + (syncing ? " is-spinning" : "")} aria-label={t("Actualizar resultados", "Eguneratu emaitzak", "Actualiser les scores")} onClick={() => load(true)}><Icon name="refresh" size={20} /></button>
+              <button type="button" className="icon-btn" aria-label={resolved === "dark" ? t("Cambiar a modo claro", "Aldatu modu argira", "Passer en mode clair") : t("Cambiar a modo oscuro", "Aldatu modu ilunera", "Passer en mode sombre")} onClick={toggle}><Icon name={resolved === "dark" ? "sun" : "moon"} size={20} /></button>
             </div>
           </div>
         </header>
 
-        {offline && <div className="banner" role="status"><Icon name="wifi" size={18} /><span>{t("Sin conexión. Mostrando los últimos datos guardados.", "Konexiorik ez. Gordetako azken datuak erakusten.")}</span><button type="button" onClick={() => load(true)}>{t("Reintentar", "Saiatu berriro")}</button></div>}
+        {offline && <div className="banner" role="status"><Icon name="wifi" size={18} /><span>{t("Sin conexión. Mostrando los últimos datos guardados.", "Konexiorik ez. Gordetako azken datuak erakusten.", "Hors connexion. Affichage des dernières données enregistrées.")}</span><button type="button" onClick={() => load(true)}>{t("Reintentar", "Saiatu berriro", "Réessayer")}</button></div>}
 
         <main id="contenido" ref={mainRef} tabIndex={-1} className="main" aria-busy={!loaded}>
           {tab === "inicio" && <Home ms={ms} koResults={koResults} selected={mine} fanCounts={fanCounts} loaded={loaded} go={go} />}
@@ -174,10 +174,10 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           {tab === "fases" && <Fases kind={phase} setKind={setPhase} ms={ms} koResults={koResults} />}
           {tab === "equipo" && viewTeam && <Team key={viewTeam} id={viewTeam} ms={ms} koResults={koResults} back={back} isMine={viewTeam === mine} goGroup={g => go("clasificacion", { group: g })} />}
           {tab === "mas" && <More ms={ms} koResults={koResults} setKoResults={setKoResults} scores={scores} setScores={setScores} changeTeam={changeTeam} changeTournament={exit} theme={theme} setTheme={setTheme} />}
-          {lastSync && tab !== "mas" && <p className="sync-note">{t("Actualizado a las ", "Eguneratuta: ")}{lastSync.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" })}</p>}
+          {lastSync && tab !== "mas" && <p className="sync-note">{t("Actualizado a las ", "Eguneratuta: ", "Mis à jour à ")}{lastSync.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" })}</p>}
         </main>
 
-        {createPortal(<nav className="tabbar" aria-label={t("Navegación principal", "Nabigazio nagusia")}>
+        {createPortal(<nav className="tabbar" aria-label={t("Navegación principal", "Nabigazio nagusia", "Navigation principale")}>
           <ul ref={tabsRef}>
             <span className="tb-ind" aria-hidden="true" />
             {NAV.map(n => (
@@ -186,16 +186,16 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           </ul>
         </nav>, document.body)}
 
-        {fairplay && <Dialog title={t("¡ANIMA A TU EQUIPO!", "ANIMATU ZURE TALDEA!")} onClose={() => setFairplay(false)} compact centered>
+        {fairplay && <Dialog title={t("¡ANIMA A TU EQUIPO!", "ANIMATU ZURE TALDEA!", "ENCOURAGEZ VOTRE ÉQUIPE !")} onClose={() => setFairplay(false)} compact centered>
           <div className="fairplay">
-            <span className="fairplay-ico" role="img" aria-label={t("Familias animando juntas", "Familiak elkarrekin animatzen")}><i className="fp-arm l" /><i className="fp-arm r" /><i className="fp-body" /></span>
-            <p>{t("Lo importante no es el resultado, es que los niños y niñas disfruten del día.", "Garrantzitsuena ez da emaitza, haurrek egunaz gozatzea baizik.")}</p>
-            <p>{t("Los insultos y faltas de respeto desde la grada podrán ser motivo de expulsión de las instalaciones.", "Harmailatik egindako irainak eta errespetu faltak instalazioetatik kanporatzeko arrazoi izan daitezke.")}</p>
-            <p className="fairplay-key">{t("RESPETA al rival,", "ERRESPETATU aurkaria,")}<br />{t("RESPETA a los árbitros,", "ERRESPETATU epaileak,")}<br />{t("RESPETA los valores de este deporte.", "ERRESPETATU kirol honen balioak.")}</p>
-            <button type="button" className="btn btn-primary block" onClick={() => setFairplay(false)}>{t("Entendido", "Ados")}</button>
+            <span className="fairplay-ico" role="img" aria-label={t("Familias animando juntas", "Familiak elkarrekin animatzen", "Des familles qui encouragent ensemble")}><i className="fp-arm l" /><i className="fp-arm r" /><i className="fp-body" /></span>
+            <p>{t("Lo importante no es el resultado, es que los niños y niñas disfruten del día.", "Garrantzitsuena ez da emaitza, haurrek egunaz gozatzea baizik.", "L’important n’est pas le résultat : c’est que les enfants profitent de leur journée.")}</p>
+            <p>{t("Los insultos y faltas de respeto desde la grada podrán ser motivo de expulsión de las instalaciones.", "Harmailatik egindako irainak eta errespetu faltak instalazioetatik kanporatzeko arrazoi izan daitezke.", "Les insultes et les manques de respect depuis la tribune pourront entraîner l’expulsion du stade.")}</p>
+            <p className="fairplay-key">{t("RESPETA al rival,", "ERRESPETATU aurkaria,", "RESPECTEZ l’adversaire,")}<br />{t("RESPETA a los árbitros,", "ERRESPETATU epaileak,", "RESPECTEZ les arbitres,")}<br />{t("RESPETA los valores de este deporte.", "ERRESPETATU kirol honen balioak.", "RESPECTEZ les valeurs de ce sport.")}</p>
+            <button type="button" className="btn btn-primary block" onClick={() => setFairplay(false)}>{t("Entendido", "Ados", "Compris")}</button>
           </div>
         </Dialog>}
-        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa-irizpideak")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:")}</p><ol>{infoFor(tn, lang).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
+        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa-irizpideak", "Critères de départage")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:", "Si deux équipes ou plus d’un même groupe sont à égalité de points, elles sont départagées dans l’ordre suivant :")}</p><ol>{infoFor(tn, lang).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
       </div>
       </OpenTeamContext.Provider>
     </EngineContext.Provider>

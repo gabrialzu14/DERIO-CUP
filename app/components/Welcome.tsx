@@ -40,9 +40,9 @@ export function Splash() {
     });
     return () => anims.forEach(a => a.cancel());
   }, []);
-  const all = LOGO_PATHS.join("");
+  const all = LOGO_PATHS.join(""), { t } = useLang();
   return (
-    <div className="splash" role="status" aria-label="Cargando">
+    <div className="splash" role="status" aria-label={t("Cargando", "Kargatzen", "Chargement")}>
       <span className="sp-halo" aria-hidden="true" />
       <svg ref={svg} className="sp-logo" viewBox={LOGO_VIEWBOX} aria-hidden="true">
         <defs>
@@ -76,17 +76,17 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
   const colors = (id: string) => { const tone = clubTone(T(id).crest ?? T(id).name, id); return { "--pk-bg": tone.bg, "--pk-fg": tone.fg } as CSSProperties; };
   return (
     <main className="welcome">
-      <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />{tr("Torneos", "Txapelketak")}</button>
+      <button type="button" className="back-btn" onClick={onBack} disabled={!!choosing}><Icon name="back" size={18} />{tr("Torneos", "Txapelketak", "Tournois")}</button>
       <header className="welcome-head">
         <CupMark size={64} className="brand-grad" />
         <h1><BrandName /></h1>
         <p>{tournamentTag(tn, locale)}</p>
-        <h2>{tr("Elige tu equipo", "Aukeratu zure taldea")}</h2>
-        <small>{tr("Para seguirlo de cerca. Puedes cambiarlo cuando quieras.", "Gertutik jarraitzeko. Nahi duzunean alda dezakezu.")}</small>
+        <h2>{tr("Elige tu equipo", "Aukeratu zure taldea", "Choisissez votre équipe")}</h2>
+        <small>{tr("Para seguirlo de cerca. Puedes cambiarlo cuando quieras.", "Gertutik jarraitzeko. Nahi duzunean alda dezakezu.", "Pour la suivre de près. Vous pourrez en changer à tout moment.")}</small>
       </header>
       {GROUPS.map(g => (
         <section key={g} aria-labelledby={"wg-" + g}>
-          <h3 id={"wg-" + g} className="welcome-group">{tr(`Grupo ${g}`, `${g} multzoa`)}</h3>
+          <h3 id={"wg-" + g} className="welcome-group">{tr(`Grupo ${g}`, `${g} multzoa`, `Groupe ${g}`)}</h3>
           <div className="team-grid">
             {tn.teams.filter(t => t.group === g).map(t => (
               <button key={t.id} type="button" aria-pressed={picked === t.id} className={"team-pick" + (picked === t.id ? " is-picked" : "") + (choosing && picked !== t.id ? " is-dim" : "")} style={colors(t.id)} disabled={!!choosing} onClick={() => toggle(t.id)}>
@@ -99,11 +99,11 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
           </div>
         </section>
       ))}
-      <button type="button" className="btn btn-ghost block" disabled={!!choosing} onClick={onNeutral}>{tr("No tengo equipo", "Ez dut talderik")}</button>
+      <button type="button" className="btn btn-ghost block" disabled={!!choosing} onClick={onNeutral}>{tr("No tengo equipo", "Ez dut talderik", "Aucune équipe")}</button>
 
       <div className="continue-bar" data-show={picked ? "true" : "false"} aria-hidden={!picked}>
         <button type="button" className="continue-btn" style={last ? colors(last) : undefined} tabIndex={picked ? 0 : -1} disabled={!picked || !!choosing} onClick={() => picked && onPick(picked)}>
-          {tr("Continuar", "Jarraitu")}<Icon name="chevron" size={20} />
+          {tr("Continuar", "Jarraitu", "Continuer")}<Icon name="chevron" size={20} />
         </button>
       </div>
     </main>

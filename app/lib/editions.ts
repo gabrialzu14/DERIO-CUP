@@ -4,7 +4,7 @@
 import type { GroupMatchDef, InfoSpec, Team, Tournament } from "./tournament";
 
 const MAPS = "https://maps.app.goo.gl/q2zy9gfVQ1dPcaqS6";
-const VENUE = "Instalaciones Deportivas de Ibaiondo", VENUE_EU = "Ibaiondoko Kirol Instalazioak";
+const VENUE = "Instalaciones Deportivas de Ibaiondo", VENUE_EU = "Ibaiondoko Kirol Instalazioak", VENUE_FR = "Complexe sportif d’Ibaiondo";
 const T = (id: string, name: string, group: Team["group"], extra: Partial<Team> = {}): Team => ({ id, name, group, ...extra });
 const SANSE = { crest: "Arrupe Chaminade", pick: "Arrupe Chaminade • Sanse" }, SANSE_B = { crest: "Arrupe Chaminade", pick: "Arrupe Chaminade B • Sanse B" };
 /** Genera la lista de partidos de grupos a partir de filas «hora, campo, grupo, local, visitante». */
@@ -156,30 +156,71 @@ const INFO_2017_EU: InfoSpec = {
   venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" },
 };
 
+/* ------------------------------------------------------------------ textos en francés */
+const INFO_2015_FR: InfoSpec = {
+  intro: "La Derio Cup est un tournoi de football des jeunes organisé par le CD Derio au complexe sportif d’Ibaiondo (Derio). Il réunit 16 équipes, réparties en 4 groupes de 4, avec une phase de groupes et deux phases finales (Phase Or et Phase Argent).",
+  minutes: 20,
+  penaltyRule: "En phase finale, en cas d’égalité à la fin du match, les équipes sont départagées par une séance de tirs au but (3 tirs par équipe). Seuls les 7 joueurs présents sur le terrain à la fin du match peuvent tirer, et le gardien qui a terminé le match doit obligatoirement rester dans les buts. En cas de nouvelle égalité, les joueurs restés sur le banc peuvent également tirer.",
+  tiebreaks: ["Total des points", "Points en confrontations directes", "Différence de buts en confrontations directes", "Buts marqués en confrontations directes", "Différence de buts générale", "Total des buts marqués", "Si l’égalité persiste, le classement se décide à pile ou face"],
+  rules: [
+    "Chaque équipe doit obligatoirement venir avec un deuxième jeu de maillots : c’est l’équipe désignée comme visiteuse qui devra changer de tenue.",
+    "Hors-jeu à partir de la ligne des 13 m. La surface de réparation est celle tracée sur le terrain (petite surface).",
+    "La passe en retrait au gardien sera sanctionnée d’un coup franc direct sur la ligne des 13 m, sans mur (ramené perpendiculairement au lieu de la faute). Tous les coups francs seront directs.",
+    "Chaque équipe doit apporter ses propres ballons pour s’échauffer avant les matchs : l’organisation n’en fournira aucun.",
+  ],
+  warning: "Tout comportement antisportif d’une équipe sera sanctionné par son exclusion du tournoi, sur décision de l’organisation.",
+  meals: { price: "8 €", includes: "Hamaiketako (en-cas de 11 h), assiette de pâtes (nature, à la tomate ou à la bolognaise), pain, eau et dessert.", contact: "Si cela vous intéresse, contactez le responsable du tournoi pour indiquer le nombre de repas." },
+  bar: "Pour les familles, une buvette proposera un large choix de pintxos et de sandwichs pendant tout le tournoi.",
+  parking: [
+    { src: "/aparcamiento-1.webp", title: "Parking", alt: "Plan du parking à côté du stade d’Ibaiondo" },
+    { src: "/aparcamiento-2.webp", title: "Parking de délestage", alt: "Plan du parking de délestage près d’Ibaiondo" },
+  ],
+};
+const INFO_2017_FR: InfoSpec = {
+  intro: "La Derio Cup est un tournoi de football des jeunes organisé par le CD Derio pour la catégorie Benjamín 2017 (enfants nés en 2017), saison 2026/27.",
+  minutes: 20,
+  penaltyRule: "En phases finales, en cas d’égalité, chaque équipe tente 3 tirs au but. Dans un premier temps, seuls les 7 joueurs qui ont terminé le match peuvent tirer, et le gardien qui l’a terminé doit rester dans les buts. Si l’égalité persiste, les joueurs du banc peuvent aussi tirer.",
+  tiebreaks: ["Total des points", "Points en confrontations directes", "Différence de buts en confrontations directes", "Buts marqués en confrontations directes", "Différence de buts générale", "Total des buts marqués", "Séance de tirs au but"],
+  rules: [
+    "En cas de couleurs identiques, l’équipe désignée comme visiteuse devra changer de maillots. Chaque équipe doit obligatoirement venir avec un deuxième jeu de maillots.",
+    "Hors-jeu à partir de la ligne des 13 m. La surface de réparation correspond à la petite surface tracée.",
+    "La passe en retrait au gardien est sanctionnée d’un coup franc direct sur la ligne des 13 m, sans mur. Tous les coups francs sont directs.",
+    "Chaque équipe doit apporter ses propres ballons pour s’échauffer.",
+  ],
+  warning: "Tout comportement antisportif peut entraîner l’exclusion du tournoi, sur décision de l’organisation.",
+  meals: { price: "8 €", includes: "Hamaiketako (en-cas de 11 h), assiette de pâtes, pain, eau et dessert." },
+  bar: "Pour les familles, une buvette proposera des pintxos et des sandwichs pendant tout le tournoi.",
+  wc: "Les toilettes se trouvent à l’arrière de la tribune.",
+  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Vue aérienne des terrains d’Ibaiondo" },
+};
+
 export const TOURNAMENTS: Tournament[] = [
   {
     id: "2018", name: "Derio Cup", category: "2018", season: "2026/27", date: "2026-12-06",
-    venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2018-",
+    venue: VENUE, venueEu: VENUE_EU, venueFr: VENUE_FR, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2018-",
     teams: TEAMS_2018, schedule: SCHEDULE_2018,
     ko: { cf: ["15:15", "15:40", "16:05", "16:30"], sf: ["16:55", "17:20"], final: "17:45" },
     info: { ...INFO_2015, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" } },
     infoEu: { ...INFO_2015_EU, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" } },
+    infoFr: { ...INFO_2015_FR, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Vue aérienne des terrains d’Ibaiondo" } },
   },
   {
     id: "2015", name: "Derio Cup", category: "2015", season: "2026/27", date: "2026-12-08",
-    venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2015-",
+    venue: VENUE, venueEu: VENUE_EU, venueFr: VENUE_FR, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2015-",
     teams: TEAMS_2015, schedule: SCHEDULE_2015,
     ko: { cf: ["15:15", "15:40", "16:05", "16:30"], sf: ["16:55", "17:20"], final: "17:45" },
     info: { ...INFO_2015, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" } },
     infoEu: { ...INFO_2015_EU, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" } },
+    infoFr: { ...INFO_2015_FR, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Vue aérienne des terrains d’Ibaiondo" } },
   },
   {
     id: "2017", name: "Derio Cup", category: "Benjamín 2017", season: "2026/27", date: "2026-09-20",
-    venue: VENUE, venueEu: VENUE_EU, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "",
+    venue: VENUE, venueEu: VENUE_EU, venueFr: VENUE_FR, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "",
     teams: TEAMS_2017, schedule: SCHEDULE_2017,
     ko: { cf: ["17:00", "17:25", "17:50", "18:15"], sf: ["18:40", "19:05"], final: "19:30" },
     info: INFO_2017,
     infoEu: INFO_2017_EU,
+    infoFr: INFO_2017_FR,
   },
 ];
 

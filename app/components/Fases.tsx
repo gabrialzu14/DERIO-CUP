@@ -14,14 +14,14 @@ export function Fases({ kind, setKind, ms, koResults }: { kind: "oro" | "plata";
   const games = knockout(K, ms, koResults), champ = koWinner(games.find(g => g.round === "FINAL")!);
   return (
     <div className="screen">
-      <h1 className="screen-title">{t("Fases finales", "Azken faseak")}</h1>
-      <Tabs label={t("Fase final", "Azken fasea")} idPrefix="fases" value={kind} onChange={setKind} items={[
+      <h1 className="screen-title">{t("Fases finales", "Azken faseak", "Phases finales")}</h1>
+      <Tabs label={t("Fase final", "Azken fasea", "Phase finale")} idPrefix="fases" value={kind} onChange={setKind} items={[
         { key: "oro", label: <><i className="dot gold" aria-hidden="true" />{phaseName("Oro", lang)}</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />{phaseName("Plata", lang)}</> },
       ]} />
       <TabPanel idPrefix="fases" tab={kind}>
         <PhaseNote kind={K} />
-        <p className="note">{kind === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak pasatzen dira.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.")}</p>
-        {champ && <div className={"champion " + kind}><CupMark size={30} /><div><small>{t(`Campeón Fase ${K}`, `${phaseName(K, "eu")}ko txapeldun`)}</small><b>{T(champ).name}</b></div><Crest id={champ} size={52} /></div>}
+        <p className="note">{kind === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak pasatzen dira.", "Les deux premiers de chaque groupe se qualifient.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.", "Le troisième et le quatrième de chaque groupe se qualifient.")}</p>
+        {champ && <div className={"champion " + kind}><CupMark size={30} /><div><small>{t(`Campeón Fase ${K}`, `${phaseName(K, "eu")}ko txapeldun`, `Vainqueur ${phaseName(K, "fr")}`)}</small><b>{T(champ).name}</b></div><Crest id={champ} size={52} /></div>}
         <Bracket kind={K} games={games} />
       </TabPanel>
     </div>
@@ -33,12 +33,12 @@ export function Bracket({ kind, games, compact = false }: { kind: KOKind; games:
   const [view, setView] = useState<"lista" | "cuadro">("lista");
   return (
     <div className="bracket-block">
-      <Tabs variant="underline" label={t("Vista de la Fase ", "Ikuspegia: ") + phaseName(kind, lang)} idPrefix={"bk-" + kind + (compact ? "-c" : "")} value={view} onChange={setView} items={[{ key: "lista", label: t("Lista", "Zerrenda") }, { key: "cuadro", label: t("Cuadro", "Koadroa") }]} />
+      <Tabs variant="underline" label={t("Vista de la Fase ", "Ikuspegia: ", "Affichage de la ") + phaseName(kind, lang)} idPrefix={"bk-" + kind + (compact ? "-c" : "")} value={view} onChange={setView} items={[{ key: "lista", label: t("Lista", "Zerrenda", "Liste") }, { key: "cuadro", label: t("Cuadro", "Koadroa", "Tableau") }]} />
       <TabPanel idPrefix={"bk-" + kind + (compact ? "-c" : "")} tab={view}>
         {view === "lista"
           ? ROUNDS.map(r => { const gs = games.filter(g => g.round === r).sort(byTime); return (
               <section key={r} className="ko-round"><h3>{roundName(r, lang)}</h3><div className="ko-list">{gs.map(g => <KOGameRow key={g.id} g={g} />)}</div></section>); })
-          : <div className="bk-scroll" tabIndex={0} role="region" aria-label={t("Cuadro de la Fase " + kind + ", desliza para ver todas las rondas", phaseName(kind, "eu") + "ren koadroa, irristatu txanda guztiak ikusteko")}>
+          : <div className="bk-scroll" tabIndex={0} role="region" aria-label={t("Cuadro de la Fase " + kind + ", desliza para ver todas las rondas", phaseName(kind, "eu") + "ren koadroa, irristatu txanda guztiak ikusteko", "Tableau de la " + phaseName(kind, "fr") + ", faites défiler pour voir tous les tours")}>
               <div className="bk">
                 {ROUNDS.map((r, ci) => (
                   <div key={r} className={"bk-head c" + (ci * 2 + 1)}><h3>{roundName(r, lang)}</h3></div>
@@ -72,7 +72,7 @@ function BkGame({ g }: { g: KOGame }) {
         const inner = <>
           {t.id ? <Crest id={t.id} size={24} /> : <i className="crest-ph sm" />}
           <span className={t.id ? "" : "tbd"}>{t.id ? T(t.id).name : koLabel(t.label, lang)}</span>
-          {state === " out" && <span className="sr-only">{tr("(eliminado)", "(kanporatua)")}</span>}
+          {state === " out" && <span className="sr-only">{tr("(eliminado)", "(kanporatua)", "(éliminé)")}</span>}
           <strong>{t.s ?? "–"}{tie && t.p != null && <span className="pen"> ({t.p})</span>}</strong>
         </>;
         return t.id ? <TeamLink key={i} id={t.id} className={"bk-team" + state}>{inner}</TeamLink> : <div key={i} className={"bk-team" + state}>{inner}</div>;

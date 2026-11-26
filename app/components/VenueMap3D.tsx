@@ -61,13 +61,13 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
   const [sel, setSel] = useState<ZoneKey | null>(null), [full, setFull] = useState(false), [failed, setFailed] = useState(false), [ready, setReady] = useState(false);
   const selRef = useRef<ZoneKey | null>(null); selRef.current = sel;
 
-  const name: Record<ZoneKey, string> = { c1: fieldName(1, lang), c2: fieldName(2, lang), bar: t("Bar", "Taberna"), wc: t("WC", "Komunak"), parking: t("Aparcamiento", "Aparkalekua"), entrada: t("Entrada", "Sarrera") };
+  const name: Record<ZoneKey, string> = { c1: fieldName(1, lang), c2: fieldName(2, lang), bar: t("Bar", "Taberna", "Buvette"), wc: t("WC", "Komunak", "Toilettes"), parking: t("Aparcamiento", "Aparkalekua", "Parking"), entrada: t("Entrada", "Sarrera", "Entrée") };
   const desc: Partial<Record<ZoneKey, string>> = {
-    bar: t("Pintxos y bocadillos", "Pintxoak eta ogitartekoak"),
-    wc: t("Acceso por detrás de la grada", "Harmailaren atzetik sartzen da"),
-    entrada: t("3 € por persona", "3 € pertsonako"),
-    c1: t("Fase de grupos y fase oro", "Multzo-fasea eta urrezko fasea"),
-    c2: t("Fase de grupos y fase plata", "Multzo-fasea eta zilarrezko fasea"),
+    bar: t("Pintxos y bocadillos", "Pintxoak eta ogitartekoak", "Pintxos et sandwichs"),
+    wc: t("Acceso por detrás de la grada", "Harmailaren atzetik sartzen da", "Accès par l’arrière de la tribune"),
+    entrada: t("3 € por persona", "3 € pertsonako", "3 € par personne"),
+    c1: t("Fase de grupos y fase oro", "Multzo-fasea eta urrezko fasea", "Phase de groupes et Phase Or"),
+    c2: t("Fase de grupos y fase plata", "Multzo-fasea eta zilarrezko fasea", "Phase de groupes et Phase Argent"),
   };
   const phase = (k: ZoneKey) => (k === "c1" ? phaseName("Oro", lang) : k === "c2" ? phaseName("Plata", lang) : null);
 
@@ -103,7 +103,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
   const cur = sel;
   return (
     <div className="v3">
-      <div ref={host} className={"v3-map" + (full ? " full" : "") + (ready ? " ready" : "") + (cur ? " has-sel" : "")} aria-label={t("Plano 3D de las instalaciones de Ibaiondo", "Ibaiondoko instalazioen 3D planoa")}>
+      <div ref={host} className={"v3-map" + (full ? " full" : "") + (ready ? " ready" : "") + (cur ? " has-sel" : "")} aria-label={t("Plano 3D de las instalaciones de Ibaiondo", "Ibaiondoko instalazioen 3D planoa", "Plan 3D des installations d’Ibaiondo")}>
         <canvas ref={canvas} />
         {KEYS.map(k => (
           <div key={k} ref={el => { labs.current[k] = el; }} aria-hidden="true" className={"v3-mk k-" + k + (cur === k ? " on" : "")} style={{ opacity: 0 } as CSSProperties}>
@@ -112,11 +112,11 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
           </div>
         ))}
         <div ref={pop} className="v3-pop" hidden={!cur} aria-live="polite">{cur && <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} />}</div>
-        <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra")}</button>
-        <button type="button" className="v3-btn fs" aria-label={full ? t("Salir de pantalla completa", "Irten pantaila osotik") : t("Pantalla completa", "Pantaila osoa")} onClick={() => setFull(f => !f)}><Icon name={full ? "close" : "chevron"} size={16} className={full ? "" : "v3-expand"} /></button>
-        {!ready && <span className="v3-load">{t("Cargando plano…", "Planoa kargatzen…")}</span>}
+        <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra", "Vue d’ensemble")}</button>
+        <button type="button" className="v3-btn fs" aria-label={full ? t("Salir de pantalla completa", "Irten pantaila osotik", "Quitter le plein écran") : t("Pantalla completa", "Pantaila osoa", "Plein écran")} onClick={() => setFull(f => !f)}><Icon name={full ? "close" : "chevron"} size={16} className={full ? "" : "v3-expand"} /></button>
+        {!ready && <span className="v3-load">{t("Cargando plano…", "Planoa kargatzen…", "Chargement du plan…")}</span>}
       </div>
-      <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak")}>
+      <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak", "Zones du plan")}>
         {KEYS.map(k => <button key={k} type="button" className="v3-chip" aria-pressed={cur === k} onClick={() => pick(k)}>{k === "wc" ? <b className="v3-wc" style={{ fontSize: 13 }}>WC</b> : <><Ico k={k} size={15} />{name[k]}</>}</button>)}
       </div>
     </div>

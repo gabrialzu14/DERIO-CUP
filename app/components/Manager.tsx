@@ -37,19 +37,19 @@ export function Manager({ ms, koResults, setKoResults, scores, setScores, onClos
   };
   const del = (id: string) => run(id, async () => {
     const r = await fetch(SB_URL + "/rest/v1/rpc/delete_derio_cup_result", { method: "POST", headers: json, body: JSON.stringify({ p_match_id: id }) });
-    if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.message || j.error || "No se pudo eliminar"); }
+    if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.message || j.error || t("No se pudo eliminar", "Ezin izan da ezabatu", "Impossible de supprimer le score")); }
     putLocal(id, undefined);
-  }, "No se pudo eliminar");
+  }, t("No se pudo eliminar", "Ezin izan da ezabatu", "Impossible de supprimer le score"));
   const save = (payload: Payload) => {
     const previous = isGroup(payload.match_id) ? scores[payload.match_id] : koResults[payload.match_id];
     return run(payload.match_id, async () => {
       const r = await fetch(SB_URL + "/functions/v1/derio-cup-result", { method: "POST", headers: json, body: JSON.stringify({ ...payload, code }) });
       const j = await r.json();
-      if (!r.ok) throw new Error(j.error || "No se pudo guardar");
+      if (!r.ok) throw new Error(j.error || t("No se pudo guardar", "Ezin izan da gorde", "Impossible d’enregistrer le score"));
       putLocal(payload.match_id, isGroup(payload.match_id) ? [payload.home_score, payload.away_score] : (j[0] || { ...payload, updated_at: new Date().toISOString() }));
       setSaved(payload.match_id); setUndo({ payload, previous });
       setTimeout(() => { setSaved(null); setUndo(null); }, 8000);
-    }, "No se pudo guardar");
+    }, t("No se pudo guardar", "Ezin izan da gorde", "Impossible d’enregistrer le score"));
   };
   const undoSave = () => {
     if (!undo) return;
@@ -58,34 +58,34 @@ export function Manager({ ms, koResults, setKoResults, scores, setScores, onClos
     run(payload.match_id, async () => {
       const body = isGroup(payload.match_id) ? { ...payload, home_score: (previous as [number, number])[0], away_score: (previous as [number, number])[1] } : { ...(previous as ResultRow), code };
       const r = await fetch(SB_URL + "/functions/v1/derio-cup-result", { method: "POST", headers: json, body: JSON.stringify({ ...body, code }) });
-      if (!r.ok) throw new Error("No se pudo deshacer");
+      if (!r.ok) throw new Error(t("No se pudo deshacer", "Ezin izan da desegin", "Impossible d’annuler"));
       putLocal(payload.match_id, previous); setUndo(null); setSaved(null);
-    }, "No se pudo deshacer");
+    }, t("No se pudo deshacer", "Ezin izan da desegin", "Impossible d’annuler"));
   };
 
   const kos = (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).sort((a, b) => byTime(a, b) || a.field - b.field);
   const done = Object.keys(scores).length;
 
   return (
-    <Dialog title={ok ? t("Gestión de resultados", "Emaitzen kudeaketa") : t("Acceso responsables", "Arduradunen sarbidea")} onClose={onClose} wide>
+    <Dialog title={ok ? t("Gestión de resultados", "Emaitzen kudeaketa", "Gestion des scores") : t("Acceso responsables", "Arduradunen sarbidea", "Accès organisateurs")} onClose={onClose} wide>
       {!ok ? (
-        <form className="manager-login" onSubmit={e => { e.preventDefault(); if (code === ACCESS) { try { localStorage.setItem(AUTH_KEY, ACCESS); } catch {} setOk(true); setErr(""); } else setErr(t("Código incorrecto", "Kode okerra")); }}>
-          <p>{t("Introduce el código de acceso para gestionar los resultados del torneo.", "Sartu sarbide-kodea txapelketaren emaitzak kudeatzeko.")}</p>
-          <label className="field"><span>{t("Código de acceso", "Sarbide-kodea")}</span>
+        <form className="manager-login" onSubmit={e => { e.preventDefault(); if (code === ACCESS) { try { localStorage.setItem(AUTH_KEY, ACCESS); } catch {} setOk(true); setErr(""); } else setErr(t("Código incorrecto", "Kode okerra", "Code incorrect")); }}>
+          <p>{t("Introduce el código de acceso para gestionar los resultados del torneo.", "Sartu sarbide-kodea txapelketaren emaitzak kudeatzeko.", "Saisissez le code d’accès pour gérer les scores du tournoi.")}</p>
+          <label className="field"><span>{t("Código de acceso", "Sarbide-kodea", "Code d’accès")}</span>
             <input type="password" inputMode="numeric" autoComplete="one-time-code" maxLength={4} value={code} aria-invalid={!!err} aria-describedby={err ? "mgr-err" : undefined} onChange={e => setCode(e.currentTarget.value.replace(/\D/g, "").slice(0, 4))} />
           </label>
           {err && <p id="mgr-err" className="form-error" role="alert">{err}</p>}
-          <button className="btn btn-primary block" disabled={code.length < 4}>{t("Acceder", "Sartu")}</button>
+          <button className="btn btn-primary block" disabled={code.length < 4}>{t("Acceder", "Sartu", "Accéder")}</button>
         </form>
       ) : (
         <div className="manager">
-          <div className="manager-bar"><b>{done}/{ms.length} {t("grupos publicados", "multzo-partida argitaratuta")}</b><span>{ms.length - done} {t("pendientes", "geratzen dira")}</span></div>
+          <div className="manager-bar"><b>{done}/{ms.length} {t("grupos publicados", "multzo-partida argitaratuta", "matchs publiés")}</b><span>{ms.length - done} {t("pendientes", "geratzen dira", "en attente")}</span></div>
           {err && <p className="form-error" role="alert">{err}</p>}
-          <h3>{t("Fase de grupos", "Multzo-fasea")}</h3>
+          <h3>{t("Fase de grupos", "Multzo-fasea", "Phase de groupes")}</h3>
           {ms.slice().sort(byTime).map(m => <ManagerMatch key={m.id} m={m} current={scores[m.id]} saving={saving === m.id} save={save} remove={del} />)}
-          <h3>{t("Fases finales", "Azken faseak")}</h3>
+          <h3>{t("Fases finales", "Azken faseak", "Phases finales")}</h3>
           {kos.map(g => <ManagerKO key={g.id} g={g} saving={saving === g.id} save={save} remove={del} />)}
-          {saved && <div className="toast" role="status"><Icon name="check" size={18} />{t("Resultado publicado", "Emaitza argitaratuta")}{undo && <button type="button" onClick={undoSave}>{t("Deshacer", "Desegin")}</button>}</div>}
+          {saved && <div className="toast" role="status"><Icon name="check" size={18} />{t("Resultado publicado", "Emaitza argitaratuta", "Score publié")}{undo && <button type="button" onClick={undoSave}>{t("Deshacer", "Desegin", "Annuler")}</button>}</div>}
         </div>
       )}
     </Dialog>
@@ -100,7 +100,7 @@ function Remove({ onConfirm, disabled }: { onConfirm: () => void; disabled: bool
   const { t: tr } = useLang();
   const [ask, setAsk] = useState(false);
   useEffect(() => { if (!ask) return; const t = setTimeout(() => setAsk(false), 4000); return () => clearTimeout(t); }, [ask]);
-  return <button type="button" className={"btn btn-danger" + (ask ? " is-armed" : "")} disabled={disabled} onClick={() => (ask ? onConfirm() : setAsk(true))}>{ask ? tr("Confirmar eliminación", "Berretsi ezabaketa") : tr("Eliminar resultado", "Ezabatu emaitza")}</button>;
+  return <button type="button" className={"btn btn-danger" + (ask ? " is-armed" : "")} disabled={disabled} onClick={() => (ask ? onConfirm() : setAsk(true))}>{ask ? tr("Confirmar eliminación", "Berretsi ezabaketa", "Confirmer la suppression") : tr("Eliminar resultado", "Ezabatu emaitza", "Supprimer le score")}</button>;
 }
 
 function ManagerMatch({ m, current, saving, save, remove }: { m: Match; current?: [number, number]; saving: boolean; save: (p: Payload) => void; remove: (id: string) => void }) {
@@ -109,11 +109,11 @@ function ManagerMatch({ m, current, saving, save, remove }: { m: Match; current?
   useEffect(() => { setH(current?.[0]?.toString() ?? ""); setA(current?.[1]?.toString() ?? ""); }, [current]);
   return (
     <div className="manager-card">
-      <div className="manager-meta"><b>{m.time}</b><span>{groupName(m.group, lang)} · {fieldName(m.field, lang)}</span>{current && <span className="badge done">{tr("Publicado", "Argitaratuta")}</span>}</div>
-      <div className="manager-team"><Crest id={m.home} size={28} /><span>{T(m.home).name}</span><Score value={h} set={setH} label={tr("Goles ", "Golak: ") + T(m.home).name} /></div>
-      <div className="manager-team"><Crest id={m.away} size={28} /><span>{T(m.away).name}</span><Score value={a} set={setA} label={tr("Goles ", "Golak: ") + T(m.away).name} /></div>
+      <div className="manager-meta"><b>{m.time}</b><span>{groupName(m.group, lang)} · {fieldName(m.field, lang)}</span>{current && <span className="badge done">{tr("Publicado", "Argitaratuta", "Publié")}</span>}</div>
+      <div className="manager-team"><Crest id={m.home} size={28} /><span>{T(m.home).name}</span><Score value={h} set={setH} label={tr("Goles ", "Golak: ", "Buts : ") + T(m.home).name} /></div>
+      <div className="manager-team"><Crest id={m.away} size={28} /><span>{T(m.away).name}</span><Score value={a} set={setA} label={tr("Goles ", "Golak: ", "Buts : ") + T(m.away).name} /></div>
       <div className="manager-actions">
-        <button type="button" className="btn btn-primary" disabled={saving || h === "" || a === ""} onClick={() => save({ match_id: m.id, home_score: Number(h), away_score: Number(a), home_team: m.home, away_team: m.away, phase: "group", round: "group" })}>{saving ? tr("Guardando…", "Gordetzen…") : current ? tr("Actualizar", "Eguneratu") : tr("Guardar", "Gorde")}</button>
+        <button type="button" className="btn btn-primary" disabled={saving || h === "" || a === ""} onClick={() => save({ match_id: m.id, home_score: Number(h), away_score: Number(a), home_team: m.home, away_team: m.away, phase: "group", round: "group" })}>{saving ? tr("Guardando…", "Gordetzen…", "Envoi…") : current ? tr("Actualizar", "Eguneratu", "Modifier") : tr("Guardar", "Gorde", "Valider")}</button>
         {current && <Remove disabled={saving} onConfirm={() => remove(m.id)} />}
       </div>
     </div>
@@ -131,12 +131,12 @@ function ManagerKO({ g, saving, save, remove }: { g: KOGame; saving: boolean; sa
   const name = (id: string | null, label: string) => (id ? T(id).name : koLabel(label, lang));
   return (
     <div className={"manager-card" + (locked ? " is-locked" : "")}>
-      <div className="manager-meta"><b>{g.time}</b><span>{kindName(g.kind, lang)} · {koCode(g.code, lang)} · {fieldName(g.field, lang)}</span>{valid && <span className="badge done">{tr("Publicado", "Argitaratuta")}</span>}</div>
-      <div className="manager-team">{g.home ? <Crest id={g.home} size={28} /> : <i className="crest-ph sm" />}<span className={g.home ? "" : "tbd"}>{name(g.home, g.homeLabel)}</span><Score value={h} set={set(0)} label={tr("Goles ", "Golak: ") + name(g.home, g.homeLabel)} disabled={!g.home} /></div>
-      <div className="manager-team">{g.away ? <Crest id={g.away} size={28} /> : <i className="crest-ph sm" />}<span className={g.away ? "" : "tbd"}>{name(g.away, g.awayLabel)}</span><Score value={a} set={set(1)} label={tr("Goles ", "Golak: ") + name(g.away, g.awayLabel)} disabled={!g.away} /></div>
-      {tie && <div className="manager-pens"><span>{tr("Penaltis", "Penaltiak")}</span><Score value={hp} set={set(2)} label={tr("Penaltis local", "Etxeko penaltiak")} /><i>–</i><Score value={ap} set={set(3)} label={tr("Penaltis visitante", "Kanpoko penaltiak")} /></div>}
+      <div className="manager-meta"><b>{g.time}</b><span>{kindName(g.kind, lang)} · {koCode(g.code, lang)} · {fieldName(g.field, lang)}</span>{valid && <span className="badge done">{tr("Publicado", "Argitaratuta", "Publié")}</span>}</div>
+      <div className="manager-team">{g.home ? <Crest id={g.home} size={28} /> : <i className="crest-ph sm" />}<span className={g.home ? "" : "tbd"}>{name(g.home, g.homeLabel)}</span><Score value={h} set={set(0)} label={tr("Goles ", "Golak: ", "Buts : ") + name(g.home, g.homeLabel)} disabled={!g.home} /></div>
+      <div className="manager-team">{g.away ? <Crest id={g.away} size={28} /> : <i className="crest-ph sm" />}<span className={g.away ? "" : "tbd"}>{name(g.away, g.awayLabel)}</span><Score value={a} set={set(1)} label={tr("Goles ", "Golak: ", "Buts : ") + name(g.away, g.awayLabel)} disabled={!g.away} /></div>
+      {tie && <div className="manager-pens"><span>{tr("Penaltis", "Penaltiak", "Tirs au but")}</span><Score value={hp} set={set(2)} label={tr("Penaltis local", "Etxeko penaltiak", "Tirs au but, équipe recevante")} /><i>–</i><Score value={ap} set={set(3)} label={tr("Penaltis visitante", "Kanpoko penaltiak", "Tirs au but, équipe visiteuse")} /></div>}
       <div className="manager-actions">
-        <button type="button" className="btn btn-primary" disabled={saving || locked || h === "" || a === "" || (tie && (hp === "" || ap === "" || hp === ap))} onClick={() => save({ match_id: g.id, home_score: Number(h), away_score: Number(a), home_penalties: tie ? Number(hp) : null, away_penalties: tie ? Number(ap) : null, home_team: g.home, away_team: g.away, phase: g.kind.toLowerCase(), round: g.round.toLowerCase() })}>{saving ? tr("Guardando…", "Gordetzen…") : valid ? tr("Actualizar", "Eguneratu") : tr("Guardar", "Gorde")}</button>
+        <button type="button" className="btn btn-primary" disabled={saving || locked || h === "" || a === "" || (tie && (hp === "" || ap === "" || hp === ap))} onClick={() => save({ match_id: g.id, home_score: Number(h), away_score: Number(a), home_penalties: tie ? Number(hp) : null, away_penalties: tie ? Number(ap) : null, home_team: g.home, away_team: g.away, phase: g.kind.toLowerCase(), round: g.round.toLowerCase() })}>{saving ? tr("Guardando…", "Gordetzen…", "Envoi…") : valid ? tr("Actualizar", "Eguneratu", "Modifier") : tr("Guardar", "Gorde", "Valider")}</button>
         {valid && <Remove disabled={saving} onConfirm={() => remove(g.id)} />}
       </div>
     </div>

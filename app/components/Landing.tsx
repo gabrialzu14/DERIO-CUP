@@ -18,13 +18,13 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
       <header className="landing-head">
         <CupMark size={150} className="landing-cup brand-grad" />
         <h1 className="wordmark"><b>DERIO</b><span>CUP</span></h1>
-        <p>{tr("Organizado por el CD Derio", "CD Derio-k antolatua")}</p>
+        <p>{tr("Organizado por el CD Derio", "CD Derio-k antolatua", "Organisée par le CD Derio")}</p>
       </header>
 
       <section aria-labelledby={uid + "-t"} className="landing-list">
-        <h2 id={uid + "-t"} className="list-title">{tr("Próximos torneos", "Hurrengo txapelketak")}</h2>
+        <h2 id={uid + "-t"} className="list-title">{tr("Próximos torneos", "Hurrengo txapelketak", "Prochains tournois")}</h2>
         {tournaments.length === 0 && (
-          <div className="empty"><Icon name="calendar" size={28} /><b>{tr("No hay torneos próximos", "Ez dago txapelketarik laster")}</b><p>{tr("Cuando se publique el siguiente aparecerá aquí.", "Hurrengoa argitaratzen denean hemen agertuko da.")}</p></div>
+          <div className="empty"><Icon name="calendar" size={28} /><b>{tr("No hay torneos próximos", "Ez dago txapelketarik laster", "Aucun tournoi à venir")}</b><p>{tr("Cuando se publique el siguiente aparecerá aquí.", "Hurrengoa argitaratzen denean hemen agertuko da.", "Le prochain apparaîtra ici dès sa publication.")}</p></div>
         )}
         {tournaments.map(t => {
           const p = dateParts(t.date, locale);
@@ -42,7 +42,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
       </section>
       <section className="sponsors" aria-labelledby={uid + "-s"}>
         <span className="sponsors-rule" aria-hidden="true" />
-        <h2 id={uid + "-s"} className="sponsors-label">{tr("Patrocinadores", "Babesleak")}</h2>
+        <h2 id={uid + "-s"} className="sponsors-label">{tr("Patrocinadores", "Babesleak", "Partenaires")}</h2>
         <ul className="sponsors-list">
           {SPONSORS.map(s => {
             const asset = sponsorAsset(s.id);

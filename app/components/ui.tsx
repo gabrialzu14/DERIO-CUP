@@ -31,7 +31,7 @@ export function BrandName({ as: Tag = "span" }: { as?: "span" | "b" }) {
 export function TeamLink({ id, className = "", children }: { id: string; className?: string; children: ReactNode }) {
   const open = useOpenTeam(), { T } = useEngine(), { t } = useLang();
   if (!open) return <div className={className}>{children}</div>;
-  return <button type="button" className={className + " team-link"} onClick={() => open(id)} aria-label={t("Ver el perfil de ", "Ikusi profila: ") + T(id).name}>{children}</button>;
+  return <button type="button" className={className + " team-link"} onClick={() => open(id)} aria-label={t("Ver el perfil de ", "Ikusi profila: ", "Voir le profil de l’équipe ") + T(id).name}>{children}</button>;
 }
 
 export function SectionHead({ title, icon, cup, action }: { title: string; icon?: IconName; cup?: boolean; action?: { label: string; onClick: () => void } }) {
@@ -90,7 +90,7 @@ export function TabPanel({ idPrefix, tab, children }: { idPrefix: string; tab: s
 /** «Toda la Fase Oro se disputa en el Campo 1»: las fases finales usan un único campo. */
 export function PhaseNote({ kind }: { kind: "Oro" | "Plata" }) {
   const { koField } = useEngine(), { t } = useLang();
-  return <p className="phase-note"><Icon name="pin" size={16} />{t(<span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span>, <span>{phaseName(kind, "eu")} osoa <b>{koField(kind)}. zelaian</b> jokatzen da.</span>)}</p>;
+  return <p className="phase-note"><Icon name="pin" size={16} />{t(<span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span>, <span>{phaseName(kind, "eu")} osoa <b>{koField(kind)}. zelaian</b> jokatzen da.</span>, <span>Toute la {phaseName(kind, "fr")} se joue sur le <b>Terrain {koField(kind)}</b>.</span>)}</p>;
 }
 
 export function EmptyState({ icon, title, text }: { icon: IconName; title: string; text?: string }) {
@@ -105,7 +105,7 @@ export function EmptyState({ icon, title, text }: { icon: IconName; title: strin
 
 export function LiveBadge() {
   const { t } = useLang();
-  return <span className="live-badge"><i aria-hidden="true" />{t("En juego", "Jokoan")}</span>;
+  return <span className="live-badge"><i aria-hidden="true" />{t("En juego", "Jokoan", "En cours")}</span>;
 }
 
 /** showGroup: «Grupo X» en una fila debajo · groupAbove: «Grupo X» encima de la hora, en la columna central. */
@@ -113,15 +113,15 @@ export function MatchRow({ m, showGroup = false, groupAbove = false }: { m: Matc
   const { T, matchState } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
   const st = matchState(m.time, m.hs !== null);
   const home = T(m.home).name, away = T(m.away).name;
-  const label = st === "final" ? `${home} ${m.hs}, ${away} ${m.as}. ${t("Final", "Amaituta")}` : `${home} ${t("contra", "eta")} ${away}, ${m.time}, ${fieldName(m.field, lang)}`;
+  const label = st === "final" ? `${home} ${m.hs}, ${away} ${m.as}. ${t("Final", "Amaituta", "Terminé")}` : `${home} ${t("contra", "eta", "contre")} ${away}, ${m.time}, ${fieldName(m.field, lang)}`;
   return (
     <div className={"match-row is-" + st} role="group" aria-label={label}>
       <TeamLink id={m.home} className="match-team home"><span>{home}</span><Crest id={m.home} size={32} /></TeamLink>
       <div className="match-mid">
         {groupAbove && <small className="mid-group">{groupName(m.group, lang)}</small>}
-        {st === "final" ? <><b className="score">{m.hs}<i>–</i>{m.as}</b><small>{t("Final", "Amaituta")}</small></>
+        {st === "final" ? <><b className="score">{m.hs}<i>–</i>{m.as}</b><small>{t("Final", "Amaituta", "Terminé")}</small></>
           : st === "live" ? <><LiveBadge /><small>{fieldName(m.field, lang)}</small></>
-          : st === "awaiting" ? <><b className="time">{m.time}</b><small>{t("Sin resultado", "Emaitzarik ez")}</small></>
+          : st === "awaiting" ? <><b className="time">{m.time}</b><small>{t("Sin resultado", "Emaitzarik ez", "En attente")}</small></>
           : <><b className="time">{m.time}</b><small>{fieldName(m.field, lang)}</small></>}
       </div>
       <TeamLink id={m.away} className="match-team away"><Crest id={m.away} size={32} /><span>{away}</span></TeamLink>

@@ -39,7 +39,7 @@ export function Dialog({ title, onClose, children, wide = false, compact = false
   return (
     <dialog ref={ref} tabIndex={-1} className={"dialog" + (wide ? " wide" : "") + (compact ? " compact" : "") + (closing ? " is-closing" : "")} aria-labelledby="dialog-title" onCancel={e => { e.preventDefault(); close(); }} onClick={e => { if (e.target === e.currentTarget) close(); }}>
       <div className="dialog-panel">
-        <header className={centered ? "centered" : undefined}><h2 id="dialog-title">{title}</h2>{!centered && <button type="button" className="icon-btn" aria-label={t("Cerrar", "Itxi")} onClick={close}><Icon name="close" /></button>}</header>
+        <header className={centered ? "centered" : undefined}><h2 id="dialog-title">{title}</h2>{!centered && <button type="button" className="icon-btn" aria-label={t("Cerrar", "Itxi", "Fermer")} onClick={close}><Icon name="close" /></button>}</header>
         <div className="dialog-body">{children}</div>
       </div>
     </dialog>
