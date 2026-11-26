@@ -7,7 +7,7 @@ export const CRESTS: Readonly<Record<string, string>> = {
   "baskauri": "#fced03",
   "bermeo": "#d4121b",
   "bge-aiboa": "#621e2d",
-  "cultural-durango": "#b82f1c",
+  "cultural-durango": "#2e3e85",
   "danok-bat-a": "#9d2725",
   "danok-bat-b": "#9d2725",
   "derio": "#821d34",
