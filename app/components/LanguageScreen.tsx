@@ -1,5 +1,5 @@
 "use client";
-import { useLang } from "../lib/i18n";
+import { LANGS, useLang } from "../lib/i18n";
 
 /** Bandera de España abstracta (franjas rojo-amarillo-rojo) con bordes redondeados. */
 export function FlagEs() {
@@ -10,15 +10,21 @@ export function FlagEu() {
   return <svg className="flag" viewBox="0 0 60 40" aria-hidden="true"><defs><clipPath id="fb"><rect width="60" height="40" rx="10" /></clipPath></defs><g clipPath="url(#fb)"><rect width="60" height="40" fill="#d52b1e" /><path d="M0 0 60 40M60 0 0 40" stroke="#009b48" strokeWidth="5" /><path d="M30 0v40M0 20h60" stroke="#fff" strokeWidth="5" /></g></svg>;
 }
 
-/** Selector discreto «CAS | EUS» arriba a la derecha; la barra azul fina se desliza al cambiar. */
+/** Bandera de Francia abstracta (azul-blanco-rojo) con bordes redondeados. */
+export function FlagFr() {
+  return <svg className="flag" viewBox="0 0 60 40" aria-hidden="true"><defs><clipPath id="ff"><rect width="60" height="40" rx="10" /></clipPath></defs><g clipPath="url(#ff)"><rect width="20" height="40" fill="#002654" /><rect x="20" width="20" height="40" fill="#ffffff" /><rect x="40" width="20" height="40" fill="#ce1126" /></g><rect width="60" height="40" rx="10" fill="none" stroke="rgb(0 0 0 / .12)" /></svg>;
+}
+
+/** Selector discreto «CAS | EUS | FRA» arriba a la derecha; la barra fina se desliza al cambiar. */
 export function LangToggle() {
   const { lang, setLang, t } = useLang();
   return (
-    <div className="lang-toggle" data-pos={lang === "es" ? 0 : 1}>
-      <small>{t("Idioma", "Hizkuntza")}</small>
-      <div className="lang-toggle-row" role="radiogroup" aria-label={t("Idioma", "Hizkuntza")}>
-        <button type="button" role="radio" aria-checked={lang === "es"} onClick={() => setLang("es")}>CAS</button>
-        <button type="button" role="radio" aria-checked={lang === "eu"} onClick={() => setLang("eu")}>EUS</button>
+    <div className="lang-toggle" data-pos={LANGS.indexOf(lang)}>
+      <small>{t("Idioma", "Hizkuntza", "Langue")}</small>
+      <div className="lang-toggle-row" role="radiogroup" aria-label={t("Idioma", "Hizkuntza", "Langue")}>
+        <button type="button" role="radio" aria-checked={lang === "es"} aria-label="Castellano" onClick={() => setLang("es")}>CAS</button>
+        <button type="button" role="radio" aria-checked={lang === "eu"} aria-label="Euskara" onClick={() => setLang("eu")}>EUS</button>
+        <button type="button" role="radio" aria-checked={lang === "fr"} aria-label="Français" onClick={() => setLang("fr")}>FRA</button>
         <span className="lang-bar" aria-hidden="true" />
       </div>
     </div>

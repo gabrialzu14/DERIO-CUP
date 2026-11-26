@@ -4,10 +4,10 @@ import { CupMark } from "./ui";
 import { LangToggle } from "./LanguageScreen";
 import { Icon } from "./icons";
 import { SPONSORS, sponsorAsset } from "../lib/sponsors";
-import { useLang } from "../lib/i18n";
+import { pick, useLang, type Lang } from "../lib/i18n";
 import { BRAND, dateParts, daysUntil, tournamentTag, type Tournament } from "../lib/tournament";
 
-const when = (iso: string, eu: boolean) => { const d = daysUntil(iso); return eu ? (d <= 0 ? "Gaur" : d === 1 ? "Bihar" : `${d} egun barru`) : (d <= 0 ? "Hoy" : d === 1 ? "Mañana" : `En ${d} días`); };
+const when = (iso: string, lang: Lang) => { const d = daysUntil(iso); return pick(lang, d <= 0 ? "Hoy" : d === 1 ? "Mañana" : `En ${d} días`, d <= 0 ? "Gaur" : d === 1 ? "Bihar" : `${d} egun barru`, d <= 0 ? "Aujourd'hui" : d === 1 ? "Demain" : `Dans ${d} jours`); };
 
 /** Pantalla previa: logo grande y la lista de próximos torneos (uno por día). */
 export function Landing({ tournaments, onSelect, themeButton }: { tournaments: Tournament[]; onSelect: (id: string) => void; themeButton: React.ReactNode }) {
@@ -33,7 +33,7 @@ export function Landing({ tournaments, onSelect, themeButton }: { tournaments: T
               <span className={"date-tile" + (lang === "eu" ? " month-first" : "")}><b>{p.day}</b><small>{p.monthShort}</small></span>
               <span className="tourney-text">
                 <b>{t.category}</b>
-                <span className="when-pill"><i aria-hidden="true" />{when(t.date, lang === "eu")}</span>
+                <span className="when-pill"><i aria-hidden="true" />{when(t.date, lang)}</span>
               </span>
               <Icon name="chevron" size={20} className="icon" />
             </button>

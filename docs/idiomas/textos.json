@@ -1,0 +1,2886 @@
+[
+ {
+  "id": 1,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 16,
+  "es": "Clasificaciones",
+  "eu": "Sailkapenak",
+  "fr": null
+ },
+ {
+  "id": 2,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 16,
+  "es": "Desempates",
+  "eu": "Berdinketak",
+  "fr": null
+ },
+ {
+  "id": 3,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 17,
+  "es": "Grupo",
+  "eu": "Multzoa",
+  "fr": null
+ },
+ {
+  "id": 4,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 21,
+  "es": "`Jornada ${i + 1}`",
+  "eu": "`${i + 1}. jardunaldia`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 5,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 34,
+  "es": "Clasificación del grupo ",
+  "eu": "Sailkapena, multzoa: ",
+  "fr": null
+ },
+ {
+  "id": 6,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "Equipo",
+  "eu": "Taldea",
+  "fr": null
+ },
+ {
+  "id": 7,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "Partidos jugados",
+  "eu": "Jokatutako partidak",
+  "fr": null
+ },
+ {
+  "id": 8,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "PJ",
+  "eu": "JP",
+  "fr": null
+ },
+ {
+  "id": 9,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "Goles a favor",
+  "eu": "Golak alde",
+  "fr": null
+ },
+ {
+  "id": 10,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "GF",
+  "eu": "GA",
+  "fr": null
+ },
+ {
+  "id": 11,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "Goles en contra",
+  "eu": "Golak kontra",
+  "fr": null
+ },
+ {
+  "id": 12,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "GC",
+  "eu": "GK",
+  "fr": null
+ },
+ {
+  "id": 13,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "Diferencia de goles",
+  "eu": "Gol-diferentzia",
+  "fr": null
+ },
+ {
+  "id": 14,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "DG",
+  "eu": "GD",
+  "fr": null
+ },
+ {
+  "id": 15,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 35,
+  "es": "Pts",
+  "eu": "Pun.",
+  "fr": null
+ },
+ {
+  "id": 16,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 39,
+  "es": "Oro",
+  "eu": "Urrea",
+  "fr": null
+ },
+ {
+  "id": 17,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 39,
+  "es": "Plata",
+  "eu": "Zilarra",
+  "fr": null
+ },
+ {
+  "id": 18,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 43,
+  "es": "Fase Oro",
+  "eu": "Urrezko fasea",
+  "fr": null
+ },
+ {
+  "id": 19,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 43,
+  "es": "Fase Plata",
+  "eu": "Zilarrezko fasea",
+  "fr": null
+ },
+ {
+  "id": 20,
+  "file": "app/components/Clasificacion.tsx",
+  "line": 43,
+  "es": "Grupo cerrado",
+  "eu": "Multzoa itxita",
+  "fr": null
+ },
+ {
+  "id": 21,
+  "file": "app/components/Dialog.tsx",
+  "line": 42,
+  "es": "Cerrar",
+  "eu": "Itxi",
+  "fr": null
+ },
+ {
+  "id": 22,
+  "file": "app/components/Fases.tsx",
+  "line": 17,
+  "es": "Fases finales",
+  "eu": "Azken faseak",
+  "fr": null
+ },
+ {
+  "id": 23,
+  "file": "app/components/Fases.tsx",
+  "line": 18,
+  "es": "Fase final",
+  "eu": "Azken fasea",
+  "fr": null
+ },
+ {
+  "id": 24,
+  "file": "app/components/Fases.tsx",
+  "line": 23,
+  "es": "Pasan los dos primeros de cada grupo.",
+  "eu": "Multzo bakoitzeko lehen bi taldeak pasatzen dira.",
+  "fr": null
+ },
+ {
+  "id": 25,
+  "file": "app/components/Fases.tsx",
+  "line": 23,
+  "es": "Pasan el tercero y el cuarto de cada grupo.",
+  "eu": "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.",
+  "fr": null
+ },
+ {
+  "id": 26,
+  "file": "app/components/Fases.tsx",
+  "line": 24,
+  "es": "`Campeón Fase ${K}`",
+  "eu": "`${phaseName(K, true)}ko txapeldun`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 27,
+  "file": "app/components/Fases.tsx",
+  "line": 36,
+  "es": "Vista de la Fase ",
+  "eu": "Ikuspegia: ",
+  "fr": null
+ },
+ {
+  "id": 28,
+  "file": "app/components/Fases.tsx",
+  "line": 36,
+  "es": "Lista",
+  "eu": "Zerrenda",
+  "fr": null
+ },
+ {
+  "id": 29,
+  "file": "app/components/Fases.tsx",
+  "line": 36,
+  "es": "Cuadro",
+  "eu": "Koadroa",
+  "fr": null
+ },
+ {
+  "id": 30,
+  "file": "app/components/Fases.tsx",
+  "line": 41,
+  "es": "\"Cuadro de la Fase \" + kind + \", desliza para ver todas las rondas\"",
+  "eu": "phaseName(kind, true) + \"ren koadroa, irristatu txanda guztiak ikusteko\"",
+  "fr": null
+ },
+ {
+  "id": 31,
+  "file": "app/components/Fases.tsx",
+  "line": 75,
+  "es": "(eliminado)",
+  "eu": "(kanporatua)",
+  "fr": null
+ },
+ {
+  "id": 32,
+  "file": "app/components/Home.tsx",
+  "line": 40,
+  "es": "Torneo",
+  "eu": "Txapelketa",
+  "fr": null
+ },
+ {
+  "id": 33,
+  "file": "app/components/Home.tsx",
+  "line": 41,
+  "es": "Fases del torneo",
+  "eu": "Txapelketaren faseak",
+  "fr": null
+ },
+ {
+  "id": 34,
+  "file": "app/components/Home.tsx",
+  "line": 42,
+  "es": "Fase del torneo",
+  "eu": "Txapelketaren fasea",
+  "fr": null
+ },
+ {
+  "id": 35,
+  "file": "app/components/Home.tsx",
+  "line": 43,
+  "es": "Grupos",
+  "eu": "Multzoak",
+  "fr": null
+ },
+ {
+  "id": 36,
+  "file": "app/components/Home.tsx",
+  "line": 43,
+  "es": "Oro",
+  "eu": "Urrea",
+  "fr": null
+ },
+ {
+  "id": 37,
+  "file": "app/components/Home.tsx",
+  "line": 43,
+  "es": "Plata",
+  "eu": "Zilarra",
+  "fr": null
+ },
+ {
+  "id": 38,
+  "file": "app/components/Home.tsx",
+  "line": 47,
+  "es": "Partidos de grupos jugados",
+  "eu": "Jokatutako multzo-partidak",
+  "fr": null
+ },
+ {
+  "id": 39,
+  "file": "app/components/Home.tsx",
+  "line": 47,
+  "es": "partidos",
+  "eu": "partida",
+  "fr": null
+ },
+ {
+  "id": 40,
+  "file": "app/components/Home.tsx",
+  "line": 50,
+  "es": "Ver clasificación del grupo ",
+  "eu": "Ikusi sailkapena, multzoa: ",
+  "fr": null
+ },
+ {
+  "id": 41,
+  "file": "app/components/Home.tsx",
+  "line": 51,
+  "es": "Cerrado",
+  "eu": "Itxita",
+  "fr": null
+ },
+ {
+  "id": 42,
+  "file": "app/components/Home.tsx",
+  "line": 58,
+  "es": "Pasan los dos primeros de cada grupo.",
+  "eu": "Multzo bakoitzeko lehen bi taldeak pasatzen dira.",
+  "fr": null
+ },
+ {
+  "id": 43,
+  "file": "app/components/Home.tsx",
+  "line": 58,
+  "es": "Pasan el tercero y el cuarto de cada grupo.",
+  "eu": "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.",
+  "fr": null
+ },
+ {
+  "id": 44,
+  "file": "app/components/Home.tsx",
+  "line": 65,
+  "es": "A continuación",
+  "eu": "Jarraian",
+  "fr": null
+ },
+ {
+  "id": 45,
+  "file": "app/components/Home.tsx",
+  "line": 65,
+  "es": "Próximos partidos",
+  "eu": "Hurrengo partidak",
+  "fr": null
+ },
+ {
+  "id": 46,
+  "file": "app/components/Home.tsx",
+  "line": 65,
+  "es": "Calendario",
+  "eu": "Egutegia",
+  "fr": null
+ },
+ {
+  "id": 47,
+  "file": "app/components/Home.tsx",
+  "line": 80,
+  "es": "Fase de grupos finalizada",
+  "eu": "Multzo-fasea amaitu da",
+  "fr": null
+ },
+ {
+  "id": 48,
+  "file": "app/components/Home.tsx",
+  "line": 80,
+  "es": "Cargando resultados…",
+  "eu": "Emaitzak kargatzen…",
+  "fr": null
+ },
+ {
+  "id": 49,
+  "file": "app/components/Home.tsx",
+  "line": 85,
+  "es": "Partidos en juego",
+  "eu": "Jokoan dauden partidak",
+  "fr": null
+ },
+ {
+  "id": 50,
+  "file": "app/components/Home.tsx",
+  "line": 85,
+  "es": "Próximo partido",
+  "eu": "Hurrengo partida",
+  "fr": null
+ },
+ {
+  "id": 51,
+  "file": "app/components/Home.tsx",
+  "line": 86,
+  "es": "Ahora mismo",
+  "eu": "Orain bertan",
+  "fr": null
+ },
+ {
+  "id": 52,
+  "file": "app/components/Home.tsx",
+  "line": 86,
+  "es": "Próximo partido",
+  "eu": "Hurrengo partida",
+  "fr": null
+ },
+ {
+  "id": 53,
+  "file": "app/components/Home.tsx",
+  "line": 86,
+  "es": "Primer partido",
+  "eu": "Lehen partida",
+  "fr": null
+ },
+ {
+  "id": 54,
+  "file": "app/components/Home.tsx",
+  "line": 116,
+  "es": "Resultados finales",
+  "eu": "Azken emaitzak",
+  "fr": null
+ },
+ {
+  "id": 55,
+  "file": "app/components/Home.tsx",
+  "line": 117,
+  "es": "Finalizada",
+  "eu": "Amaituta",
+  "fr": null
+ },
+ {
+  "id": 56,
+  "file": "app/components/Home.tsx",
+  "line": 118,
+  "es": "Resultados finales",
+  "eu": "Azken emaitzak",
+  "fr": null
+ },
+ {
+  "id": 57,
+  "file": "app/components/Home.tsx",
+  "line": 120,
+  "es": "Campeón Oro",
+  "eu": "Urrezko txapeldun",
+  "fr": null
+ },
+ {
+  "id": 58,
+  "file": "app/components/Home.tsx",
+  "line": 120,
+  "es": "Subcampeón Oro",
+  "eu": "Urrezko azpitxapeldun",
+  "fr": null
+ },
+ {
+  "id": 59,
+  "file": "app/components/Home.tsx",
+  "line": 121,
+  "es": "Campeón Plata",
+  "eu": "Zilarrezko txapeldun",
+  "fr": null
+ },
+ {
+  "id": 60,
+  "file": "app/components/Home.tsx",
+  "line": 121,
+  "es": "Subcampeón Plata",
+  "eu": "Zilarrezko azpitxapeldun",
+  "fr": null
+ },
+ {
+  "id": 61,
+  "file": "app/components/Home.tsx",
+  "line": 123,
+  "es": "Final Oro",
+  "eu": "Urrezko finala",
+  "fr": null
+ },
+ {
+  "id": 62,
+  "file": "app/components/Home.tsx",
+  "line": 123,
+  "es": "Final Plata",
+  "eu": "Zilarrezko finala",
+  "fr": null
+ },
+ {
+  "id": 63,
+  "file": "app/components/Home.tsx",
+  "line": 139,
+  "es": "Mi equipo",
+  "eu": "Nire taldea",
+  "fr": null
+ },
+ {
+  "id": 64,
+  "file": "app/components/Home.tsx",
+  "line": 139,
+  "es": "contra",
+  "eu": "eta",
+  "fr": null
+ },
+ {
+  "id": 65,
+  "file": "app/components/Home.tsx",
+  "line": 139,
+  "es": "Mi equipo",
+  "eu": "Nire taldea",
+  "fr": null
+ },
+ {
+  "id": 66,
+  "file": "app/components/Home.tsx",
+  "line": 141,
+  "es": "Próximo partido",
+  "eu": "Hurrengo partida",
+  "fr": null
+ },
+ {
+  "id": 67,
+  "file": "app/components/Home.tsx",
+  "line": 150,
+  "es": "No quedan partidos por jugar",
+  "eu": "Ez dago jokatzeko partidarik",
+  "fr": null
+ },
+ {
+  "id": 68,
+  "file": "app/components/Home.tsx",
+  "line": 160,
+  "es": "Afición",
+  "eu": "Zaleak",
+  "fr": null
+ },
+ {
+  "id": 69,
+  "file": "app/components/Home.tsx",
+  "line": 161,
+  "es": "Todavía no hay afición en este torneo. Los equipos más seguidos aparecerán aquí.",
+  "eu": "Oraindik ez dago zalerik txapelketa honetan. Jarraitzaile gehien dituzten taldeak hemen agertuko dira.",
+  "fr": null
+ },
+ {
+  "id": 70,
+  "file": "app/components/Home.tsx",
+  "line": 166,
+  "es": "Afición",
+  "eu": "Zaleak",
+  "fr": null
+ },
+ {
+  "id": 71,
+  "file": "app/components/Landing.tsx",
+  "line": 10,
+  "es": "(d <= 0 ? \"Hoy\" : d === 1 ? \"Mañana\" : `En ${d} días`)",
+  "eu": "(d <= 0 ? \"Gaur\" : d === 1 ? \"Bihar\" : `${d} egun barru`)",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 72,
+  "file": "app/components/Landing.tsx",
+  "line": 21,
+  "es": "Organizado por el CD Derio",
+  "eu": "CD Derio-k antolatua",
+  "fr": null
+ },
+ {
+  "id": 73,
+  "file": "app/components/Landing.tsx",
+  "line": 25,
+  "es": "Próximos torneos",
+  "eu": "Hurrengo txapelketak",
+  "fr": null
+ },
+ {
+  "id": 74,
+  "file": "app/components/Landing.tsx",
+  "line": 27,
+  "es": "No hay torneos próximos",
+  "eu": "Ez dago txapelketarik laster",
+  "fr": null
+ },
+ {
+  "id": 75,
+  "file": "app/components/Landing.tsx",
+  "line": 27,
+  "es": "Cuando se publique el siguiente aparecerá aquí.",
+  "eu": "Hurrengoa argitaratzen denean hemen agertuko da.",
+  "fr": null
+ },
+ {
+  "id": 76,
+  "file": "app/components/Landing.tsx",
+  "line": 33,
+  "es": "",
+  "eu": " month-first",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 77,
+  "file": "app/components/Landing.tsx",
+  "line": 45,
+  "es": "Patrocinadores",
+  "eu": "Babesleak",
+  "fr": null
+ },
+ {
+  "id": 78,
+  "file": "app/components/LanguageScreen.tsx",
+  "line": 18,
+  "es": "Idioma",
+  "eu": "Hizkuntza",
+  "fr": null
+ },
+ {
+  "id": 79,
+  "file": "app/components/LanguageScreen.tsx",
+  "line": 19,
+  "es": "Idioma",
+  "eu": "Hizkuntza",
+  "fr": null
+ },
+ {
+  "id": 80,
+  "file": "app/components/Manager.tsx",
+  "line": 70,
+  "es": "Gestión de resultados",
+  "eu": "Emaitzen kudeaketa",
+  "fr": null
+ },
+ {
+  "id": 81,
+  "file": "app/components/Manager.tsx",
+  "line": 70,
+  "es": "Acceso responsables",
+  "eu": "Arduradunen sarbidea",
+  "fr": null
+ },
+ {
+  "id": 82,
+  "file": "app/components/Manager.tsx",
+  "line": 72,
+  "es": "Código incorrecto",
+  "eu": "Kode okerra",
+  "fr": null
+ },
+ {
+  "id": 83,
+  "file": "app/components/Manager.tsx",
+  "line": 73,
+  "es": "Introduce el código de acceso para gestionar los resultados del torneo.",
+  "eu": "Sartu sarbide-kodea txapelketaren emaitzak kudeatzeko.",
+  "fr": null
+ },
+ {
+  "id": 84,
+  "file": "app/components/Manager.tsx",
+  "line": 74,
+  "es": "Código de acceso",
+  "eu": "Sarbide-kodea",
+  "fr": null
+ },
+ {
+  "id": 85,
+  "file": "app/components/Manager.tsx",
+  "line": 78,
+  "es": "Acceder",
+  "eu": "Sartu",
+  "fr": null
+ },
+ {
+  "id": 86,
+  "file": "app/components/Manager.tsx",
+  "line": 82,
+  "es": "grupos publicados",
+  "eu": "multzo-partida argitaratuta",
+  "fr": null
+ },
+ {
+  "id": 87,
+  "file": "app/components/Manager.tsx",
+  "line": 82,
+  "es": "pendientes",
+  "eu": "geratzen dira",
+  "fr": null
+ },
+ {
+  "id": 88,
+  "file": "app/components/Manager.tsx",
+  "line": 84,
+  "es": "Fase de grupos",
+  "eu": "Multzo-fasea",
+  "fr": null
+ },
+ {
+  "id": 89,
+  "file": "app/components/Manager.tsx",
+  "line": 86,
+  "es": "Fases finales",
+  "eu": "Azken faseak",
+  "fr": null
+ },
+ {
+  "id": 90,
+  "file": "app/components/Manager.tsx",
+  "line": 88,
+  "es": "Resultado publicado",
+  "eu": "Emaitza argitaratuta",
+  "fr": null
+ },
+ {
+  "id": 91,
+  "file": "app/components/Manager.tsx",
+  "line": 88,
+  "es": "Deshacer",
+  "eu": "Desegin",
+  "fr": null
+ },
+ {
+  "id": 92,
+  "file": "app/components/Manager.tsx",
+  "line": 103,
+  "es": "Confirmar eliminación",
+  "eu": "Berretsi ezabaketa",
+  "fr": null
+ },
+ {
+  "id": 93,
+  "file": "app/components/Manager.tsx",
+  "line": 103,
+  "es": "Eliminar resultado",
+  "eu": "Ezabatu emaitza",
+  "fr": null
+ },
+ {
+  "id": 94,
+  "file": "app/components/Manager.tsx",
+  "line": 112,
+  "es": "Publicado",
+  "eu": "Argitaratuta",
+  "fr": null
+ },
+ {
+  "id": 95,
+  "file": "app/components/Manager.tsx",
+  "line": 113,
+  "es": "Goles ",
+  "eu": "Golak: ",
+  "fr": null
+ },
+ {
+  "id": 96,
+  "file": "app/components/Manager.tsx",
+  "line": 114,
+  "es": "Goles ",
+  "eu": "Golak: ",
+  "fr": null
+ },
+ {
+  "id": 97,
+  "file": "app/components/Manager.tsx",
+  "line": 116,
+  "es": "Guardando…",
+  "eu": "Gordetzen…",
+  "fr": null
+ },
+ {
+  "id": 98,
+  "file": "app/components/Manager.tsx",
+  "line": 116,
+  "es": "Actualizar",
+  "eu": "Eguneratu",
+  "fr": null
+ },
+ {
+  "id": 99,
+  "file": "app/components/Manager.tsx",
+  "line": 116,
+  "es": "Guardar",
+  "eu": "Gorde",
+  "fr": null
+ },
+ {
+  "id": 100,
+  "file": "app/components/Manager.tsx",
+  "line": 134,
+  "es": "Publicado",
+  "eu": "Argitaratuta",
+  "fr": null
+ },
+ {
+  "id": 101,
+  "file": "app/components/Manager.tsx",
+  "line": 135,
+  "es": "Goles ",
+  "eu": "Golak: ",
+  "fr": null
+ },
+ {
+  "id": 102,
+  "file": "app/components/Manager.tsx",
+  "line": 136,
+  "es": "Goles ",
+  "eu": "Golak: ",
+  "fr": null
+ },
+ {
+  "id": 103,
+  "file": "app/components/Manager.tsx",
+  "line": 137,
+  "es": "Penaltis",
+  "eu": "Penaltiak",
+  "fr": null
+ },
+ {
+  "id": 104,
+  "file": "app/components/Manager.tsx",
+  "line": 137,
+  "es": "Penaltis local",
+  "eu": "Etxeko penaltiak",
+  "fr": null
+ },
+ {
+  "id": 105,
+  "file": "app/components/Manager.tsx",
+  "line": 137,
+  "es": "Penaltis visitante",
+  "eu": "Kanpoko penaltiak",
+  "fr": null
+ },
+ {
+  "id": 106,
+  "file": "app/components/Manager.tsx",
+  "line": 139,
+  "es": "Guardando…",
+  "eu": "Gordetzen…",
+  "fr": null
+ },
+ {
+  "id": 107,
+  "file": "app/components/Manager.tsx",
+  "line": 139,
+  "es": "Actualizar",
+  "eu": "Eguneratu",
+  "fr": null
+ },
+ {
+  "id": 108,
+  "file": "app/components/Manager.tsx",
+  "line": 139,
+  "es": "Guardar",
+  "eu": "Gorde",
+  "fr": null
+ },
+ {
+  "id": 109,
+  "file": "app/components/More.tsx",
+  "line": 22,
+  "es": "es",
+  "eu": "e",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 110,
+  "file": "app/components/More.tsx",
+  "line": 24,
+  "es": "es",
+  "eu": "e",
+  "fr": null
+ },
+ {
+  "id": 111,
+  "file": "app/components/More.tsx",
+  "line": 25,
+  "es": "Información del torneo",
+  "eu": "Txapelketaren informazioa",
+  "fr": null
+ },
+ {
+  "id": 112,
+  "file": "app/components/More.tsx",
+  "line": 27,
+  "es": "equipos",
+  "eu": "talde",
+  "fr": null
+ },
+ {
+  "id": 113,
+  "file": "app/components/More.tsx",
+  "line": 27,
+  "es": "Temporada",
+  "eu": "Denboraldia",
+  "fr": null
+ },
+ {
+  "id": 114,
+  "file": "app/components/More.tsx",
+  "line": 28,
+  "es": "Ubicación · ",
+  "eu": "Kokalekua · ",
+  "fr": null
+ },
+ {
+  "id": 115,
+  "file": "app/components/More.tsx",
+  "line": 28,
+  "es": "tn.venue",
+  "eu": "tn.venueEu ?? tn.venue",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 116,
+  "file": "app/components/More.tsx",
+  "line": 29,
+  "es": "<p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>",
+  "eu": "<p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p>",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 117,
+  "file": "app/components/More.tsx",
+  "line": 31,
+  "es": "Cómo llegar",
+  "eu": "Nola iritsi",
+  "fr": null
+ },
+ {
+  "id": 118,
+  "file": "app/components/More.tsx",
+  "line": 31,
+  "es": "Ver en Maps",
+  "eu": "Ikusi Maps-en",
+  "fr": null
+ },
+ {
+  "id": 119,
+  "file": "app/components/More.tsx",
+  "line": 32,
+  "es": "Aparcamiento",
+  "eu": "Aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 120,
+  "file": "app/components/More.tsx",
+  "line": 32,
+  "es": "Dónde aparcar el día del torneo",
+  "eu": "Non aparkatu txapelketa egunean",
+  "fr": null
+ },
+ {
+  "id": 121,
+  "file": "app/components/More.tsx",
+  "line": 35,
+  "es": "Formato del torneo",
+  "eu": "Txapelketaren formatua",
+  "fr": null
+ },
+ {
+  "id": 122,
+  "file": "app/components/More.tsx",
+  "line": 35,
+  "es": "Puntuación, fases y desempates",
+  "eu": "Puntuazioa, faseak eta berdinketak",
+  "fr": null
+ },
+ {
+  "id": 123,
+  "file": "app/components/More.tsx",
+  "line": 37,
+  "es": "equipos",
+  "eu": "talde",
+  "fr": null
+ },
+ {
+  "id": 124,
+  "file": "app/components/More.tsx",
+  "line": 38,
+  "es": "grupos",
+  "eu": "multzo",
+  "fr": null
+ },
+ {
+  "id": 125,
+  "file": "app/components/More.tsx",
+  "line": 39,
+  "es": "por partido",
+  "eu": "partida bakoitzeko",
+  "fr": null
+ },
+ {
+  "id": 126,
+  "file": "app/components/More.tsx",
+  "line": 41,
+  "es": "Puntos por partido",
+  "eu": "Puntuak partida bakoitzeko",
+  "fr": null
+ },
+ {
+  "id": 127,
+  "file": "app/components/More.tsx",
+  "line": 43,
+  "es": "Victoria",
+  "eu": "Garaipena",
+  "fr": null
+ },
+ {
+  "id": 128,
+  "file": "app/components/More.tsx",
+  "line": 44,
+  "es": "Empate",
+  "eu": "Berdinketa",
+  "fr": null
+ },
+ {
+  "id": 129,
+  "file": "app/components/More.tsx",
+  "line": 45,
+  "es": "Derrota",
+  "eu": "Porrota",
+  "fr": null
+ },
+ {
+  "id": 130,
+  "file": "app/components/More.tsx",
+  "line": 47,
+  "es": "Cómo se juega",
+  "eu": "Nola jokatzen den",
+  "fr": null
+ },
+ {
+  "id": 131,
+  "file": "app/components/More.tsx",
+  "line": 49,
+  "es": "Fase de grupos",
+  "eu": "Multzo-fasea",
+  "fr": null
+ },
+ {
+  "id": 132,
+  "file": "app/components/More.tsx",
+  "line": 49,
+  "es": "`${ng} grupos de ${per} equipos. Todos juegan contra todos.`",
+  "eu": "`${per} taldeko ${ng} multzo. Guztiek guztien aurka jokatzen dute.`",
+  "fr": null
+ },
+ {
+  "id": 133,
+  "file": "app/components/More.tsx",
+  "line": 50,
+  "es": "Fases finales",
+  "eu": "Azken faseak",
+  "fr": null
+ },
+ {
+  "id": 134,
+  "file": "app/components/More.tsx",
+  "line": 51,
+  "es": "Fase Oro",
+  "eu": "Urrezko fasea",
+  "fr": null
+ },
+ {
+  "id": 135,
+  "file": "app/components/More.tsx",
+  "line": 51,
+  "es": "1.º y 2.º de cada grupo",
+  "eu": "Multzo bakoitzeko 1. eta 2.",
+  "fr": null
+ },
+ {
+  "id": 136,
+  "file": "app/components/More.tsx",
+  "line": 51,
+  "es": "Fase Plata",
+  "eu": "Zilarrezko fasea",
+  "fr": null
+ },
+ {
+  "id": 137,
+  "file": "app/components/More.tsx",
+  "line": 51,
+  "es": "3.º y 4.º de cada grupo",
+  "eu": "Multzo bakoitzeko 3. eta 4.",
+  "fr": null
+ },
+ {
+  "id": 138,
+  "file": "app/components/More.tsx",
+  "line": 52,
+  "es": "Cuartos de final, semifinales y final.",
+  "eu": "Final-laurdenak, finalerdiak eta finala.",
+  "fr": null
+ },
+ {
+  "id": 139,
+  "file": "app/components/More.tsx",
+  "line": 54,
+  "es": "Los cambios son ",
+  "eu": "Aldaketak ",
+  "fr": null
+ },
+ {
+  "id": 140,
+  "file": "app/components/More.tsx",
+  "line": 54,
+  "es": "ilimitados",
+  "eu": "mugagabeak",
+  "fr": null
+ },
+ {
+  "id": 141,
+  "file": "app/components/More.tsx",
+  "line": 54,
+  "es": " durante todo el partido.",
+  "eu": " dira partida osoan zehar.",
+  "fr": null
+ },
+ {
+  "id": 142,
+  "file": "app/components/More.tsx",
+  "line": 56,
+  "es": "Desempates de grupo",
+  "eu": "Multzoko berdinketak",
+  "fr": null
+ },
+ {
+  "id": 143,
+  "file": "app/components/More.tsx",
+  "line": 58,
+  "es": "Normas de juego",
+  "eu": "Jokoaren arauak",
+  "fr": null
+ },
+ {
+  "id": 144,
+  "file": "app/components/More.tsx",
+  "line": 58,
+  "es": "Reglas específicas de ",
+  "eu": "Arau espezifikoak: ",
+  "fr": null
+ },
+ {
+  "id": 145,
+  "file": "app/components/More.tsx",
+  "line": 61,
+  "es": "Comidas, bar y WC",
+  "eu": "Otorduak, taberna eta komunak",
+  "fr": null
+ },
+ {
+  "id": 146,
+  "file": "app/components/More.tsx",
+  "line": 61,
+  "es": "Comidas y bar",
+  "eu": "Otorduak eta taberna",
+  "fr": null
+ },
+ {
+  "id": 147,
+  "file": "app/components/More.tsx",
+  "line": 61,
+  "es": "Servicio de comidas y ubicación de baños",
+  "eu": "Otordu-zerbitzua eta komunen kokalekua",
+  "fr": null
+ },
+ {
+  "id": 148,
+  "file": "app/components/More.tsx",
+  "line": 61,
+  "es": "Servicio de comidas para equipos y bar para familias",
+  "eu": "Taldeentzako otordu-zerbitzua eta familientzako taberna",
+  "fr": null
+ },
+ {
+  "id": 149,
+  "file": "app/components/More.tsx",
+  "line": 62,
+  "es": "<p>Los equipos participantes disponen de <b>servicio de comidas opcional</b> en Ibaiondo por <b>{i.meals.price}</b>. {i.meals.includes}</p>",
+  "eu": "<p>Parte hartzen duten taldeek Ibaiondon <b>aukerako otordu-zerbitzua</b> dute <b>{i.meals.price}</b>ren truke. {i.meals.includes}</p>",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 150,
+  "file": "app/components/More.tsx",
+  "line": 63,
+  "es": "Baños / WC:",
+  "eu": "Komunak / WC:",
+  "fr": null
+ },
+ {
+  "id": 151,
+  "file": "app/components/More.tsx",
+  "line": 72,
+  "es": "Idioma",
+  "eu": "Hizkuntza",
+  "fr": null
+ },
+ {
+  "id": 152,
+  "file": "app/components/More.tsx",
+  "line": 73,
+  "es": "Idioma",
+  "eu": "Hizkuntza",
+  "fr": null
+ },
+ {
+  "id": 153,
+  "file": "app/components/More.tsx",
+  "line": 96,
+  "es": "Información adicional",
+  "eu": "Informazio gehigarria",
+  "fr": null
+ },
+ {
+  "id": 154,
+  "file": "app/components/More.tsx",
+  "line": 97,
+  "es": "`Todo lo necesario para el día del torneo ${tn.category}.`",
+  "eu": "`${tn.category} txapelketaren egunerako behar den guztia.`",
+  "fr": null
+ },
+ {
+  "id": 155,
+  "file": "app/components/More.tsx",
+  "line": 106,
+  "es": "Ajustes",
+  "eu": "Ezarpenak",
+  "fr": null
+ },
+ {
+  "id": 156,
+  "file": "app/components/More.tsx",
+  "line": 108,
+  "es": "Idioma",
+  "eu": "Hizkuntza",
+  "fr": null
+ },
+ {
+  "id": 157,
+  "file": "app/components/More.tsx",
+  "line": 108,
+  "es": "Castellano",
+  "eu": "Euskara",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 158,
+  "file": "app/components/More.tsx",
+  "line": 110,
+  "es": "Apariencia",
+  "eu": "Itxura",
+  "fr": null
+ },
+ {
+  "id": 159,
+  "file": "app/components/More.tsx",
+  "line": 110,
+  "es": "Oscuro",
+  "eu": "Iluna",
+  "fr": null
+ },
+ {
+  "id": 160,
+  "file": "app/components/More.tsx",
+  "line": 110,
+  "es": "Claro",
+  "eu": "Argia",
+  "fr": null
+ },
+ {
+  "id": 161,
+  "file": "app/components/More.tsx",
+  "line": 113,
+  "es": "Apariencia",
+  "eu": "Itxura",
+  "fr": null
+ },
+ {
+  "id": 162,
+  "file": "app/components/More.tsx",
+  "line": 114,
+  "es": "Claro",
+  "eu": "Argia",
+  "fr": null
+ },
+ {
+  "id": 163,
+  "file": "app/components/More.tsx",
+  "line": 114,
+  "es": "Oscuro",
+  "eu": "Iluna",
+  "fr": null
+ },
+ {
+  "id": 164,
+  "file": "app/components/More.tsx",
+  "line": 120,
+  "es": "Instalar la app",
+  "eu": "Instalatu aplikazioa",
+  "fr": null
+ },
+ {
+  "id": 165,
+  "file": "app/components/More.tsx",
+  "line": 120,
+  "es": "Añádela a tu pantalla de inicio",
+  "eu": "Gehitu zure hasierako pantailara",
+  "fr": null
+ },
+ {
+  "id": 166,
+  "file": "app/components/More.tsx",
+  "line": 121,
+  "es": "Cambiar de torneo",
+  "eu": "Aldatu txapelketa",
+  "fr": null
+ },
+ {
+  "id": 167,
+  "file": "app/components/More.tsx",
+  "line": 121,
+  "es": "Volver a la lista de torneos",
+  "eu": "Itzuli txapelketen zerrendara",
+  "fr": null
+ },
+ {
+  "id": 168,
+  "file": "app/components/More.tsx",
+  "line": 122,
+  "es": "Cambiar de equipo",
+  "eu": "Aldatu taldea",
+  "fr": null
+ },
+ {
+  "id": 169,
+  "file": "app/components/More.tsx",
+  "line": 122,
+  "es": "Seleccionar otro participante",
+  "eu": "Aukeratu beste talde bat",
+  "fr": null
+ },
+ {
+  "id": 170,
+  "file": "app/components/More.tsx",
+  "line": 123,
+  "es": "Acceso responsables",
+  "eu": "Arduradunen sarbidea",
+  "fr": null
+ },
+ {
+  "id": 171,
+  "file": "app/components/More.tsx",
+  "line": 123,
+  "es": "Publicar y editar resultados",
+  "eu": "Argitaratu eta editatu emaitzak",
+  "fr": null
+ },
+ {
+  "id": 172,
+  "file": "app/components/Onboarding.tsx",
+  "line": 63,
+  "es": "Cambiar a modo claro",
+  "eu": "Aldatu modu argira",
+  "fr": null
+ },
+ {
+  "id": 173,
+  "file": "app/components/Onboarding.tsx",
+  "line": 63,
+  "es": "Cambiar a modo oscuro",
+  "eu": "Aldatu modu ilunera",
+  "fr": null
+ },
+ {
+  "id": 174,
+  "file": "app/components/Onboarding.tsx",
+  "line": 63,
+  "es": "Omitir",
+  "eu": "Saltatu",
+  "fr": null
+ },
+ {
+  "id": 175,
+  "file": "app/components/Onboarding.tsx",
+  "line": 68,
+  "es": "¡Bienvenido!",
+  "eu": "Ongi etorri!",
+  "fr": null
+ },
+ {
+  "id": 176,
+  "file": "app/components/Onboarding.tsx",
+  "line": 69,
+  "es": "`Aquí tendrás los partidos, los resultados y las clasificaciones de ${BRAND} en tu móvil.`",
+  "eu": "`Hemen izango dituzu ${BRAND}-eko partidak, emaitzak eta sailkapenak zure mugikorrean.`",
+  "fr": null
+ },
+ {
+  "id": 177,
+  "file": "app/components/Onboarding.tsx",
+  "line": 72,
+  "es": "¿Sabes cómo se instala la app?",
+  "eu": "Badakizu aplikazioa nola instalatzen den?",
+  "fr": null
+ },
+ {
+  "id": 178,
+  "file": "app/components/Onboarding.tsx",
+  "line": 73,
+  "es": "Instalarla es gratis, no ocupa espacio y se abre desde tu pantalla de inicio, como cualquier otra app.",
+  "eu": "Instalatzea doakoa da, ez du lekurik hartzen eta zure hasierako pantailatik irekitzen da, beste edozein aplikazio bezala.",
+  "fr": null
+ },
+ {
+  "id": 179,
+  "file": "app/components/Onboarding.tsx",
+  "line": 75,
+  "es": "Sí, ya lo he hecho",
+  "eu": "Bai, instalatuta dut",
+  "fr": null
+ },
+ {
+  "id": 180,
+  "file": "app/components/Onboarding.tsx",
+  "line": 75,
+  "es": "Ir a elegir torneo",
+  "eu": "Txapelketa aukeratzera joan",
+  "fr": null
+ },
+ {
+  "id": 181,
+  "file": "app/components/Onboarding.tsx",
+  "line": 76,
+  "es": "No, ayúdame",
+  "eu": "Ez, lagun nazazu",
+  "fr": null
+ },
+ {
+  "id": 182,
+  "file": "app/components/Onboarding.tsx",
+  "line": 76,
+  "es": "Te lo explico paso a paso",
+  "eu": "Pausoz pauso azalduko dizut",
+  "fr": null
+ },
+ {
+  "id": 183,
+  "file": "app/components/Onboarding.tsx",
+  "line": 80,
+  "es": "¿Qué móvil tienes?",
+  "eu": "Zer mugikor duzu?",
+  "fr": null
+ },
+ {
+  "id": 184,
+  "file": "app/components/Onboarding.tsx",
+  "line": 81,
+  "es": "Los pasos son distintos en cada sistema.",
+  "eu": "Pausoak desberdinak dira sistema bakoitzean.",
+  "fr": null
+ },
+ {
+  "id": 185,
+  "file": "app/components/Onboarding.tsx",
+  "line": 89,
+  "es": "`Paso ${n + 1} de ${guide.length}`",
+  "eu": "`${n + 1}/${guide.length}. pausoa`",
+  "fr": null
+ },
+ {
+  "id": 186,
+  "file": "app/components/Onboarding.tsx",
+  "line": 93,
+  "es": "Instalar ahora desde aquí",
+  "eu": "Instalatu orain hemendik",
+  "fr": null
+ },
+ {
+  "id": 187,
+  "file": "app/components/Onboarding.tsx",
+  "line": 97,
+  "es": "¡Ya casi está!",
+  "eu": "Ia eginda!",
+  "fr": null
+ },
+ {
+  "id": 188,
+  "file": "app/components/Onboarding.tsx",
+  "line": 98,
+  "es": "<>Cierra esta página y busca <b>Derio Cup</b> en el <b>menú principal de tu móvil</b>: la pantalla de inicio o, en Android, la lista de aplicaciones.</>",
+  "eu": "<>Itxi orri hau eta bilatu <b>Derio Cup</b> zure <b>mugikorraren menu nagusian</b>: hasierako pantailan edo, Androiden, aplikazioen zerrendan.</>",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 189,
+  "file": "app/components/Onboarding.tsx",
+  "line": 100,
+  "es": "Al abrirla podrás elegir tu torneo.",
+  "eu": "Irekitzean zure txapelketa aukeratu ahal izango duzu.",
+  "fr": null
+ },
+ {
+  "id": 190,
+  "file": "app/components/Onboarding.tsx",
+  "line": 105,
+  "es": "Empezar",
+  "eu": "Hasi",
+  "fr": null
+ },
+ {
+  "id": 191,
+  "file": "app/components/Onboarding.tsx",
+  "line": 106,
+  "es": "Atrás",
+  "eu": "Atzera",
+  "fr": null
+ },
+ {
+  "id": 192,
+  "file": "app/components/Onboarding.tsx",
+  "line": 107,
+  "es": "Atrás",
+  "eu": "Atzera",
+  "fr": null
+ },
+ {
+  "id": 193,
+  "file": "app/components/Onboarding.tsx",
+  "line": 109,
+  "es": "Siguiente",
+  "eu": "Hurrengoa",
+  "fr": null
+ },
+ {
+  "id": 194,
+  "file": "app/components/Onboarding.tsx",
+  "line": 109,
+  "es": "Ya lo he hecho",
+  "eu": "Eginda dago",
+  "fr": null
+ },
+ {
+  "id": 195,
+  "file": "app/components/Onboarding.tsx",
+  "line": 110,
+  "es": "Atrás",
+  "eu": "Atzera",
+  "fr": null
+ },
+ {
+  "id": 196,
+  "file": "app/components/Onboarding.tsx",
+  "line": 113,
+  "es": "Continuar en el navegador",
+  "eu": "Jarraitu nabigatzailean",
+  "fr": null
+ },
+ {
+  "id": 197,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 37,
+  "es": "Plano del aparcamiento junto al campo de Ibaiondo",
+  "eu": "Ibaiondo zelaiaren ondoko aparkalekuaren planoa",
+  "fr": null
+ },
+ {
+  "id": 198,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 57,
+  "es": "Campa",
+  "eu": "Zelaigunea",
+  "fr": null
+ },
+ {
+  "id": 199,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 58,
+  "es": "Rotonda",
+  "eu": "Biribilgunea",
+  "fr": null
+ },
+ {
+  "id": 200,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 70,
+  "es": "Plano del aparcamiento del Seminario y ruta a pie hasta Ibaiondo",
+  "eu": "Seminarioko aparkalekuaren planoa eta Ibaiondora oinez joateko bidea",
+  "fr": null
+ },
+ {
+  "id": 201,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 83,
+  "es": "Entrada",
+  "eu": "Sarrera",
+  "fr": null
+ },
+ {
+  "id": 202,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 96,
+  "es": "Aparcamiento",
+  "eu": "Aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 203,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 96,
+  "es": "Junto al campo: en batería en el vial de acceso y en Camino Untzaga, al final del vial y en la campa.",
+  "eu": "Zelaiaren ondoan: bateria-aparkalekua sarbide-bidean eta Untzaga bidean, bidearen amaieran eta zelaigunean.",
+  "fr": null
+ },
+ {
+  "id": 204,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 98,
+  "es": "Zona de aparcamiento",
+  "eu": "Aparkatzeko gunea",
+  "fr": null
+ },
+ {
+  "id": 205,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 98,
+  "es": "Aparcamiento en batería",
+  "eu": "Bateria-aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 206,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 98,
+  "es": "Entrada al campo",
+  "eu": "Zelairako sarrera",
+  "fr": null
+ },
+ {
+  "id": 207,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 99,
+  "es": "Cómo llegar al campo",
+  "eu": "Nola iritsi zelaira",
+  "fr": null
+ },
+ {
+  "id": 208,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 102,
+  "es": "Aparcamiento alternativo · Seminario",
+  "eu": "Ordezko aparkalekua · Seminarioa",
+  "fr": null
+ },
+ {
+  "id": 209,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 102,
+  "es": "Si el de junto al campo está lleno. Desde allí, unos 350 m a pie (≈ 5 min) por Camino Untzaga hasta la entrada.",
+  "eu": "Zelaiaren ondokoa beteta badago. Handik, 350 m inguru oinez (≈ 5 min) Untzaga bidetik sarreraraino.",
+  "fr": null
+ },
+ {
+  "id": 210,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 104,
+  "es": "Aparcamiento del Seminario",
+  "eu": "Seminarioko aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 211,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 104,
+  "es": "Ruta a pie hasta la entrada",
+  "eu": "Oinezko bidea sarreraraino",
+  "fr": null
+ },
+ {
+  "id": 212,
+  "file": "app/components/ParkingMaps.tsx",
+  "line": 105,
+  "es": "Cómo llegar al Seminario",
+  "eu": "Nola iritsi Seminariora",
+  "fr": null
+ },
+ {
+  "id": 213,
+  "file": "app/components/Partidos.tsx",
+  "line": 18,
+  "es": "Partidos",
+  "eu": "Partidak",
+  "fr": null
+ },
+ {
+  "id": 214,
+  "file": "app/components/Partidos.tsx",
+  "line": 20,
+  "es": "Filtrar partidos",
+  "eu": "Iragazi partidak",
+  "fr": null
+ },
+ {
+  "id": 215,
+  "file": "app/components/Partidos.tsx",
+  "line": 21,
+  "es": "Todos",
+  "eu": "Guztiak",
+  "fr": null
+ },
+ {
+  "id": 216,
+  "file": "app/components/Partidos.tsx",
+  "line": 21,
+  "es": "Grupos",
+  "eu": "Multzoak",
+  "fr": null
+ },
+ {
+  "id": 217,
+  "file": "app/components/Partidos.tsx",
+  "line": 21,
+  "es": "Oro",
+  "eu": "Urrea",
+  "fr": null
+ },
+ {
+  "id": 218,
+  "file": "app/components/Partidos.tsx",
+  "line": 21,
+  "es": "Plata",
+  "eu": "Zilarra",
+  "fr": null
+ },
+ {
+  "id": 219,
+  "file": "app/components/Partidos.tsx",
+  "line": 24,
+  "es": "Fase de grupos",
+  "eu": "Multzo-fasea",
+  "fr": null
+ },
+ {
+  "id": 220,
+  "file": "app/components/Partidos.tsx",
+  "line": 30,
+  "es": "Sin partidos",
+  "eu": "Partidarik ez",
+  "fr": null
+ },
+ {
+  "id": 221,
+  "file": "app/components/Team.tsx",
+  "line": 25,
+  "es": "Volver",
+  "eu": "Atzera",
+  "fr": null
+ },
+ {
+  "id": 222,
+  "file": "app/components/Team.tsx",
+  "line": 30,
+  "es": " · Mi equipo",
+  "eu": " · Nire taldea",
+  "fr": null
+ },
+ {
+  "id": 223,
+  "file": "app/components/Team.tsx",
+  "line": 32,
+  "es": "`${pos}.º de su grupo · ${row.pts} pts`",
+  "eu": "`${pos}. bere multzoan · ${row.pts} pun.`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 224,
+  "file": "app/components/Team.tsx",
+  "line": 32,
+  "es": "Aún no ha jugado",
+  "eu": "Oraindik ez du jokatu",
+  "fr": null
+ },
+ {
+  "id": 225,
+  "file": "app/components/Team.tsx",
+  "line": 37,
+  "es": "Posición",
+  "eu": "Postua",
+  "fr": null
+ },
+ {
+  "id": 226,
+  "file": "app/components/Team.tsx",
+  "line": 38,
+  "es": "Puntos",
+  "eu": "Puntuak",
+  "fr": null
+ },
+ {
+  "id": 227,
+  "file": "app/components/Team.tsx",
+  "line": 39,
+  "es": "Jugados",
+  "eu": "Jokatuak",
+  "fr": null
+ },
+ {
+  "id": 228,
+  "file": "app/components/Team.tsx",
+  "line": 40,
+  "es": "Dif. goles",
+  "eu": "Gol-dif.",
+  "fr": null
+ },
+ {
+  "id": 229,
+  "file": "app/components/Team.tsx",
+  "line": 44,
+  "es": "Fase de grupos",
+  "eu": "Multzo-fasea",
+  "fr": null
+ },
+ {
+  "id": 230,
+  "file": "app/components/Team.tsx",
+  "line": 45,
+  "es": "Sin partidos",
+  "eu": "Partidarik ez",
+  "fr": null
+ },
+ {
+  "id": 231,
+  "file": "app/components/Team.tsx",
+  "line": 56,
+  "es": "`Clasificación · Grupo ${t.group}`",
+  "eu": "`${t.group} multzoaren sailkapena`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 232,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 153,
+  "es": "Saltar al contenido",
+  "eu": "Joan edukira",
+  "fr": null
+ },
+ {
+  "id": 233,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 156,
+  "es": "ir al inicio",
+  "eu": "joan hasierara",
+  "fr": null
+ },
+ {
+  "id": 234,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 161,
+  "es": "Mi equipo: ",
+  "eu": "Nire taldea: ",
+  "fr": null
+ },
+ {
+  "id": 235,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 162,
+  "es": "Actualizar resultados",
+  "eu": "Eguneratu emaitzak",
+  "fr": null
+ },
+ {
+  "id": 236,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 163,
+  "es": "Cambiar a modo claro",
+  "eu": "Aldatu modu argira",
+  "fr": null
+ },
+ {
+  "id": 237,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 163,
+  "es": "Cambiar a modo oscuro",
+  "eu": "Aldatu modu ilunera",
+  "fr": null
+ },
+ {
+  "id": 238,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 168,
+  "es": "Sin conexión. Mostrando los últimos datos guardados.",
+  "eu": "Konexiorik ez. Gordetako azken datuak erakusten.",
+  "fr": null
+ },
+ {
+  "id": 239,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 168,
+  "es": "Reintentar",
+  "eu": "Saiatu berriro",
+  "fr": null
+ },
+ {
+  "id": 240,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 177,
+  "es": "Actualizado a las ",
+  "eu": "Eguneratuta: ",
+  "fr": null
+ },
+ {
+  "id": 241,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 180,
+  "es": "Navegación principal",
+  "eu": "Nabigazio nagusia",
+  "fr": null
+ },
+ {
+  "id": 242,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 189,
+  "es": "¡ANIMA A TU EQUIPO!",
+  "eu": "ANIMATU ZURE TALDEA!",
+  "fr": null
+ },
+ {
+  "id": 243,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 191,
+  "es": "Familias animando juntas",
+  "eu": "Familiak elkarrekin animatzen",
+  "fr": null
+ },
+ {
+  "id": 244,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 192,
+  "es": "Lo importante no es el resultado, es que los niños y niñas disfruten del día.",
+  "eu": "Garrantzitsuena ez da emaitza, haurrek egunaz gozatzea baizik.",
+  "fr": null
+ },
+ {
+  "id": 245,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 193,
+  "es": "Los insultos y faltas de respeto desde la grada podrán ser motivo de expulsión de las instalaciones.",
+  "eu": "Harmailatik egindako irainak eta errespetu faltak instalazioetatik kanporatzeko arrazoi izan daitezke.",
+  "fr": null
+ },
+ {
+  "id": 246,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 194,
+  "es": "RESPETA al rival,",
+  "eu": "ERRESPETATU aurkaria,",
+  "fr": null
+ },
+ {
+  "id": 247,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 194,
+  "es": "RESPETA a los árbitros,",
+  "eu": "ERRESPETATU epaileak,",
+  "fr": null
+ },
+ {
+  "id": 248,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 194,
+  "es": "RESPETA los valores de este deporte.",
+  "eu": "ERRESPETATU kirol honen balioak.",
+  "fr": null
+ },
+ {
+  "id": 249,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 195,
+  "es": "Entendido",
+  "eu": "Ados",
+  "fr": null
+ },
+ {
+  "id": 250,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 198,
+  "es": "Criterios de desempate",
+  "eu": "Berdinketa-irizpideak",
+  "fr": null
+ },
+ {
+  "id": 251,
+  "file": "app/components/TournamentApp.tsx",
+  "line": 198,
+  "es": "Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:",
+  "eu": "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:",
+  "fr": null
+ },
+ {
+  "id": 252,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 64,
+  "es": "Bar",
+  "eu": "Taberna",
+  "fr": null
+ },
+ {
+  "id": 253,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 64,
+  "es": "WC",
+  "eu": "Komunak",
+  "fr": null
+ },
+ {
+  "id": 254,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 64,
+  "es": "Aparcamiento",
+  "eu": "Aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 255,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 64,
+  "es": "Entrada",
+  "eu": "Sarrera",
+  "fr": null
+ },
+ {
+  "id": 256,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 66,
+  "es": "Pintxos y bocadillos",
+  "eu": "Pintxoak eta ogitartekoak",
+  "fr": null
+ },
+ {
+  "id": 257,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 67,
+  "es": "Acceso por detrás de la grada",
+  "eu": "Harmailaren atzetik sartzen da",
+  "fr": null
+ },
+ {
+  "id": 258,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 68,
+  "es": "3 € por persona",
+  "eu": "3 € pertsonako",
+  "fr": null
+ },
+ {
+  "id": 259,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 69,
+  "es": "Fase de grupos y fase oro",
+  "eu": "Multzo-fasea eta urrezko fasea",
+  "fr": null
+ },
+ {
+  "id": 260,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 70,
+  "es": "Fase de grupos y fase plata",
+  "eu": "Multzo-fasea eta zilarrezko fasea",
+  "fr": null
+ },
+ {
+  "id": 261,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 106,
+  "es": "Plano 3D de las instalaciones de Ibaiondo",
+  "eu": "Ibaiondoko instalazioen 3D planoa",
+  "fr": null
+ },
+ {
+  "id": 262,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 115,
+  "es": "Vista general",
+  "eu": "Ikuspegi orokorra",
+  "fr": null
+ },
+ {
+  "id": 263,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 116,
+  "es": "Salir de pantalla completa",
+  "eu": "Irten pantaila osotik",
+  "fr": null
+ },
+ {
+  "id": 264,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 116,
+  "es": "Pantalla completa",
+  "eu": "Pantaila osoa",
+  "fr": null
+ },
+ {
+  "id": 265,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 117,
+  "es": "Cargando plano…",
+  "eu": "Planoa kargatzen…",
+  "fr": null
+ },
+ {
+  "id": 266,
+  "file": "app/components/VenueMap3D.tsx",
+  "line": 119,
+  "es": "Zonas del plano",
+  "eu": "Planoaren guneak",
+  "fr": null
+ },
+ {
+  "id": 267,
+  "file": "app/components/Welcome.tsx",
+  "line": 79,
+  "es": "Torneos",
+  "eu": "Txapelketak",
+  "fr": null
+ },
+ {
+  "id": 268,
+  "file": "app/components/Welcome.tsx",
+  "line": 84,
+  "es": "Elige tu equipo",
+  "eu": "Aukeratu zure taldea",
+  "fr": null
+ },
+ {
+  "id": 269,
+  "file": "app/components/Welcome.tsx",
+  "line": 85,
+  "es": "Para seguirlo de cerca. Puedes cambiarlo cuando quieras.",
+  "eu": "Gertutik jarraitzeko. Nahi duzunean alda dezakezu.",
+  "fr": null
+ },
+ {
+  "id": 270,
+  "file": "app/components/Welcome.tsx",
+  "line": 89,
+  "es": "`Grupo ${g}`",
+  "eu": "`${g} multzoa`",
+  "fr": null
+ },
+ {
+  "id": 271,
+  "file": "app/components/Welcome.tsx",
+  "line": 102,
+  "es": "No tengo equipo",
+  "eu": "Ez dut talderik",
+  "fr": null
+ },
+ {
+  "id": 272,
+  "file": "app/components/Welcome.tsx",
+  "line": 106,
+  "es": "Continuar",
+  "eu": "Jarraitu",
+  "fr": null
+ },
+ {
+  "id": 273,
+  "file": "app/components/ui.tsx",
+  "line": 34,
+  "es": "Ver el perfil de ",
+  "eu": "Ikusi profila: ",
+  "fr": null
+ },
+ {
+  "id": 274,
+  "file": "app/components/ui.tsx",
+  "line": 93,
+  "es": "<span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span>",
+  "eu": "<span>{phaseName(kind, true)} osoa <b>{koField(kind)}. zelaian</b> jokatzen da.</span>",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 275,
+  "file": "app/components/ui.tsx",
+  "line": 108,
+  "es": "En juego",
+  "eu": "Jokoan",
+  "fr": null
+ },
+ {
+  "id": 276,
+  "file": "app/components/ui.tsx",
+  "line": 116,
+  "es": "Final",
+  "eu": "Amaituta",
+  "fr": null
+ },
+ {
+  "id": 277,
+  "file": "app/components/ui.tsx",
+  "line": 116,
+  "es": "contra",
+  "eu": "eta",
+  "fr": null
+ },
+ {
+  "id": 278,
+  "file": "app/components/ui.tsx",
+  "line": 122,
+  "es": "Final",
+  "eu": "Amaituta",
+  "fr": null
+ },
+ {
+  "id": 279,
+  "file": "app/components/ui.tsx",
+  "line": 124,
+  "es": "Sin resultado",
+  "eu": "Emaitzarik ez",
+  "fr": null
+ },
+ {
+  "id": 280,
+  "file": "app/components/ui.tsx",
+  "line": 139,
+  "es": "C",
+  "eu": "Z",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 281,
+  "file": "app/lib/editions.ts",
+  "line": 40,
+  "clave": "INFO_2015.intro",
+  "es": "Derio Cup es un torneo de fútbol base organizado por el CD Derio, que se lleva a cabo en las Instalaciones Deportivas de Ibaiondo (Derio). Lo forman 16 equipos, divididos en 4 grupos de 4 equipos, con Fase de grupos y dos Fases finales (Fase Oro y Fase Plata).",
+  "eu": "Derio Cup CD Derio-k antolatutako oinarriko futbol txapelketa da, Ibaiondoko Kirol Instalazioetan (Derio) jokatzen dena. 16 talde izango dira, 4 taldeko 4 multzotan banatuta, multzo-fasearekin eta bi azken faserekin (Urrezko fasea eta Zilarrezko fasea).",
+  "fr": null
+ },
+ {
+  "id": 282,
+  "file": "app/lib/editions.ts",
+  "line": 42,
+  "clave": "INFO_2015.penaltyRule",
+  "es": "En la fase final, si el partido termina en empate, se lanzarán 3 penaltis por equipo para decidir el desempate. Solo podrán lanzar los 7 jugadores que hayan finalizado el partido y es obligatorio mantener el portero que haya acabado el partido. En caso de seguir empatados podrán lanzar los jugadores que estaban en el banquillo.",
+  "eu": "Azken faseetan, partida berdinketan amaitzen bada, talde bakoitzak 3 penalti jaurtiko ditu berdinketa ebazteko. Partida amaitu duten 7 jokalariek bakarrik jaurti dezakete eta partida amaitu duen atezainak jarraitu behar du. Berdinketak jarraitzen badu, aldaketa-aulkiko jokalariek jaurti ahal izango dute.",
+  "fr": null
+ },
+ {
+  "id": 283,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[0]",
+  "es": "Puntos totales",
+  "eu": "Puntu guztiak",
+  "fr": null
+ },
+ {
+  "id": 284,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[1]",
+  "es": "Puntos en partidos directos",
+  "eu": "Zuzeneko partidetako puntuak",
+  "fr": null
+ },
+ {
+  "id": 285,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[2]",
+  "es": "Diferencia de goles en partidos directos",
+  "eu": "Zuzeneko partidetako gol-diferentzia",
+  "fr": null
+ },
+ {
+  "id": 286,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[3]",
+  "es": "Goles a favor en partidos directos",
+  "eu": "Zuzeneko partidetako golak alde",
+  "fr": null
+ },
+ {
+  "id": 287,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[4]",
+  "es": "Diferencia de goles total",
+  "eu": "Gol-diferentzia orokorra",
+  "fr": null
+ },
+ {
+  "id": 288,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[5]",
+  "es": "Goles a favor total",
+  "eu": "Golak alde (guztira)",
+  "fr": null
+ },
+ {
+  "id": 289,
+  "file": "app/lib/editions.ts",
+  "line": 43,
+  "clave": "INFO_2015.tiebreaks[6]",
+  "es": "Si sigue el empate, se lanzará una moneda al aire para determinar la clasificación",
+  "eu": "Berdinketak jarraitzen badu, txanpona airera botako da sailkapena zehazteko",
+  "fr": null
+ },
+ {
+  "id": 290,
+  "file": "app/lib/editions.ts",
+  "line": 45,
+  "clave": "INFO_2015.rules[0]",
+  "es": "Es obligatorio que cada equipo acuda con una segunda equipación, siendo el equipo que se asigne como visitante el que deba cambiar su indumentaria habitual.",
+  "eu": "Talde bakoitzak bigarren jantzia ekarri behar du derrigorrez; kanpoko talde gisa izendatutakoak aldatu beharko du ohiko jantzia.",
+  "fr": null
+ },
+ {
+  "id": 291,
+  "file": "app/lib/editions.ts",
+  "line": 46,
+  "clave": "INFO_2015.rules[1]",
+  "es": "Fuera de juego a partir de la línea de 13 m. El área de penalti será la delimitada en el campo (área pequeña).",
+  "eu": "Jokoz kanpo 13 metroko lerrotik aurrera. Penalti-area zelaian zehaztutakoa izango da (area txikia).",
+  "fr": null
+ },
+ {
+  "id": 292,
+  "file": "app/lib/editions.ts",
+  "line": 47,
+  "clave": "INFO_2015.rules[2]",
+  "es": "La cesión al portero será castigada como falta directa desde la línea de 13 m sin barrera (perpendicular al lugar de la infracción). Todas las faltas serán directas.",
+  "eu": "Atezainari egindako atzerako pasea 13 metroko lerrotik jarritako zuzeneko falta (hesirik gabe, arau-haustearen lekuarekiko perpendikularra) bidez zigortuko da. Falta guztiak zuzenekoak dira.",
+  "fr": null
+ },
+ {
+  "id": 293,
+  "file": "app/lib/editions.ts",
+  "line": 48,
+  "clave": "INFO_2015.rules[3]",
+  "es": "Cada equipo tendrá que traer sus propios balones para calentar antes de los partidos, ya que la organización no proporcionará ninguno.",
+  "eu": "Talde bakoitzak bere baloiak ekarri behar ditu partidak hasi aurretik berotzeko, antolakuntzak ez baitu bat ere emango.",
+  "fr": null
+ },
+ {
+  "id": 294,
+  "file": "app/lib/editions.ts",
+  "line": 50,
+  "clave": "INFO_2015.warning",
+  "es": "Cualquier conducta antideportiva por parte de algún equipo se penalizará con la eliminación por decisión de la organización.",
+  "eu": "Talde batek jokabide antikiroltsuren bat izanez gero, antolakuntzaren erabakiz kanporatua izango da.",
+  "fr": null
+ },
+ {
+  "id": 295,
+  "file": "app/lib/editions.ts",
+  "line": 51,
+  "clave": "INFO_2015.meals.includes",
+  "es": "Hamaiketako, plato de pasta (blancos, con tomate o carne con tomate), pan, agua y postre.",
+  "eu": "Hamaiketakoa, pasta-platera (zuriak, tomatearekin edo haragia tomatearekin), ogia, ura eta postrea.",
+  "fr": null
+ },
+ {
+  "id": 296,
+  "file": "app/lib/editions.ts",
+  "line": 51,
+  "clave": "INFO_2015.meals.contact",
+  "es": "Si estáis interesados, contactad con el responsable del torneo para gestionar el número de comensales.",
+  "eu": "Interesatuta bazaudete, jarri harremanetan txapelketaren arduradunarekin otordu kopurua kudeatzeko.",
+  "fr": null
+ },
+ {
+  "id": 297,
+  "file": "app/lib/editions.ts",
+  "line": 52,
+  "clave": "INFO_2015.bar",
+  "es": "Para las familias habrá servicio de bar con variedad de pintxos y bocadillos durante todo el torneo.",
+  "eu": "Familientzat, pintxo eta ogitarteko askotariko tabernaren zerbitzua egongo da txapelketa osoan zehar.",
+  "fr": null
+ },
+ {
+  "id": 298,
+  "file": "app/lib/editions.ts",
+  "line": 54,
+  "clave": "INFO_2015.parking[0].title",
+  "es": "Aparcamiento",
+  "eu": "Aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 299,
+  "file": "app/lib/editions.ts",
+  "line": 54,
+  "clave": "INFO_2015.parking[0].alt",
+  "es": "Plano de aparcamiento junto al campo de Ibaiondo",
+  "eu": "Ibaiondo zelaiaren ondoko aparkalekuaren planoa",
+  "fr": null
+ },
+ {
+  "id": 300,
+  "file": "app/lib/editions.ts",
+  "line": 55,
+  "clave": "INFO_2015.parking[1].title",
+  "es": "Aparcamiento alternativo",
+  "eu": "Ordezko aparkalekua",
+  "fr": null
+ },
+ {
+  "id": 301,
+  "file": "app/lib/editions.ts",
+  "line": 55,
+  "clave": "INFO_2015.parking[1].alt",
+  "es": "Plano del aparcamiento alternativo cercano a Ibaiondo",
+  "eu": "Ibaiondotik gertu dagoen ordezko aparkalekuaren planoa",
+  "fr": null
+ },
+ {
+  "id": 302,
+  "file": "app/lib/editions.ts",
+  "line": 102,
+  "clave": "INFO_2017.intro",
+  "es": "Derio Cup es un torneo de fútbol base organizado por el CD Derio para la categoría Benjamín 2017, temporada 2026/27.",
+  "eu": "Derio Cup CD Derio-k antolatutako oinarriko futbol txapelketa da, Benjamin 2017 kategoriarako, 2026/27 denboraldia.",
+  "fr": null
+ },
+ {
+  "id": 303,
+  "file": "app/lib/editions.ts",
+  "line": 104,
+  "clave": "INFO_2017.penaltyRule",
+  "es": "En las fases finales, si hay empate se lanzan 3 penaltis por equipo. Solo pueden lanzar inicialmente los 7 jugadores que hayan terminado el encuentro y debe mantenerse el portero que lo haya finalizado. Si continúa el empate, podrán lanzar los jugadores del banquillo.",
+  "eu": "Azken faseetan, berdinketa badago, talde bakoitzak 3 penalti jaurtiko ditu. Hasieran partida amaitu duten 7 jokalariek bakarrik jaurti dezakete eta amaitu duen atezainak jarraitu behar du. Berdinketak jarraitzen badu, aldaketa-aulkiko jokalariek jaurti ahal izango dute.",
+  "fr": null
+ },
+ {
+  "id": 304,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[0]",
+  "es": "Puntos totales",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 305,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[1]",
+  "es": "Puntos en partidos directos",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 306,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[2]",
+  "es": "Diferencia de goles en partidos directos",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 307,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[3]",
+  "es": "Goles a favor en partidos directos",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 308,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[4]",
+  "es": "Diferencia de goles total",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 309,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[5]",
+  "es": "Goles a favor total",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 310,
+  "file": "app/lib/editions.ts",
+  "line": 105,
+  "clave": "INFO_2017.tiebreaks[6]",
+  "es": "Tanda de penaltis",
+  "eu": null,
+  "fr": null
+ },
+ {
+  "id": 311,
+  "file": "app/lib/editions.ts",
+  "line": 107,
+  "clave": "INFO_2017.rules[0]",
+  "es": "El equipo designado como visitante deberá cambiar de equipación si existe coincidencia. Es obligatorio acudir con segunda equipación.",
+  "eu": "Kanpoko talde gisa izendatutakoak jantzia aldatu beharko du bat egiten badute. Bigarren jantzia ekartzea derrigorrezkoa da.",
+  "fr": null
+ },
+ {
+  "id": 312,
+  "file": "app/lib/editions.ts",
+  "line": 108,
+  "clave": "INFO_2017.rules[1]",
+  "es": "Fuera de juego desde la línea de 13 m. El área de penalti es el área pequeña delimitada.",
+  "eu": "Jokoz kanpo 13 metroko lerrotik aurrera. Penalti-area area txiki mugatua da.",
+  "fr": null
+ },
+ {
+  "id": 313,
+  "file": "app/lib/editions.ts",
+  "line": 109,
+  "clave": "INFO_2017.rules[2]",
+  "es": "La cesión al portero se sanciona con falta directa desde la línea de 13 m, sin barrera. Todas las faltas son directas.",
+  "eu": "Atezainari egindako atzerako pasea 13 metroko lerrotik jarritako zuzeneko falta bidez zigortzen da, hesirik gabe. Falta guztiak zuzenekoak dira.",
+  "fr": null
+ },
+ {
+  "id": 314,
+  "file": "app/lib/editions.ts",
+  "line": 110,
+  "clave": "INFO_2017.rules[3]",
+  "es": "Cada equipo debe traer sus propios balones para calentar.",
+  "eu": "Talde bakoitzak bere baloiak ekarri behar ditu berotzeko.",
+  "fr": null
+ },
+ {
+  "id": 315,
+  "file": "app/lib/editions.ts",
+  "line": 112,
+  "clave": "INFO_2017.warning",
+  "es": "Las conductas antideportivas pueden suponer la eliminación por decisión de la organización.",
+  "eu": "Jokabide antikiroltsuek antolakuntzaren erabakiz kanporatzea ekar dezakete.",
+  "fr": null
+ },
+ {
+  "id": 316,
+  "file": "app/lib/editions.ts",
+  "line": 113,
+  "clave": "INFO_2017.meals.includes",
+  "es": "Hamaiketako, plato de pasta, pan, agua y postre.",
+  "eu": "Hamaiketakoa, pasta-platera, ogia, ura eta postrea.",
+  "fr": null
+ },
+ {
+  "id": 317,
+  "file": "app/lib/editions.ts",
+  "line": 114,
+  "clave": "INFO_2017.bar",
+  "es": "Para las familias habrá servicio de bar con pintxos y bocadillos durante todo el torneo.",
+  "eu": "Familientzat, pintxo eta ogitartekoen taberna-zerbitzua egongo da txapelketa osoan zehar.",
+  "fr": null
+ },
+ {
+  "id": 318,
+  "file": "app/lib/editions.ts",
+  "line": 115,
+  "clave": "INFO_2017.wc",
+  "es": "Los baños / WC están ubicados en la parte trasera de la grada.",
+  "eu": "Komunak harmailaren atzeko aldean daude.",
+  "fr": null
+ },
+ {
+  "id": 319,
+  "file": "app/lib/editions.ts",
+  "line": 116,
+  "clave": "INFO_2017.venueImage.alt",
+  "es": "Plano aéreo de los campos de Ibaiondo",
+  "eu": "Ibaiondoko zelaien ikuspegi aireko planoa",
+  "fr": null
+ },
+ {
+  "id": 320,
+  "file": "app/lib/i18n.tsx",
+  "line": 15,
+  "es": "es",
+  "eu": "eu",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 321,
+  "file": "app/lib/i18n.tsx",
+  "line": 16,
+  "es": "es-ES",
+  "eu": "eu",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 322,
+  "file": "app/lib/labels.ts",
+  "line": 4,
+  "es": "k",
+  "eu": "(k === \"Oro\" ? \"Urrea\" : \"Zilarra\")",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 323,
+  "file": "app/lib/labels.ts",
+  "line": 5,
+  "es": "\"Fase \" + k",
+  "eu": "(k === \"Oro\" ? \"Urrezko fasea\" : \"Zilarrezko fasea\")",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 324,
+  "file": "app/lib/labels.ts",
+  "line": 6,
+  "es": "{ CF: \"Cuartos de final\", SF: \"Semifinales\", FINAL: \"Final\" }[r]",
+  "eu": "{ CF: \"Final-laurdenak\", SF: \"Finalerdiak\", FINAL: \"Finala\" }[r]",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 325,
+  "file": "app/lib/labels.ts",
+  "line": 7,
+  "es": "{ CF: \"Cuartos\", SF: \"Semifinal\", FINAL: \"Final\" }[r]",
+  "eu": "{ CF: \"Laurdenak\", SF: \"Erdiak\", FINAL: \"Finala\" }[r]",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 326,
+  "file": "app/lib/labels.ts",
+  "line": 8,
+  "es": "`Grupo ${g}`",
+  "eu": "`${g} multzoa`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 327,
+  "file": "app/lib/labels.ts",
+  "line": 9,
+  "es": "`Campo ${n}`",
+  "eu": "`Z${n}`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 328,
+  "file": "app/lib/labels.ts",
+  "line": 11,
+  "es": "label",
+  "eu": "label.replace(/^Ganador (.+)$/, \"$1 irabazlea\")",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 329,
+  "file": "app/lib/labels.ts",
+  "line": 12,
+  "es": "`${n} ${n === 1 ? \"seguidor\" : \"seguidores\"}`",
+  "eu": "`${n} jarraitzaile`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 330,
+  "file": "app/lib/tournament.ts",
+  "line": 82,
+  "es": "f({ month: \"long\" })",
+  "eu": "EU_MONTHS[d.getMonth()]",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 331,
+  "file": "app/lib/tournament.ts",
+  "line": 83,
+  "es": "f({ month: \"short\" }).replace(\".\", \"\")",
+  "eu": "EU_MONTHS[d.getMonth()].slice(0, 3)",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 332,
+  "file": "app/lib/tournament.ts",
+  "line": 83,
+  "es": "`${d.getDate()} de ${month}`",
+  "eu": "`${month}ren ${d.getDate()}a`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 333,
+  "file": "app/lib/tournament.ts",
+  "line": 83,
+  "es": "`${d.getDate()} de ${cap(month)}`",
+  "eu": "`${cap(month)}ren ${d.getDate()}a`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 334,
+  "file": "app/lib/tournament.ts",
+  "line": 83,
+  "es": "cap(f({ weekday: \"long\", day: \"numeric\", month: \"long\" }).replace(\",\", \"\"))",
+  "eu": "`${EU_DAYS[d.getDay()]}, ${month}ren ${d.getDate()}a`",
+  "fr": null,
+  "ternario": true
+ },
+ {
+  "id": 335,
+  "file": "app/components/Onboarding.tsx",
+  "line": 29,
+  "clave": "guia.ios[0].title",
+  "es": "Abre esta página en Safari",
+  "eu": "Ireki orri hau Safarin",
+  "fr": null
+ },
+ {
+  "id": 336,
+  "file": "app/components/Onboarding.tsx",
+  "line": 29,
+  "clave": "guia.ios[0].text",
+  "es": "<>Tiene que ser <b>Safari</b>, el navegador azul con la brújula. Si estás dentro de WhatsApp o Instagram, pulsa <b>···</b> y elige <b>«Abrir en Safari»</b>.</>",
+  "eu": "<><b>Safari</b> izan behar da, iparrorratza duen nabigatzaile urdina. WhatsApp-en edo Instagram-en bazaude, sakatu <b>···</b> eta aukeratu <b>«Ireki Safarin»</b>.</>",
+  "fr": null
+ },
+ {
+  "id": 337,
+  "file": "app/components/Onboarding.tsx",
+  "line": 30,
+  "clave": "guia.ios[1].title",
+  "es": "Pulsa «Compartir»",
+  "eu": "Sakatu «Partekatu»",
+  "fr": null
+ },
+ {
+  "id": 338,
+  "file": "app/components/Onboarding.tsx",
+  "line": 30,
+  "clave": "guia.ios[1].text",
+  "es": "<>Es el botón del <b>cuadrado con una flecha hacia arriba</b>, abajo en el centro. En algunos iPhone está dentro del menú <b>···</b>.</>",
+  "eu": "<><b>Karratua eta gora doan gezia</b> dituen botoia da, behean erdian. iPhone batzuetan <b>···</b> menuaren barruan dago.</>",
+  "fr": null
+ },
+ {
+  "id": 339,
+  "file": "app/components/Onboarding.tsx",
+  "line": 31,
+  "clave": "guia.ios[2].title",
+  "es": "«Añadir a pantalla de inicio»",
+  "eu": "«Gehitu hasierako pantailara»",
+  "fr": null
+ },
+ {
+  "id": 340,
+  "file": "app/components/Onboarding.tsx",
+  "line": 31,
+  "clave": "guia.ios[2].text",
+  "es": "<>Desliza hacia abajo en el menú que se abre y pulsa <b>«Añadir a pantalla de inicio»</b>.</>",
+  "eu": "<>Irristatu behera irekitzen den menuan eta sakatu <b>«Gehitu hasierako pantailara»</b>.</>",
+  "fr": null
+ },
+ {
+  "id": 341,
+  "file": "app/components/Onboarding.tsx",
+  "line": 32,
+  "clave": "guia.ios[3].title",
+  "es": "Pulsa «Añadir»",
+  "eu": "Sakatu «Gehitu»",
+  "fr": null
+ },
+ {
+  "id": 342,
+  "file": "app/components/Onboarding.tsx",
+  "line": 32,
+  "clave": "guia.ios[3].text",
+  "es": "<>Arriba a la derecha. El icono de <b>Derio Cup</b> aparecerá en tu pantalla de inicio.</>",
+  "eu": "<>Goian eskuinean. <b>Derio Cup</b>-en ikonoa zure hasierako pantailan agertuko da.</>",
+  "fr": null
+ },
+ {
+  "id": 343,
+  "file": "app/components/Onboarding.tsx",
+  "line": 35,
+  "clave": "guia.android[0].title",
+  "es": "Abre esta página en Chrome",
+  "eu": "Ireki orri hau Chrome-n",
+  "fr": null
+ },
+ {
+  "id": 344,
+  "file": "app/components/Onboarding.tsx",
+  "line": 35,
+  "clave": "guia.android[0].text",
+  "es": "<>Es el navegador con el círculo de colores. Si estás dentro de otra app, pulsa <b>⋮</b> y elige <b>«Abrir en Chrome»</b>.</>",
+  "eu": "<>Kolore-borobila duen nabigatzailea da. Beste aplikazio baten barruan bazaude, sakatu <b>⋮</b> eta aukeratu <b>«Ireki Chrome-n»</b>.</>",
+  "fr": null
+ },
+ {
+  "id": 345,
+  "file": "app/components/Onboarding.tsx",
+  "line": 36,
+  "clave": "guia.android[1].title",
+  "es": "Pulsa el menú ⋮",
+  "eu": "Sakatu ⋮ menua",
+  "fr": null
+ },
+ {
+  "id": 346,
+  "file": "app/components/Onboarding.tsx",
+  "line": 36,
+  "clave": "guia.android[1].text",
+  "es": "<>Son los <b>tres puntos</b> de arriba a la derecha.</>",
+  "eu": "<>Goian eskuinean dauden <b>hiru puntuak</b> dira.</>",
+  "fr": null
+ },
+ {
+  "id": 347,
+  "file": "app/components/Onboarding.tsx",
+  "line": 37,
+  "clave": "guia.android[2].title",
+  "es": "«Instalar aplicación»",
+  "eu": "«Instalatu aplikazioa»",
+  "fr": null
+ },
+ {
+  "id": 348,
+  "file": "app/components/Onboarding.tsx",
+  "line": 37,
+  "clave": "guia.android[2].text",
+  "es": "<>Pulsa <b>«Instalar aplicación»</b> o <b>«Añadir a la pantalla de inicio»</b>, según tu móvil.</>",
+  "eu": "<>Sakatu <b>«Instalatu aplikazioa»</b> edo <b>«Gehitu hasierako pantailara»</b>, zure mugikorraren arabera.</>",
+  "fr": null
+ },
+ {
+  "id": 349,
+  "file": "app/components/Onboarding.tsx",
+  "line": 38,
+  "clave": "guia.android[3].title",
+  "es": "Confirma con «Instalar»",
+  "eu": "Baieztatu «Instalatu»-rekin",
+  "fr": null
+ },
+ {
+  "id": 350,
+  "file": "app/components/Onboarding.tsx",
+  "line": 38,
+  "clave": "guia.android[3].text",
+  "es": "<>El icono de <b>Derio Cup</b> aparecerá en tu pantalla de inicio y en el menú de aplicaciones.</>",
+  "eu": "<><b>Derio Cup</b>-en ikonoa hasierako pantailan eta aplikazioen menuan agertuko da.</>",
+  "fr": null
+ }
+]

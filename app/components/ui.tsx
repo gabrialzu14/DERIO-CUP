@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, type CSSProperties, type RefObject, type Keybo
 import { Icon, type IconName } from "./icons";
 import { useEngine, useOpenTeam } from "../lib/engine";
 import { useLang } from "../lib/i18n";
-import { fieldName, groupName, koCode, koLabel, phaseName } from "../lib/labels";
+import { fieldName, groupName, koCode, koLabel, phaseName, fieldInitial } from "../lib/labels";
 import { crestFor, monoHue } from "../lib/crests";
 import { BRAND, type KOGame, type Match } from "../lib/tournament";
 
@@ -89,8 +89,8 @@ export function TabPanel({ idPrefix, tab, children }: { idPrefix: string; tab: s
 
 /** «Toda la Fase Oro se disputa en el Campo 1»: las fases finales usan un único campo. */
 export function PhaseNote({ kind }: { kind: "Oro" | "Plata" }) {
-  const { koField } = useEngine(), { lang } = useLang(), eu = lang === "eu";
-  return <p className="phase-note"><Icon name="pin" size={16} />{eu ? <span>{phaseName(kind, true)} osoa <b>{koField(kind)}. zelaian</b> jokatzen da.</span> : <span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span>}</p>;
+  const { koField } = useEngine(), { t } = useLang();
+  return <p className="phase-note"><Icon name="pin" size={16} />{t(<span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span>, <span>{phaseName(kind, "eu")} osoa <b>{koField(kind)}. zelaian</b> jokatzen da.</span>)}</p>;
 }
 
 export function EmptyState({ icon, title, text }: { icon: IconName; title: string; text?: string }) {
@@ -113,19 +113,19 @@ export function MatchRow({ m, showGroup = false, groupAbove = false }: { m: Matc
   const { T, matchState } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
   const st = matchState(m.time, m.hs !== null);
   const home = T(m.home).name, away = T(m.away).name;
-  const label = st === "final" ? `${home} ${m.hs}, ${away} ${m.as}. ${t("Final", "Amaituta")}` : `${home} ${t("contra", "eta")} ${away}, ${m.time}, ${fieldName(m.field, eu)}`;
+  const label = st === "final" ? `${home} ${m.hs}, ${away} ${m.as}. ${t("Final", "Amaituta")}` : `${home} ${t("contra", "eta")} ${away}, ${m.time}, ${fieldName(m.field, lang)}`;
   return (
     <div className={"match-row is-" + st} role="group" aria-label={label}>
       <TeamLink id={m.home} className="match-team home"><span>{home}</span><Crest id={m.home} size={32} /></TeamLink>
       <div className="match-mid">
-        {groupAbove && <small className="mid-group">{groupName(m.group, eu)}</small>}
+        {groupAbove && <small className="mid-group">{groupName(m.group, lang)}</small>}
         {st === "final" ? <><b className="score">{m.hs}<i>–</i>{m.as}</b><small>{t("Final", "Amaituta")}</small></>
-          : st === "live" ? <><LiveBadge /><small>{fieldName(m.field, eu)}</small></>
+          : st === "live" ? <><LiveBadge /><small>{fieldName(m.field, lang)}</small></>
           : st === "awaiting" ? <><b className="time">{m.time}</b><small>{t("Sin resultado", "Emaitzarik ez")}</small></>
-          : <><b className="time">{m.time}</b><small>{fieldName(m.field, eu)}</small></>}
+          : <><b className="time">{m.time}</b><small>{fieldName(m.field, lang)}</small></>}
       </div>
       <TeamLink id={m.away} className="match-team away"><Crest id={m.away} size={32} /><span>{away}</span></TeamLink>
-      {showGroup && <span className="match-group">{groupName(m.group, eu)}</span>}
+      {showGroup && <span className="match-group">{groupName(m.group, lang)}</span>}
     </div>
   );
 }
@@ -136,10 +136,10 @@ export function KOGameRow({ g }: { g: KOGame }) {
   const tie = valid && r!.home_score === r!.away_score;
   return (
     <div className={"ko-row" + (g.round === "FINAL" ? " ko-final ko-" + (g.kind === "Oro" ? "gold" : "silver") : "")}>
-      <div className="ko-meta"><b>{g.time}</b><small>{koCode(g.code, eu)} · {eu ? "Z" : "C"}{g.field}</small></div>
-      {g.home ? <TeamLink id={g.home} className="ko-team"><Crest id={g.home} size={28} /><span>{T(g.home).name}</span></TeamLink> : <div className="ko-team"><i className="crest-ph" /><span className="tbd">{koLabel(g.homeLabel, eu)}</span></div>}
+      <div className="ko-meta"><b>{g.time}</b><small>{koCode(g.code, lang)} · {fieldInitial(lang)}{g.field}</small></div>
+      {g.home ? <TeamLink id={g.home} className="ko-team"><Crest id={g.home} size={28} /><span>{T(g.home).name}</span></TeamLink> : <div className="ko-team"><i className="crest-ph" /><span className="tbd">{koLabel(g.homeLabel, lang)}</span></div>}
       <div className="ko-score">{g.round === "FINAL" && <CupMark size={20} className={"final-cup " + (g.kind === "Oro" ? "gold" : "silver")} />}{valid ? <b>{r!.home_score}{tie && r!.home_penalties != null && <span className="pen"> ({r!.home_penalties})</span>}<i>-</i>{tie && r!.away_penalties != null && <span className="pen">({r!.away_penalties}) </span>}{r!.away_score}</b> : g.home && g.away && matchState(g.time, false) === "live" ? <LiveBadge /> : <b className="dash">vs</b>}</div>
-      {g.away ? <TeamLink id={g.away} className="ko-team away"><span>{T(g.away).name}</span><Crest id={g.away} size={28} /></TeamLink> : <div className="ko-team away"><span className="tbd">{koLabel(g.awayLabel, eu)}</span><i className="crest-ph" /></div>}
+      {g.away ? <TeamLink id={g.away} className="ko-team away"><span>{T(g.away).name}</span><Crest id={g.away} size={28} /></TeamLink> : <div className="ko-team away"><span className="tbd">{koLabel(g.awayLabel, lang)}</span><i className="crest-ph" /></div>}
     </div>
   );
 }

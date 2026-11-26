@@ -48,7 +48,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
             <div className="group-grid">
               {GROUPS.map(g => (
                 <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t("Ver clasificación del grupo ", "Ikusi sailkapena, multzoa: ") + g}>
-                  <span className="group-card-head"><b>{groupName(g, eu)}</b>{complete(g, ms) && <span className="done"><Icon name="check" size={14} />{t("Cerrado", "Itxita")}</span>}</span>
+                  <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done"><Icon name="check" size={14} />{t("Cerrado", "Itxita")}</span>}</span>
                   <span className="group-crests">{(complete(g, ms) || ms.some(m => m.group === g && m.hs !== null) ? table(g, ms).map(r => r.id) : teamIds(g)).map(id => <Crest key={id} id={id} size={32} />)}</span>
                 </button>
               ))}
@@ -78,7 +78,7 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
   const { tn, T } = useEngine(), { t, lang, locale } = useLang(), eu = lang === "eu";
   const today = madridNow().date === tn.date;
   if (!games.length) return <section className="hero"><div className="hero-top"><span className="eyebrow">{tournamentTag(tn, locale)}</span></div><p className="hero-title">{loaded ? t("Fase de grupos finalizada", "Multzo-fasea amaitu da") : t("Cargando resultados…", "Emaitzak kargatzen…")}</p></section>;
-  const where = (w: string) => (w.startsWith("g:") ? groupName(w.slice(2), eu) : phaseName(w.slice(2).split(" · ")[0] as KOKind, eu) + " · " + koCode(w.split(" · ")[1], eu));
+  const where = (w: string) => (w.startsWith("g:") ? groupName(w.slice(2), lang) : phaseName(w.slice(2).split(" · ")[0] as KOKind, lang) + " · " + koCode(w.split(" · ")[1], lang));
   const sorted = [...games].sort((a, b) => a.field - b.field);
   const common = new Set(sorted.map(g => g.where)).size === 1; // mismo grupo en todas las columnas: se indica una sola vez, arriba a la derecha
   return (
@@ -90,7 +90,7 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
             {i > 0 && <span className="hero-rule" aria-hidden="true" />}
             <div className="hero-col">
               {!common && <small className="hero-where">{where(g.where)}</small>}
-              <small className="hero-field">{fieldName(g.field, eu)}</small>
+              <small className="hero-field">{fieldName(g.field, lang)}</small>
               <div className="hero-pair">
                 <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={48} /><b>{T(g.home).name}</b></TeamLink>
                 <span className="hero-mid">{kind === "live" ? <LiveBadge /> : <b>{g.time}</b>}</span>
@@ -132,9 +132,9 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
   const groupNext = ms.filter(m => (m.home === id || m.away === id) && m.hs === null).sort(byTime)[0];
   const koNext = groupNext ? undefined : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && !validKO(g)).sort(byTime)[0];
   const next = groupNext
-    ? { time: groupNext.time, field: groupNext.field, opp: groupNext.home === id ? groupNext.away : groupNext.home, oppLabel: "", where: groupName(groupNext.group, eu), live: matchState(groupNext.time, false) === "live" }
-    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, eu) + " · " + koCode(koNext.code, eu), live: matchState(koNext.time, false) === "live" } : null;
-  const oppName = next ? (next.opp ? T(next.opp).name : koLabel(next.oppLabel, eu)) : "";
+    ? { time: groupNext.time, field: groupNext.field, opp: groupNext.home === id ? groupNext.away : groupNext.home, oppLabel: "", where: groupName(groupNext.group, lang), live: matchState(groupNext.time, false) === "live" }
+    : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, lang) + " · " + koCode(koNext.code, lang), live: matchState(koNext.time, false) === "live" } : null;
+  const oppName = next ? (next.opp ? T(next.opp).name : koLabel(next.oppLabel, lang)) : "";
   return (
     <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea")}: ${t.name} ${tr("contra", "eta")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
       <span className="team-card-label">
@@ -144,7 +144,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       {next ? (
         <span className="duel">
           <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
-          <span className="duel-mid"><b>{next.time}</b><small>{fieldName(next.field, eu)}</small></span>
+          <span className="duel-mid"><b>{next.time}</b><small>{fieldName(next.field, lang)}</small></span>
           <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik")}</span>}
@@ -165,7 +165,7 @@ function FanRanking({ counts }: { counts: Record<string, number> }) {
     <section>
       <SectionHead title={t("Afición", "Zaleak")} icon="fans" />
       <ol className="fans">
-        {list.map(([id, n], i) => <li key={id}><TeamLink id={id} className="fan-row"><b className="rank">{i + 1}</b><Crest id={id} size={30} /><span>{T(id).name}</span><small>{followers(n, eu)}</small></TeamLink></li>)}
+        {list.map(([id, n], i) => <li key={id}><TeamLink id={id} className="fan-row"><b className="rank">{i + 1}</b><Crest id={id} size={30} /><span>{T(id).name}</span><small>{followers(n, lang)}</small></TeamLink></li>)}
       </ol>
     </section>
   );

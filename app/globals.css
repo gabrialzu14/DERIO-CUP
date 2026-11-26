@@ -668,11 +668,12 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 /* ---------- Selector de idioma discreto (CAS | EUS) ---------- */
 .lang-toggle { display: grid; justify-items: end; gap: 1px; }
 .lang-toggle small { font-size: .5625rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
-.lang-toggle-row { position: relative; display: grid; grid-template-columns: 1fr 1fr; }
+.lang-toggle-row { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); }
 .lang-toggle-row button { min-width: 40px; min-height: 28px; padding: 4px 8px 6px; font-size: .75rem; font-weight: 800; letter-spacing: .06em; color: var(--text-3); transition: color .25s var(--ease); }
 .lang-toggle-row button[aria-checked="true"] { color: var(--text); }
-.lang-bar { position: absolute; left: 0; bottom: 0; width: 50%; height: 2px; border-radius: 2px; background: var(--accent); transition: transform .32s var(--ease); }
+.lang-bar { position: absolute; left: 0; bottom: 0; width: 33.334%; height: 2px; border-radius: 2px; background: var(--accent); transition: transform .32s var(--ease); }
 .lang-toggle[data-pos="1"] .lang-bar { transform: translateX(100%); }
+.lang-toggle[data-pos="2"] .lang-bar { transform: translateX(200%); }
 .onb-top { display: flex; align-items: flex-start; justify-content: space-between; min-height: 44px; }
 .landing-theme { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
 

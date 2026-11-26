@@ -9,24 +9,24 @@ import { VenueMap3D } from "./VenueMap3D";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
-import { FlagEs, FlagEu } from "./LanguageScreen";
-import { useLang, type Lang } from "../lib/i18n";
+import { FlagEs, FlagEu, FlagFr } from "./LanguageScreen";
+import { pick, useLang, type Lang } from "../lib/i18n";
 import { isInstalled } from "../lib/platform";
 import { useEngine } from "../lib/engine";
-import { BRAND, dateParts, type InfoSpec, type Match, type ResultRow, type Tournament } from "../lib/tournament";
+import { BRAND, dateParts, infoFor, venueFor, type InfoSpec, type Match, type ResultRow, type Tournament } from "../lib/tournament";
 import type { ThemePref } from "../lib/theme";
 import type { Dispatch, SetStateAction } from "react";
 
 type InfoItem = { key: string; icon: IconName; title: string; sub: string; body: ReactNode };
 function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
-  const eu = lang === "eu", t = <T,>(es: T, e: T) => (eu ? e : es);
-  const i: InfoSpec = (eu && tn.infoEu) || tn.info, dp = dateParts(tn.date, locale), items: InfoItem[] = [];
-  const kind = (es: string, e: string) => t(es, e);
+  const eu = lang === "eu", t = <T,>(es: T, e: T, fr?: T) => pick(lang, es, e, fr === undefined ? es : fr);
+  const i: InfoSpec = infoFor(tn, lang), dp = dateParts(tn.date, locale), items: InfoItem[] = [];
+  const kind = (es: string, e: string, fr?: string) => t(es, e, fr);
   items.push({ key: "info", icon: "info", title: kind("Información del torneo", "Txapelketaren informazioa"), sub: dp.label + " · " + tn.category, body: <>
     <p>{i.intro}</p>
     <div className="chips"><span>{tn.teams.length} {t("equipos", "talde")}</span><span>{dp.short}</span><span>{tn.venueShort}</span><span>{t("Temporada", "Denboraldia")} {tn.season}</span></div></> });
-  items.push({ key: "ubicacion", icon: "pin", title: t("Ubicación · ", "Kokalekua · ") + tn.venueShort, sub: eu ? tn.venueEu ?? tn.venue : tn.venue, body: <>
-    {eu ? <p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p> : <p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>}
+  items.push({ key: "ubicacion", icon: "pin", title: t("Ubicación · ", "Kokalekua · ") + tn.venueShort, sub: venueFor(tn, lang), body: <>
+    {t(<p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>, <p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p>)}
     <VenueMap3D fallback={i.venueImage} />
     <div className="dir-row"><a className="btn btn-primary" href={directionsUrl("ibaiondo")} target="_blank" rel="noreferrer"><Icon name="car" size={18} />{t("Cómo llegar", "Nola iritsi")}</a><a className="btn btn-ghost" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Ver en Maps", "Ikusi Maps-en")}</a></div></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean"), body: <>
@@ -59,7 +59,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <ul className="rules">{i.rules.map((r, n) => <li key={r}><span className="rule-ico"><Icon name={RULE_ICONS[n] ?? "info"} size={22} /></span><p>{r}</p></li>)}</ul>
     <div className="callout warn"><Icon name="warn" size={20} /><span>{i.warning}</span></div></> });
   items.push({ key: "comidas", icon: "coffee", title: i.wc ? t("Comidas, bar y WC", "Otorduak, taberna eta komunak") : t("Comidas y bar", "Otorduak eta taberna"), sub: i.wc ? t("Servicio de comidas y ubicación de baños", "Otordu-zerbitzua eta komunen kokalekua") : t("Servicio de comidas para equipos y bar para familias", "Taldeentzako otordu-zerbitzua eta familientzako taberna"), body: <>
-    {i.meals && <>{eu ? <p>Parte hartzen duten taldeek Ibaiondon <b>aukerako otordu-zerbitzua</b> dute <b>{i.meals.price}</b>ren truke. {i.meals.includes}</p> : <p>Los equipos participantes disponen de <b>servicio de comidas opcional</b> en Ibaiondo por <b>{i.meals.price}</b>. {i.meals.includes}</p>}{i.meals.contact && <p>{i.meals.contact}</p>}</>}
+    {i.meals && <>{t(<p>Los equipos participantes disponen de <b>servicio de comidas opcional</b> en Ibaiondo por <b>{i.meals.price}</b>. {i.meals.includes}</p>, <p>Parte hartzen duten taldeek Ibaiondon <b>aukerako otordu-zerbitzua</b> dute <b>{i.meals.price}</b>ren truke. {i.meals.includes}</p>)}{i.meals.contact && <p>{i.meals.contact}</p>}</>}
     <p>{i.bar}</p>{i.wc && <p><b>{t("Baños / WC:", "Komunak / WC:")}</b> {i.wc}</p>}</> });
   return items;
 }
@@ -67,7 +67,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
 /** Ajuste de idioma: un botón que abre una ventana pequeña con las dos opciones. */
 function LangPopup({ onClose }: { onClose: () => void }) {
   const { lang, setLang, t } = useLang();
-  const opts: { key: Lang; name: string; flag: ReactNode }[] = [{ key: "es", name: "Castellano", flag: <FlagEs /> }, { key: "eu", name: "Euskara", flag: <FlagEu /> }];
+  const opts: { key: Lang; name: string; flag: ReactNode }[] = [{ key: "es", name: "Castellano", flag: <FlagEs /> }, { key: "eu", name: "Euskara", flag: <FlagEu /> }, { key: "fr", name: "Français", flag: <FlagFr /> }];
   return (
     <Dialog title={t("Idioma", "Hizkuntza")} onClose={onClose} compact>
       <div className="lang-list" role="radiogroup" aria-label={t("Idioma", "Hizkuntza")}>
@@ -105,7 +105,7 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
 
       <h2 className="list-title">{t("Ajustes", "Ezarpenak")}</h2>
       <div className="menu-card">
-        <button type="button" className="menu-item" onClick={() => setLangOpen(true)}><span className="menu-icon"><Icon name="langs" /></span><span className="menu-text"><b>{t("Idioma", "Hizkuntza")}</b><small>{lang === "eu" ? "Euskara" : "Castellano"}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
+        <button type="button" className="menu-item" onClick={() => setLangOpen(true)}><span className="menu-icon"><Icon name="langs" /></span><span className="menu-text"><b>{t("Idioma", "Hizkuntza")}</b><small>{{ es: "Castellano", eu: "Euskara", fr: "Français" }[lang]}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
         <button type="button" className="menu-item" aria-expanded={appearOpen} onClick={() => setAppearOpen(o => !o)}>
           <span className="menu-icon"><Icon name={isDark ? "moon" : "sun"} /></span><span className="menu-text"><b>{t("Apariencia", "Itxura")}</b><small>{isDark ? t("Oscuro", "Iluna") : t("Claro", "Argia")}</small></span>
           <Icon name="chevron" size={18} className={"icon chev appear-chev" + (appearOpen ? " open" : "")} />

@@ -27,9 +27,9 @@ export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string;
       <header className="profile-hero" style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
         <Crest id={id} size={84} className="profile-crest" />
         <div className="profile-name">
-          <small>{groupName(t.group, eu)}{isMine ? tr(" · Mi equipo", " · Nire taldea") : ""}</small>
+          <small>{groupName(t.group, lang)}{isMine ? tr(" · Mi equipo", " · Nire taldea") : ""}</small>
           <h1>{t.name}</h1>
-          <p>{row.pj ? (eu ? `${pos}. bere multzoan · ${row.pts} pun.` : `${pos}.º de su grupo · ${row.pts} pts`) : tr("Aún no ha jugado", "Oraindik ez du jokatu")}</p>
+          <p>{row.pj ? tr(`${pos}.º de su grupo · ${row.pts} pts`, `${pos}. bere multzoan · ${row.pts} pun.`) : tr("Aún no ha jugado", "Oraindik ez du jokatu")}</p>
         </div>
       </header>
 
@@ -47,13 +47,13 @@ export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string;
 
       {kos.map(g => (
         <section key={g.id}>
-          <h2 className="list-title">{phaseName(g.kind, eu)} · {roundName(g.round, eu)}</h2>
+          <h2 className="list-title">{phaseName(g.kind, lang)} · {roundName(g.round, lang)}</h2>
           <div className="ko-list"><KOGameRow g={g} /></div>
         </section>
       ))}
 
       <section>
-        <h2 className="list-title">{eu ? `${t.group} multzoaren sailkapena` : `Clasificación · Grupo ${t.group}`}</h2>
+        <h2 className="list-title">{tr(`Clasificación · Grupo ${t.group}`, `${t.group} multzoaren sailkapena`)}</h2>
         <GroupTable group={t.group} ms={ms} highlight={id} />
       </section>
 

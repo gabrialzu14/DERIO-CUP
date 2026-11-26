@@ -25,8 +25,8 @@ export function Partidos({ ms, koResults }: { ms: Match[]; koResults: Record<str
           {slots.map(sl => (
             <div key={sl} className="slot"><h3 className="slot-time">{sl}</h3><div className="match-list">{ms.filter(m => m.time === sl).sort((a, b) => a.field - b.field).map(m => <MatchRow key={m.id} m={m} groupAbove />)}</div></div>
           ))}</section>}
-        {showOro && <section><h2 className="list-title"><i className="dot gold" aria-hidden="true" />{phaseName("Oro", eu)}</h2><div className="ko-list">{knockout("Oro", ms, koResults).sort(byTime).map(g => <KOGameRow key={g.id} g={g} />)}</div></section>}
-        {showPlata && <section><h2 className="list-title"><i className="dot silver" aria-hidden="true" />{phaseName("Plata", eu)}</h2><div className="ko-list">{knockout("Plata", ms, koResults).sort(byTime).map(g => <KOGameRow key={g.id} g={g} />)}</div></section>}
+        {showOro && <section><h2 className="list-title"><i className="dot gold" aria-hidden="true" />{phaseName("Oro", lang)}</h2><div className="ko-list">{knockout("Oro", ms, koResults).sort(byTime).map(g => <KOGameRow key={g.id} g={g} />)}</div></section>}
+        {showPlata && <section><h2 className="list-title"><i className="dot silver" aria-hidden="true" />{phaseName("Plata", lang)}</h2><div className="ko-list">{knockout("Plata", ms, koResults).sort(byTime).map(g => <KOGameRow key={g.id} g={g} />)}</div></section>}
         {!showGroups && !showOro && !showPlata && <EmptyState icon="ball" title={tr("Sin partidos", "Partidarik ez")} />}
       </TabPanel>
     </div>

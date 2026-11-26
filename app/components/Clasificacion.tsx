@@ -14,11 +14,11 @@ export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setG
   return (
     <div className="screen">
       <div className="screen-title-row"><h1 className="screen-title">{t("Clasificaciones", "Sailkapenak")}</h1><button type="button" className="link-btn" onClick={onRules}><Icon name="sort" size={18} strokeWidth={2.6} className="icon sort-ico" />{t("Desempates", "Berdinketak")}</button></div>
-      <Tabs label={t("Grupo", "Multzoa")} idPrefix="grupo" value={group} onChange={setGroup} items={GROUPS.map(g => ({ key: g, label: groupName(g, eu), ariaLabel: groupName(g, eu) }))} />
+      <Tabs label={t("Grupo", "Multzoa")} idPrefix="grupo" value={group} onChange={setGroup} items={GROUPS.map(g => ({ key: g, label: groupName(g, lang), ariaLabel: groupName(g, lang) }))} />
       <TabPanel idPrefix="grupo" tab={group}>
         <GroupTable group={group} ms={ms} />
         {rounds.map((round, i) => (
-          <section key={i} className="slot"><h3 className="slot-time">{eu ? `${i + 1}. jardunaldia` : `Jornada ${i + 1}`}<small>{round[0]?.time}</small></h3><div className="match-list">{round.map(m => <MatchRow key={m.id} m={m} />)}</div></section>
+          <section key={i} className="slot"><h3 className="slot-time">{t(`Jornada ${i + 1}`, `${i + 1}. jardunaldia`)}<small>{round[0]?.time}</small></h3><div className="match-list">{round.map(m => <MatchRow key={m.id} m={m} />)}</div></section>
         ))}
       </TabPanel>
     </div>

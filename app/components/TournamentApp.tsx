@@ -14,9 +14,9 @@ import { Welcome } from "./Welcome";
 import { startReveal } from "../lib/reveal";
 import { smooth } from "../lib/smooth";
 import { scrollToTop } from "../lib/scroll";
-import { useLang } from "../lib/i18n";
+import { useLang, pick as byLang } from "../lib/i18n";
 import { EngineContext, OpenTeamContext, makeEngine } from "../lib/engine";
-import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament } from "../lib/tournament";
+import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament, infoFor } from "../lib/tournament";
 import type { useTheme } from "../lib/useTheme";
 
 export type TabId = "inicio" | "partidos" | "clasificacion" | "fases" | "mas" | "equipo";
@@ -53,7 +53,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [rules, setRules] = useState(false), [fairplay, setFairplay] = useState(false);
   const tabsRef = useRef<HTMLUListElement>(null), mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
   const { theme, resolved, setTheme, toggle } = themeCtl, { lang, t, locale } = useLang();
-  const navLabel: Record<string, string> = lang === "eu" ? { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapenak", fases: "Faseak", mas: "Info" } : { mas: "Info" };
+  const navLabel = byLang<Record<string, string>>(lang, { mas: "Info" }, { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapenak", fases: "Faseak", mas: "Info" }, { inicio: "Accueil", partidos: "Matchs", clasificacion: "Classements", fases: "Phases", mas: "Infos" });
 
   /* ---- caché del último estado conocido ---- */
   useEffect(() => {
@@ -195,7 +195,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
             <button type="button" className="btn btn-primary block" onClick={() => setFairplay(false)}>{t("Entendido", "Ados")}</button>
           </div>
         </Dialog>}
-        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa-irizpideak")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:")}</p><ol>{((lang === "eu" && tn.infoEu) || tn.info).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
+        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa-irizpideak")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:")}</p><ol>{infoFor(tn, lang).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
       </div>
       </OpenTeamContext.Provider>
     </EngineContext.Provider>

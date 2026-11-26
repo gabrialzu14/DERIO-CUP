@@ -61,7 +61,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
   const [sel, setSel] = useState<ZoneKey | null>(null), [full, setFull] = useState(false), [failed, setFailed] = useState(false), [ready, setReady] = useState(false);
   const selRef = useRef<ZoneKey | null>(null); selRef.current = sel;
 
-  const name: Record<ZoneKey, string> = { c1: fieldName(1, eu), c2: fieldName(2, eu), bar: t("Bar", "Taberna"), wc: t("WC", "Komunak"), parking: t("Aparcamiento", "Aparkalekua"), entrada: t("Entrada", "Sarrera") };
+  const name: Record<ZoneKey, string> = { c1: fieldName(1, lang), c2: fieldName(2, lang), bar: t("Bar", "Taberna"), wc: t("WC", "Komunak"), parking: t("Aparcamiento", "Aparkalekua"), entrada: t("Entrada", "Sarrera") };
   const desc: Partial<Record<ZoneKey, string>> = {
     bar: t("Pintxos y bocadillos", "Pintxoak eta ogitartekoak"),
     wc: t("Acceso por detrás de la grada", "Harmailaren atzetik sartzen da"),
@@ -69,7 +69,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
     c1: t("Fase de grupos y fase oro", "Multzo-fasea eta urrezko fasea"),
     c2: t("Fase de grupos y fase plata", "Multzo-fasea eta zilarrezko fasea"),
   };
-  const phase = (k: ZoneKey) => (k === "c1" ? phaseName("Oro", eu) : k === "c2" ? phaseName("Plata", eu) : null);
+  const phase = (k: ZoneKey) => (k === "c1" ? phaseName("Oro", lang) : k === "c2" ? phaseName("Plata", lang) : null);
 
   const pick = useCallback((k: ZoneKey | null) => { setSel(prev => { const n = k && prev === k ? null : k; api.current?.select(n); return n; }); }, []);
 

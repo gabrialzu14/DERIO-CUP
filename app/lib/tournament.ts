@@ -38,8 +38,9 @@ export type Tournament = {
   /** Fecha del torneo (YYYY-MM-DD, hora de Madrid). Pasado ese día se oculta de la lista. */
   date: string;
   venue: string;
-  /** Nombre de la sede en euskera. */
+  /** Nombre de la sede en euskera y en francés. */
   venueEu?: string;
+  venueFr?: string;
   venueShort: string;
   mapsUrl: string;
   /** Minutos entre el inicio de un partido y el siguiente (20 de juego + cambio). */
@@ -52,6 +53,8 @@ export type Tournament = {
   info: InfoSpec;
   /** Versión en euskera de los textos informativos. */
   infoEu?: InfoSpec;
+  /** Versión en francés de los textos informativos. */
+  infoFr?: InfoSpec;
 };
 
 export const GROUPS: G[] = ["A", "B", "C", "D"];
@@ -78,8 +81,10 @@ const at = (iso: string) => new Date(iso + "T12:00:00");
 const EU_MONTHS = ["urtarrila", "otsaila", "martxoa", "apirila", "maiatza", "ekaina", "uztaila", "abuztua", "iraila", "urria", "azaroa", "abendua"];
 const EU_DAYS = ["Igandea", "Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala", "Larunbata"];
 export const dateParts = (iso: string, locale = "es-ES") => {
-  const d = at(iso), eu = locale.startsWith("eu"), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString(locale, o);
+  const d = at(iso), eu = locale.startsWith("eu"), fr = locale.startsWith("fr"), f = (o: Intl.DateTimeFormatOptions) => d.toLocaleDateString(locale, o);
   const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1), month = eu ? EU_MONTHS[d.getMonth()] : f({ month: "long" });
+  // francés: «8 décembre», «mardi 8 décembre» (mes en minúscula, como manda la norma francesa)
+  if (fr) return { day: String(d.getDate()), monthShort: f({ month: "short" }).replace(".", ""), label: `${d.getDate()} ${month}`, tag: `${d.getDate()} ${month}`, short: `${d.getDate()} ${f({ month: "short" })}`, long: cap(f({ weekday: "long", day: "numeric", month: "long" })), monthYear: cap(f({ month: "long", year: "numeric" })) };
   return { day: String(d.getDate()), monthShort: eu ? EU_MONTHS[d.getMonth()].slice(0, 3) : f({ month: "short" }).replace(".", ""), label: eu ? `${month}ren ${d.getDate()}a` : `${d.getDate()} de ${month}`, tag: eu ? `${cap(month)}ren ${d.getDate()}a` : `${d.getDate()} de ${cap(month)}`, short: `${d.getDate()} ${f({ month: "short" }).replace(".", "")}`, long: eu ? `${EU_DAYS[d.getDay()]}, ${month}ren ${d.getDate()}a` : cap(f({ weekday: "long", day: "numeric", month: "long" }).replace(",", "")), monthYear: cap(f({ month: "long", year: "numeric" })) };
 };
 /** Etiqueta de cabecera: «2015 • 8 de Diciembre». */
@@ -88,6 +93,9 @@ export function daysUntil(iso: string) {
   const a = at(madridNow().date).getTime(), b = at(iso).getTime();
   return Math.round((b - a) / 86400000);
 }
+/** Textos informativos y sede en el idioma elegido (con el castellano como respaldo). */
+export const infoFor = (t: Pick<Tournament, "info" | "infoEu" | "infoFr">, lang: string): InfoSpec => (lang === "eu" && t.infoEu) || (lang === "fr" && t.infoFr) || t.info;
+export const venueFor = (t: Pick<Tournament, "venue" | "venueEu" | "venueFr">, lang: string) => (lang === "eu" && t.venueEu) || (lang === "fr" && t.venueFr) || t.venue;
 export const isUpcoming = (t: Pick<Tournament, "date">) => t.date >= madridNow().date;
 
 /* ---------- Supabase (lectura pública con clave publishable) ---------- */

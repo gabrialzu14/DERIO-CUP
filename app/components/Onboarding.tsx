@@ -4,14 +4,14 @@ import { Icon, type IconName } from "./icons";
 import { BrandName, CupMark } from "./ui";
 import { LangToggle } from "./LanguageScreen";
 import { BRAND } from "../lib/tournament";
-import { useLang } from "../lib/i18n";
+import { useLang, type Lang } from "../lib/i18n";
 import { smooth } from "../lib/smooth";
 import { detectPlatform, type Platform } from "../lib/platform";
 
 type Step = "welcome" | "ask" | "platform" | "steps" | "done";
 type Guide = { icon: IconName; logo?: "safari" | "chrome"; title: string; text: ReactNode };
 
-const guides = (lang: "es" | "eu"): { ios: Guide[]; android: Guide[] } => lang === "eu" ? {
+const guides = (lang: Lang): { ios: Guide[]; android: Guide[] } => lang === "eu" ? {
   ios: [
     { icon: "smartphone", logo: "safari", title: "Ireki orri hau Safarin", text: <><b>Safari</b> izan behar da, iparrorratza duen nabigatzaile urdina. WhatsApp-en edo Instagram-en bazaude, sakatu <b>···</b> eta aukeratu <b>«Ireki Safarin»</b>.</> },
     { icon: "share", title: "Sakatu «Partekatu»", text: <><b>Karratua eta gora doan gezia</b> dituen botoia da, behean erdian. iPhone batzuetan <b>···</b> menuaren barruan dago.</> },
@@ -95,7 +95,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip, themeCtl }: { st
         {step === "done" && <>
           <div className="onb-art ok"><Icon name="check" size={52} /></div>
           <h2 className="onb-title">{t("¡Ya casi está!", "Ia eginda!")}</h2>
-          <p className="onb-text">{lang === "eu" ? <>Itxi orri hau eta bilatu <b>Derio Cup</b> zure <b>mugikorraren menu nagusian</b>: hasierako pantailan edo, Androiden, aplikazioen zerrendan.</> : <>Cierra esta página y busca <b>Derio Cup</b> en el <b>menú principal de tu móvil</b>: la pantalla de inicio o, en Android, la lista de aplicaciones.</>}</p>
+          <p className="onb-text">{t(<>Cierra esta página y busca <b>Derio Cup</b> en el <b>menú principal de tu móvil</b>: la pantalla de inicio o, en Android, la lista de aplicaciones.</>, <>Itxi orri hau eta bilatu <b>Derio Cup</b> zure <b>mugikorraren menu nagusian</b>: hasierako pantailan edo, Androiden, aplikazioen zerrendan.</>)}</p>
           <div className="onb-appicon"><span className="onb-appicon-img"><CupMark size={34} /></span><BrandName as="b" /></div>
           <p className="onb-text sm">{t("Al abrirla podrás elegir tu torneo.", "Irekitzean zure txapelketa aukeratu ahal izango duzu.")}</p>
         </>}

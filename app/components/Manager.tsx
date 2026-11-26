@@ -109,7 +109,7 @@ function ManagerMatch({ m, current, saving, save, remove }: { m: Match; current?
   useEffect(() => { setH(current?.[0]?.toString() ?? ""); setA(current?.[1]?.toString() ?? ""); }, [current]);
   return (
     <div className="manager-card">
-      <div className="manager-meta"><b>{m.time}</b><span>{groupName(m.group, eu)} · {fieldName(m.field, eu)}</span>{current && <span className="badge done">{tr("Publicado", "Argitaratuta")}</span>}</div>
+      <div className="manager-meta"><b>{m.time}</b><span>{groupName(m.group, lang)} · {fieldName(m.field, lang)}</span>{current && <span className="badge done">{tr("Publicado", "Argitaratuta")}</span>}</div>
       <div className="manager-team"><Crest id={m.home} size={28} /><span>{T(m.home).name}</span><Score value={h} set={setH} label={tr("Goles ", "Golak: ") + T(m.home).name} /></div>
       <div className="manager-team"><Crest id={m.away} size={28} /><span>{T(m.away).name}</span><Score value={a} set={setA} label={tr("Goles ", "Golak: ") + T(m.away).name} /></div>
       <div className="manager-actions">
@@ -128,10 +128,10 @@ function ManagerKO({ g, saving, save, remove }: { g: KOGame; saving: boolean; sa
   useEffect(() => { setV(init()); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [g.home, g.away, r?.updated_at]);
   const set = (i: number) => (v: string) => setV(s => s.map((x, j) => (j === i ? v : x)));
   const tie = h !== "" && a !== "" && Number(h) === Number(a), locked = !g.home || !g.away;
-  const name = (id: string | null, label: string) => (id ? T(id).name : koLabel(label, eu));
+  const name = (id: string | null, label: string) => (id ? T(id).name : koLabel(label, lang));
   return (
     <div className={"manager-card" + (locked ? " is-locked" : "")}>
-      <div className="manager-meta"><b>{g.time}</b><span>{kindName(g.kind, eu)} · {koCode(g.code, eu)} · {fieldName(g.field, eu)}</span>{valid && <span className="badge done">{tr("Publicado", "Argitaratuta")}</span>}</div>
+      <div className="manager-meta"><b>{g.time}</b><span>{kindName(g.kind, lang)} · {koCode(g.code, lang)} · {fieldName(g.field, lang)}</span>{valid && <span className="badge done">{tr("Publicado", "Argitaratuta")}</span>}</div>
       <div className="manager-team">{g.home ? <Crest id={g.home} size={28} /> : <i className="crest-ph sm" />}<span className={g.home ? "" : "tbd"}>{name(g.home, g.homeLabel)}</span><Score value={h} set={set(0)} label={tr("Goles ", "Golak: ") + name(g.home, g.homeLabel)} disabled={!g.home} /></div>
       <div className="manager-team">{g.away ? <Crest id={g.away} size={28} /> : <i className="crest-ph sm" />}<span className={g.away ? "" : "tbd"}>{name(g.away, g.awayLabel)}</span><Score value={a} set={set(1)} label={tr("Goles ", "Golak: ") + name(g.away, g.awayLabel)} disabled={!g.away} /></div>
       {tie && <div className="manager-pens"><span>{tr("Penaltis", "Penaltiak")}</span><Score value={hp} set={set(2)} label={tr("Penaltis local", "Etxeko penaltiak")} /><i>–</i><Score value={ap} set={set(3)} label={tr("Penaltis visitante", "Kanpoko penaltiak")} /></div>}
