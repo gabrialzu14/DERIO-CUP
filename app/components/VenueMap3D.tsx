@@ -21,7 +21,7 @@ type Box = { l: number; t: number; r: number; b: number };
 const overlap = (a: Box, b: Box) => Math.max(0, Math.min(a.r, b.r) - Math.max(a.l, b.l)) * Math.max(0, Math.min(a.b, b.b) - Math.max(a.t, b.t));
 /** Coloca la ficha de la zona junto a su pin donde menos tape: arriba, abajo, a la derecha o a la izquierda,
     evitando el resto de pines, los botones del plano y los bordes. */
-function placePop(el: HTMLElement, p: Proj, cur: ZoneKey, host: HTMLElement) {
+function placePop(el: HTMLElement, p: Proj, cur: ZoneKey, host: HTMLElement): Box {
   const W = host.clientWidth, H = host.clientHeight, pw = el.offsetWidth || 140, ph = el.offsetHeight || 36, q = p[cur], s = q.s;
   const pinTop = q.y - (q.h + 46) * s, pinMid = q.y - (q.h + 19) * s, gap = 8;
   const obstacles: Box[] = [];
@@ -48,7 +48,9 @@ function placePop(el: HTMLElement, p: Proj, cur: ZoneKey, host: HTMLElement) {
     const sc = out * 400 + obstacles.reduce((a, o) => a + overlap(c, o), 0) * 3 + overlap(c, self) * 4 + i * 30 + (i > 9 ? 900 : 0); // a igualdad, el orden de preferencia
     if (sc < bs) { bs = sc; best = c; }
   });
-  el.style.transform = `translate(${Math.round(Math.max(6, Math.min(W - 6 - pw, best.l)))}px,${Math.round(Math.max(6, Math.min(H - 6 - ph, best.t)))}px)`;
+  const L = Math.round(Math.max(6, Math.min(W - 6 - pw, best.l))), T = Math.round(Math.max(6, Math.min(H - 6 - ph, best.t)));
+  el.style.transform = `translate(${L}px,${T}px)`;
+  return { l: L, t: T, r: L + pw, b: T + ph };
 }
 
 export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string } }) {
@@ -86,7 +88,9 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
           host.current.classList.toggle("far", p.far);
           for (const k of KEYS) { const el = labs.current[k]; if (!el) continue; const q = p[k]; el.style.opacity = q.vis ? "1" : "0"; el.style.setProperty("--h", q.h + "px"); el.style.transform = `translate(${q.x}px,${q.y}px) scale(${q.s})`; }
           const cur = selRef.current;
-          if (popEl && cur) placePop(popEl, p, cur, host.current);
+          const box = popEl && cur ? placePop(popEl, p, cur, host.current) : null;
+          // si en pantallas pequeñas no queda hueco, el pin que quede debajo de la ficha se atenúa (no compite con ella)
+          for (const k of KEYS) { const el = labs.current[k], o = p[k]; if (!el) continue; el.classList.toggle("under", !!box && k !== cur && o.vis && overlap(box, { l: o.x - 22 * o.s, r: o.x + 22 * o.s, t: o.y - (o.h + 44) * o.s, b: o.y + 6 }) > 0); }
         };
         const a = createVenueScene(canvas.current, host.current, { onPick: k => pick(k), onFrame: place, reduceMotion: reduce });
         api.current = a; a.setNight(false); setReady(true);

@@ -31,7 +31,7 @@ for(const [name] of list){try{const T=`[${name}]`;const d=devices[name];if(!d){c
  ok(await p.locator('.v3-pop').isHidden(),tag+' al volver a pulsar se cierra');
  // la ficha de cada zona queda dentro del plano y no tapa otros pines ni los botones
  for(let i=0;i<6;i++){await p.locator('.v3-chip').nth(i).evaluate(e=>e.click());await p.waitForTimeout(1300);
-  const r=await p.evaluate(()=>{const h=document.querySelector('.v3-map').getBoundingClientRect(),pp=document.querySelector('.v3-pop').getBoundingClientRect();const hit=[...document.querySelectorAll('.v3-btn,.v3-mk:not(.on) .pin')].filter(x=>{const b=x.getBoundingClientRect();return getComputedStyle(x.closest('.v3-mk')||x).opacity!=='0'&&b.left<pp.right-2&&b.right>pp.left+2&&b.top<pp.bottom-2&&b.bottom>pp.top+2}).length;return {inside:pp.left>=h.left-1&&pp.right<=h.right+1&&pp.top>=h.top-1&&pp.bottom<=h.bottom+1,hit,h:pp.height}});
+  const r=await p.evaluate(()=>{const h=document.querySelector('.v3-map').getBoundingClientRect(),pp=document.querySelector('.v3-pop').getBoundingClientRect();const hit=[...document.querySelectorAll('.v3-btn,.v3-mk:not(.on) .pin')].filter(x=>{const b=x.getBoundingClientRect();const mk=x.closest('.v3-mk');return getComputedStyle(mk||x).opacity!=='0'&&!(mk&&mk.classList.contains('under'))&&b.left<pp.right-2&&b.right>pp.left+2&&b.top<pp.bottom-2&&b.bottom>pp.top+2}).length;return {inside:pp.left>=h.left-1&&pp.right<=h.right+1&&pp.top>=h.top-1&&pp.bottom<=h.bottom+1,hit,h:pp.height}});
   ok(r.inside&&r.hit===0&&r.h<=60,tag+' ficha '+i+' dentro, sin choques y compacta '+JSON.stringify(r));}
  await p.locator('.v3-chip[aria-pressed=true]').evaluate(e=>e.click());await p.waitForTimeout(1300);
  const h1=await hash(map);

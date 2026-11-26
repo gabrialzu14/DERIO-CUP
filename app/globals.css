@@ -1154,3 +1154,4 @@ html[data-seen] .splash { display: none; }
 .v3-pop { max-width: min(210px, 70%); padding: 6px 10px; border-radius: 11px; font-size: .6875rem; line-height: 1.3; box-shadow: 0 6px 16px -4px rgb(0 0 0 / .35); border: 1px solid var(--line); will-change: transform; }
 .v3-pop b { font-size: .75rem; font-weight: 800; }
 .v3-pop p { margin: 1px 0 0; font-size: .6875rem; line-height: 1.3; font-weight: 600; }
+.v3-map.has-sel .v3-mk.under { filter: opacity(.18); }
