@@ -17,6 +17,40 @@ const ICON: Record<ZoneKey, string> = {
 const Ico = ({ k, size = 14 }: { k: ZoneKey; size?: number }) => k === "wc" ? <b className="v3-wc" style={{ fontSize: size * .78 }}>WC</b> : <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" dangerouslySetInnerHTML={{ __html: ICON[k] }} />;
 
 /** Plano 3D interactivo de Ibaiondo. Si el móvil no admite WebGL, se muestra la foto aérea. */
+type Box = { l: number; t: number; r: number; b: number };
+const overlap = (a: Box, b: Box) => Math.max(0, Math.min(a.r, b.r) - Math.max(a.l, b.l)) * Math.max(0, Math.min(a.b, b.b) - Math.max(a.t, b.t));
+/** Coloca la ficha de la zona junto a su pin donde menos tape: arriba, abajo, a la derecha o a la izquierda,
+    evitando el resto de pines, los botones del plano y los bordes. */
+function placePop(el: HTMLElement, p: Proj, cur: ZoneKey, host: HTMLElement) {
+  const W = host.clientWidth, H = host.clientHeight, pw = el.offsetWidth || 140, ph = el.offsetHeight || 36, q = p[cur], s = q.s;
+  const pinTop = q.y - (q.h + 46) * s, pinMid = q.y - (q.h + 19) * s, gap = 8;
+  const obstacles: Box[] = [];
+  for (const k of KEYS) { const o = p[k]; if (k === cur || !o.vis) continue; obstacles.push({ l: o.x - 29 * o.s, r: o.x + 29 * o.s, t: o.y - (o.h + 48) * o.s, b: o.y + 8 }); }
+  host.querySelectorAll<HTMLElement>(".v3-btn").forEach(b => obstacles.push({ l: b.offsetLeft - 4, t: b.offsetTop - 4, r: b.offsetLeft + b.offsetWidth + 4, b: b.offsetTop + b.offsetHeight + 4 }));
+  const cx = (x: number) => Math.max(6, Math.min(W - 6 - pw, x)), cy = (y: number) => Math.max(6, Math.min(H - 6 - ph, y));
+  const cands: Box[] = [
+    { l: cx(q.x - pw / 2), t: pinTop - gap - ph },            // arriba
+    { l: q.x + 29 * s + gap, t: cy(pinMid - ph / 2) },        // derecha
+    { l: q.x - 29 * s - gap - pw, t: cy(pinMid - ph / 2) },   // izquierda
+    { l: cx(q.x - pw / 2), t: q.y + gap + 4 },                // abajo
+    { l: q.x + 29 * s + gap, t: cy(pinTop) },                 // derecha, a la altura de la cabeza del pin
+    { l: q.x + 29 * s + gap, t: cy(q.y - ph) },               // derecha, a ras de suelo
+    { l: q.x - 29 * s - gap - pw, t: cy(pinTop) },
+    { l: q.x - 29 * s - gap - pw, t: cy(q.y - ph) },
+    { l: cx(q.x + 10), t: q.y + gap + 4 },                    // abajo, desplazada
+    { l: cx(q.x - pw - 10), t: q.y + gap + 4 },
+    { l: 8, t: 8 }, { l: 8, t: H - 8 - ph }, { l: (W - pw) / 2, t: H - 8 - ph }, { l: (W - pw) / 2, t: 8 }, // esquinas libres si junto al pin no hay hueco
+  ].map(c => ({ ...c, r: c.l + pw, b: c.t + ph }));
+  const self: Box = { l: q.x - 29 * s, r: q.x + 29 * s, t: pinTop, b: q.y + 8 };
+  let best = cands[0], bs = Infinity;
+  cands.forEach((c, i) => {
+    const out = Math.max(0, -c.l) + Math.max(0, c.r - W) + Math.max(0, -c.t) + Math.max(0, c.b - H);
+    const sc = out * 400 + obstacles.reduce((a, o) => a + overlap(c, o), 0) * 3 + overlap(c, self) * 4 + i * 30 + (i > 9 ? 900 : 0); // a igualdad, el orden de preferencia
+    if (sc < bs) { bs = sc; best = c; }
+  });
+  el.style.transform = `translate(${Math.round(Math.max(6, Math.min(W - 6 - pw, best.l)))}px,${Math.round(Math.max(6, Math.min(H - 6 - ph, best.t)))}px)`;
+}
+
 export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string } }) {
   const { t, lang } = useLang(), eu = lang === "eu";
   const host = useRef<HTMLDivElement>(null), canvas = useRef<HTMLCanvasElement>(null), pop = useRef<HTMLDivElement>(null);
@@ -28,10 +62,10 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
   const name: Record<ZoneKey, string> = { c1: fieldName(1, eu), c2: fieldName(2, eu), bar: t("Bar", "Taberna"), wc: t("WC", "Komunak"), parking: t("Aparcamiento", "Aparkalekua"), entrada: t("Entrada", "Sarrera") };
   const desc: Partial<Record<ZoneKey, string>> = {
     bar: t("Pintxos y bocadillos", "Pintxoak eta ogitartekoak"),
-    wc: t("Acceso por la parte de atrás de la grada", "Harmailaren atzeko aldetik sartzen da"),
+    wc: t("Acceso por detrás de la grada", "Harmailaren atzetik sartzen da"),
     entrada: t("3 € por persona", "3 € pertsonako"),
-    c1: t("Aquí se disputa la fase de grupos y la fase oro", "Hemen jokatzen dira multzo-fasea eta urrezko fasea"),
-    c2: t("Aquí se disputa la fase de grupos y la fase plata", "Hemen jokatzen dira multzo-fasea eta zilarrezko fasea"),
+    c1: t("Fase de grupos y fase oro", "Multzo-fasea eta urrezko fasea"),
+    c2: t("Fase de grupos y fase plata", "Multzo-fasea eta zilarrezko fasea"),
   };
   const phase = (k: ZoneKey) => (k === "c1" ? phaseName("Oro", eu) : k === "c2" ? phaseName("Plata", eu) : null);
 
@@ -52,7 +86,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
           host.current.classList.toggle("far", p.far);
           for (const k of KEYS) { const el = labs.current[k]; if (!el) continue; const q = p[k]; el.style.opacity = q.vis ? "1" : "0"; el.style.setProperty("--h", q.h + "px"); el.style.transform = `translate(${q.x}px,${q.y}px) scale(${q.s})`; }
           const cur = selRef.current;
-          if (popEl && cur) { const q = p[cur], pw = popEl.offsetWidth || 150, px = Math.max(8 + pw / 2, Math.min(w - 8 - pw / 2, q.x)); const ph = popEl.offsetHeight || 60, py = Math.max(ph + 8, q.y - (q.h + 48) * q.s); popEl.style.transform = `translate(${px}px,${py}px) translate(-50%,-100%)`; }
+          if (popEl && cur) placePop(popEl, p, cur, host.current);
         };
         const a = createVenueScene(canvas.current, host.current, { onPick: k => pick(k), onFrame: place, reduceMotion: reduce });
         api.current = a; a.setNight(false); setReady(true);
@@ -73,7 +107,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
             <span className="body"><span className="pin"><Ico k={k} size={19} /></span><span className="lbl">{name[k]}</span></span>
           </div>
         ))}
-        <div ref={pop} className="v3-pop" hidden={!cur}>{cur && <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} />}</div>
+        <div ref={pop} className="v3-pop" hidden={!cur} aria-live="polite">{cur && <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} />}</div>
         <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra")}</button>
         <button type="button" className="v3-btn fs" aria-label={full ? t("Salir de pantalla completa", "Irten pantaila osotik") : t("Pantalla completa", "Pantaila osoa")} onClick={() => setFull(f => !f)}><Icon name={full ? "close" : "chevron"} size={16} className={full ? "" : "v3-expand"} /></button>
         {!ready && <span className="v3-load">{t("Cargando plano…", "Planoa kargatzen…")}</span>}
@@ -81,7 +115,6 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
       <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak")}>
         {KEYS.map(k => <button key={k} type="button" className="v3-chip" aria-pressed={cur === k} onClick={() => pick(k)}>{k === "wc" ? <b className="v3-wc" style={{ fontSize: 13 }}>WC</b> : <><Ico k={k} size={15} />{name[k]}</>}</button>)}
       </div>
-      {cur && <div className="v3-card" aria-live="polite"><Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} /></div>}
     </div>
   );
 }

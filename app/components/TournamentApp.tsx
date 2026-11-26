@@ -111,11 +111,14 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   }, [engine]);
   useEffect(() => {
     load(); loadFans();
-    const timer = setInterval(() => { if (document.visibilityState === "visible") { load(); loadFans(); } }, 60000);
-    const onVisible = () => { if (document.visibilityState === "visible") load(); };
+    // Refresco automático solo el día del torneo (hora de Madrid): cada minuto con la app a la vista y al volver a ella.
+    // El resto de días se carga al abrir y con el botón de actualizar.
+    const live = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).format(new Date()) === tn.date;
+    const timer = setInterval(() => { if (live() && document.visibilityState === "visible") { load(); loadFans(); } }, 60000);
+    const onVisible = () => { if (live() && document.visibilityState === "visible") load(); };
     window.addEventListener("online", onVisible); document.addEventListener("visibilitychange", onVisible);
     return () => { clearInterval(timer); window.removeEventListener("online", onVisible); document.removeEventListener("visibilitychange", onVisible); };
-  }, [load, loadFans]);
+  }, [load, loadFans, tn.date]);
 
   const ms = useMemo(() => engine.matches.map(m => (scores[m.id] ? { ...m, hs: scores[m.id][0], as: scores[m.id][1] } : m)), [engine, scores]);
 

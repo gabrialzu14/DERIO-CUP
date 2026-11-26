@@ -1,5 +1,6 @@
 "use client";
 import { ParkingMaps } from "./ParkingMaps";
+import { directionsUrl } from "../lib/directions";
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Icon, type IconName } from "./icons";
@@ -27,7 +28,7 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
   items.push({ key: "ubicacion", icon: "pin", title: t("Ubicación · ", "Kokalekua · ") + tn.venueShort, sub: eu ? tn.venueEu ?? tn.venue : tn.venue, body: <>
     {eu ? <p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p> : <p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>}
     <VenueMap3D fallback={i.venueImage} />
-    <a className="btn btn-primary block" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Abrir en Maps", "Ireki Maps-en")}</a></> });
+    <div className="dir-row"><a className="btn btn-primary" href={directionsUrl("ibaiondo")} target="_blank" rel="noreferrer"><Icon name="car" size={18} />{t("Cómo llegar", "Nola iritsi")}</a><a className="btn btn-ghost" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Ver en Maps", "Ikusi Maps-en")}</a></div></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean"), body: <>
     <ParkingMaps photos={i.parking} /></> });
   const ng = new Set(tn.teams.map(x => x.group)).size, per = Math.round(tn.teams.length / ng);

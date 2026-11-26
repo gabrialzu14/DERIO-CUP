@@ -1,6 +1,7 @@
 // @ts-nocheck — escena 3D de Ibaiondo (Three.js). Se carga bajo demanda al abrir «Ubicación».
 import * as THREE from "three";
 import { MapControls } from "three/examples/jsm/controls/MapControls.js";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 export type ZoneKey = "c1" | "c2" | "bar" | "wc" | "parking" | "entrada";
 export type Proj = Record<ZoneKey, { x: number; y: number; vis: boolean; s: number; h: number }> & { far: boolean };
@@ -9,7 +10,7 @@ export type Proj = Record<ZoneKey, { x: number; y: number; vis: boolean; s: numb
 export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, opts: { onPick: (k: ZoneKey | null) => void; onFrame: (p: Proj) => void; reduceMotion: boolean }) {
   const cv = canvas, map = host;
   const R = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
-  R.setPixelRatio(Math.min(1.75, devicePixelRatio)); R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap; R.shadowMap.autoUpdate = false; R.shadowMap.needsUpdate = true;
+  R.setPixelRatio(Math.min(1.5, devicePixelRatio)); R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap; R.shadowMap.autoUpdate = false; R.shadowMap.needsUpdate = true;
   let dirty = true; const wake = () => { dirty = true; };
   const S = new THREE.Scene(); const cam = new THREE.PerspectiveCamera(38, 1, 1, 2000);
   const ctl = new MapControls(cam, cv); ctl.enableDamping = true; ctl.dampingFactor = .12; ctl.zoomToCursor = true; ctl.maxPolarAngle = 1.45; ctl.minPolarAngle = .25; ctl.minDistance = 12; ctl.maxDistance = 380;
@@ -162,6 +163,20 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
   for(let i=0;i<46;i++)tree(rnd(-110,-54),rnd(-110,55),rnd(1,1.7));for(let i=0;i<14;i++)tree(rnd(-40,70),rnd(-120,-95),rnd(.9,1.4));
   [[-10,58],[0,60],[10,58],[24,62]].forEach(([x,z])=>cypress(x,z));for(let i=0;i<14;i++)tree(rnd(82,130),rnd(-40,110),rnd(.9,1.4));
 
+  // Optimización: todo lo estático que comparte material se fusiona en una sola malla (de ~300 dibujos por fotograma a unas decenas)
+  // y deja de recalcular su posición en cada fotograma. Las zonas que se resaltan y los focos se quedan aparte.
+  { S.updateMatrixWorld(true); const keep = new Set([...zones, ...lamps]), groups = new Map();
+    S.traverse(o => { if (!o.isMesh || keep.has(o) || Array.isArray(o.material)) return; const M = o.material, k = [M.type, M.color?.getHex(), M.emissive?.getHex(), M.opacity, M.transparent, M.map?.uuid, M.roughness, M.metalness, M.side, M.depthWrite, M.polygonOffset, M.vertexColors].join(",") + "|" + o.castShadow + "|" + o.receiveShadow + "|" + o.renderOrder; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(o); });
+    for (const list of groups.values()) {
+      if (list.length < 2) continue;
+      const geos = list.map(m => { const g = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone(); g.applyMatrix4(m.matrixWorld); for (const n of Object.keys(g.attributes)) if (n !== "position" && n !== "normal" && n !== "uv") g.deleteAttribute(n); if (!g.attributes.normal) g.computeVertexNormals(); return g; });
+      if (!geos.every(g => g.attributes.uv)) geos.forEach(g => g.deleteAttribute("uv"));
+      const merged = mergeGeometries(geos, false); geos.forEach(g => g.dispose()); if (!merged) continue;
+      const mm = new THREE.Mesh(merged, list[0].material); mm.castShadow = list[0].castShadow; mm.receiveShadow = list[0].receiveShadow; mm.renderOrder = list[0].renderOrder;
+      list.forEach(m => { m.parent.remove(m); m.geometry.dispose(); }); S.add(mm);
+    }
+    S.traverse(o => { if (o !== cam) { o.updateMatrix(); o.matrixAutoUpdate = false; } }); S.updateMatrixWorld(true); }
+
   // posiciones 3D de las etiquetas
   const anchors: Record<ZoneKey, THREE.Vector3> = { c1: new THREE.Vector3(0, .4, 25), c2: new THREE.Vector3(0, .4, -25), wc: new THREE.Vector3(-50, .4, 1), bar: new THREE.Vector3(-38, .4, 26), parking: new THREE.Vector3(-32, .4, 64), entrada: new THREE.Vector3(-13, .4, 59) };
 
@@ -223,7 +238,9 @@ export function createVenueScene(canvas: HTMLCanvasElement, host: HTMLElement, o
     opts.onFrame(proj);
   };
   raf = requestAnimationFrame(loop);
-  const dispose = () => {
+  // fuera de pantalla (sección cerrada o desplazada) no se dibuja nada
+  const io = new IntersectionObserver(([e]) => { cancelAnimationFrame(raf); if (e.isIntersecting && alive) { wake(); raf = requestAnimationFrame(loop); } }); io.observe(map);
+  const dispose = () => { io.disconnect();
     alive = false; clearBack(); cancelAnimationFrame(raf); ro.disconnect(); cv.removeEventListener("pointerdown", onDown); cv.removeEventListener("pointerup", onUp); ctl.dispose();
     S.traverse((o: any) => { if (o.geometry) o.geometry.dispose(); if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach((m: any) => { m.map?.dispose?.(); m.dispose(); }); });
     R.dispose();

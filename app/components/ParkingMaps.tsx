@@ -1,5 +1,7 @@
 "use client";
 import { useLang } from "../lib/i18n";
+import { Icon } from "./icons";
+import { directionsUrl, type PlaceKey } from "../lib/directions";
 
 type Pt = [number, number];
 
@@ -87,6 +89,7 @@ export function ParkingAlt() {
 /** Los dos planos de aparcamiento con su leyenda y enlace a la foto aérea original. */
 export function ParkingMaps({ photos }: { photos: { src: string; title: string }[] }) {
   const { t } = useLang();
+  const go = (k: PlaceKey, label: string) => <a className="btn btn-primary block" href={directionsUrl(k)} target="_blank" rel="noreferrer"><Icon name="car" size={18} />{label}</a>;
   const photo = (i: number) => photos[i] && <a className="pk-photo" href={photos[i].src} target="_blank" rel="noopener">{t("Ver foto aérea", "Ikusi aireko argazkia")}</a>;
   return (
     <div className="pk-wrap">
@@ -94,11 +97,13 @@ export function ParkingMaps({ photos }: { photos: { src: string; title: string }
         <figcaption><b>{t("Aparcamiento", "Aparkalekua")}</b><span>{t("Junto al campo: en batería en el vial de acceso y en Camino Untzaga, al final del vial y en la campa.", "Zelaiaren ondoan: bateria-aparkalekua sarbide-bidean eta Untzaga bidean, bidearen amaieran eta zelaigunean.")}</span></figcaption>
         <ParkingNear />
         <div className="pk-legend"><span><i className="sw hatch" />{t("Zona de aparcamiento", "Aparkatzeko gunea")}</span><span><i className="sw batt" />{t("Aparcamiento en batería", "Bateria-aparkalekua")}</span><span><i className="sw entry" />{t("Entrada al campo", "Zelairako sarrera")}</span>{photo(0)}</div>
+        {go("ibaiondo", t("Cómo llegar al campo", "Nola iritsi zelaira"))}
       </figure>
       <figure className="pk-fig">
         <figcaption><b>{t("Aparcamiento alternativo · Seminario", "Ordezko aparkalekua · Seminarioa")}</b><span>{t("Si el de junto al campo está lleno. Desde allí, unos 350 m a pie (≈ 5 min) por Camino Untzaga hasta la entrada.", "Zelaiaren ondokoa beteta badago. Handik, 350 m inguru oinez (≈ 5 min) Untzaga bidetik sarreraraino.")}</span></figcaption>
         <ParkingAlt />
         <div className="pk-legend"><span><i className="sw alt" />{t("Aparcamiento del Seminario", "Seminarioko aparkalekua")}</span><span><i className="sw walk" />{t("Ruta a pie hasta la entrada", "Oinezko bidea sarreraraino")}</span>{photo(1)}</div>
+        {go("seminario", t("Cómo llegar al Seminario", "Nola iritsi Seminariora"))}
       </figure>
     </div>
   );
