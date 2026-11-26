@@ -1134,3 +1134,27 @@ body::before { content: ""; position: fixed; z-index: -1; right: 0; bottom: 0; w
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body::before { opacity: .16; } }
 @media (min-width: 900px) { body::before { transform: translate(30%, 12%); } }
 @media print { body::before { display: none; } }
+
+/* Planos de aparcamiento (dibujo vectorial, sigue el tema) */
+.pk-wrap { display: grid; gap: 18px; }
+.pk-fig { margin: 0; display: grid; gap: 10px;
+  --pk-ground: light-dark(#eef2ea, #0d1a16); --pk-grass: light-dark(#dfe9d6, #13251c); --pk-trees: light-dark(#c9dcc0, #183022); --pk-road: light-dark(#ffffff, #2a3a50); --pk-edge: light-dark(#d3d9e2, #1a2738);
+  --pk-bld: light-dark(#e1e5ec, #1c2a3d); --pk-pitch: light-dark(#3f9a58, #1f6b3a); --pk-line: light-dark(#ffffffd0, #ffffffa8); --pk-red: light-dark(#cf1738, #ff5a78); --pk-blue: light-dark(#0a5cc2, #4f9bff); --pk-sf: var(--surface); }
+.pk-fig figcaption { display: grid; gap: 2px; text-align: left; }
+.pk-fig figcaption b { font-size: .9375rem; }
+.pk-fig figcaption span { font-size: .8125rem; color: var(--text-2); line-height: 1.45; }
+.pk-map { width: 100%; height: auto; display: block; border-radius: 14px; border: 1px solid var(--line); }
+.pk-lbl text { font-weight: 800; font-size: 26px; fill: var(--text); paint-order: stroke; stroke: var(--surface); stroke-width: 7px; stroke-linejoin: round; }
+.pk-st text { font-weight: 700; font-size: 17px; letter-spacing: .08em; text-transform: uppercase; fill: var(--text-2); }
+.pk-walk { stroke-dasharray: 1 11; stroke-linecap: round; animation: pk-walk 1.4s linear infinite; }
+@keyframes pk-walk { to { stroke-dashoffset: -24; } }
+@media (prefers-reduced-motion: reduce) { .pk-walk { animation: none; } }
+.pk-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: .75rem; font-weight: 700; color: var(--text-2); }
+.pk-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.pk-legend .sw { width: 18px; height: 12px; border-radius: 3px; flex: none; }
+.pk-legend .sw.hatch { border: 2px solid var(--pk-red); background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--pk-red) 40%, transparent) 0 2px, transparent 2px 6px); }
+.pk-legend .sw.batt { background: repeating-linear-gradient(90deg, var(--pk-red) 0 2px, transparent 2px 5px); }
+.pk-legend .sw.entry { width: 14px; height: 14px; border-radius: 50%; background: var(--pk-red); }
+.pk-legend .sw.alt { border: 2px solid var(--pk-blue); background: color-mix(in srgb, var(--pk-blue) 18%, transparent); }
+.pk-legend .sw.walk { height: 4px; background: repeating-linear-gradient(90deg, var(--pk-red) 0 4px, transparent 4px 8px); }
+.pk-photo { margin-left: auto; color: var(--accent); font-weight: 700; text-decoration: none; }
