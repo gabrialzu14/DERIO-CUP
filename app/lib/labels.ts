@@ -5,7 +5,7 @@ import { pick, type Lang } from "./i18n";
 export const kindName = (k: KOKind, l: Lang) => pick(l, k, k === "Oro" ? "Urrea" : "Zilarra", k === "Oro" ? "Or" : "Argent");
 export const phaseName = (k: KOKind, l: Lang) => pick(l, "Fase " + k, k === "Oro" ? "Urrezko fasea" : "Zilarrezko fasea", k === "Oro" ? "Phase Or" : "Phase Argent");
 export const roundName = (r: "CF" | "SF" | "FINAL", l: Lang) => pick(l, { CF: "Cuartos de final", SF: "Semifinales", FINAL: "Final" }, { CF: "Final-laurdenak", SF: "Finalerdiak", FINAL: "Finala" }, { CF: "Quarts de finale", SF: "Demi-finales", FINAL: "Finale" })[r];
-export const roundShort = (r: "CF" | "SF" | "FINAL", l: Lang) => pick(l, { CF: "Cuartos", SF: "Semifinal", FINAL: "Final" }, { CF: "Laurdenak", SF: "Erdiak", FINAL: "Finala" }, { CF: "Quarts", SF: "Demies", FINAL: "Finale" })[r];
+export const roundShort = (r: "CF" | "SF" | "FINAL", l: Lang) => pick(l, { CF: "Cuartos", SF: "Semifinal", FINAL: "Final" }, { CF: "Laurdenak", SF: "Finalerdia", FINAL: "Finala" }, { CF: "Quarts", SF: "Demies", FINAL: "Finale" })[r];
 export const groupName = (g: string, l: Lang) => pick(l, `Grupo ${g}`, `${g} multzoa`, `Groupe ${g}`);
 export const fieldName = (n: number, l: Lang) => pick(l, `Campo ${n}`, `${n}. zelaia`, `Terrain ${n}`);
 /** Inicial de «campo» para etiquetas muy cortas (C1 / Z1 / T1). */

@@ -20,8 +20,8 @@ export function Fases({ kind, setKind, ms, koResults }: { kind: "oro" | "plata";
       ]} />
       <TabPanel idPrefix="fases" tab={kind}>
         <PhaseNote kind={K} />
-        <p className="note">{kind === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak pasatzen dira.", "Les deux premiers de chaque groupe se qualifient.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.", "Le troisième et le quatrième de chaque groupe se qualifient.")}</p>
-        {champ && <div className={"champion " + kind}><CupMark size={30} /><div><small>{t(`Campeón Fase ${K}`, `${phaseName(K, "eu")}ko txapeldun`, `Vainqueur ${phaseName(K, "fr")}`)}</small><b>{T(champ).name}</b></div><Crest id={champ} size={52} /></div>}
+        <p className="note">{kind === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak sailkatzen dira.", "Les deux premiers de chaque groupe se qualifient.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarren eta laugarren taldeak sailkatzen dira.", "Le troisième et le quatrième de chaque groupe se qualifient.")}</p>
+        {champ && <div className={"champion " + kind}><CupMark size={30} /><div><small>{t(`Campeón Fase ${K}`, `${phaseName(K, "eu")}ren txapelduna`, `Vainqueur ${phaseName(K, "fr")}`)}</small><b>{T(champ).name}</b></div><Crest id={champ} size={52} /></div>}
         <Bracket kind={K} games={games} />
       </TabPanel>
     </div>
@@ -38,7 +38,7 @@ export function Bracket({ kind, games, compact = false }: { kind: KOKind; games:
         {view === "lista"
           ? ROUNDS.map(r => { const gs = games.filter(g => g.round === r).sort(byTime); return (
               <section key={r} className="ko-round"><h3>{roundName(r, lang)}</h3><div className="ko-list">{gs.map(g => <KOGameRow key={g.id} g={g} />)}</div></section>); })
-          : <div className="bk-scroll" tabIndex={0} role="region" aria-label={t("Cuadro de la Fase " + kind + ", desliza para ver todas las rondas", phaseName(kind, "eu") + "ren koadroa, irristatu txanda guztiak ikusteko", "Tableau de la " + phaseName(kind, "fr") + ", faites défiler pour voir tous les tours")}>
+          : <div className="bk-scroll" tabIndex={0} role="region" aria-label={t("Cuadro de la Fase " + kind + ", desliza para ver todas las rondas", phaseName(kind, "eu") + "ren koadroa; irristatu kanporaketa guztiak ikusteko", "Tableau de la " + phaseName(kind, "fr") + ", faites défiler pour voir tous les tours")}>
               <div className="bk">
                 {ROUNDS.map((r, ci) => (
                   <div key={r} className={"bk-head c" + (ci * 2 + 1)}><h3>{roundName(r, lang)}</h3></div>

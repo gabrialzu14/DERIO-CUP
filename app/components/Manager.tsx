@@ -100,7 +100,7 @@ function Remove({ onConfirm, disabled }: { onConfirm: () => void; disabled: bool
   const { t: tr } = useLang();
   const [ask, setAsk] = useState(false);
   useEffect(() => { if (!ask) return; const t = setTimeout(() => setAsk(false), 4000); return () => clearTimeout(t); }, [ask]);
-  return <button type="button" className={"btn btn-danger" + (ask ? " is-armed" : "")} disabled={disabled} onClick={() => (ask ? onConfirm() : setAsk(true))}>{ask ? tr("Confirmar eliminación", "Berretsi ezabaketa", "Confirmer la suppression") : tr("Eliminar resultado", "Ezabatu emaitza", "Supprimer le score")}</button>;
+  return <button type="button" className={"btn btn-danger" + (ask ? " is-armed" : "")} disabled={disabled} onClick={() => (ask ? onConfirm() : setAsk(true))}>{ask ? tr("Confirmar eliminación", "Berretsi ezabatzea", "Confirmer la suppression") : tr("Eliminar resultado", "Ezabatu emaitza", "Supprimer le score")}</button>;
 }
 
 function ManagerMatch({ m, current, saving, save, remove }: { m: Match; current?: [number, number]; saving: boolean; save: (p: Payload) => void; remove: (id: string) => void }) {

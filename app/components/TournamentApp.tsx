@@ -165,7 +165,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           </div>
         </header>
 
-        {offline && <div className="banner" role="status"><Icon name="wifi" size={18} /><span>{t("Sin conexión. Mostrando los últimos datos guardados.", "Konexiorik ez. Gordetako azken datuak erakusten.", "Hors connexion. Affichage des dernières données enregistrées.")}</span><button type="button" onClick={() => load(true)}>{t("Reintentar", "Saiatu berriro", "Réessayer")}</button></div>}
+        {offline && <div className="banner" role="status"><Icon name="wifi" size={18} /><span>{t("Sin conexión. Mostrando los últimos datos guardados.", "Ez dago konexiorik. Gordetako azken datuak ikusten ari zara.", "Hors connexion. Affichage des dernières données enregistrées.")}</span><button type="button" onClick={() => load(true)}>{t("Reintentar", "Saiatu berriro", "Réessayer")}</button></div>}
 
         <main id="contenido" ref={mainRef} tabIndex={-1} className="main" aria-busy={!loaded}>
           {tab === "inicio" && <Home ms={ms} koResults={koResults} selected={mine} fanCounts={fanCounts} loaded={loaded} go={go} />}
@@ -195,7 +195,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
             <button type="button" className="btn btn-primary block" onClick={() => setFairplay(false)}>{t("Entendido", "Ados", "Compris")}</button>
           </div>
         </Dialog>}
-        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa-irizpideak", "Critères de départage")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiago puntuetan berdintzen badira, ordena honetan askatzen da berdinketa:", "Si deux équipes ou plus d’un même groupe sont à égalité de points, elles sont départagées dans l’ordre suivant :")}</p><ol>{infoFor(tn, lang).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
+        {rules && <Dialog title={t("Criterios de desempate", "Berdinketa hausteko irizpideak", "Critères de départage")} onClose={() => setRules(false)}><div className="prose"><p>{t("Si dos o más equipos de un grupo empatan a puntos, se desempata por este orden:", "Multzo bateko bi talde edo gehiagok puntu berdinak badituzte, berdinketa hurrenkera honetan hausten da:", "Si deux équipes ou plus d’un même groupe sont à égalité de points, elles sont départagées dans l’ordre suivant :")}</p><ol>{infoFor(tn, lang).tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div></Dialog>}
       </div>
       </OpenTeamContext.Provider>
     </EngineContext.Provider>

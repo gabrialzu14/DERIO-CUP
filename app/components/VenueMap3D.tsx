@@ -64,7 +64,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
   const name: Record<ZoneKey, string> = { c1: fieldName(1, lang), c2: fieldName(2, lang), bar: t("Bar", "Taberna", "Buvette"), wc: t("WC", "Komunak", "Toilettes"), parking: t("Aparcamiento", "Aparkalekua", "Parking"), entrada: t("Entrada", "Sarrera", "Entrée") };
   const desc: Partial<Record<ZoneKey, string>> = {
     bar: t("Pintxos y bocadillos", "Pintxoak eta ogitartekoak", "Pintxos et sandwichs"),
-    wc: t("Acceso por detrás de la grada", "Harmailaren atzetik sartzen da", "Accès par l’arrière de la tribune"),
+    wc: t("Acceso por detrás de la grada", "Sarbidea harmailaren atzetik", "Accès par l’arrière de la tribune"),
     entrada: t("3 € por persona", "3 € pertsonako", "3 € par personne"),
     c1: t("Fase de grupos y fase oro", "Multzo-fasea eta urrezko fasea", "Phase de groupes et Phase Or"),
     c2: t("Fase de grupos y fase plata", "Multzo-fasea eta zilarrezko fasea", "Phase de groupes et Phase Argent"),

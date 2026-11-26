@@ -36,7 +36,9 @@ for (const file of files) {
 { const file = path.join(APP, "components/Onboarding.tsx"), sf = ts.createSourceFile(file, fs.readFileSync(file, "utf8"), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
   let cond = null; (function v(n) { if (!cond && ts.isConditionalExpression(n) && ts.isObjectLiteralExpression(n.whenTrue)) cond = n; else ts.forEachChild(n, v); })(sf);
   if (cond) { const steps = o => Object.fromEntries(o.properties.map(p => [p.name.getText(), p.initializer.elements.map(e => Object.fromEntries(e.properties.map(q => [q.name.getText(), q.initializer])))]));
-    const eu = steps(cond.whenTrue), es = steps(cond.whenFalse), frObj = cond.whenFalse && ts.isConditionalExpression(cond.whenFalse) ? null : null;
-    for (const plat of Object.keys(es)) es[plat].forEach((st, i) => ["title", "text"].forEach(k => out.push({ id: ++id, file: "app/components/Onboarding.tsx", line: sf.getLineAndCharacterOfPosition(st[k].getStart()).line + 1, clave: `guia.${plat}[${i}].${k}`, es: lit(st[k]), eu: lit(eu[plat][i][k]), fr: null }))); } }
+    // lang === "eu" ? {eu} : lang === "fr" ? {fr} : {es}
+    const inner = ts.isConditionalExpression(cond.whenFalse) ? cond.whenFalse : null;
+    const eu = steps(cond.whenTrue), es = steps(inner ? inner.whenFalse : cond.whenFalse), fr = inner ? steps(inner.whenTrue) : null;
+    for (const plat of Object.keys(es)) es[plat].forEach((st, i) => ["title", "text"].forEach(k => out.push({ id: ++id, file: "app/components/Onboarding.tsx", line: sf.getLineAndCharacterOfPosition(st[k].getStart()).line + 1, clave: `guia.${plat}[${i}].${k}`, es: lit(st[k]), eu: lit(eu[plat][i][k]), fr: fr ? lit(fr[plat][i][k]) : null }))); } }
 fs.writeFileSync(path.join(__dirname, "textos.json"), JSON.stringify(out, null, 1));
 console.log(out.length + " textos → docs/idiomas/textos.json");

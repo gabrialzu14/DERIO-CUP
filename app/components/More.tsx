@@ -26,19 +26,19 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <p>{i.intro}</p>
     <div className="chips"><span>{tn.teams.length} {t("equipos", "talde", "équipes")}</span><span>{dp.short}</span><span>{tn.venueShort}</span><span>{t("Temporada", "Denboraldia", "Saison")} {tn.season}</span></div></> });
   items.push({ key: "ubicacion", icon: "pin", title: t("Ubicación · ", "Kokalekua · ", "Lieu · ") + tn.venueShort, sub: venueFor(tn, lang), body: <>
-    {t(<p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>, <p>Txapelketa <b>{tn.venueEu ?? tn.venue}, Derion</b> jokatzen da. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p>, <p>Le tournoi se déroule au <b>{venueFor(tn, "fr")}</b>, à Derio. Les matchs se répartissent entre le Terrain 1 et le Terrain 2 selon le programme.</p>)}
+    {t(<p>El torneo se disputa en las <b>{tn.venue}, Derio</b>. Los partidos se reparten entre Campo 1 y Campo 2 según el calendario.</p>, <p>Txapelketa hemen jokatzen da: <b>{tn.venueEu ?? tn.venue}, Derio</b>. Partidak 1. eta 2. zelaien artean banatzen dira, egutegiaren arabera.</p>, <p>Le tournoi se déroule au <b>{venueFor(tn, "fr")}</b>, à Derio. Les matchs se répartissent entre le Terrain 1 et le Terrain 2 selon le programme.</p>)}
     <VenueMap3D fallback={i.venueImage} />
     <div className="dir-row"><a className="btn btn-primary" href={directionsUrl("ibaiondo")} target="_blank" rel="noreferrer"><Icon name="car" size={18} />{t("Cómo llegar", "Nola iritsi", "Itinéraire")}</a><a className="btn btn-ghost" href={tn.mapsUrl} target="_blank" rel="noreferrer"><Icon name="pin" size={18} />{t("Ver en Maps", "Ikusi Maps-en", "Voir sur Maps")}</a></div></> });
   if (i.parking?.length) items.push({ key: "parking", icon: "car", title: t("Aparcamiento", "Aparkalekua", "Parking"), sub: t("Dónde aparcar el día del torneo", "Non aparkatu txapelketa egunean", "Où se garer le jour du tournoi"), body: <>
     <ParkingMaps /></> });
   const ng = new Set(tn.teams.map(x => x.group)).size, per = Math.round(tn.teams.length / ng);
-  items.push({ key: "formato", icon: "trophy", title: t("Formato del torneo", "Txapelketaren formatua", "Format du tournoi"), sub: t("Puntuación, fases y desempates", "Puntuazioa, faseak eta berdinketak", "Points, phases et départage"), body: <div className="fmt">
+  items.push({ key: "formato", icon: "trophy", title: t("Formato del torneo", "Txapelketaren formatua", "Format du tournoi"), sub: t("Puntuación, fases y desempates", "Puntuazioa, faseak eta berdinketa hausteak", "Points, phases et départage"), body: <div className="fmt">
     <div className="fmt-facts">
       <span><Icon name="users" size={20} /><b>{tn.teams.length}</b><small>{t("equipos", "talde", "équipes")}</small></span>
       <span><Icon name="groups" size={20} /><b>{ng}</b><small>{t("grupos", "multzo", "groupes")}</small></span>
       <span><Icon name="clock" size={20} /><b>{i.minutes}&apos;</b><small>{t("por partido", "partida bakoitzeko", "par match")}</small></span>
     </div>
-    <h3>{t("Puntos por partido", "Puntuak partida bakoitzeko", "Points par match")}</h3>
+    <h3>{t("Puntos por partido", "Partida bakoitzeko puntuak", "Points par match")}</h3>
     <div className="fmt-points">
       <div className="win"><b>+3</b><small>{t("Victoria", "Garaipena", "Victoire")}</small></div>
       <div className="draw"><b>+1</b><small>{t("Empate", "Berdinketa", "Nul")}</small></div>
@@ -48,18 +48,18 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <ol className="fmt-flow">
       <li><span className="fmt-n">1</span><div><b>{t("Fase de grupos", "Multzo-fasea", "Phase de groupes")}</b><p>{t(`${ng} grupos de ${per} equipos. Todos juegan contra todos.`, `${per} taldeko ${ng} multzo. Guztiek guztien aurka jokatzen dute.`, `${ng} groupes de ${per} équipes. Chaque équipe affronte toutes les autres de son groupe.`)}</p></div></li>
       <li><span className="fmt-n">2</span><div><b>{t("Fases finales", "Azken faseak", "Phases finales")}</b>
-        <div className="fmt-split"><div className="gold"><i className="dot gold" />{t("Fase Oro", "Urrezko fasea", "Phase Or")}<small>{t("1.º y 2.º de cada grupo", "Multzo bakoitzeko 1. eta 2.", "1er et 2e de chaque groupe")}</small></div><div className="silver"><i className="dot silver" />{t("Fase Plata", "Zilarrezko fasea", "Phase Argent")}<small>{t("3.º y 4.º de cada grupo", "Multzo bakoitzeko 3. eta 4.", "3e et 4e de chaque groupe")}</small></div></div>
+        <div className="fmt-split"><div className="gold"><i className="dot gold" />{t("Fase Oro", "Urrezko fasea", "Phase Or")}<small>{t("1.º y 2.º de cada grupo", "Multzo bakoitzeko 1.a eta 2.a", "1er et 2e de chaque groupe")}</small></div><div className="silver"><i className="dot silver" />{t("Fase Plata", "Zilarrezko fasea", "Phase Argent")}<small>{t("3.º y 4.º de cada grupo", "Multzo bakoitzeko 3.a eta 4.a", "3e et 4e de chaque groupe")}</small></div></div>
         <p>{t("Cuartos de final, semifinales y final.", "Final-laurdenak, finalerdiak eta finala.", "Quarts de finale, demi-finales et finale.")}</p></div></li>
     </ol>
     <div className="fmt-note"><Icon name="switch" size={18} /><span>{t("Los cambios son ", "Aldaketak ", "Les remplacements sont ")}<b>{t("ilimitados", "mugagabeak", "illimités")}</b>{t(" durante todo el partido.", " dira partida osoan zehar.", " pendant tout le match.")}</span></div>
     <div className="fmt-note"><Icon name="ball" size={18} /><span>{i.penaltyRule}</span></div>
-    <h3>{t("Desempates de grupo", "Multzoko berdinketak", "Départage des groupes")}</h3><ol className="fmt-ties">{i.tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div> });
+    <h3>{t("Desempates de grupo", "Multzoko berdinketa hausteak", "Départage des groupes")}</h3><ol className="fmt-ties">{i.tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div> });
   const RULE_ICONS: IconName[] = ["shirt", "flag", "hand", "ball"];
-  items.push({ key: "normas", icon: "ball", title: t("Normas de juego", "Jokoaren arauak", "Règles du jeu"), sub: t("Reglas específicas de ", "Arau espezifikoak: ", "Règles propres à la ") + BRAND, body: <>
+  items.push({ key: "normas", icon: "ball", title: t("Normas de juego", "Jokoaren arauak", "Règles du jeu"), sub: t(`Reglas específicas de ${BRAND}`, `${BRAND}-eko arau bereziak`, `Règles propres à la ${BRAND}`), body: <>
     <ul className="rules">{i.rules.map((r, n) => <li key={r}><span className="rule-ico"><Icon name={RULE_ICONS[n] ?? "info"} size={22} /></span><p>{r}</p></li>)}</ul>
     <div className="callout warn"><Icon name="warn" size={20} /><span>{i.warning}</span></div></> });
   items.push({ key: "comidas", icon: "coffee", title: i.wc ? t("Comidas, bar y WC", "Otorduak, taberna eta komunak", "Repas, buvette et WC") : t("Comidas y bar", "Otorduak eta taberna", "Repas et buvette"), sub: i.wc ? t("Servicio de comidas y ubicación de baños", "Otordu-zerbitzua eta komunen kokalekua", "Repas et emplacement des toilettes") : t("Servicio de comidas para equipos y bar para familias", "Taldeentzako otordu-zerbitzua eta familientzako taberna", "Repas pour les équipes et buvette pour les familles"), body: <>
-    {i.meals && <>{t(<p>Los equipos participantes disponen de <b>servicio de comidas opcional</b> en Ibaiondo por <b>{i.meals.price}</b>. {i.meals.includes}</p>, <p>Parte hartzen duten taldeek Ibaiondon <b>aukerako otordu-zerbitzua</b> dute <b>{i.meals.price}</b>ren truke. {i.meals.includes}</p>, <p>Les équipes participantes peuvent bénéficier d’un <b>service de repas en option</b> à Ibaiondo, au prix de <b>{i.meals.price}</b>. {i.meals.includes}</p>)}{i.meals.contact && <p>{i.meals.contact}</p>}</>}
+    {i.meals && <>{t(<p>Los equipos participantes disponen de <b>servicio de comidas opcional</b> en Ibaiondo por <b>{i.meals.price}</b>. {i.meals.includes}</p>, <p>Parte hartzen duten taldeek <b>aukerako otordu-zerbitzua</b> dute Ibaiondon. Prezioa: <b>{i.meals.price}</b>. {i.meals.includes}</p>, <p>Les équipes participantes peuvent bénéficier d’un <b>service de repas en option</b> à Ibaiondo, au prix de <b>{i.meals.price}</b>. {i.meals.includes}</p>)}{i.meals.contact && <p>{i.meals.contact}</p>}</>}
     <p>{i.bar}</p>{i.wc && <p><b>{t("Baños / WC:", "Komunak / WC:", "Toilettes :")}</b> {i.wc}</p>}</> });
   return items;
 }

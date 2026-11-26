@@ -29,7 +29,7 @@ export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string;
         <div className="profile-name">
           <small>{groupName(t.group, lang)}{isMine ? tr(" · Mi equipo", " · Nire taldea", " · Mon équipe") : ""}</small>
           <h1>{t.name}</h1>
-          <p>{row.pj ? tr(`${pos}.º de su grupo · ${row.pts} pts`, `${pos}. bere multzoan · ${row.pts} pun.`, `${pos}${pos === 1 ? "er" : "e"} de son groupe · ${row.pts} pts`) : tr("Aún no ha jugado", "Oraindik ez du jokatu", "N’a pas encore joué")}</p>
+          <p>{row.pj ? tr(`${pos}.º de su grupo · ${row.pts} pts`, `Multzoko ${pos}.a · ${row.pts} puntu`, `${pos}${pos === 1 ? "er" : "e"} de son groupe · ${row.pts} pts`) : tr("Aún no ha jugado", "Oraindik ez du jokatu", "N’a pas encore joué")}</p>
         </div>
       </header>
 

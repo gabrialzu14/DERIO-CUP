@@ -13,16 +13,16 @@ type Guide = { icon: IconName; logo?: "safari" | "chrome"; title: string; text: 
 
 const guides = (lang: Lang): { ios: Guide[]; android: Guide[] } => lang === "eu" ? {
   ios: [
-    { icon: "smartphone", logo: "safari", title: "Ireki orri hau Safarin", text: <><b>Safari</b> izan behar da, iparrorratza duen nabigatzaile urdina. WhatsApp-en edo Instagram-en bazaude, sakatu <b>···</b> eta aukeratu <b>«Ireki Safarin»</b>.</> },
-    { icon: "share", title: "Sakatu «Partekatu»", text: <><b>Karratua eta gora doan gezia</b> dituen botoia da, behean erdian. iPhone batzuetan <b>···</b> menuaren barruan dago.</> },
-    { icon: "addhome", title: "«Gehitu hasierako pantailara»", text: <>Irristatu behera irekitzen den menuan eta sakatu <b>«Gehitu hasierako pantailara»</b>.</> },
-    { icon: "check", title: "Sakatu «Gehitu»", text: <>Goian eskuinean. <b>Derio Cup</b>-en ikonoa zure hasierako pantailan agertuko da.</> },
+    { icon: "smartphone", logo: "safari", title: "Ireki orri hau Safarin", text: <><b>Safari</b> izan behar da: iparrorratza duen nabigatzaile urdina. WhatsApp-en edo Instagram-en bazaude, sakatu <b>···</b> eta aukeratu <b>«Abrir en Safari»</b>.</> },
+    { icon: "share", title: "Sakatu «Compartir»", text: <><b>Karratua eta gora doan gezia</b> dituen botoia da, behean erdian. iPhone batzuetan <b>···</b> menuaren barruan dago.</> },
+    { icon: "addhome", title: "Gehitu hasierako pantailan", text: <>Irristatu behera irekitzen den menuan eta sakatu <b>«Añadir a pantalla de inicio»</b>.</> },
+    { icon: "check", title: "Sakatu «Añadir»", text: <>Goian eskuinean. <b>Derio Cup</b>-en ikonoa zure hasierako pantailan agertuko da.</> },
   ],
   android: [
-    { icon: "smartphone", logo: "chrome", title: "Ireki orri hau Chrome-n", text: <>Kolore-borobila duen nabigatzailea da. Beste aplikazio baten barruan bazaude, sakatu <b>⋮</b> eta aukeratu <b>«Ireki Chrome-n»</b>.</> },
+    { icon: "smartphone", logo: "chrome", title: "Ireki orri hau Chrome-n", text: <>Koloretako borobila duen nabigatzailea da. Beste aplikazio baten barruan bazaude, sakatu <b>⋮</b> eta aukeratu <b>«Ireki Chrome arakatzailean»</b>.</> },
     { icon: "dotsv", title: "Sakatu ⋮ menua", text: <>Goian eskuinean dauden <b>hiru puntuak</b> dira.</> },
     { icon: "install", title: "«Instalatu aplikazioa»", text: <>Sakatu <b>«Instalatu aplikazioa»</b> edo <b>«Gehitu hasierako pantailara»</b>, zure mugikorraren arabera.</> },
-    { icon: "check", title: "Baieztatu «Instalatu»-rekin", text: <><b>Derio Cup</b>-en ikonoa hasierako pantailan eta aplikazioen menuan agertuko da.</> },
+    { icon: "check", title: "Sakatu «Instalatu» berresteko", text: <><b>Derio Cup</b>-en ikonoa hasierako pantailan eta aplikazioen menuan agertuko da.</> },
   ],
 } : lang === "fr" ? {
   ios: [
@@ -99,7 +99,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip, themeCtl }: { st
         </>}
         {step === "steps" && <>
           <div className="onb-dots" role="progressbar" aria-label={t("Paso", "Pausoa", "Étape")} aria-valuemin={1} aria-valuemax={guide.length} aria-valuenow={n + 1}>{guide.map((_, i) => <i key={i} className={i <= n ? "on" : ""} />)}</div>
-          <small className="onb-kicker">{platform === "ios" ? "iPhone" : "Android"} · {t(`Paso ${n + 1} de ${guide.length}`, `${n + 1}/${guide.length}. pausoa`, `Étape ${n + 1} sur ${guide.length}`)}</small>
+          <small className="onb-kicker">{platform === "ios" ? "iPhone" : "Android"} · {t(`Paso ${n + 1} de ${guide.length}`, `Pausoa: ${n + 1}/${guide.length}`, `Étape ${n + 1} sur ${guide.length}`)}</small>
           <div className={"onb-art" + (guide[n].logo ? " has-logo" : "")}>{guide[n].logo ? <img src={`/plataformas/${guide[n].logo}.webp`} alt={guide[n].logo === "safari" ? "Safari" : "Chrome"} width={72} height={72} decoding="async" draggable={false} /> : <Icon name={guide[n].icon} size={52} />}</div>
           <h2 className="onb-title">{guide[n].title}</h2>
           <p className="onb-text">{guide[n].text}</p>
@@ -119,7 +119,7 @@ export function Onboarding({ start = "welcome", onDone, onSkip, themeCtl }: { st
         {step === "ask" && <button type="button" className="onb-link" onClick={() => goStep("welcome")}>{t("Atrás", "Atzera", "Retour")}</button>}
         {step === "platform" && <button type="button" className="onb-link" onClick={() => (start === "platform" ? onSkip() : goStep("ask"))}>{t("Atrás", "Atzera", "Retour")}</button>}
         {step === "steps" && <>
-          <button type="button" className="btn btn-primary block" onClick={() => (n < guide.length - 1 ? goN(n + 1) : goStep("done"))}>{n < guide.length - 1 ? t("Siguiente", "Hurrengoa", "Suivant") : t("Ya lo he hecho", "Eginda dago", "C’est fait")}<Icon name="chevron" size={18} /></button>
+          <button type="button" className="btn btn-primary block" onClick={() => (n < guide.length - 1 ? goN(n + 1) : goStep("done"))}>{n < guide.length - 1 ? t("Siguiente", "Hurrengoa", "Suivant") : t("Ya lo he hecho", "Egin dut", "C’est fait")}<Icon name="chevron" size={18} /></button>
           <button type="button" className="onb-link" onClick={() => (n > 0 ? goN(n - 1) : goStep("platform"))}>{t("Atrás", "Atzera", "Retour")}</button>
         </>}
         {step === "done" && <>

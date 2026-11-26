@@ -47,7 +47,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
             <div className="progress-row"><div className="progress" role="progressbar" aria-label={t("Partidos de grupos jugados", "Jokatutako multzo-partidak", "Matchs de groupe joués")} aria-valuemin={0} aria-valuemax={ms.length} aria-valuenow={played}><span style={{ width: (played / ms.length) * 100 + "%" }} /></div><small>{played}/{ms.length} {t("partidos", "partida", "matchs")}</small></div>
             <div className="group-grid">
               {GROUPS.map(g => (
-                <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t("Ver clasificación del grupo ", "Ikusi sailkapena, multzoa: ", "Voir le classement du groupe ") + g}>
+                <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t(`Ver clasificación del grupo ${g}`, `Ikusi ${g} multzoaren sailkapena`, `Voir le classement du groupe ${g}`)}>
                   <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done"><Icon name="check" size={14} />{t("Cerrado", "Itxita", "Terminé")}</span>}</span>
                   <span className="group-crests">{(complete(g, ms) || ms.some(m => m.group === g && m.hs !== null) ? table(g, ms).map(r => r.id) : teamIds(g)).map(id => <Crest key={id} id={id} size={32} />)}</span>
                 </button>
@@ -55,7 +55,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
             </div>
           </> : <>
             <PhaseNote kind={phase === "oro" ? "Oro" : "Plata"} />
-            <p className="note">{phase === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak pasatzen dira.", "Les deux premiers de chaque groupe se qualifient.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarrena eta laugarrena pasatzen dira.", "Le troisième et le quatrième de chaque groupe se qualifient.")}</p>
+            <p className="note">{phase === "oro" ? t("Pasan los dos primeros de cada grupo.", "Multzo bakoitzeko lehen bi taldeak sailkatzen dira.", "Les deux premiers de chaque groupe se qualifient.") : t("Pasan el tercero y el cuarto de cada grupo.", "Multzo bakoitzeko hirugarren eta laugarren taldeak sailkatzen dira.", "Le troisième et le quatrième de chaque groupe se qualifient.")}</p>
             <Bracket kind={phase === "oro" ? "Oro" : "Plata"} games={phase === "oro" ? oro : plata} compact />
           </>}
         </TabPanel>
@@ -117,8 +117,8 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
       <div className="hero-top"><span className="eyebrow"><BrandName /> · {t("Finalizada", "Amaituta", "Terminée")}</span><CupMark size={26} /></div>
       <p className="hero-title">{t("Resultados finales", "Azken emaitzak", "Palmarès")}</p>
       <div className="podium">
-        <Cell kind="gold" id={ow} role={t("Campeón Oro", "Urrezko txapeldun", "Vainqueur Or")} /><Cell kind="gold" id={ru(oro, ow)} role={t("Subcampeón Oro", "Urrezko azpitxapeldun", "Finaliste Or")} />
-        <Cell kind="silver" id={pw} role={t("Campeón Plata", "Zilarrezko txapeldun", "Vainqueur Argent")} /><Cell kind="silver" id={ru(plata, pw)} role={t("Subcampeón Plata", "Zilarrezko azpitxapeldun", "Finaliste Argent")} />
+        <Cell kind="gold" id={ow} role={t("Campeón Oro", "Urrezko txapelduna", "Vainqueur Or")} /><Cell kind="gold" id={ru(oro, ow)} role={t("Subcampeón Oro", "Urrezko txapeldunordea", "Finaliste Or")} />
+        <Cell kind="silver" id={pw} role={t("Campeón Plata", "Zilarrezko txapelduna", "Vainqueur Argent")} /><Cell kind="silver" id={ru(plata, pw)} role={t("Subcampeón Plata", "Zilarrezko txapeldunordea", "Finaliste Argent")} />
       </div>
       <dl className="finals"><div><dt>{t("Final Oro", "Urrezko finala", "Finale Or")}</dt><dd>{score(oro)}</dd></div><div><dt>{t("Final Plata", "Zilarrezko finala", "Finale Argent")}</dt><dd>{score(plata)}</dd></div></dl>
     </section>

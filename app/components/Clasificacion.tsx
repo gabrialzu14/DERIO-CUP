@@ -13,7 +13,7 @@ export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setG
   const done = complete(group, ms);
   return (
     <div className="screen">
-      <div className="screen-title-row"><h1 className="screen-title">{t("Clasificaciones", "Sailkapenak", "Classements")}</h1><button type="button" className="link-btn" onClick={onRules}><Icon name="sort" size={18} strokeWidth={2.6} className="icon sort-ico" />{t("Desempates", "Berdinketak", "Départage")}</button></div>
+      <div className="screen-title-row"><h1 className="screen-title">{t("Clasificaciones", "Sailkapenak", "Classements")}</h1><button type="button" className="link-btn" onClick={onRules}><Icon name="sort" size={18} strokeWidth={2.6} className="icon sort-ico" />{t("Desempates", "Irizpideak", "Départage")}</button></div>
       <Tabs label={t("Grupo", "Multzoa", "Groupe")} idPrefix="grupo" value={group} onChange={setGroup} items={GROUPS.map(g => ({ key: g, label: groupName(g, lang), ariaLabel: groupName(g, lang) }))} />
       <TabPanel idPrefix="grupo" tab={group}>
         <GroupTable group={group} ms={ms} />
@@ -31,8 +31,8 @@ export function GroupTable({ group, ms, highlight }: { group: G; ms: Match[]; hi
   const tb = table(group, ms), done = complete(group, ms);
   return (
     <>
-        <div className="table-card" role="table" aria-label={t("Clasificación del grupo ", "Sailkapena, multzoa: ", "Classement du groupe ") + group}>
-        <div className="trow thead" role="row"><span role="columnheader" className="c-pos">#</span><span role="columnheader" className="c-team">{t("Equipo", "Taldea", "Équipe")}</span><span role="columnheader" title={t("Partidos jugados", "Jokatutako partidak", "Matchs joués")}>{t("PJ", "JP", "J")}</span><span role="columnheader" title={t("Goles a favor", "Golak alde", "Buts marqués")}>{t("GF", "GA", "BP")}</span><span role="columnheader" title={t("Goles en contra", "Golak kontra", "Buts encaissés")}>{t("GC", "GK", "BC")}</span><span role="columnheader" title={t("Diferencia de goles", "Gol-diferentzia", "Différence de buts")}>{t("DG", "GD", "Diff")}</span><span role="columnheader" className="c-pts">{t("Pts", "Pun.", "Pts")}</span></div>
+        <div className="table-card" role="table" aria-label={t(`Clasificación del grupo ${group}`, `${group} multzoaren sailkapena`, `Classement du groupe ${group}`)}>
+        <div className="trow thead" role="row"><span role="columnheader" className="c-pos">#</span><span role="columnheader" className="c-team">{t("Equipo", "Taldea", "Équipe")}</span><span role="columnheader" title={t("Partidos jugados", "Jokatutako partidak", "Matchs joués")}>{t("PJ", "JP", "J")}</span><span role="columnheader" title={t("Goles a favor", "Aldeko golak", "Buts marqués")}>{t("GF", "GA", "BP")}</span><span role="columnheader" title={t("Goles en contra", "Kontrako golak", "Buts encaissés")}>{t("GC", "GK", "BC")}</span><span role="columnheader" title={t("Diferencia de goles", "Gol-diferentzia", "Différence de buts")}>{t("DG", "GD", "Diff")}</span><span role="columnheader" className="c-pts">{t("Pts", "P", "Pts")}</span></div>
         {tb.map((r, i) => { const z = zoneFor(r.id, group, ms); return (
           <div key={r.id} role="row" className={"trow " + (i < 2 ? "p-oro" : "p-plata") + (r.id === highlight ? " is-me" : "")}>
             <span role="cell" className="c-pos"><b>{i + 1}</b></span>

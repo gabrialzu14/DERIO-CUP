@@ -56,6 +56,12 @@ por palabra: es que cada texto suene como si lo hubiera escrito alguien de aquí
 |---|---|---|
 | Torneo | Txapelketa | Tournoi |
 | Fútbol base | Oinarrizko futbola | Football des jeunes / foot à 8 |
+| Campeón / subcampeón | Txapelduna / txapeldunordea | Vainqueur / finaliste |
+| Partidos entre los empatados | Elkarren arteko partidak | Confrontations directes |
+| Banquillo | Aulkia | Banc de touche |
+| Conducta antideportiva | Kirol-legearen kontrako portaera | Comportement antisportif |
+| Afición / seguidores (contador) | Zaleak / jarraitzaileak | Supporters |
+| Clasificarse (pasar de fase) | Sailkatu | Se qualifier |
 | Fase de grupos | Multzo-fasea | Phase de groupes |
 | Grupo A | A multzoa | Groupe A |
 | Fase Oro / Fase Plata | Urrezko fasea / Zilarrezko fasea | Phase Or / Phase Argent |
@@ -63,17 +69,17 @@ por palabra: es que cada texto suene como si lo hubiera escrito alguien de aquí
 | Partido | Partida | Match |
 | Campo 1 | 1. zelaia | Terrain 1 |
 | Clasificación | Sailkapena | Classement |
-| Desempate / criterios de desempate | Berdinketa hausteko irizpideak | Départage / critères de départage |
+| Desempate / criterios de desempate | Berdinketa haustea / berdinketa hausteko irizpideak | Départage / critères de départage |
 | Cuartos de final / Semifinales / Final | Final-laurdenak / Finalerdiak / Finala | Quarts de finale / Demi-finales / Finale |
-| Tanda de penaltis | Penalti-jaurtiketak | Séance de tirs au but |
+| Tanda de penaltis | Penalti-txanda | Séance de tirs au but |
 | Fuera de juego | Jokoz kanpo | Hors-jeu |
-| Cesión al portero | Atezainari atzera pasatzea | Passe en retrait au gardien |
-| Falta directa / barrera | Falta zuzena / harresia | Coup franc direct / mur |
-| Segunda equipación | Bigarren ekipazioa | Deuxième jeu de maillots |
-| Puntos / PJ GF GC DG PTS | Puntuak / J GA GK GD P | Points / J BP BC DB Pts |
+| Cesión al portero | Baloia atezainari ematea | Passe en retrait au gardien |
+| Falta directa / barrera | Jaurtiketa libre zuzena / hesia | Coup franc direct / mur |
+| Segunda equipación | Bigarren jantzia | Deuxième jeu de maillots |
+| Puntos / PJ GF GC DG PTS | Puntuak / J GA GK GD P | Points / J BP BC Diff Pts |
 | Seguidores (afición de un equipo) | Jarraitzaileak | Supporters |
 | Grada | Harmaila | Tribune |
-| Aparcamiento / en batería | Aparkalekua / baterian | Parking / en bataille |
+| Aparcamiento / en batería | Aparkalekua / baterian aparkatzeko gunea | Parking / en bataille |
 | Bar (del club) | Taberna | Buvette |
 | Aseos / WC | Komunak | Toilettes |
 | Entrada (precio) | Sarrera | Entrée |
@@ -104,6 +110,18 @@ Cada término técnico o frase dudosa se comprueba en fuentes oficiales y se ano
 4. Aplicar en el código, pasar `scripts/qa/idioma.cjs` (ningún texto en castellano en las pantallas en
    euskera o francés) y revisar capturas de cada pantalla en los tres idiomas.
 5. Lo que no se pueda verificar con fuentes se marca como **«a revisar por nativo»**.
+
+## Decisiones ya tomadas (revisión de noviembre de 2026)
+
+- **iPhone en euskera**: iOS no tiene interfaz en euskera, así que los pasos citan los botones tal como se ven
+  en un iPhone en castellano («Compartir», «Añadir a pantalla de inicio», «Añadir»). En Android se usan los
+  textos de Chrome en euskera («Instalatu aplikazioa», «Ireki Chrome arakatzailean»).
+- **Fechas en euskera** (Euskaltzaindia, 203. araua): «abenduaren 8a», «Abenduaren 8a, asteartea», corta «abe. 8».
+- **«Z1» no**: siempre «1. zelaia».
+- **Francés**: «1re journée», «1er / 2e», «8 décembre», meses en minúscula, «la Derio Cup» en femenino,
+  «Parking de délestage» para el aparcamiento alternativo, «Benjamín 2017 (enfants nés en 2017)».
+- **Frases con variables**: nunca «texto: variable» para salir del paso; se reescribe con plantilla para que
+  cada idioma ordene la frase a su manera (`${g} multzoaren sailkapena`).
 
 ## Formato de salida
 

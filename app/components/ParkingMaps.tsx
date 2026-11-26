@@ -93,9 +93,9 @@ export function ParkingMaps() {
   return (
     <div className="pk-wrap">
       <figure className="pk-fig">
-        <figcaption><b>{t("Aparcamiento", "Aparkalekua", "Parking")}</b><span>{t("Junto al campo: en batería en el vial de acceso y en Camino Untzaga, al final del vial y en la campa.", "Zelaiaren ondoan: bateria-aparkalekua sarbide-bidean eta Untzaga bidean, bidearen amaieran eta zelaigunean.", "À côté du stade : en bataille le long de la voie d’accès et du Camino Untzaga, au bout de la voie d’accès et dans le pré.")}</span></figcaption>
+        <figcaption><b>{t("Aparcamiento", "Aparkalekua", "Parking")}</b><span>{t("Junto al campo: en batería en el vial de acceso y en Camino Untzaga, al final del vial y en la campa.", "Zelaiaren ondoan: baterian, sarbide-bidean eta Untzaga bidean; sarbide-bidearen amaieran eta zelaigunean ere bai.", "À côté du stade : en bataille le long de la voie d’accès et du Camino Untzaga, au bout de la voie d’accès et dans le pré.")}</span></figcaption>
         <ParkingNear />
-        <div className="pk-legend"><span><i className="sw hatch" />{t("Zona de aparcamiento", "Aparkatzeko gunea", "Zone de stationnement")}</span><span><i className="sw batt" />{t("Aparcamiento en batería", "Bateria-aparkalekua", "Parking en bataille")}</span><span><i className="sw entry" />{t("Entrada al campo", "Zelairako sarrera", "Entrée du stade")}</span></div>
+        <div className="pk-legend"><span><i className="sw hatch" />{t("Zona de aparcamiento", "Aparkatzeko gunea", "Zone de stationnement")}</span><span><i className="sw batt" />{t("Aparcamiento en batería", "Baterian aparkatzeko gunea", "Parking en bataille")}</span><span><i className="sw entry" />{t("Entrada al campo", "Zelairako sarrera", "Entrée du stade")}</span></div>
         {go("ibaiondo", t("Cómo llegar al campo", "Nola iritsi zelaira", "Itinéraire vers le stade"))}
       </figure>
       <figure className="pk-fig">

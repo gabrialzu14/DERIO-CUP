@@ -118,42 +118,42 @@ const INFO_2017: InfoSpec = {
 
 
 /* ------------------------------------------------------------------ textos en euskera */
-const TIEBREAKS_EU_2017 = ["Puntu guztiak", "Zuzeneko partidetako puntuak", "Zuzeneko partidetako gol-diferentzia", "Zuzeneko partidetako golak alde", "Gol-diferentzia orokorra", "Golak alde (guztira)", "Penalti-tanda"];
+const TIEBREAKS_EU_2017 = ["Puntuak, guztira", "Elkarren arteko partidetako puntuak", "Elkarren arteko partidetako gol-diferentzia", "Elkarren arteko partidetako aldeko golak", "Gol-diferentzia orokorra", "Aldeko golak, guztira", "Penalti-txanda"];
 const INFO_2015_EU: InfoSpec = {
-  intro: "Derio Cup CD Derio-k antolatutako oinarriko futbol txapelketa da, Ibaiondoko Kirol Instalazioetan (Derio) jokatzen dena. 16 talde izango dira, 4 taldeko 4 multzotan banatuta, multzo-fasearekin eta bi azken faserekin (Urrezko fasea eta Zilarrezko fasea).",
+  intro: "Derio Cup CD Deriok antolatzen duen oinarrizko futbol txapelketa da, eta Ibaiondoko Kirol Instalazioetan (Derio) jokatzen da. 16 taldek hartzen dute parte, 4 taldeko 4 multzotan banatuta. Multzo-fasea eta bi azken fase ditu: Urrezko fasea eta Zilarrezko fasea.",
   minutes: 20,
-  penaltyRule: "Azken faseetan, partida berdinketan amaitzen bada, talde bakoitzak 3 penalti jaurtiko ditu berdinketa ebazteko. Partida amaitu duten 7 jokalariek bakarrik jaurti dezakete eta partida amaitu duen atezainak jarraitu behar du. Berdinketak jarraitzen badu, aldaketa-aulkiko jokalariek jaurti ahal izango dute.",
-  tiebreaks: ["Puntu guztiak", "Zuzeneko partidetako puntuak", "Zuzeneko partidetako gol-diferentzia", "Zuzeneko partidetako golak alde", "Gol-diferentzia orokorra", "Golak alde (guztira)", "Berdinketak jarraitzen badu, txanpona airera botako da sailkapena zehazteko"],
+  penaltyRule: "Azken faseetan, partida berdinduta amaitzen bada, talde bakoitzak 3 penalti jaurtiko ditu berdinketa hausteko. Partida amaitu duten 7 jokalariek bakarrik jaurti ahal izango dute, eta partida amaitu duen atezainak jarraitu behar du atean. Berdinketak jarraitzen badu, aulkian zeuden jokalariek ere jaurti ahal izango dute.",
+  tiebreaks: ["Puntuak, guztira", "Elkarren arteko partidetako puntuak", "Elkarren arteko partidetako gol-diferentzia", "Elkarren arteko partidetako aldeko golak", "Gol-diferentzia orokorra", "Aldeko golak, guztira", "Berdinketak jarraitzen badu, txanpona airera botako da sailkapena zehazteko"],
   rules: [
     "Talde bakoitzak bigarren jantzia ekarri behar du derrigorrez; kanpoko talde gisa izendatutakoak aldatu beharko du ohiko jantzia.",
-    "Jokoz kanpo 13 metroko lerrotik aurrera. Penalti-area zelaian zehaztutakoa izango da (area txikia).",
-    "Atezainari egindako atzerako pasea 13 metroko lerrotik jarritako zuzeneko falta (hesirik gabe, arau-haustearen lekuarekiko perpendikularra) bidez zigortuko da. Falta guztiak zuzenekoak dira.",
+    "Jokoz kanpo egotea 13 metroko lerrotik aurrera zigortuko da. Penalti-area zelaian markatuta dagoena izango da (area txikia).",
+    "Baloia atezainari ematea jaurtiketa libre zuzenarekin zigortuko da, 13 metroko lerrotik eta hesirik gabe (arau-haustea gertatu den lekuaren parean). Falta guztiak zuzenak izango dira.",
     "Talde bakoitzak bere baloiak ekarri behar ditu partidak hasi aurretik berotzeko, antolakuntzak ez baitu bat ere emango.",
   ],
-  warning: "Talde batek jokabide antikiroltsuren bat izanez gero, antolakuntzaren erabakiz kanporatua izango da.",
-  meals: { price: "8 €", includes: "Hamaiketakoa, pasta-platera (zuriak, tomatearekin edo haragia tomatearekin), ogia, ura eta postrea.", contact: "Interesatuta bazaudete, jarri harremanetan txapelketaren arduradunarekin otordu kopurua kudeatzeko." },
-  bar: "Familientzat, pintxo eta ogitarteko askotariko tabernaren zerbitzua egongo da txapelketa osoan zehar.",
+  warning: "Talde batek kirol-legearen kontrako portaerarik izanez gero, antolakuntzak txapelketatik kanporatuko du.",
+  meals: { price: "8 €", includes: "Hamaiketakoa, pasta-platera (saltsarik gabe, tomatearekin edo haragi eta tomatearekin), ogia, ura eta postrea.", contact: "Interesatuta bazaudete, jarri harremanetan txapelketaren arduradunarekin mahaikide kopurua zehazteko." },
+  bar: "Txapelketa osoan zehar taberna-zerbitzua egongo da familientzat, era askotako pintxo eta ogitartekoekin.",
   parking: [
     { src: "/aparcamiento-1.webp", title: "Aparkalekua", alt: "Ibaiondo zelaiaren ondoko aparkalekuaren planoa" },
     { src: "/aparcamiento-2.webp", title: "Ordezko aparkalekua", alt: "Ibaiondotik gertu dagoen ordezko aparkalekuaren planoa" },
   ],
 };
 const INFO_2017_EU: InfoSpec = {
-  intro: "Derio Cup CD Derio-k antolatutako oinarriko futbol txapelketa da, Benjamin 2017 kategoriarako, 2026/27 denboraldia.",
+  intro: "Derio Cup CD Deriok antolatzen duen oinarrizko futbol txapelketa da, 2026/27 denboraldiko Benjamin 2017 kategoriarentzat.",
   minutes: 20,
-  penaltyRule: "Azken faseetan, berdinketa badago, talde bakoitzak 3 penalti jaurtiko ditu. Hasieran partida amaitu duten 7 jokalariek bakarrik jaurti dezakete eta amaitu duen atezainak jarraitu behar du. Berdinketak jarraitzen badu, aldaketa-aulkiko jokalariek jaurti ahal izango dute.",
+  penaltyRule: "Azken faseetan, berdinketa badago, talde bakoitzak 3 penalti jaurtiko ditu. Hasieran, partida amaitu duten 7 jokalariek bakarrik jaurti dezakete, eta partida amaitu duen atezainak jarraitu behar du atean. Berdinketak jarraitzen badu, aulkiko jokalariek ere jaurti ahal izango dute.",
   tiebreaks: TIEBREAKS_EU_2017,
   rules: [
-    "Kanpoko talde gisa izendatutakoak jantzia aldatu beharko du bat egiten badute. Bigarren jantzia ekartzea derrigorrezkoa da.",
-    "Jokoz kanpo 13 metroko lerrotik aurrera. Penalti-area area txiki mugatua da.",
-    "Atezainari egindako atzerako pasea 13 metroko lerrotik jarritako zuzeneko falta bidez zigortzen da, hesirik gabe. Falta guztiak zuzenekoak dira.",
+    "Bi taldeen jantziak kolore berekoak badira, kanpoko talde gisa izendatutakoak aldatu beharko du jantzia. Bigarren jantzia ekartzea derrigorrezkoa da.",
+    "Jokoz kanpo egotea 13 metroko lerrotik aurrera zigortzen da. Penalti-area markatuta dagoen area txikia da.",
+    "Baloia atezainari ematea jaurtiketa libre zuzenarekin zigortzen da, 13 metroko lerrotik eta hesirik gabe. Falta guztiak zuzenak dira.",
     "Talde bakoitzak bere baloiak ekarri behar ditu berotzeko.",
   ],
-  warning: "Jokabide antikiroltsuek antolakuntzaren erabakiz kanporatzea ekar dezakete.",
+  warning: "Kirol-legearen kontrako portaerek kanporatzea ekar dezakete, antolakuntzak hala erabakitzen badu.",
   meals: { price: "8 €", includes: "Hamaiketakoa, pasta-platera, ogia, ura eta postrea." },
-  bar: "Familientzat, pintxo eta ogitartekoen taberna-zerbitzua egongo da txapelketa osoan zehar.",
+  bar: "Txapelketa osoan zehar taberna-zerbitzua egongo da familientzat, pintxo eta ogitartekoekin.",
   wc: "Komunak harmailaren atzeko aldean daude.",
-  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" },
+  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien aireko ikuspegia" },
 };
 
 /* ------------------------------------------------------------------ textos en francés */
