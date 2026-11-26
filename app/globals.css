@@ -1124,17 +1124,6 @@ html[data-seen] .splash { display: none; }
 .v3-chip:active, .v3-btn:active { transform: scale(.96); }
 .v3-chip[aria-pressed="true"] { box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--bg3) 70%, transparent); }
 
-/* Fondo «marca de agua»: la copa de la Derio Cup en grande, cortada por la esquina inferior derecha, con el degradado oficial muy suave.
-   body aísla su capa para que la copa quede por encima del fondo y por debajo de todo el contenido. */
-body { isolation: isolate; }
-body::before { content: ""; position: fixed; z-index: -1; right: 0; bottom: 0; width: clamp(420px, 150vw, 980px); aspect-ratio: 582 / 640; transform: translate(41%, 14%); pointer-events: none;
-  background: linear-gradient(140deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%); opacity: .10;
-  -webkit-mask: url(/logo-derio-cup.webp) center / contain no-repeat; mask: url(/logo-derio-cup.webp) center / contain no-repeat; }
-:root[data-theme="dark"] body::before { opacity: .16; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body::before { opacity: .16; } }
-@media (min-width: 900px) { body::before { transform: translate(30%, 12%); } }
-@media print { body::before { display: none; } }
-
 /* Planos de aparcamiento (dibujo vectorial, sigue el tema) */
 .pk-wrap { display: grid; gap: 18px; }
 .pk-fig { margin: 0; display: grid; gap: 10px;
