@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <head><link rel="preload" href="/logo-derio-cup.webp" as="image" type="image/webp" /><script dangerouslySetInnerHTML={{ __html: themeInitScript }} /><script dangerouslySetInnerHTML={{ __html: 'try{if(sessionStorage.getItem("derio-cup-splash"))document.documentElement.setAttribute("data-seen","")}catch(e){}' }} /></head>
+      <head><link rel="preload" href="/logo-derio-cup.webp" as="image" type="image/webp" crossOrigin="anonymous" /><script dangerouslySetInnerHTML={{ __html: themeInitScript }} /><script dangerouslySetInnerHTML={{ __html: 'try{if(sessionStorage.getItem("derio-cup-splash"))document.documentElement.setAttribute("data-seen","")}catch(e){}' }} /></head>
       <body className={montserrat.variable}><div id="scroller" className="scroller">{children}</div><RegisterSW /></body>
     </html>
   );

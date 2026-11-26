@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/sw.js", headers: [{ key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }, { key: "Service-Worker-Allowed", value: "/" }] },
       { source: "/manifest.webmanifest", headers: [{ key: "Cache-Control", value: "public, max-age=3600" }] },
-      { source: "/(escudos|patrocinadores)/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+      { source: "/(escudos|patrocinadores|plataformas)/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+      { source: "/:file(.+\\.(?:webp|png|jpg|svg))", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
     ];
   },
   images: { qualities: [100], formats: ["image/webp"], imageSizes: [48, 64, 96, 128, 192, 256, 384] },

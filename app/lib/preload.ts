@@ -33,13 +33,11 @@ const idle = (fn: () => void) => {
 };
 
 const crests = (list: Tournament[]) => list.flatMap(tn => tn.teams.map(t => crestFor(t.crest ?? t.name)).filter((s): s is string => !!s));
-const parkingImgs = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.infoEu].flatMap(i => i ? (i.parking ?? []).map(p => p.src) : []).filter((s): s is string => !!s));
 
 /**
  * Precarga las imágenes de la app mientras se muestra la pantalla de carga, por niveles:
  *  1) lo primero que se ve: logo, patrocinadores y escudos del torneo recordado (prioridad alta);
  *  2) lo que se usa justo después: logos de instalación (solo si la app no está instalada) y escudos del resto de torneos;
- *  3) cuando el navegador está libre: planos y aparcamientos (prioridad baja).
  * Con «ahorro de datos» o una conexión 2G solo se carga el primer nivel.
  */
 export function preloadImages(tournaments: Tournament[], rememberedId?: string | null): Promise<void> {
@@ -49,7 +47,8 @@ export function preloadImages(tournaments: Tournament[], rememberedId?: string |
   const first = tournaments.find(t => t.id === rememberedId) ?? tournaments[0];
   const rest = tournaments.filter(t => t !== first);
 
-  const tier1 = ["/logo-derio-cup.webp", ...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : []), ...parkingImgs(tournaments)]; // los planos de aparcamiento también van en el primer nivel
+  // el logo lo precarga el <link rel="preload"> del layout (con crossorigin, igual que la máscara CSS que lo usa): aquí se descargaría dos veces
+  const tier1 = [...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : [])];
   const tier2 = ["/animo-cuerpo.webp", "/animo-brazo-izq.webp", "/animo-brazo-der.webp", ...(isInstalled() ? [] : ["/plataformas/ios.webp", "/plataformas/android.webp", "/plataformas/safari.webp", "/plataformas/chrome.webp"]), ...crests(rest)];
 
   const firstDone = pool(tier1, 6, "high");
