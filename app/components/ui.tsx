@@ -49,10 +49,11 @@ export function useSlider(ref: RefObject<HTMLElement | null>, selector: string, 
     const c = ref.current; if (!c) return;
     const apply = () => { const el = c.querySelector<HTMLElement>(selector); if (!el) return; c.style.setProperty("--ix", el.offsetLeft + "px"); c.style.setProperty("--iw", el.offsetWidth + "px"); };
     apply();
-    const raf = requestAnimationFrame(() => { c.dataset.ind = "1"; }); // las animaciones se activan tras la primera medida
+    let raf = 0, dead = false;
+    // las animaciones se activan tras medir con la fuente ya cargada: el indicador no «viaja» al colocarse la primera vez
+    (document.fonts?.ready ?? Promise.resolve()).then(() => { if (dead) return; apply(); raf = requestAnimationFrame(() => { c.dataset.ind = "1"; }); });
     const ro = new ResizeObserver(apply); ro.observe(c);
-    document.fonts?.ready.then(apply);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { dead = true; cancelAnimationFrame(raf); ro.disconnect(); };
   }, [ref, selector, dep]);
 }
 

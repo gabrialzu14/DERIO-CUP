@@ -42,8 +42,8 @@ const parkingImgs = (list: Tournament[]) => list.flatMap(tn => [tn.info, tn.info
  *  3) cuando el navegador está libre: planos y aparcamientos (prioridad baja).
  * Con «ahorro de datos» o una conexión 2G solo se carga el primer nivel.
  */
-export function preloadImages(tournaments: Tournament[], rememberedId?: string | null) {
-  if (typeof window === "undefined") return;
+export function preloadImages(tournaments: Tournament[], rememberedId?: string | null): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
   const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
   const light = !!conn && (conn.saveData === true || /(^|-)2g$/.test(conn.effectiveType ?? ""));
   const first = tournaments.find(t => t.id === rememberedId) ?? tournaments[0];
@@ -52,8 +52,10 @@ export function preloadImages(tournaments: Tournament[], rememberedId?: string |
   const tier1 = ["/logo-derio-cup.webp", ...SPONSORS.map(s => "/patrocinadores/" + s.id + ".webp"), ...(first ? crests([first]) : []), ...parkingImgs(tournaments)]; // los planos de aparcamiento también van en el primer nivel
   const tier2 = ["/animo-cuerpo.webp", "/animo-brazo-izq.webp", "/animo-brazo-der.webp", ...(isInstalled() ? [] : ["/plataformas/ios.webp", "/plataformas/android.webp", "/plataformas/safari.webp", "/plataformas/chrome.webp"]), ...crests(rest)];
 
-  void pool(tier1, 6, "high").then(() => {
+  const firstDone = pool(tier1, 6, "high");
+  void firstDone.then(() => {
     if (light) return;
     void pool(tier2, 4, "auto").then(() => idle(() => void 0));
   });
+  return firstDone; // la pantalla de carga espera a este nivel (con un tope) para que el menú aparezca ya con sus imágenes
 }

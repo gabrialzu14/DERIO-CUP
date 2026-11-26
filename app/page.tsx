@@ -33,12 +33,15 @@ function App() {
     let done = false; try { done = !!localStorage.getItem(ONBOARDED_KEY); } catch {}
     setOnboarding(!isInstalled() && !done && !(tn && isUpcoming(tn)));
     setReady(true);
-    preloadImages(TOURNAMENTS.filter(isUpcoming), tn && isUpcoming(tn) ? tn.id : null); // durante la pantalla de carga
+    const imgs = preloadImages(TOURNAMENTS.filter(isUpcoming), tn && isUpcoming(tn) ? tn.id : null); // durante la pantalla de carga
     let seen = false;
     try { seen = !!sessionStorage.getItem("derio-cup-splash"); sessionStorage.setItem("derio-cup-splash", "1"); } catch {}
     if (seen) { setSplash(false); return; }
-    const t = setTimeout(() => smooth(() => setSplash(false)), SPLASH_MS);
-    return () => clearTimeout(t);
+    let off = false;
+    const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+    // al menos lo que dura la animación, y las imágenes del primer nivel ya decodificadas (como mucho 1,5 s más)
+    void Promise.all([wait(SPLASH_MS), Promise.race([imgs, wait(SPLASH_MS + 1500)])]).then(() => { if (!off) smooth(() => setSplash(false)); });
+    return () => { off = true; };
   }, []);
 
   const choose = (id: string | null) => {

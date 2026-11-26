@@ -1,6 +1,6 @@
 "use client";
 import { createPortal } from "react-dom";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useLayoutEffect } from "react";
 import { Icon, type IconName } from "./icons";
 import { BrandName, Crest, CupMark, useSlider } from "./ui";
 import { Home } from "./Home";
@@ -136,7 +136,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const changeTeam = () => { store.del(teamKey); setSelected(null); };
   const exit = () => { history.replaceState(null, "", window.location.pathname); onExit(); };
 
-  useEffect(() => { const m = mainRef.current; return m ? startReveal(m) : undefined; }, [selected]);
+  useLayoutEffect(() => { const m = mainRef.current; return m ? startReveal(m) : undefined; }, [selected]); // antes del primer pintado: los recuadros nacen ocultos y no hay destello
   useSlider(tabsRef, "[aria-current=page]", tab + "|" + viewTeam + "|" + selected);
   const validTeam = selected === "neutral" || (!!selected && tn.teams.some(t => t.id === selected));
   if (!validTeam) return <EngineContext.Provider value={engine}><Welcome choosing={choosing} onPick={pick} onNeutral={neutral} onBack={exit} /></EngineContext.Provider>;

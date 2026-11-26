@@ -986,11 +986,9 @@ body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-
 @keyframes fp-wave-r { 0%, 100% { transform: none; } 25% { transform: rotate(-22deg); } 50% { transform: rotate(-4deg); } 75% { transform: rotate(-16deg); } }
 @media (prefers-reduced-motion: reduce) { .fp-arm { animation: none; } }
 dialog.dialog:focus, dialog.dialog:focus-visible { outline: none; }
-/* La barra inferior no participa en la transición de pantalla (antes se movía y perdía el efecto cristal 1-2 s al cargar). */
-.tabbar { view-transition-name: tabbar; }
-::view-transition-group(tabbar) { animation: none; }
-::view-transition-old(tabbar) { display: none; }
-::view-transition-new(tabbar) { animation: none; opacity: 0; }
+/* La barra inferior viaja dentro de la captura de la pantalla (cristal incluido): se funde con ella en lugar de ir oculta y «saltar» al terminar. */
+/* Sin pantalla de carga si ya se vio en esta sesión (el script del <head> marca data-seen antes de pintar): evita el destello del logo al recargar. */
+html[data-seen] .splash { display: none; }
 
 /* Saludo suave (boceto B): hombros escondidos tras el cuerpo, brazos contenidos y leve balanceo del grupo */
 .fp-arm.l { transform-origin: 19% 50%; animation: fp-b-l 1.4s cubic-bezier(.45, 0, .55, 1) .25s 1 both; }
