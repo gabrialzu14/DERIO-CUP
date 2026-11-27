@@ -10,13 +10,14 @@ import { Fases } from "./Fases";
 import { Team } from "./Team";
 import { More } from "./More";
 import { Dialog } from "./Dialog";
+import { Feedback, hasRated } from "./Feedback";
 import { Welcome } from "./Welcome";
 import { startReveal } from "../lib/reveal";
 import { smooth } from "../lib/smooth";
 import { scrollToTop } from "../lib/scroll";
 import { useLang, pick as byLang } from "../lib/i18n";
 import { EngineContext, OpenTeamContext, makeEngine } from "../lib/engine";
-import { BRAND, SB_URL, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament, infoFor } from "../lib/tournament";
+import { BRAND, SB_URL, koWinner, sbHeaders, tournamentTag, type G, type ResultRow, type Tournament, infoFor } from "../lib/tournament";
 import type { useTheme } from "../lib/useTheme";
 
 export type TabId = "inicio" | "partidos" | "clasificacion" | "fases" | "mas" | "equipo";
@@ -50,7 +51,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   const [scores, setScores] = useState<Scores>({}), [koResults, setKoResults] = useState<Results>({});
   const [fanCounts, setFanCounts] = useState<Record<string, number>>({});
   const [loaded, setLoaded] = useState(false), [offline, setOffline] = useState(false), [syncing, setSyncing] = useState(false), [lastSync, setLastSync] = useState<Date | null>(null);
-  const [rules, setRules] = useState(false), [fairplay, setFairplay] = useState(false);
+  const [rules, setRules] = useState(false), [fairplay, setFairplay] = useState(false), [askFeedback, setAskFeedback] = useState(false), [netDone, setNetDone] = useState(false), askedRef = useRef(false), askTimer = useRef<number | undefined>(undefined);
   const tabsRef = useRef<HTMLUListElement>(null), mainRef = useRef<HTMLElement>(null), firstTab = useRef(true), tabRef = useRef<TabId>(tab), fromTab = useRef<TabId>("inicio");
   const { theme, resolved, setTheme, toggle } = themeCtl, { lang, t, locale } = useLang();
   const navLabel = byLang<Record<string, string>>(lang, { mas: "Info" }, { inicio: "Hasiera", partidos: "Partidak", clasificacion: "Sailkapenak", fases: "Faseak", mas: "Info" }, { inicio: "Accueil", partidos: "Matchs", clasificacion: "Classements", fases: "Phases", mas: "Infos" });
@@ -98,7 +99,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
       setScores(s); setKoResults(k); setLastSync(new Date()); setOffline(false); setLoaded(true);
       store.set(cacheKey, JSON.stringify({ scores: s, ko: k }));
     } catch { setOffline(true); setLoaded(true); }
-    finally { if (manual) setTimeout(() => setSyncing(false), 450); }
+    finally { setNetDone(true); if (manual) setTimeout(() => setSyncing(false), 450); }
   }, [engine, cacheKey]);
   const loadFans = useCallback(async () => {
     try {
@@ -121,6 +122,19 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
   }, [load, loadFans, tn.date]);
 
   const ms = useMemo(() => engine.matches.map(m => (scores[m.id] ? { ...m, hs: scores[m.id][0], as: scores[m.id][1] } : m)), [engine, scores]);
+
+  /* ---- torneo terminado (ya hay campeón de Oro y de Plata): al entrar se pide la opinión, una vez por sesión y hasta que se valore ---- */
+  const tournamentOver = useMemo(() => (["Oro", "Plata"] as const).every(k => !!koWinner(engine.knockout(k, ms, koResults).find(g => g.round === "FINAL")!)), [engine, ms, koResults]);
+  useEffect(() => {
+    if (!netDone || askedRef.current) return;
+    askedRef.current = true; // solo se decide al entrar: si el torneo termina con la app abierta no se interrumpe a nadie
+    const seen = "derio-cup-fb-ask:" + tn.id;
+    let skipped = false; try { skipped = sessionStorage.getItem(seen) === "1"; } catch { /* sin sessionStorage */ }
+    if (!tournamentOver || selected === null || fairplay || skipped || hasRated(tn.id)) return;
+    askTimer.current = window.setTimeout(() => setAskFeedback(true), 1100);
+  }, [netDone, tournamentOver, selected, fairplay, tn.id]);
+  useEffect(() => () => { if (askTimer.current) window.clearTimeout(askTimer.current); }, []);
+  const closeFeedback = () => { setAskFeedback(false); try { sessionStorage.setItem("derio-cup-fb-ask:" + tn.id, "1"); } catch { /* ignorar */ } };
 
   /* ---- selección de equipo ---- */
   // Un registro por visitante y torneo: la afición de cada torneo se cuenta aparte.
@@ -186,6 +200,7 @@ export function TournamentApp({ tn, onExit, themeCtl }: { tn: Tournament; onExit
           </ul>
         </nav>, document.body)}
 
+        {askFeedback && <Dialog title={t("Tu opinión nos importa", "Zure iritzia garrantzitsua da", "Votre avis compte pour nous")} onClose={closeFeedback} compact><Feedback popup onClose={closeFeedback} /></Dialog>}
         {fairplay && <Dialog title={t("¡ANIMA A TU EQUIPO!", "ANIMATU ZURE TALDEA!", "ENCOURAGEZ VOTRE ÉQUIPE !")} onClose={() => setFairplay(false)} compact centered>
           <div className="fairplay">
             <span className="fairplay-ico" role="img" aria-label={t("Familias animando juntas", "Familiak elkarrekin animatzen", "Des familles qui encouragent ensemble")}><i className="fp-arm l" /><i className="fp-arm r" /><i className="fp-body" /></span>

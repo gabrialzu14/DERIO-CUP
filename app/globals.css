@@ -1275,3 +1275,9 @@ html[data-seen] .splash { display: none; }
 .fa-list li > div { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 4px; }
 .fa-list time { font-size: .75rem; font-weight: 600; color: var(--text-3); }
 .fa-list p { font-size: .9375rem; line-height: 1.55; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Valoración en ventana emergente: mismo contenido sin tarjeta ni título propio */
+.feedback.pop { margin: 0; padding: 4px 0 0; background: none; box-shadow: none; border-radius: 0; gap: 8px; scroll-margin: 0; }
+.feedback.pop .fb-stars { margin-inline: auto; width: 100%; }
+.fb-later { justify-self: center; min-height: 44px; padding-inline: 16px; font-size: .875rem; font-weight: 700; color: var(--text-2); border-radius: 12px; }
+.fb-later:hover { color: var(--text); background: var(--surface-2); }
