@@ -104,7 +104,7 @@ function MatchHero({ games, kind, loaded }: { games: HeroGame[]; kind: "live" | 
           <div key={g.id} className="hero-col-wrap">
             {i > 0 && <span className="hero-rule" aria-hidden="true" />}
             <div className="hero-col">
-              {!common && <small className="hero-where">{where(g.where)}</small>}
+              {!common && <small className={"hero-where" + (g.where.startsWith("k:Oro") ? " oro" : g.where.startsWith("k:Plata") ? " plata" : "")}>{where(g.where)}</small>}
               <small className="hero-field">{fieldName(g.field, lang)}</small>
               <div className="hero-pair">
                 <TeamLink id={g.home} className="hero-team"><Crest id={g.home} size={48} /><b>{T(g.home).name}</b></TeamLink>

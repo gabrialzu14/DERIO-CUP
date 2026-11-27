@@ -1192,3 +1192,14 @@ html[data-seen] .splash { display: none; }
 .pod-score.silver { background: color-mix(in srgb, var(--silver) 16%, var(--surface)); }
 .pod-score small { font-size: .6875rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-2); }
 .pod-score b { font-size: 1.125rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* Nota «Toda la Fase Oro/Plata se disputa en…» con el color de su fase */
+.phase-note.oro { background: var(--gold-soft); color: var(--gold-ink); }
+.phase-note.oro .icon { color: var(--gold); }
+.phase-note.plata { background: var(--silver-soft); color: var(--text); }
+.phase-note.plata .icon { color: var(--silver); }
+/* «Ahora mismo»: fase de cada partido centrada y con su color (oro / plata) */
+.hero-col .hero-where { justify-self: center; text-align: center; }
+.hero-where.oro, .hero-where.plata { padding: 3px 10px; border-radius: 999px; font-weight: 800; letter-spacing: .06em; }
+.hero-where.oro { background: var(--gold-soft); color: var(--gold-ink); }
+.hero-where.plata { background: var(--silver-soft); color: var(--text-2); }
