@@ -1173,3 +1173,22 @@ html[data-seen] .splash { display: none; }
 .ko-phase + .ko-phase { margin-top: 18px; }
 .ko-phase-head { display: flex; align-items: center; gap: 8px; font-size: 1.0625rem; font-weight: 800; }
 .ko-phase-head small { margin-left: auto; font-size: .75rem; font-weight: 700; color: var(--text-2); padding: 3px 9px; border-radius: 999px; background: var(--surface-2); }
+
+/* Resultados finales: Oro a la izquierda y Plata a la derecha; en cada columna, campeón, subcampeón y resultado */
+.podium.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: stretch; }
+.pod-col { display: grid; gap: 8px; align-content: start; }
+.pod-col .podium-cell small { min-height: 0; }
+.podium-cell.champ { padding-top: 16px; }
+.podium-cell.champ.gold { background: color-mix(in srgb, var(--gold) 9%, var(--surface)); }
+.podium-cell.champ.silver { background: color-mix(in srgb, var(--silver) 12%, var(--surface)); border-color: color-mix(in srgb, var(--silver) 40%, transparent); }
+.pod-crest { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.cup-mark.pod-cup.gold { color: var(--gold); background: var(--gold); }
+.cup-mark.pod-cup.silver { color: var(--silver); background: var(--silver); }
+.pod-col .podium-cell:not(.champ) small { color: var(--text-3); }
+.pod-col.gold .podium-cell.champ small { color: var(--gold-ink); }
+.pod-col.silver .podium-cell.champ small { color: var(--text-2); }
+.pod-score { display: grid; justify-items: center; gap: 2px; padding: 10px 8px; border-radius: var(--r-inner); border: 1px solid var(--line); }
+.pod-score.gold { background: color-mix(in srgb, var(--gold) 14%, var(--surface)); border-color: color-mix(in srgb, var(--gold) 30%, transparent); }
+.pod-score.silver { background: color-mix(in srgb, var(--silver) 16%, var(--surface)); }
+.pod-score small { font-size: .6875rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-2); }
+.pod-score b { font-size: 1.125rem; font-weight: 800; font-variant-numeric: tabular-nums; }

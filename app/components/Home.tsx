@@ -13,7 +13,7 @@ import type { TabId } from "./TournamentApp";
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata"; team?: string }) => void };
 
 export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) {
-  const { tn, complete, knockout, matchState, table, teamIds, koField } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
+  const { tn, complete, knockout, matchState, table, teamIds } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
   const neutral = selected === "neutral";
   const groupsDone = GROUPS.every(g => complete(g, ms));
   const oro = knockout("Oro", ms, koResults), plata = knockout("Plata", ms, koResults);
@@ -25,6 +25,10 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
   // Eliminatorias que se están jugando ahora (también cuentan como «En juego»).
   const koLive = [...oro, ...plata].filter(g => g.home && g.away && !validKO(g) && matchState(g.time, false) === "live");
   const [phase, setPhase] = useState<"grupos" | "oro" | "plata">("grupos");
+  // Fase final que se abre de entrada: la del equipo seleccionado (si no sigue a ninguno, la Fase Oro); el usuario puede cambiarla
+  const [koPick, setKoPick] = useState<"oro" | "plata" | null>(null);
+  const inKO = (gs: KOGame[]) => gs.some(g => g.home === selected || g.away === selected);
+  const koPhase = koPick ?? (!neutral && !inKO(oro) && inKO(plata) ? "plata" : "oro");
   const played = ms.filter(m => m.hs !== null).length;
   // «Primer partido» / «En juego»: todos los que empiezan a la misma hora (uno por campo).
   const asGame = (m: Match): HeroGame => ({ id: m.id, home: m.home, away: m.away, time: m.time, field: m.field, where: "g:" + m.group });
@@ -40,12 +44,13 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
       {groupsDone ? <section aria-labelledby="home-ko">
         <SectionHead title={t("Fases finales", "Azken faseak", "Phases finales")} cup />
         <h2 id="home-ko" className="sr-only">{t("Fases finales", "Azken faseak", "Phases finales")}</h2>
-        {(["Oro", "Plata"] as const).map(k => (
-          <div key={k} className="ko-phase">
-            <h3 className="ko-phase-head"><i className={"dot " + (k === "Oro" ? "gold" : "silver")} aria-hidden="true" />{phaseName(k, lang)}<small>{fieldName(koField(k), lang)}</small></h3>
-            <Bracket kind={k} games={k === "Oro" ? oro : plata} compact />
-          </div>
-        ))}
+        <Tabs label={t("Fase final", "Azken fasea", "Phase finale")} idPrefix="home-ko" value={koPhase} onChange={setKoPick} items={[
+          { key: "oro", label: <><i className="dot gold" aria-hidden="true" />{phaseName("Oro", lang)}</> }, { key: "plata", label: <><i className="dot silver" aria-hidden="true" />{phaseName("Plata", lang)}</> },
+        ]} />
+        <TabPanel idPrefix="home-ko" tab={koPhase}>
+          <PhaseNote kind={koPhase === "oro" ? "Oro" : "Plata"} />
+          <Bracket key={koPhase} kind={koPhase === "oro" ? "Oro" : "Plata"} games={koPhase === "oro" ? oro : plata} compact />
+        </TabPanel>
       </section> : <section aria-labelledby="home-phases">
         <SectionHead title={t("Torneo", "Txapelketa", "Tournoi")} cup />
         <h2 id="home-phases" className="sr-only">{t("Fases del torneo", "Txapelketaren faseak", "Phases du tournoi")}</h2>
@@ -119,18 +124,21 @@ function Podium({ oro, plata }: { oro: KOGame; plata: KOGame }) {
   const ow = koWinner(oro)!, pw = koWinner(plata)!;
   const ru = (g: KOGame, w: string) => (g.home === w ? g.away : g.home);
   const score = (g: KOGame) => { const r = g.result!; return r.home_penalties != null ? `${r.home_score} (${r.home_penalties}) - (${r.away_penalties}) ${r.away_score}` : `${r.home_score} - ${r.away_score}`; };
-  const Cell = ({ kind, id, role }: { kind: "gold" | "silver"; id: string | null; role: string }) => (
-    id ? <TeamLink id={id} className={"podium-cell " + kind}><small>{role}</small><Crest id={id} size={52} /><b>{T(id).name}</b></TeamLink> : <div className={"podium-cell " + kind}><small>{role}</small><i className="crest-ph" /><b>—</b></div>
+  const Cell = ({ kind, id, role, champ }: { kind: "gold" | "silver"; id: string | null; role: string; champ?: boolean }) => (
+    id ? <TeamLink id={id} className={"podium-cell " + kind + (champ ? " champ" : "")}><small>{role}</small><span className="pod-crest"><Crest id={id} size={champ ? 56 : 44} />{champ && <CupMark size={30} className={"pod-cup " + kind} />}</span><b>{T(id).name}</b></TeamLink> : <div className={"podium-cell " + kind}><small>{role}</small><i className="crest-ph" /><b>—</b></div>
+  );
+  const Col = ({ kind, g, w }: { kind: "gold" | "silver"; g: KOGame; w: string }) => (
+    <div className={"pod-col " + kind}>
+      <Cell kind={kind} id={w} champ role={kind === "gold" ? t("Campeón Oro", "Urrezko txapelduna", "Vainqueur Or") : t("Campeón Plata", "Zilarrezko txapelduna", "Vainqueur Argent")} />
+      <Cell kind={kind} id={ru(g, w)} role={kind === "gold" ? t("Subcampeón Oro", "Urrezko txapeldunordea", "Finaliste Or") : t("Subcampeón Plata", "Zilarrezko txapeldunordea", "Finaliste Argent")} />
+      <div className={"pod-score " + kind}><small>{kind === "gold" ? t("Final Oro", "Urrezko finala", "Finale Or") : t("Final Plata", "Zilarrezko finala", "Finale Argent")}</small><b>{score(g)}</b></div>
+    </div>
   );
   return (
     <section className="hero hero-final" aria-label={t("Resultados finales", "Azken emaitzak", "Palmarès")}>
       <div className="hero-top"><span className="eyebrow"><BrandName /> · {t("Finalizada", "Amaituta", "Terminée")}</span><CupMark size={26} /></div>
       <p className="hero-title">{t("Resultados finales", "Azken emaitzak", "Palmarès")}</p>
-      <div className="podium">
-        <Cell kind="gold" id={ow} role={t("Campeón Oro", "Urrezko txapelduna", "Vainqueur Or")} /><Cell kind="gold" id={ru(oro, ow)} role={t("Subcampeón Oro", "Urrezko txapeldunordea", "Finaliste Or")} />
-        <Cell kind="silver" id={pw} role={t("Campeón Plata", "Zilarrezko txapelduna", "Vainqueur Argent")} /><Cell kind="silver" id={ru(plata, pw)} role={t("Subcampeón Plata", "Zilarrezko txapeldunordea", "Finaliste Argent")} />
-      </div>
-      <dl className="finals"><div><dt>{t("Final Oro", "Urrezko finala", "Finale Or")}</dt><dd>{score(oro)}</dd></div><div><dt>{t("Final Plata", "Zilarrezko finala", "Finale Argent")}</dt><dd>{score(plata)}</dd></div></dl>
+      <div className="podium cols"><Col kind="gold" g={oro} w={ow} /><Col kind="silver" g={plata} w={pw} /></div>
     </section>
   );
 }
