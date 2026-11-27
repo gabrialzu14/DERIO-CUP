@@ -709,6 +709,7 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 
 /* ---------- Cuadro de eliminatorias con conectores ---------- */
 .bk { --bk-h: 580px; display: grid; grid-template-columns: 224px 30px 224px 30px 224px; grid-template-rows: auto var(--bk-h); column-gap: 0; row-gap: 12px; min-width: max-content; }
+.bk.two { --bk-h: 300px; grid-template-columns: 224px 30px 224px; }
 .bk-head { grid-row: 1; }
 .bk-head h3 { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
 .bk-games { grid-row: 2; display: flex; flex-direction: column; justify-content: space-around; scroll-snap-align: start; }

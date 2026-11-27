@@ -1,12 +1,12 @@
 "use client";
 import { createContext, useContext } from "react";
-import { koWinner, madridNow, type G, type KOGame, type KOKind, type Match, type MatchState, type ResultRow, type Row, type Team, type Tournament } from "./tournament";
+import { groupsOf, koWinner, madridNow, type G, type KOGame, type KOKind, type Match, type MatchState, type ResultRow, type Row, type Team, type Tournament } from "./tournament";
 
-const GROUP_LIST: G[] = ["A", "B", "C", "D"];
 const minutes = (time: string) => { const [h, m] = time.split(":").map(Number); return h * 60 + m; };
 
 /** Cálculos (clasificación, cuadro, estado de partido) ligados a un torneo concreto. */
 export function makeEngine(tn: Tournament) {
+  const GROUP_LIST: G[] = groupsOf(tn);
   const T = (id: string): Team => tn.teams.find(t => t.id === id)!;
   /** Empate total: se mantiene el orden del dossier (antes de jugar, la clasificación sigue el orden de la lista). */
   const order = (id: string) => tn.teams.findIndex(t => t.id === id);
@@ -78,15 +78,24 @@ export function makeEngine(tn: Tournament) {
   const koField = (kind: KOKind) => (kind === "Oro" ? 1 : 2) as 1 | 2;
 
   function knockout(kind: KOKind, ms: Match[], results: Record<string, ResultRow>): KOGame[] {
-    const field = koField(kind), k = kind.toLowerCase(), p = tn.idPrefix;
-    const qs = kind === "Oro" ? [["A1", "B2"], ["B1", "A2"], ["C1", "D2"], ["D1", "C2"]] : [["A3", "B4"], ["B3", "A4"], ["C3", "D4"], ["D3", "C4"]];
-    const cf: KOGame[] = qs.map((q, i) => ({ id: p + k + "-cf" + (i + 1), kind, round: "CF", code: "CF" + (i + 1), time: tn.ko.cf[i], field, home: seed(q[0], ms), away: seed(q[1], ms), homeLabel: q[0], awayLabel: q[1], result: results[p + k + "-cf" + (i + 1)] }));
-    const sf: KOGame[] = [
-      { id: p + k + "-sf1", kind, round: "SF", code: "SF1", time: tn.ko.sf[0], field, home: koWinner(cf[0]), away: koWinner(cf[2]), homeLabel: "Ganador CF1", awayLabel: "Ganador CF3", result: results[p + k + "-sf1"] },
-      { id: p + k + "-sf2", kind, round: "SF", code: "SF2", time: tn.ko.sf[1], field, home: koWinner(cf[1]), away: koWinner(cf[3]), homeLabel: "Ganador CF2", awayLabel: "Ganador CF4", result: results[p + k + "-sf2"] },
+    const field = koField(kind), k = kind.toLowerCase(), p = tn.idPrefix, oro = kind === "Oro";
+    const game = (code: string, round: KOGame["round"], time: string, home: string | null, away: string | null, homeLabel: string, awayLabel: string): KOGame => {
+      const id = p + k + "-" + code.toLowerCase();
+      return { id, kind, round, code, time, field, home, away, homeLabel, awayLabel, result: results[id] };
+    };
+    // Torneos de 8 equipos (2 grupos): se empieza en semifinales, cruzando los grupos (A1–B2, B1–A2 / A3–B4, B3–A4).
+    if (!tn.ko.cf) {
+      const qs = oro ? [["A1", "B2"], ["B1", "A2"]] : [["A3", "B4"], ["B3", "A4"]];
+      const sf = qs.map((q, i) => game("SF" + (i + 1), "SF", tn.ko.sf[i], seed(q[0], ms), seed(q[1], ms), q[0], q[1]));
+      return [...sf, game("FINAL", "FINAL", tn.ko.final, koWinner(sf[0]), koWinner(sf[1]), "Ganador SF1", "Ganador SF2")];
+    }
+    const qs = oro ? [["A1", "B2"], ["B1", "A2"], ["C1", "D2"], ["D1", "C2"]] : [["A3", "B4"], ["B3", "A4"], ["C3", "D4"], ["D3", "C4"]];
+    const cf = qs.map((q, i) => game("CF" + (i + 1), "CF", tn.ko.cf![i], seed(q[0], ms), seed(q[1], ms), q[0], q[1]));
+    const sf = [
+      game("SF1", "SF", tn.ko.sf[0], koWinner(cf[0]), koWinner(cf[2]), "Ganador CF1", "Ganador CF3"),
+      game("SF2", "SF", tn.ko.sf[1], koWinner(cf[1]), koWinner(cf[3]), "Ganador CF2", "Ganador CF4"),
     ];
-    const fin: KOGame = { id: p + k + "-final", kind, round: "FINAL", code: "FINAL", time: tn.ko.final, field, home: koWinner(sf[0]), away: koWinner(sf[1]), homeLabel: "Ganador SF1", awayLabel: "Ganador SF2", result: results[p + k + "-final"] };
-    return [...cf, ...sf, fin];
+    return [...cf, ...sf, game("FINAL", "FINAL", tn.ko.final, koWinner(sf[0]), koWinner(sf[1]), "Ganador SF1", "Ganador SF2")];
   }
 
   /** Clave con la que se registra la afición de un equipo en este torneo. */

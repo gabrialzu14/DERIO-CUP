@@ -7,15 +7,15 @@ import { Bracket } from "./Fases";
 import { useEngine } from "../lib/engine";
 import { useLang } from "../lib/i18n";
 import { fieldName, followers, groupName, koCode, koLabel, phaseName } from "../lib/labels";
-import { BRAND, GROUPS, byTime, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type KOKind, type Match, type ResultRow } from "../lib/tournament";
+import { BRAND, byTime, koWinner, madridNow, tournamentTag, validKO, type G, type KOGame, type KOKind, type Match, type ResultRow } from "../lib/tournament";
 import type { TabId } from "./TournamentApp";
 
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata"; team?: string }) => void };
 
 export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) {
-  const { tn, complete, knockout, matchState, table, teamIds } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
+  const { tn, groups, complete, knockout, matchState, table, teamIds } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
   const neutral = selected === "neutral";
-  const groupsDone = GROUPS.every(g => complete(g, ms));
+  const groupsDone = groups.every(g => complete(g, ms));
   const oro = knockout("Oro", ms, koResults), plata = knockout("Plata", ms, koResults);
   const live = ms.filter(m => matchState(m.time, m.hs !== null) === "live");
   const pending = ms.filter(m => m.hs === null).sort(byTime);
@@ -61,7 +61,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
           {phase === "grupos" ? <>
             <div className="progress-row"><div className="progress" role="progressbar" aria-label={t("Partidos de grupos jugados", "Jokatutako multzo-partidak", "Matchs de groupe joués")} aria-valuemin={0} aria-valuemax={ms.length} aria-valuenow={played}><span style={{ width: (played / ms.length) * 100 + "%" }} /></div><small>{played}/{ms.length} {t("partidos", "partida", "matchs")}</small></div>
             <div className="group-grid">
-              {GROUPS.map(g => (
+              {groups.map(g => (
                 <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t(`Ver clasificación del grupo ${g}`, `Ikusi ${g} multzoaren sailkapena`, `Voir le classement du groupe ${g}`)}>
                   <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done">{t("Finalizado", "Amaituta", "Terminé")}</span>}</span>
                   <span className="group-crests">{(complete(g, ms) || ms.some(m => m.group === g && m.hs !== null) ? table(g, ms).map(r => r.id) : teamIds(g)).map(id => <Crest key={id} id={id} size={32} />)}</span>

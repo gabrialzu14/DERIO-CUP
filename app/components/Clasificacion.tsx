@@ -4,17 +4,17 @@ import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
 import { useLang } from "../lib/i18n";
 import { groupName } from "../lib/labels";
-import { GROUPS, byTime, type G, type Match } from "../lib/tournament";
+import { byTime, type G, type Match } from "../lib/tournament";
 
 export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setGroup: (g: G) => void; ms: Match[]; onRules: () => void }) {
-  const { T, complete, table, zoneFor } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
+  const { T, groups, complete, table, zoneFor } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
   const tb = table(group, ms), gm = ms.filter(m => m.group === group).sort(byTime);
   const rounds = [gm.slice(0, 2), gm.slice(2, 4), gm.slice(4, 6)];
   const done = complete(group, ms);
   return (
     <div className="screen">
       <div className="screen-title-row"><h1 className="screen-title">{t("Clasificaciones", "Sailkapenak", "Classements")}</h1><button type="button" className="link-btn" onClick={onRules}><Icon name="sort" size={18} strokeWidth={2.6} className="icon sort-ico" />{t("Desempates", "Irizpideak", "Départage")}</button></div>
-      <Tabs label={t("Grupo", "Multzoa", "Groupe")} idPrefix="grupo" value={group} onChange={setGroup} items={GROUPS.map(g => ({ key: g, label: groupName(g, lang), ariaLabel: groupName(g, lang) }))} />
+      <Tabs label={t("Grupo", "Multzoa", "Groupe")} idPrefix="grupo" value={group} onChange={setGroup} items={groups.map(g => ({ key: g, label: groupName(g, lang), ariaLabel: groupName(g, lang) }))} />
       <TabPanel idPrefix="grupo" tab={group}>
         <GroupTable group={group} ms={ms} />
         {rounds.map((round, i) => (
@@ -27,7 +27,7 @@ export function Clasificacion({ group, setGroup, ms, onRules }: { group: G; setG
 
 /** Tabla de un grupo (también en el perfil de equipo, con ese equipo destacado). */
 export function GroupTable({ group, ms, highlight }: { group: G; ms: Match[]; highlight?: string }) {
-  const { T, complete, table, zoneFor } = useEngine(), { t } = useLang();
+  const { T, groups, complete, table, zoneFor } = useEngine(), { t } = useLang();
   const tb = table(group, ms), done = complete(group, ms);
   return (
     <>

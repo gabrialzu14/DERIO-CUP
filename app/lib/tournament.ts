@@ -49,7 +49,8 @@ export type Tournament = {
   idPrefix: string;
   teams: Team[];
   schedule: GroupMatchDef[];
-  ko: { cf: string[]; sf: string[]; final: string };
+  /** Horas de las fases finales. Sin `cf` (torneos de 8 equipos) se empieza en semifinales. */
+  ko: { cf?: string[]; sf: string[]; final: string };
   info: InfoSpec;
   /** Versión en euskera de los textos informativos. */
   infoEu?: InfoSpec;
@@ -58,6 +59,10 @@ export type Tournament = {
 };
 
 export const GROUPS: G[] = ["A", "B", "C", "D"];
+/** Grupos que realmente tiene un torneo (los de 8 equipos solo tienen A y B). */
+export const groupsOf = (t: Pick<Tournament, "teams">): G[] => GROUPS.filter(g => t.teams.some(x => x.group === g));
+/** Rondas de las fases finales de un torneo, en orden. */
+export const roundsOf = (t: Pick<Tournament, "ko">): ("CF" | "SF" | "FINAL")[] => (t.ko.cf ? ["CF", "SF", "FINAL"] : ["SF", "FINAL"]);
 export const ROUND_LABEL = { CF: "Cuartos de final", SF: "Semifinales", FINAL: "Final" } as const;
 export const BRAND = "Derio Cup";
 

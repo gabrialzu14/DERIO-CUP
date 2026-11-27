@@ -6,7 +6,7 @@ import { Icon } from "./icons";
 import { useEngine } from "../lib/engine";
 import { clubTone } from "../lib/crests";
 import { useLang } from "../lib/i18n";
-import { BRAND, GROUPS, tournamentTag } from "../lib/tournament";
+import { BRAND, groupsOf, tournamentTag } from "../lib/tournament";
 
 /** Curva cubic-bezier(.77,0,.175,1) (la misma del trazo en CSS) para que la chispa siga exactamente a la línea. */
 const easeInOut = (x: number) => {
@@ -84,7 +84,7 @@ export function Welcome({ choosing, onPick, onNeutral, onBack }: { choosing: str
         <h2>{tr("Elige tu equipo", "Aukeratu zure taldea", "Choisissez votre équipe")}</h2>
         <small>{tr("Para seguirlo de cerca. Puedes cambiarlo cuando quieras.", "Gertutik jarraitzeko. Nahi duzunean alda dezakezu.", "Pour la suivre de près. Vous pourrez en changer à tout moment.")}</small>
       </header>
-      {GROUPS.map(g => (
+      {groupsOf(tn).map(g => (
         <section key={g} aria-labelledby={"wg-" + g}>
           <h3 id={"wg-" + g} className="welcome-group">{tr(`Grupo ${g}`, `${g} multzoa`, `Groupe ${g}`)}</h3>
           <div className="team-grid">

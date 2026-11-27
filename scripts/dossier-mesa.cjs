@@ -64,13 +64,21 @@ function build(tn) {
   const matches = tn.schedule.map((m, i) => ({ ...m, round: Math.floor(i / perRound) + 1 }));
   const times = [...new Set(matches.map(m => m.time))].sort();
   const seedName = s => `${s[1]}º Grupo ${s[0]}`; // «A1» → «1º Grupo A»
-  const QS = { Oro: [["A1", "B2"], ["B1", "A2"], ["C1", "D2"], ["D1", "C2"]], Plata: [["A3", "B4"], ["B3", "A4"], ["C3", "D4"], ["D3", "C4"]] };
+  // 16 equipos (4 grupos): cuartos, semifinales y final · 8 equipos (2 grupos): semifinales y final.
+  const hasCF = !!tn.ko.cf;
+  const QS = hasCF
+    ? { Oro: [["A1", "B2"], ["B1", "A2"], ["C1", "D2"], ["D1", "C2"]], Plata: [["A3", "B4"], ["B3", "A4"], ["C3", "D4"], ["D3", "C4"]] }
+    : { Oro: [["A1", "B2"], ["B1", "A2"]], Plata: [["A3", "B4"], ["B3", "A4"]] };
   const FIELD = { Oro: 1, Plata: 2 };
   const ko = [];
   for (const kind of ["Oro", "Plata"]) {
-    QS[kind].forEach((q, i) => ko.push({ kind, code: "CF" + (i + 1), round: "Cuartos de final", time: tn.ko.cf[i], field: FIELD[kind], home: seedName(q[0]), away: seedName(q[1]) }));
-    ko.push({ kind, code: "SF1", round: "Semifinal", time: tn.ko.sf[0], field: FIELD[kind], home: "Ganador CF1", away: "Ganador CF3" });
-    ko.push({ kind, code: "SF2", round: "Semifinal", time: tn.ko.sf[1], field: FIELD[kind], home: "Ganador CF2", away: "Ganador CF4" });
+    if (hasCF) {
+      QS[kind].forEach((q, i) => ko.push({ kind, code: "CF" + (i + 1), round: "Cuartos de final", time: tn.ko.cf[i], field: FIELD[kind], home: seedName(q[0]), away: seedName(q[1]) }));
+      ko.push({ kind, code: "SF1", round: "Semifinal", time: tn.ko.sf[0], field: FIELD[kind], home: "Ganador CF1", away: "Ganador CF3" });
+      ko.push({ kind, code: "SF2", round: "Semifinal", time: tn.ko.sf[1], field: FIELD[kind], home: "Ganador CF2", away: "Ganador CF4" });
+    } else {
+      QS[kind].forEach((q, i) => ko.push({ kind, code: "SF" + (i + 1), round: "Semifinal", time: tn.ko.sf[i], field: FIELD[kind], home: seedName(q[0]), away: seedName(q[1]) }));
+    }
     ko.push({ kind, code: "FINAL", round: "Final", time: tn.ko.final, field: FIELD[kind], home: "Ganador SF1", away: "Ganador SF2" });
   }
   const koTimes = [...new Set(ko.map(g => g.time))].sort();
@@ -138,15 +146,19 @@ function build(tn) {
   pages.push(page(`${pageHead("Horario del día", "Todos los partidos por orden de hora")}
     <table class="sched"><thead><tr><th>Hora</th><th>Campo 1 (C1)</th><th>Campo 2 (C2)</th><th>Hecho</th></tr></thead>
     <tbody><tr class="sep"><td colspan="4">Fase de grupos</td></tr>${rowsG}<tr class="sep"><td colspan="4">Fases finales</td></tr>${rowsK}</tbody></table>`));
-  // 3 · fase de grupos: 4 franjas por página
-  for (let i = 0; i < times.length; i += 4) {
-    const chunk = times.slice(i, i + 4).map(t => { const ms = matches.filter(m => m.time === t).sort((a, b) => a.field - b.field); return slot(t, ms.map(groupCard).join(""), "Jornada " + ms[0].round); }).join("");
-    pages.push(page(`${pageHead("Fase de grupos", `Partidos de ${times[i]} a ${times[Math.min(i + 3, times.length - 1)]}`)}${chunk}`));
+  // 3 · fase de grupos: hasta 4 franjas por página, repartidas por igual (12 → 4+4+4 · 6 → 3+3)
+  const perPage = Math.ceil(times.length / Math.ceil(times.length / 4));
+  for (let i = 0; i < times.length; i += perPage) {
+    const chunk = times.slice(i, i + perPage).map(t => { const ms = matches.filter(m => m.time === t).sort((a, b) => a.field - b.field); return slot(t, ms.map(groupCard).join(""), "Jornada " + ms[0].round); }).join("");
+    pages.push(page(`${pageHead("Fase de grupos", `Partidos de ${times[i]} a ${times[Math.min(i + perPage - 1, times.length - 1)]}`)}${chunk}`));
   }
   // 4 · clasificaciones para rellenar y cruces
   const groups = [...new Set(tn.teams.map(t => t.group))];
   const gTable = g => `<div class="gt"><h3>Grupo ${g}</h3><table><thead><tr><th class="l">Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>PTS</th><th>Pos.</th></tr></thead><tbody>${tn.teams.filter(t => t.group === g).map(t => `<tr><td class="l">${crest(t.id)}${esc(t.name)}</td>${"<td></td>".repeat(8)}<td class="pos"></td></tr>`).join("")}</tbody></table></div>`;
-  const cross = kind => `<div class="cross ${kind === "Oro" ? "oro" : "plata"}"><h3>Fase ${kind} · C${FIELD[kind]}</h3>${QS[kind].map((q, i) => `<div><b>CF${i + 1}</b><span>${tn.ko.cf[i]}</span>${seedName(q[0])} – ${seedName(q[1])}</div>`).join("")}<div><b>SF1</b><span>${tn.ko.sf[0]}</span>Ganador CF1 – Ganador CF3</div><div><b>SF2</b><span>${tn.ko.sf[1]}</span>Ganador CF2 – Ganador CF4</div><div><b>Final</b><span>${tn.ko.final}</span>Ganador SF1 – Ganador SF2</div></div>`;
+  const crossRow = (code, time, text) => `<div><b>${code}</b><span>${time}</span>${text}</div>`;
+  const cross = kind => `<div class="cross ${kind === "Oro" ? "oro" : "plata"}"><h3>Fase ${kind} · C${FIELD[kind]}</h3>${hasCF
+    ? QS[kind].map((q, i) => crossRow("CF" + (i + 1), tn.ko.cf[i], `${seedName(q[0])} – ${seedName(q[1])}`)).join("") + crossRow("SF1", tn.ko.sf[0], "Ganador CF1 – Ganador CF3") + crossRow("SF2", tn.ko.sf[1], "Ganador CF2 – Ganador CF4")
+    : QS[kind].map((q, i) => crossRow("SF" + (i + 1), tn.ko.sf[i], `${seedName(q[0])} – ${seedName(q[1])}`)).join("")}${crossRow("Final", tn.ko.final, "Ganador SF1 – Ganador SF2")}</div>`;
   pages.push(page(`${pageHead("Clasificaciones", "Victoria 3 · Empate 1 · Derrota 0")}
     <div class="gts">${groups.map(gTable).join("")}</div>
     <div class="tb"><b>Desempates</b><ol>${info.tiebreaks.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>

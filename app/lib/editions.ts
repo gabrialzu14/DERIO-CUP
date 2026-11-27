@@ -116,6 +116,23 @@ const INFO_2017: InfoSpec = {
   venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" },
 };
 
+/* ------------------------------------------------------------------ 2017 (23 de diciembre · 8 equipos) */
+const TEAMS_2017B: Team[] = [
+  T("derio", "Derio", "A"), T("abanto", "Abanto", "A"), T("arenas", "Arenas", "A"), T("zuazo", "Zuazo", "A"),
+  T("pauldarrak", "Pauldarrak", "B"), T("colegio-vizcaya", "Colegio Vizcaya", "B"), T("amistad-sniace", "Amistad Sniace", "B"), T("portu", "Portu", "B"),
+];
+/* Dos grupos de 4: cada jornada se juega en los dos campos a la vez (3 jornadas × 2 horas). */
+const SCHEDULE_2017B = rows([
+  // Jornada 1
+  ["16:30", 1, "A", "derio", "abanto"], ["16:30", 2, "A", "arenas", "zuazo"],
+  ["16:55", 1, "B", "pauldarrak", "colegio-vizcaya"], ["16:55", 2, "B", "amistad-sniace", "portu"],
+  // Jornada 2
+  ["17:20", 1, "A", "derio", "arenas"], ["17:20", 2, "A", "abanto", "zuazo"],
+  ["17:45", 1, "B", "pauldarrak", "amistad-sniace"], ["17:45", 2, "B", "colegio-vizcaya", "portu"],
+  // Jornada 3
+  ["18:10", 1, "A", "derio", "zuazo"], ["18:10", 2, "A", "abanto", "arenas"],
+  ["18:35", 1, "B", "pauldarrak", "portu"], ["18:35", 2, "B", "colegio-vizcaya", "amistad-sniace"],
+]);
 
 /* ------------------------------------------------------------------ textos en euskera */
 const TIEBREAKS_EU_2017 = ["Puntuak, guztira", "Elkarren arteko partidetako puntuak", "Elkarren arteko partidetako gol-diferentzia", "Elkarren arteko partidetako aldeko golak", "Gol-diferentzia orokorra", "Aldeko golak, guztira", "Penalti-txanda"];
@@ -194,6 +211,26 @@ const INFO_2017_FR: InfoSpec = {
   venueImage: { src: "/ibaiondo-campo.jpg", alt: "Vue aérienne des terrains d’Ibaiondo" },
 };
 
+/* Textos del torneo de 8 equipos (23 de diciembre): mismas normas que la edición de 16, con otra comida. */
+const INFO_2017B: InfoSpec = {
+  ...INFO_2015,
+  intro: "Derio Cup es un torneo de fútbol base organizado por el CD Derio, que se lleva a cabo en las Instalaciones Deportivas de Ibaiondo (Derio). Lo forman 8 equipos, divididos en 2 grupos de 4 equipos, con Fase de grupos y dos Fases finales (Fase Oro y Fase Plata).",
+  meals: { price: "7 €", includes: "Merienda/cena: un bocadillo (tortilla de jamón y queso, tortilla, bacon y queso, lomo y queso o jamón serrano), botellín de agua y una pieza de fruta.", contact: "Si estáis interesados, contactad con el responsable del torneo para gestionar el número de comensales." },
+  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" },
+};
+const INFO_2017B_EU: InfoSpec = {
+  ...INFO_2015_EU,
+  intro: "Derio Cup CD Deriok antolatzen duen oinarrizko futbol txapelketa da, eta Ibaiondoko Kirol Instalazioetan (Derio) jokatzen da. 8 taldek hartzen dute parte, 4 taldeko 2 multzotan banatuta. Multzo-fasea eta bi azken fase ditu: Urrezko fasea eta Zilarrezko fasea.",
+  meals: { price: "7 €", includes: "Askaria/afaria: ogitarteko bat (urdaiazpiko eta gazta tortila, tortila, hirugiharra eta gazta, solomoa eta gazta edo Serrano urdaiazpikoa), ur-botila eta fruta bat.", contact: "Interesatuta bazaudete, jarri harremanetan txapelketaren arduradunarekin mahaikide kopurua zehazteko." },
+  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" },
+};
+const INFO_2017B_FR: InfoSpec = {
+  ...INFO_2015_FR,
+  intro: "La Derio Cup est un tournoi de football des jeunes organisé par le CD Derio au complexe sportif d’Ibaiondo (Derio). Il réunit 8 équipes, réparties en 2 groupes de 4, avec une phase de groupes et deux phases finales (Phase Or et Phase Argent).",
+  meals: { price: "7 €", includes: "Goûter/dîner : un sandwich (omelette au jambon et fromage, omelette nature, bacon et fromage, filet de porc et fromage ou jambon serrano), une petite bouteille d’eau et un fruit.", contact: "Si cela vous intéresse, contactez le responsable du tournoi pour indiquer le nombre de repas." },
+  venueImage: { src: "/ibaiondo-campo.jpg", alt: "Vue aérienne des terrains d’Ibaiondo" },
+};
+
 export const TOURNAMENTS: Tournament[] = [
   {
     id: "2018", name: "Derio Cup", category: "2018", season: "2026/27", date: "2026-12-06",
@@ -212,6 +249,14 @@ export const TOURNAMENTS: Tournament[] = [
     info: { ...INFO_2015, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Plano aéreo de los campos de Ibaiondo" } },
     infoEu: { ...INFO_2015_EU, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Ibaiondoko zelaien ikuspegi aireko planoa" } },
     infoFr: { ...INFO_2015_FR, venueImage: { src: "/ibaiondo-campo.jpg", alt: "Vue aérienne des terrains d’Ibaiondo" } },
+  },
+  {
+    id: "2017b", name: "Derio Cup", category: "2017", season: "2026/27", date: "2026-12-23",
+    venue: VENUE, venueEu: VENUE_EU, venueFr: VENUE_FR, venueShort: "Ibaiondo", mapsUrl: MAPS, matchMinutes: 25, idPrefix: "2017b-",
+    teams: TEAMS_2017B, schedule: SCHEDULE_2017B,
+    // 8 equipos: no hay cuartos de final; las fases finales empiezan en semifinales.
+    ko: { sf: ["19:00", "19:25"], final: "19:50" },
+    info: INFO_2017B, infoEu: INFO_2017B_EU, infoFr: INFO_2017B_FR,
   },
   {
     id: "2017", name: "Derio Cup", category: "Benjamín 2017", season: "2026/27", date: "2026-09-20",

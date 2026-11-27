@@ -31,26 +31,28 @@ export function Fases({ kind, setKind, ms, koResults }: { kind: "oro" | "plata";
 export function Bracket({ kind, games, compact = false }: { kind: KOKind; games: KOGame[]; compact?: boolean }) {
   const { t, lang } = useLang(), eu = lang === "eu";
   const [view, setView] = useState<"lista" | "cuadro">("lista");
+  // Rondas que tiene este torneo: 16 equipos → cuartos, semifinales y final; 8 equipos → semifinales y final.
+  const rounds = ROUNDS.filter(r => games.some(g => g.round === r)), two = rounds.length === 2;
   return (
     <div className="bracket-block">
       <Tabs variant="underline" label={t("Vista de la Fase ", "Ikuspegia: ", "Affichage de la ") + phaseName(kind, lang)} idPrefix={"bk-" + kind + (compact ? "-c" : "")} value={view} onChange={setView} items={[{ key: "lista", label: t("Lista", "Zerrenda", "Liste") }, { key: "cuadro", label: t("Cuadro", "Koadroa", "Tableau") }]} />
       <TabPanel idPrefix={"bk-" + kind + (compact ? "-c" : "")} tab={view}>
         {view === "lista"
-          ? ROUNDS.map(r => { const gs = games.filter(g => g.round === r).sort(byTime); return (
+          ? rounds.map(r => { const gs = games.filter(g => g.round === r).sort(byTime); return (
               <section key={r} className="ko-round"><h3>{roundName(r, lang)}</h3><div className="ko-list">{gs.map(g => <KOGameRow key={g.id} g={g} />)}</div></section>); })
           : <div className="bk-scroll" tabIndex={0} role="region" aria-label={t("Cuadro de la Fase " + kind + ", desliza para ver todas las rondas", phaseName(kind, "eu") + "ren koadroa; irristatu kanporaketa guztiak ikusteko", "Tableau de la " + phaseName(kind, "fr") + ", faites défiler pour voir tous les tours")}>
-              <div className="bk">
-                {ROUNDS.map((r, ci) => (
+              <div className={"bk" + (two ? " two" : "")}>
+                {rounds.map((r, ci) => (
                   <div key={r} className={"bk-head c" + (ci * 2 + 1)}><h3>{roundName(r, lang)}</h3></div>
                 ))}
-                {ROUNDS.map((r, ci) => (
+                {rounds.map((r, ci) => (
                   <div key={r} className={"bk-games c" + (ci * 2 + 1)}>
                     {games.filter(g => g.round === r).sort((a, b) => (r === "CF" ? ["CF1", "CF3", "CF2", "CF4"].indexOf(a.code) - ["CF1", "CF3", "CF2", "CF4"].indexOf(b.code) : 0)).map(g => <BkGame key={g.id} g={g} />)}
                   </div>
                 ))}
                 {/* Conectores: cada pareja de partidos desemboca en el siguiente (coordenadas en % de la altura) */}
-                <svg className="bk-conn c2" viewBox="0 0 28 100" preserveAspectRatio="none" aria-hidden="true"><path vectorEffect="non-scaling-stroke" d="M0 12.5H14V37.5H0M14 25H28M0 62.5H14V87.5H0M14 75H28" /></svg>
-                <svg className="bk-conn c4" viewBox="0 0 28 100" preserveAspectRatio="none" aria-hidden="true"><path vectorEffect="non-scaling-stroke" d="M0 25H14V75H0M14 50H28" /></svg>
+                {!two && <svg className="bk-conn c2" viewBox="0 0 28 100" preserveAspectRatio="none" aria-hidden="true"><path vectorEffect="non-scaling-stroke" d="M0 12.5H14V37.5H0M14 25H28M0 62.5H14V87.5H0M14 75H28" /></svg>}
+                <svg className={"bk-conn " + (two ? "c2" : "c4")} viewBox="0 0 28 100" preserveAspectRatio="none" aria-hidden="true"><path vectorEffect="non-scaling-stroke" d="M0 25H14V75H0M14 50H28" /></svg>
               </div>
             </div>}
       </TabPanel>
