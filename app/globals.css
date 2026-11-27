@@ -1248,3 +1248,5 @@ html[data-seen] .splash { display: none; }
 .fb-field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .fb-note { font-size: .75rem; line-height: 1.5; color: var(--text-3); }
 .fb-thanks { font-size: .9375rem; font-weight: 600; line-height: 1.5; color: var(--text); }
+/* el desplegable de la valoración recorta lo que sobresale: el botón va sin sombra para no dejar un recuadro rojo */
+.fb-more-in .btn-primary { box-shadow: none; }
