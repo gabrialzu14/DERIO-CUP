@@ -1186,10 +1186,14 @@ html[data-seen] .splash { display: none; }
    usa su media columna para el nombre (la hora se superpone al hueco entre los dos escudos, no le quita ancho). */
 .hero-cols.two .hero-pair { position: relative; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 0; }
 .hero-cols.two .hero-mid { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: auto; height: 36px; padding: 0; z-index: 1; pointer-events: none; }
-/* los escudos se apartan del centro para dejar sitio a la hora; los nombres siguen centrados bajo cada escudo */
+/* Cada nombre queda centrado justo bajo su escudo. Para dejar sitio a la hora entre los dos escudos, cada equipo
+   (escudo + nombre juntos) se aparta un poco del centro. */
 .hero-cols.two .hero-pair > .hero-team { padding-inline: 3px; }
-.hero-cols.two .hero-pair > .hero-team:first-child .crest { transform: translateX(-13px); }
-.hero-cols.two .hero-pair > .hero-team:last-child .crest { transform: translateX(13px); }
+.hero-cols.two .hero-pair > .hero-team:first-child { transform: translateX(-8px); }
+.hero-cols.two .hero-pair > .hero-team:last-child { transform: translateX(8px); }
+.hero-cols.two .hero-pair .crest { width: 30px; height: 30px; }
+.hero-cols.two .hero-mid b { font-size: .8125rem; }
+@media (max-width: 340px) { .hero-cols.two .hero-pair > .hero-team:first-child { transform: translateX(-11px); } .hero-cols.two .hero-pair > .hero-team:last-child { transform: translateX(11px); } }
 .hero-cols.two .hero-mid .live-badge { padding: 2px 4px; }
 .hero-cols.two .hero-pair .hero-team b { font-size: .6875rem; letter-spacing: -.01em; }
 @media (max-width: 380px) { .hero-cols.two .hero-pair .hero-team b { font-size: .625rem; letter-spacing: -.02em; } }
@@ -1206,10 +1210,7 @@ html[data-seen] .splash { display: none; }
 .lang-bar { height: 3px; background: none !important; }
 .lang-bar::after { content: ""; display: block; width: 14px; height: 3px; margin-inline: auto; border-radius: 99px; background: var(--grad); }
 
-/* Pantallas estrechas con dos partidos: «En juego» en dos líneas (punto + texto) y escudos algo más separados, para que la hora no los toque */
-@media (max-width: 380px) {
-  .hero-cols.two .hero-mid .live-badge { flex-direction: column; gap: 2px; padding: 3px 5px; border-radius: 10px; line-height: 1; }
-  .hero-cols.two .hero-pair > .hero-team:first-child .crest { transform: translateX(-17px); }
-  .hero-cols.two .hero-pair > .hero-team:last-child .crest { transform: translateX(17px); }
-  .hero-cols.two .hero-mid b { font-size: .8125rem; }
-}
+/* Pantallas estrechas con dos partidos: «En juego» en dos líneas (punto + texto) y escudos algo más pequeños, para que la hora no los toque */
+.hero-cols.two .hero-mid .live-badge { flex-direction: column; gap: 2px; padding: 3px 5px; border-radius: 10px; line-height: 1; }
+@media (max-width: 380px) { .hero-cols.two .hero-pair > .hero-team:first-child { transform: translateX(-10px); } .hero-cols.two .hero-pair > .hero-team:last-child { transform: translateX(10px); } }
+@media (max-width: 340px) { .hero-cols.two .hero-mid b { font-size: .6875rem; letter-spacing: -.02em; } }
