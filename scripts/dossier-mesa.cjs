@@ -26,10 +26,38 @@ const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).fo
 const list = TOURNAMENTS.filter(t => (ONLY.length ? ONLY.includes(t.id) : t.date >= today));
 if (!list.length && require.main === module) { console.log("No hay torneos que generar."); process.exit(0); }
 
+const QRDATA = JSON.parse(fs.readFileSync(path.join(__dirname, "qr-app.json"), "utf8")); // QR de la app (python segno, corrección H)
 const fileUrl = p => "file://" + path.join(ROOT, "public", p);
 const LOGO = fileUrl("/logo-derio-cup.webp"), CDDERIO = fileUrl("/escudos/m/derio.webp");
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const longDate = iso => { const d = new Date(iso + "T12:00:00"); const s = d.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); return s.charAt(0).toUpperCase() + s.slice(1); };
+
+/** Inserta html justo antes del último </section> (el cierre de la página, no el de una franja horaria). */
+const insertEnd = (page, html) => { const i = page.lastIndexOf("</section>"); return page.slice(0, i) + html + page.slice(i); };
+
+/** QR de la app con los módulos en el degradado oficial y la copa blanca sobre una placa degradada en el centro. */
+function qrSvg() {
+  const M = QRDATA.matrix.map(r => [...r].map(c => c === "1")), N = M.length, q = 4, size = N + 2 * q, c = N >> 1, r = 4, cx = q + N / 2;
+  const mods = M.flatMap((row, y) => row.map((v, x) => (v && !(Math.abs(x - c) <= r && Math.abs(y - c) <= r) ? `<rect x="${x + q}" y="${y + q}" width="1.03" height="1.03"/>` : ""))).join("");
+  return `<svg class="qr" viewBox="0 0 ${size} ${size}" role="img" aria-label="QR ${QRDATA.url}"><defs>
+    <linearGradient id="qg" gradientUnits="userSpaceOnUse" x1="${q}" y1="${q}" x2="${q + N}" y2="${q + N}"><stop offset="0" stop-color="#0a5cc2"/><stop offset=".52" stop-color="#7a2a9a"/><stop offset="1" stop-color="#cf1738"/></linearGradient>
+    <linearGradient id="qb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a5cc2"/><stop offset=".52" stop-color="#7a2a9a"/><stop offset="1" stop-color="#cf1738"/></linearGradient></defs>
+    <rect width="${size}" height="${size}" fill="#fff"/><g fill="url(#qg)">${mods}</g>
+    <rect x="${cx - 4.1}" y="${cx - 4.1}" width="8.2" height="8.2" rx="2.1" fill="url(#qb)"/><image href="${LOGO}" x="${cx - 2.9}" y="${cx - 3.15}" width="5.8" height="6.3" preserveAspectRatio="xMidYMid meet"/></svg>`;
+}
+const appBlock = () => `
+  <aside class="appqr">
+    <div class="qrbox">${qrSvg()}<b>${QRDATA.url.replace("https://", "")}</b></div>
+    <div class="aptxt">
+      <h2>Instala la app<br>del torneo</h2>
+      <p>Resultados en directo, clasificaciones, horarios y el plano de Ibaiondo en tu móvil. Gratis y sin descargar nada.</p>
+      <ol>
+        <li><span>1</span><div><b>Escanea el QR</b><small>Con la cámara del móvil.</small></div></li>
+        <li><span>2</span><div><b>Instala la APP</b><small><strong>iPhone (Safari):</strong> Compartir → «Añadir a pantalla de inicio».<br><strong>Android (Chrome):</strong> menú ⋮ → «Instalar aplicación».</small></div></li>
+        <li><span>3</span><div><b>Sigue y disfruta el torneo</b><small>Elige tu equipo y recibe sus partidos y resultados.</small></div></li>
+      </ol>
+    </div>
+  </aside>`;
 
 function build(tn) {
   const team = id => tn.teams.find(t => t.id === id);
@@ -131,8 +159,11 @@ function build(tn) {
     const chunk = koTimes.slice(i, i + 3).map(t => slot(t, ko.filter(g => g.time === t).sort((a, b) => a.field - b.field).map(koCard).join(""), ko.find(g => g.time === t).round)).join("");
     pages.push(page(`${pageHead("Fases finales", "Fase Oro en C1 · Fase Plata en C2")}${chunk}`));
   }
+  { const lastKO = pages[pages.length - 1], slotsLast = (lastKO.match(/class="slot"/g) || []).length;
+    if (slotsLast <= 1) pages[pages.length - 1] = insertEnd(lastKO, appBlock());
+    else pages.push(page(`${pageHead("Instala la app", "Para quien pregunte dónde se instala")}${appBlock()}`)); }
   const total = pages.length;
-  const numbered = pages.map((p, i) => p.replace("</section>", `<div class="pn"><span class="pl"><img src="${CDDERIO}" alt="">CD Derio · Derio Cup ${esc(tn.category)}</span><span class="pr"><b>${i + 1}</b><i></i></span></div></section>`));
+  const numbered = pages.map((p, i) => insertEnd(p, `<div class="pn"><span class="pl"><img src="${CDDERIO}" alt="">CD Derio · Derio Cup ${esc(tn.category)}</span><span class="pr"><b>${i + 1}</b><i></i></span></div>`));
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Hoja de mesa · Derio Cup ${esc(tn.category)}</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>${CSS}</style></head><body>${numbered.join("")}</body></html>`;
@@ -219,6 +250,16 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .pen-row { display: grid; grid-template-columns: 16mm auto 1fr 10mm; align-items: center; gap: 2mm; font-size: 2.8mm; font-weight: 700; }
 .pen-row .sd { padding-left: 2mm; border-left: .3mm dashed #8d99ab; }
 .pen-foot { display: grid; grid-template-columns: 16mm 15mm 1fr 10mm; gap: 2mm; } .pen-foot small { font-size: 2.1mm; color: var(--t2); font-weight: 600; } .pen-foot small:first-child { grid-column: 2; } .pen-foot .sd-l { padding-left: 2mm; }
+/* bloque «Instala la app» (última hoja) */
+.appqr { margin-top: auto; margin-bottom: 9mm; border-radius: 5mm; padding: 7mm; display: grid; grid-template-columns: 66mm 1fr; gap: 8mm; align-items: center; background: linear-gradient(135deg, #eef4ff, #f5ecfb 55%, #ffecef); border: .4mm solid #d8cfe6; }
+.qrbox { background: #fff; border-radius: 4mm; padding: 3mm 3mm 2.4mm; text-align: center; box-shadow: 0 1.5mm 4mm rgba(60,20,90,.18); }
+.qrbox .qr { display: block; width: 100%; height: auto; shape-rendering: crispEdges; } .qrbox b { display: block; margin-top: 1.5mm; font-size: 3.5mm; font-weight: 800; color: var(--b2); }
+.aptxt h2 { font-size: 8mm; font-weight: 900; letter-spacing: -.03em; line-height: 1.03; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.aptxt p { margin-top: 2.5mm; font-size: 3.5mm; line-height: 1.4; color: var(--t2); font-weight: 600; }
+.aptxt ol { list-style: none; margin-top: 4mm; display: grid; gap: 3mm; }
+.aptxt li { display: flex; gap: 3mm; align-items: flex-start; }
+.aptxt li > span { flex: none; width: 7.5mm; height: 7.5mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 3.8mm; display: grid; place-items: center; }
+.aptxt li b { display: block; font-size: 4.2mm; font-weight: 900; letter-spacing: -.01em; } .aptxt li small { display: block; margin-top: .6mm; font-size: 3mm; line-height: 1.4; color: var(--t2); font-weight: 600; } .aptxt li small strong { color: var(--ink); font-weight: 800; }
 /* clasificaciones */
 .gts { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
 .gt h3, .cross h3, .tb b { font-size: 3.6mm; font-weight: 900; margin-bottom: 1.5mm; }
