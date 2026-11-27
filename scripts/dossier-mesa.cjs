@@ -269,8 +269,10 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .gt td.pos { background: var(--soft); }
 .tb { border: .3mm solid var(--line); border-radius: 3mm; padding: 3mm 4mm; } .tb ol { padding-left: 5mm; columns: 2; column-gap: 8mm; font-size: 2.8mm; line-height: 1.6; font-weight: 500; }
 .crosses { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
-.cross { border-radius: 3mm; padding: 3mm 4mm; font-size: 2.9mm; display: grid; gap: 1.2mm; }
-.cross.oro { background: var(--gold-s); box-shadow: inset 1mm 0 0 var(--gold); } .cross.plata { background: var(--silver-s); box-shadow: inset 1mm 0 0 var(--silver); }
+/* Cruces: marco fino del color de la fase con el título incrustado en el borde */
+.cross.oro { --c: #b8860b; } .cross.plata { --c: #5f6f85; }
+.cross { margin-top: 2.5mm; position: relative; background: #fff; border: .35mm solid var(--c); border-radius: 3mm; padding: 5.5mm 4.5mm 3.6mm; font-size: 2.9mm; display: grid; gap: 1.2mm; }
+.cross h3 { position: absolute; top: -2.6mm; left: 3.5mm; background: #fff; padding: 0 2mm; font-size: 3.2mm; font-weight: 900; color: var(--c); margin: 0; }
 .cross div { display: grid; grid-template-columns: 11mm 11mm 1fr; font-weight: 600; } .cross div b { font-weight: 900; } .cross div span { color: var(--t2); font-weight: 700; }
 `;
 
