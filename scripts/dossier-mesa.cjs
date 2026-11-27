@@ -124,8 +124,8 @@ function build(tn) {
     <ol class="how">
       <li><span>1</span><div><b>Gol</b><small>Marca una casilla en la fila del equipo.</small></div></li>
       <li><span>2</span><div><b>Final del partido</b><small>Escribe el resultado en el recuadro grande.</small></div></li>
-      <li><span>3</span><div><b>Empate en fase final</b><small>Penaltis: ✓ gol · ✗ fallo. Tiran 3 por equipo; si siguen empatados, de uno en uno.</small></div></li>
-      <li><span>4</span><div><b>Publícalo</b><small>App → Info → Acceso responsables. Después marca «Publicado».</small></div></li>
+      <li><span>3</span><div><b>En caso de empate</b><small>Marca los penaltis: ✓ gol · ✗ fallo.</small></div></li>
+      <li><span>4</span><div><b>Publica en la APP</b><small>Info → Acceso responsables. Después marca «Publicado».</small></div></li>
     </ol>
     <div class="facts">
       <div><b>${info.minutes}'</b><small>por partido</small></div>
@@ -203,7 +203,7 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .how li > span { flex: none; width: 10mm; height: 10mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 5mm; display: grid; place-items: center; }
 .how b { display: block; font-size: 4.6mm; font-weight: 900; letter-spacing: -.01em; } .how small { display: block; margin-top: .6mm; font-size: 3.6mm; line-height: 1.35; color: var(--t2); font-weight: 600; }
 .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin-top: auto; }
-.facts div { border: .3mm solid var(--line); border-radius: 3mm; padding: 3mm; text-align: center; } .facts b { display: block; font-size: 6mm; font-weight: 900; } .facts small { font-size: 2.8mm; color: var(--t2); font-weight: 600; }
+.facts div { border: .3mm solid var(--line); border-radius: 4mm; min-height: 34mm; padding: 4mm 3mm; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5mm; } .facts b { display: block; font-size: 11mm; font-weight: 900; letter-spacing: -.03em; line-height: 1; } .facts small { font-size: 3.6mm; color: var(--t2); font-weight: 700; }
 /* horario */
 .sched { width: 100%; border-collapse: collapse; font-size: 3.1mm; }
 .sched th { text-align: left; font-size: 2.6mm; text-transform: uppercase; letter-spacing: .06em; color: var(--t2); padding: 1.5mm 2mm; border-bottom: .4mm solid var(--ink); }
