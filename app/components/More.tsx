@@ -10,7 +10,7 @@ import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
 import { FlagEs, FlagEu, FlagFr } from "./LanguageScreen";
-import { pick, useLang, type Lang } from "../lib/i18n";
+import { pick, useLang, VISIBLE_LANGS, type Lang } from "../lib/i18n";
 import { isInstalled } from "../lib/platform";
 import { useEngine } from "../lib/engine";
 import { BRAND, dateParts, infoFor, venueFor, type InfoSpec, type Match, type ResultRow, type Tournament } from "../lib/tournament";
@@ -67,7 +67,8 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
 /** Ajuste de idioma: un botón que abre una ventana pequeña con las dos opciones. */
 function LangPopup({ onClose }: { onClose: () => void }) {
   const { lang, setLang, t } = useLang();
-  const opts: { key: Lang; name: string; flag: ReactNode }[] = [{ key: "es", name: "Castellano", flag: <FlagEs /> }, { key: "eu", name: "Euskara", flag: <FlagEu /> }, { key: "fr", name: "Français", flag: <FlagFr /> }];
+  const all: { key: Lang; name: string; flag: ReactNode }[] = [{ key: "es", name: "Castellano", flag: <FlagEs /> }, { key: "eu", name: "Euskara", flag: <FlagEu /> }, { key: "fr", name: "Français", flag: <FlagFr /> }];
+  const opts = all.filter(o => VISIBLE_LANGS.includes(o.key)); // el francés solo aparece cuando está activado (FR_ENABLED)
   return (
     <Dialog title={t("Idioma", "Hizkuntza", "Langue")} onClose={onClose} compact>
       <div className="lang-list" role="radiogroup" aria-label={t("Idioma", "Hizkuntza", "Langue")}>

@@ -3,6 +3,10 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 
 export type Lang = "es" | "eu" | "fr";
 export const LANGS: Lang[] = ["es", "eu", "fr"];
+/** El francés está traducido pero oculto: se activa (selectores y detección automática) cuando participe algún equipo francés. */
+export const FR_ENABLED = false;
+/** Idiomas que se ofrecen en los selectores. */
+export const VISIBLE_LANGS: Lang[] = FR_ENABLED ? LANGS : ["es", "eu"];
 export const LANG_KEY = "derio-cup-lang";
 const LOCALES: Record<Lang, string> = { es: "es-ES", eu: "eu", fr: "fr-FR" };
 const isLang = (l: unknown): l is Lang => l === "es" || l === "eu" || l === "fr";
@@ -18,7 +22,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     try {
       const l = localStorage.getItem(LANG_KEY);
       if (isLang(l)) set(l);
-      else { const n = navigator.language?.toLowerCase() ?? ""; if (n.startsWith("eu")) set("eu"); else if (n.startsWith("fr")) set("fr"); }
+      else { const n = navigator.language?.toLowerCase() ?? ""; if (n.startsWith("eu")) set("eu"); else if (FR_ENABLED && n.startsWith("fr")) set("fr"); }
     } catch {}
   }, []);
   useEffect(() => { document.documentElement.lang = lang; }, [lang]);

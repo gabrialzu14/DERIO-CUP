@@ -1,5 +1,6 @@
 "use client";
-import { LANGS, useLang } from "../lib/i18n";
+import type { CSSProperties } from "react";
+import { VISIBLE_LANGS, useLang } from "../lib/i18n";
 
 /** Bandera de España abstracta (franjas rojo-amarillo-rojo) con bordes redondeados. */
 export function FlagEs() {
@@ -15,16 +16,16 @@ export function FlagFr() {
   return <svg className="flag" viewBox="0 0 60 40" aria-hidden="true"><defs><clipPath id="ff"><rect width="60" height="40" rx="10" /></clipPath></defs><g clipPath="url(#ff)"><rect width="20" height="40" fill="#002654" /><rect x="20" width="20" height="40" fill="#ffffff" /><rect x="40" width="20" height="40" fill="#ce1126" /></g><rect width="60" height="40" rx="10" fill="none" stroke="rgb(0 0 0 / .12)" /></svg>;
 }
 
-/** Selector discreto «CAS | EUS | FRA» arriba a la derecha; la barra fina se desliza al cambiar. */
+/** Selector discreto «CAS | EUS» (y «FRA» cuando se active el francés) arriba a la derecha; la barra fina se desliza al cambiar. */
 export function LangToggle() {
   const { lang, setLang, t } = useLang();
   return (
-    <div className="lang-toggle" data-pos={LANGS.indexOf(lang)}>
+    <div className="lang-toggle" data-pos={Math.max(0, VISIBLE_LANGS.indexOf(lang))} style={{ "--n": VISIBLE_LANGS.length } as CSSProperties}>
       <small>{t("Idioma", "Hizkuntza", "Langue")}</small>
       <div className="lang-toggle-row" role="radiogroup" aria-label={t("Idioma", "Hizkuntza", "Langue")}>
         <button type="button" role="radio" aria-checked={lang === "es"} aria-label="Castellano" onClick={() => setLang("es")}>CAS</button>
         <button type="button" role="radio" aria-checked={lang === "eu"} aria-label="Euskara" onClick={() => setLang("eu")}>EUS</button>
-        <button type="button" role="radio" aria-checked={lang === "fr"} aria-label="Français" onClick={() => setLang("fr")}>FRA</button>
+        {VISIBLE_LANGS.includes("fr") && <button type="button" role="radio" aria-checked={lang === "fr"} aria-label="Français" onClick={() => setLang("fr")}>FRA</button>}
         <span className="lang-bar" aria-hidden="true" />
       </div>
     </div>
