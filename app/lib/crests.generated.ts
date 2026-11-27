@@ -1,12 +1,16 @@
 // Generado por scripts/crests.mjs — no editar a mano. Escudo → color dominante del club.
 export const CRESTS: Readonly<Record<string, string>> = {
   "abadino": "#268543",
+  "abanto": "#0ca378",
+  "amistad-sniace": "#02923f",
+  "arenas": "#d71616",
   "ariznabarra": "#2c2b57",
   "arrupe-chaminade": "#4671b5",
   "athletic-academy": "#c2c2c2",
   "baskauri": "#fced03",
   "bermeo": "#d4121b",
   "bge-aiboa": "#621e2d",
+  "colegio-vizcaya": "#002f87",
   "cultural-durango": "#2e3e85",
   "danok-bat-a": "#9d2725",
   "danok-bat-b": "#9d2725",
@@ -19,11 +23,13 @@ export const CRESTS: Readonly<Record<string, string>> = {
   "indautxu": "#c8302c",
   "lagun-artea": "#a01c28",
   "leioa": "#fe010e",
+  "pauldarrak": "#a28872",
   "portugalete": "#fcec00",
   "retuerto": "#da261e",
   "romo": "#e20e18",
   "santutxu": "#ce3932",
   "sestao-river": "#225b37",
   "trapagaran": "#2458a9",
-  "urduliz": "#3d6833"
+  "urduliz": "#3d6833",
+  "zuazo": "#eed732"
 };

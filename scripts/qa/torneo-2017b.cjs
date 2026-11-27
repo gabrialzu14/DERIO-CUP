@@ -9,11 +9,11 @@ const GROUPS = [
   R('grupo-A-1630-c1', 2, 0), R('grupo-A-1630-c2', 1, 1), R('grupo-A-1720-c1', 3, 1), R('grupo-A-1720-c2', 0, 2), R('grupo-A-1810-c1', 1, 1), R('grupo-A-1810-c2', 2, 2),
   R('grupo-B-1655-c1', 1, 0), R('grupo-B-1655-c2', 2, 2), R('grupo-B-1745-c1', 0, 1), R('grupo-B-1745-c2', 3, 0), R('grupo-B-1835-c1', 2, 0), R('grupo-B-1835-c2', 1, 1),
 ];
-// Clasificación resultante: A = Derio, Zuazo, Arenas, Abanto · B = Pauldarrak, Amistad Sniace, Colegio Vizcaya, Portu
+// Clasificación resultante: A = Derio, Zuazo, Arenas, Abanto · B = Pauldarrak, Amistad Sniace, Colegio Vizcaya, Portugalete
 const KO = (id, h, a, hs, as, hp, ap) => R(id, hs, as, { home_team: h, away_team: a, home_penalties: hp ?? null, away_penalties: ap ?? null, phase: id.split('-')[0], round: id.split('-')[1] });
 const SEMIS = [
   KO('oro-sf1', 'derio', 'amistad-sniace', 2, 2, 3, 1), KO('oro-sf2', 'pauldarrak', 'zuazo', 1, 0),
-  KO('plata-sf1', 'arenas', 'portu', 2, 1), KO('plata-sf2', 'colegio-vizcaya', 'abanto', 0, 1),
+  KO('plata-sf1', 'arenas', 'portugalete', 2, 1), KO('plata-sf2', 'colegio-vizcaya', 'abanto', 0, 1),
 ];
 const FINALS = [KO('oro-final', 'derio', 'pauldarrak', 1, 1, 2, 3), KO('plata-final', 'arenas', 'abanto', 3, 0)];
 
@@ -52,7 +52,7 @@ const txt = (p, sel) => p.locator(sel).allInnerTexts();
     ok(await p.locator('.team-pick').count() === 8, '8 equipos para elegir (' + await p.locator('.team-pick').count() + ')');
     ok(await p.locator('.welcome-group').count() === 2, '2 grupos en elegir equipo (' + await p.locator('.welcome-group').count() + ')');
     await p.screenshot({ path: 'shots/t17-welcome.png', fullPage: true });
-    await p.locator('.team-pick', { hasText: 'Portu' }).tap(); await p.waitForTimeout(400);
+    await p.locator('.team-pick', { hasText: 'Portugalete' }).tap(); await p.waitForTimeout(400);
     await p.locator('.continue-btn').tap(); await p.waitForTimeout(500);
     if (await p.locator('.fairplay .btn').count()) { await p.locator('.fairplay .btn').tap(); await p.waitForTimeout(1200); }
     await p.screenshot({ path: 'shots/t17-home-pre.png', fullPage: true });
@@ -112,7 +112,7 @@ const txt = (p, sel) => p.locator(sel).allInnerTexts();
     await p.screenshot({ path: 'shots/t17-oro-semis.png', fullPage: true });
     await p.locator('.tab', { hasText: /Plata/ }).first().tap(); await p.waitForTimeout(500);
     const bodyP = await p.locator('body').innerText();
-    ok(/Arenas/.test(bodyP) && /Portu/.test(bodyP) && /Colegio Vizcaya/.test(bodyP) && /Abanto/.test(bodyP), 'Plata: SF1 Arenas–Portu, SF2 Colegio Vizcaya–Abanto');
+    ok(/Arenas/.test(bodyP) && /Portugalete/.test(bodyP) && /Colegio Vizcaya/.test(bodyP) && /Abanto/.test(bodyP), 'Plata: SF1 Arenas–Portugalete, SF2 Colegio Vizcaya–Abanto');
     await p.goto(URL, { waitUntil: 'networkidle' }); await p.waitForTimeout(900);
     await p.screenshot({ path: 'shots/t17-home-semis.png', fullPage: true });
     const homeTxt = await p.locator('body').innerText();

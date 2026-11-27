@@ -119,19 +119,19 @@ const INFO_2017: InfoSpec = {
 /* ------------------------------------------------------------------ 2017 (23 de diciembre · 8 equipos) */
 const TEAMS_2017B: Team[] = [
   T("derio", "Derio", "A"), T("abanto", "Abanto", "A"), T("arenas", "Arenas", "A"), T("zuazo", "Zuazo", "A"),
-  T("pauldarrak", "Pauldarrak", "B"), T("colegio-vizcaya", "Colegio Vizcaya", "B"), T("amistad-sniace", "Amistad Sniace", "B"), T("portu", "Portu", "B"),
+  T("pauldarrak", "Pauldarrak", "B"), T("colegio-vizcaya", "Colegio Vizcaya", "B"), T("amistad-sniace", "Amistad Sniace", "B"), T("portugalete", "Portugalete", "B"),
 ];
 /* Dos grupos de 4: cada jornada se juega en los dos campos a la vez (3 jornadas × 2 horas). */
 const SCHEDULE_2017B = rows([
   // Jornada 1
   ["16:30", 1, "A", "derio", "abanto"], ["16:30", 2, "A", "arenas", "zuazo"],
-  ["16:55", 1, "B", "pauldarrak", "colegio-vizcaya"], ["16:55", 2, "B", "amistad-sniace", "portu"],
+  ["16:55", 1, "B", "pauldarrak", "colegio-vizcaya"], ["16:55", 2, "B", "amistad-sniace", "portugalete"],
   // Jornada 2
   ["17:20", 1, "A", "derio", "arenas"], ["17:20", 2, "A", "abanto", "zuazo"],
-  ["17:45", 1, "B", "pauldarrak", "amistad-sniace"], ["17:45", 2, "B", "colegio-vizcaya", "portu"],
+  ["17:45", 1, "B", "pauldarrak", "amistad-sniace"], ["17:45", 2, "B", "colegio-vizcaya", "portugalete"],
   // Jornada 3
   ["18:10", 1, "A", "derio", "zuazo"], ["18:10", 2, "A", "abanto", "arenas"],
-  ["18:35", 1, "B", "pauldarrak", "portu"], ["18:35", 2, "B", "colegio-vizcaya", "amistad-sniace"],
+  ["18:35", 1, "B", "pauldarrak", "portugalete"], ["18:35", 2, "B", "colegio-vizcaya", "amistad-sniace"],
 ]);
 
 /* ------------------------------------------------------------------ textos en euskera */
