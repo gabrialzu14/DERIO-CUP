@@ -39,22 +39,19 @@ const insertEnd = (page, html) => { const i = page.lastIndexOf("</section>"); re
 function qrSvg() {
   const M = QRDATA.matrix.map(r => [...r].map(c => c === "1")), N = M.length, q = 4, size = N + 2 * q, c = N >> 1, r = 4, cx = q + N / 2;
   const mods = M.flatMap((row, y) => row.map((v, x) => (v && !(Math.abs(x - c) <= r && Math.abs(y - c) <= r) ? `<rect x="${x + q}" y="${y + q}" width="1.03" height="1.03"/>` : ""))).join("");
-  return `<svg class="qr" viewBox="0 0 ${size} ${size}" role="img" aria-label="QR ${QRDATA.url}"><defs>
-    <linearGradient id="qg" gradientUnits="userSpaceOnUse" x1="${q}" y1="${q}" x2="${q + N}" y2="${q + N}"><stop offset="0" stop-color="#0a5cc2"/><stop offset=".52" stop-color="#7a2a9a"/><stop offset="1" stop-color="#cf1738"/></linearGradient>
-    <linearGradient id="qb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a5cc2"/><stop offset=".52" stop-color="#7a2a9a"/><stop offset="1" stop-color="#cf1738"/></linearGradient></defs>
-    <rect width="${size}" height="${size}" fill="#fff"/><g fill="url(#qg)">${mods}</g>
-    <rect x="${cx - 4.1}" y="${cx - 4.1}" width="8.2" height="8.2" rx="2.1" fill="url(#qb)"/><image href="${LOGO}" x="${cx - 2.9}" y="${cx - 3.15}" width="5.8" height="6.3" preserveAspectRatio="xMidYMid meet"/></svg>`;
+  return `<svg class="qr" viewBox="0 0 ${size} ${size}" role="img" aria-label="QR ${QRDATA.url}">
+    <rect width="${size}" height="${size}" fill="#fff"/><g fill="#000">${mods}</g>
+    <rect x="${cx - 4.1}" y="${cx - 4.1}" width="8.2" height="8.2" rx="2.1" fill="#000"/><image href="${LOGO}" x="${cx - 2.9}" y="${cx - 3.15}" width="5.8" height="6.3" preserveAspectRatio="xMidYMid meet"/></svg>`;
 }
 const appBlock = () => `
   <aside class="appqr">
-    <div class="qrbox">${qrSvg()}<b>${QRDATA.url.replace("https://", "")}</b></div>
+    <div class="qrbox">${qrSvg()}</div>
     <div class="aptxt">
       <h2>Instala la app<br>del torneo</h2>
-      <p>Resultados en directo, clasificaciones, horarios y el plano de Ibaiondo en tu móvil. Gratis y sin descargar nada.</p>
       <ol>
         <li><span>1</span><div><b>Escanea el QR</b><small>Con la cámara del móvil.</small></div></li>
         <li><span>2</span><div><b>Instala la APP</b><small><strong>iPhone (Safari):</strong> Compartir → «Añadir a pantalla de inicio».<br><strong>Android (Chrome):</strong> menú ⋮ → «Instalar aplicación».</small></div></li>
-        <li><span>3</span><div><b>Sigue y disfruta el torneo</b><small>Elige tu equipo y recibe sus partidos y resultados.</small></div></li>
+        <li><span>3</span><div><b>Sigue el torneo</b><small>Elige tu equipo y recibe sus partidos y resultados.</small></div></li>
       </ol>
     </div>
   </aside>`;
@@ -133,7 +130,6 @@ function build(tn) {
       <div><b>${info.minutes}'</b><small>por partido</small></div>
       <div><b>${tn.teams.length}</b><small>equipos</small></div>
       <div><b>${new Set(tn.teams.map(t => t.group)).size}</b><small>grupos</small></div>
-      <div><b>C1 · C2</b><small>Fase Oro en C1 · Fase Plata en C2</small></div>
     </div>`, "p-cover"));
   // 2 · horario del día (vista rápida)
   const rowsG = times.map(t => { const ms = matches.filter(m => m.time === t).sort((a, b) => a.field - b.field); return `<tr><td class="t">${t}</td>${[1, 2].map(f => { const m = ms.find(x => x.field === f); return `<td>${m ? `<small>Grupo ${m.group}</small>${esc(team(m.home).name)} – ${esc(team(m.away).name)}` : ""}</td>`; }).join("")}<td class="ok"><i></i></td></tr>`; }).join("");
@@ -205,7 +201,7 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .how li { display: flex; align-items: center; gap: 4mm; padding: 4mm 5mm; border-radius: 3.5mm; background: var(--soft); }
 .how li > span { flex: none; width: 10mm; height: 10mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 5mm; display: grid; place-items: center; }
 .how b { display: block; font-size: 4.6mm; font-weight: 900; letter-spacing: -.01em; } .how small { display: block; margin-top: .6mm; font-size: 3.6mm; line-height: 1.35; color: var(--t2); font-weight: 600; }
-.facts { display: grid; grid-template-columns: repeat(3, 1fr) 2fr; gap: 3mm; margin-top: auto; }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin-top: auto; }
 .facts div { border: .3mm solid var(--line); border-radius: 3mm; padding: 3mm; text-align: center; } .facts b { display: block; font-size: 6mm; font-weight: 900; } .facts small { font-size: 2.8mm; color: var(--t2); font-weight: 600; }
 /* horario */
 .sched { width: 100%; border-collapse: collapse; font-size: 3.1mm; }
@@ -252,11 +248,12 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .pen-foot { display: grid; grid-template-columns: 16mm 15mm 1fr 10mm; gap: 2mm; } .pen-foot small { font-size: 2.1mm; color: var(--t2); font-weight: 600; } .pen-foot small:first-child { grid-column: 2; } .pen-foot .sd-l { padding-left: 2mm; }
 /* bloque «Instala la app» (última hoja) */
 .appqr { margin-top: auto; margin-bottom: 9mm; border-radius: 5mm; padding: 7mm; display: grid; grid-template-columns: 66mm 1fr; gap: 8mm; align-items: center; background: linear-gradient(135deg, #eef4ff, #f5ecfb 55%, #ffecef); border: .4mm solid #d8cfe6; }
-.qrbox { background: #fff; border-radius: 4mm; padding: 3mm 3mm 2.4mm; text-align: center; box-shadow: 0 1.5mm 4mm rgba(60,20,90,.18); }
-.qrbox .qr { display: block; width: 100%; height: auto; shape-rendering: crispEdges; } .qrbox b { display: block; margin-top: 1.5mm; font-size: 3.5mm; font-weight: 800; color: var(--b2); }
-.aptxt h2 { font-size: 8mm; font-weight: 900; letter-spacing: -.03em; line-height: 1.03; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.qrbox { background: #fff; border-radius: 4mm; padding: 3mm; border: .4mm solid #cdbfe0; }
+.qrbox .qr { display: block; width: 100%; height: auto; shape-rendering: crispEdges; }
+.aptxt h2 { font-size: 8.4mm; font-weight: 900; letter-spacing: -.03em; line-height: 1.03; color: var(--ink); }
+.aptxt h2::after { content: ""; display: block; width: 16mm; height: 1.6mm; margin-top: 2.5mm; border-radius: 99px; background: var(--grad); }
 .aptxt p { margin-top: 2.5mm; font-size: 3.5mm; line-height: 1.4; color: var(--t2); font-weight: 600; }
-.aptxt ol { list-style: none; margin-top: 4mm; display: grid; gap: 3mm; }
+.aptxt ol { list-style: none; margin-top: 5mm; display: grid; gap: 3mm; }
 .aptxt li { display: flex; gap: 3mm; align-items: flex-start; }
 .aptxt li > span { flex: none; width: 7.5mm; height: 7.5mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 3.8mm; display: grid; place-items: center; }
 .aptxt li b { display: block; font-size: 4.2mm; font-weight: 900; letter-spacing: -.01em; } .aptxt li small { display: block; margin-top: .6mm; font-size: 3mm; line-height: 1.4; color: var(--t2); font-weight: 600; } .aptxt li small strong { color: var(--ink); font-weight: 800; }
