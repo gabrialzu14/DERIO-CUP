@@ -1158,3 +1158,18 @@ html[data-seen] .splash { display: none; }
 .v3-pop b { font-size: .75rem; font-weight: 800; }
 .v3-pop p { margin: 1px 0 0; font-size: .6875rem; line-height: 1.3; font-weight: 600; }
 .v3-map.has-sel .v3-mk.under { filter: opacity(.18); }
+
+/* Tarjeta de mi equipo cuando ya ha terminado el torneo: reducida, con su resultado final */
+.team-card.is-done { gap: 10px; padding: 14px 16px; }
+.done-row { display: flex; align-items: center; gap: 12px; }
+.done-row .crest { width: 44px; height: 44px; flex: none; }
+.done-txt { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.done-txt b { font-size: .875rem; font-weight: 700; opacity: .85; }
+.done-txt strong { font-size: 1.0625rem; font-weight: 800; letter-spacing: -.01em; }
+.done-txt small { font-size: .75rem; font-weight: 600; opacity: .8; overflow-wrap: anywhere; }
+.team-card.is-champ .cup-mark { color: currentColor; }
+/* Fases finales en el inicio: Oro y Plata una debajo de otra */
+.ko-phase { display: grid; gap: 8px; }
+.ko-phase + .ko-phase { margin-top: 18px; }
+.ko-phase-head { display: flex; align-items: center; gap: 8px; font-size: 1.0625rem; font-weight: 800; }
+.ko-phase-head small { margin-left: auto; font-size: .75rem; font-weight: 700; color: var(--text-2); padding: 3px 9px; border-radius: 999px; background: var(--surface-2); }

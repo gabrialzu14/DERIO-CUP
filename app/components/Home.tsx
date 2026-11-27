@@ -13,8 +13,9 @@ import type { TabId } from "./TournamentApp";
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; selected: string; fanCounts: Record<string, number>; loaded: boolean; go: (t: TabId, o?: { group?: G; phase?: "oro" | "plata"; team?: string }) => void };
 
 export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) {
-  const { tn, complete, knockout, matchState, table, teamIds } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
+  const { tn, complete, knockout, matchState, table, teamIds, koField } = useEngine(), { t, lang } = useLang(), eu = lang === "eu";
   const neutral = selected === "neutral";
+  const groupsDone = GROUPS.every(g => complete(g, ms));
   const oro = knockout("Oro", ms, koResults), plata = knockout("Plata", ms, koResults);
   const live = ms.filter(m => matchState(m.time, m.hs !== null) === "live");
   const pending = ms.filter(m => m.hs === null).sort(byTime);
@@ -36,7 +37,16 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
 
       {!neutral && <TeamCard id={selected} ms={ms} koResults={koResults} onOpen={() => go("equipo", { team: selected })} />}
 
-      <section aria-labelledby="home-phases">
+      {groupsDone ? <section aria-labelledby="home-ko">
+        <SectionHead title={t("Fases finales", "Azken faseak", "Phases finales")} cup />
+        <h2 id="home-ko" className="sr-only">{t("Fases finales", "Azken faseak", "Phases finales")}</h2>
+        {(["Oro", "Plata"] as const).map(k => (
+          <div key={k} className="ko-phase">
+            <h3 className="ko-phase-head"><i className={"dot " + (k === "Oro" ? "gold" : "silver")} aria-hidden="true" />{phaseName(k, lang)}<small>{fieldName(koField(k), lang)}</small></h3>
+            <Bracket kind={k} games={k === "Oro" ? oro : plata} compact />
+          </div>
+        ))}
+      </section> : <section aria-labelledby="home-phases">
         <SectionHead title={t("Torneo", "Txapelketa", "Tournoi")} cup />
         <h2 id="home-phases" className="sr-only">{t("Fases del torneo", "Txapelketaren faseak", "Phases du tournoi")}</h2>
         <Tabs label={t("Fase del torneo", "Txapelketaren fasea", "Phase du tournoi")} idPrefix="home-phase" value={phase} onChange={setPhase} items={[
@@ -48,7 +58,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
             <div className="group-grid">
               {GROUPS.map(g => (
                 <button key={g} type="button" className="group-card" onClick={() => go("clasificacion", { group: g })} aria-label={t(`Ver clasificación del grupo ${g}`, `Ikusi ${g} multzoaren sailkapena`, `Voir le classement du groupe ${g}`)}>
-                  <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done"><Icon name="check" size={14} />{t("Cerrado", "Itxita", "Terminé")}</span>}</span>
+                  <span className="group-card-head"><b>{groupName(g, lang)}</b>{complete(g, ms) && <span className="done">{t("Finalizado", "Amaituta", "Terminé")}</span>}</span>
                   <span className="group-crests">{(complete(g, ms) || ms.some(m => m.group === g && m.hs !== null) ? table(g, ms).map(r => r.id) : teamIds(g)).map(id => <Crest key={id} id={id} size={32} />)}</span>
                 </button>
               ))}
@@ -59,7 +69,7 @@ export function Home({ ms, koResults, selected, fanCounts, loaded, go }: Props) 
             <Bracket kind={phase === "oro" ? "Oro" : "Plata"} games={phase === "oro" ? oro : plata} compact />
           </>}
         </TabPanel>
-      </section>
+      </section>}
 
       {!finished && pending.length > 0 && <section>
         <SectionHead icon="ball" title={live.length ? t("A continuación", "Jarraian", "À suivre") : t("Próximos partidos", "Hurrengo partidak", "Prochains matchs")} action={{ label: t("Calendario", "Egutegia", "Programme"), onClick: () => go("partidos") }} />
@@ -135,6 +145,28 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
     ? { time: groupNext.time, field: groupNext.field, opp: groupNext.home === id ? groupNext.away : groupNext.home, oppLabel: "", where: groupName(groupNext.group, lang), live: matchState(groupNext.time, false) === "live" }
     : koNext ? { time: koNext.time, field: koNext.field, opp: koNext.home === id ? koNext.away : koNext.home, oppLabel: koNext.home === id ? koNext.awayLabel : koNext.homeLabel, where: phaseName(koNext.kind, lang) + " · " + koCode(koNext.code, lang), live: matchState(koNext.time, false) === "live" } : null;
   const oppName = next ? (next.opp ? T(next.opp).name : koLabel(next.oppLabel, lang)) : "";
+  // Sin partidos pendientes: su último partido de fase final dice cómo ha terminado (tarjeta reducida)
+  const playedKO = next ? [] : (["Oro", "Plata"] as const).flatMap(k => knockout(k, ms, koResults)).filter(g => (g.home === id || g.away === id) && validKO(g)).sort(byTime);
+  const last = playedKO[playedKO.length - 1];
+  if (!next && last) {
+    const won = koWinner(last) === id, r = last.result!;
+    const status = last.round === "FINAL"
+      ? (won ? tr("¡Campeón!", "Txapelduna!", "Vainqueur !") : tr("Subcampeón", "Txapeldunordea", "Finaliste"))
+      : last.round === "SF" ? tr("Eliminado en semifinales", "Finalerdietan kanporatua", "Éliminé en demi-finales")
+      : tr("Eliminado en cuartos de final", "Final-laurdenetan kanporatua", "Éliminé en quarts de finale");
+    const pens = r.home_penalties != null && r.away_penalties != null ? ` (${tr("pen.", "pen.", "t.a.b.")} ${r.home_penalties}–${r.away_penalties})` : "";
+    const line = `${koCode(last.code, lang)} · ${T(last.home!).name} ${r.home_score}–${r.away_score} ${T(last.away!).name}${pens}`;
+    return (
+      <button type="button" className={"team-card is-done" + (won && last.round === "FINAL" ? " is-champ" : "")} onClick={onOpen} aria-label={`${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name}. ${status}, ${phaseName(last.kind, lang)}. ${line}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
+        <span className="team-card-label"><span>{tr("Mi equipo", "Nire taldea", "Mon équipe")}</span><span className="team-card-where">{phaseName(last.kind, lang)}</span></span>
+        <span className="done-row">
+          <Crest id={id} size={44} />
+          <span className="done-txt"><b>{t.name}</b><strong>{status}</strong><small>{line}</small></span>
+          {won && last.round === "FINAL" && <CupMark size={30} />}
+        </span>
+      </button>
+    );
+  }
   return (
     <button type="button" className="team-card" onClick={onOpen} aria-label={next ? `${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name} ${tr("contra", "eta", "contre")} ${oppName}, ${next.time}` : `${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
       <span className="team-card-label">
