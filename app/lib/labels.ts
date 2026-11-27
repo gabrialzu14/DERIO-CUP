@@ -7,7 +7,8 @@ export const phaseName = (k: KOKind, l: Lang) => pick(l, "Fase " + k, k === "Oro
 export const roundName = (r: "CF" | "SF" | "FINAL", l: Lang) => pick(l, { CF: "Cuartos de final", SF: "Semifinales", FINAL: "Final" }, { CF: "Final-laurdenak", SF: "Finalerdiak", FINAL: "Finala" }, { CF: "Quarts de finale", SF: "Demi-finales", FINAL: "Finale" })[r];
 export const roundShort = (r: "CF" | "SF" | "FINAL", l: Lang) => pick(l, { CF: "Cuartos", SF: "Semifinal", FINAL: "Final" }, { CF: "Laurdenak", SF: "Finalerdia", FINAL: "Finala" }, { CF: "Quarts", SF: "Demies", FINAL: "Finale" })[r];
 export const groupName = (g: string, l: Lang) => pick(l, `Grupo ${g}`, `${g} multzoa`, `Groupe ${g}`);
-export const fieldName = (n: number, l: Lang) => pick(l, `Campo ${n}`, `${n}. zelaia`, `Terrain ${n}`);
+/** Campo abreviado: C1/C2 en castellano, Z1/Z2 en euskera, T1/T2 en francés. */
+export const fieldName = (n: number, l: Lang) => pick(l, `C${n}`, `Z${n}`, `T${n}`);
 /** Inicial de «campo» para etiquetas muy cortas (C1 / Z1 / T1). */
 export const fieldInitial = (l: Lang) => pick(l, "C", "Z", "T");
 /** Código de partido de fase final: CF1, SF2, FINAL (en francés QF1, DF2, FINALE). */

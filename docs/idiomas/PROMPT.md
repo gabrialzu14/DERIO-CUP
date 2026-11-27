@@ -67,7 +67,7 @@ por palabra: es que cada texto suene como si lo hubiera escrito alguien de aquí
 | Fase Oro / Fase Plata | Urrezko fasea / Zilarrezko fasea | Phase Or / Phase Argent |
 | Jornada 1 | 1. jardunaldia | 1re journée |
 | Partido | Partida | Match |
-| Campo 1 | 1. zelaia | Terrain 1 |
+| C1 (Campo 1) | Z1 (en frases: «Z1 zelaian») | T1 |
 | Clasificación | Sailkapena | Classement |
 | Desempate / criterios de desempate | Berdinketa haustea / berdinketa hausteko irizpideak | Départage / critères de départage |
 | Cuartos de final / Semifinales / Final | Final-laurdenak / Finalerdiak / Finala | Quarts de finale / Demi-finales / Finale |
@@ -117,7 +117,7 @@ Cada término técnico o frase dudosa se comprueba en fuentes oficiales y se ano
   en un iPhone en castellano («Compartir», «Añadir a pantalla de inicio», «Añadir»). En Android se usan los
   textos de Chrome en euskera («Instalatu aplikazioa», «Ireki Chrome arakatzailean»).
 - **Fechas en euskera** (Euskaltzaindia, 203. araua): «abenduaren 8a», «Abenduaren 8a, asteartea», corta «abe. 8».
-- **«Z1» no**: siempre «1. zelaia».
+- **Campos abreviados** (decisión del organizador): C1/C2 en castellano, Z1/Z2 en euskera y T1/T2 en francés, en etiquetas y frases.
 - **Francés**: «1re journée», «1er / 2e», «8 décembre», meses en minúscula, «la Derio Cup» en femenino,
   «Parking de délestage» para el aparcamiento alternativo, «Benjamín 2017 (enfants nés en 2017)».
 - **Frases con variables**: nunca «texto: variable» para salir del paso; se reescribe con plantilla para que

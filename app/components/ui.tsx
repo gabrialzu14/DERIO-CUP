@@ -87,10 +87,10 @@ export function TabPanel({ idPrefix, tab, children }: { idPrefix: string; tab: s
   return <div role="tabpanel" id={idPrefix + "-panel"} aria-labelledby={idPrefix + "-tab-" + tab} className="tab-panel" key={tab}>{children}</div>;
 }
 
-/** «Toda la Fase Oro se disputa en el Campo 1»: las fases finales usan un único campo. */
+/** «Toda la Fase Oro se disputa en el C1»: las fases finales usan un único campo. */
 export function PhaseNote({ kind }: { kind: "Oro" | "Plata" }) {
   const { koField } = useEngine(), { t } = useLang();
-  return <p className="phase-note"><Icon name="pin" size={16} />{t(<span>Toda la Fase {kind} se disputa en el <b>Campo {koField(kind)}</b>.</span>, <span>{phaseName(kind, "eu")} osorik <b>{koField(kind)}. zelaian</b> jokatzen da.</span>, <span>Toute la {phaseName(kind, "fr")} se joue sur le <b>Terrain {koField(kind)}</b>.</span>)}</p>;
+  return <p className="phase-note"><Icon name="pin" size={16} />{t(<span>Toda la Fase {kind} se disputa en el <b>C{koField(kind)}</b>.</span>, <span>{phaseName(kind, "eu")} osorik <b>Z{koField(kind)} zelaian</b> jokatzen da.</span>, <span>Toute la {phaseName(kind, "fr")} se joue sur le <b>T{koField(kind)}</b>.</span>)}</p>;
 }
 
 export function EmptyState({ icon, title, text }: { icon: IconName; title: string; text?: string }) {
