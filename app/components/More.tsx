@@ -1,7 +1,7 @@
 "use client";
 import { ParkingMaps } from "./ParkingMaps";
 import { directionsUrl } from "../lib/directions";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Icon, type IconName } from "./icons";
 import { BrandName, CupMark } from "./ui";
@@ -69,7 +69,7 @@ type Props = { ms: Match[]; koResults: Record<string, ResultRow>; setKoResults: 
 export function More({ ms, koResults, setKoResults, scores, setScores, changeTeam, changeTournament, theme, setTheme }: Props) {
   const { tn } = useEngine(), { lang, t, locale } = useLang();
   const INFO = buildInfo(tn, lang, locale);
-  const [open, setOpen] = useState<string | null>(null), [appearOpen, setAppearOpen] = useState(false);
+  const [open, setOpen] = useState<string | null>(null);
   const isDark = theme === "dark" || (theme === "system" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [manager, setManager] = useState(false), [install, setInstall] = useState(false), [installed, setInstalled] = useState(true);
   useEffect(() => setInstalled(isInstalled()), []);
@@ -89,17 +89,18 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
       <h2 className="list-title">{t("Ajustes", "Ezarpenak", "Réglages")}</h2>
       <div className="menu-card">
         <div className="menu-item lang-inline"><span className="menu-icon"><Icon name="langs" /></span><span className="menu-text"><b>{t("Idioma", "Hizkuntza", "Langue")}</b></span><LangToggle bare /></div>
-        <button type="button" className="menu-item" aria-expanded={appearOpen} onClick={() => setAppearOpen(o => !o)}>
-          <span className="menu-icon"><Icon name={isDark ? "moon" : "sun"} /></span><span className="menu-text"><b>{t("Apariencia", "Itxura", "Apparence")}</b><small>{isDark ? t("Oscuro", "Iluna", "Sombre") : t("Claro", "Argia", "Clair")}</small></span>
-          <Icon name="chevron" size={18} className={"icon chev appear-chev" + (appearOpen ? " open" : "")} />
-        </button>
-        {appearOpen && <div className="appear-menu" role="radiogroup" aria-label={t("Apariencia", "Itxura", "Apparence")}>
-          {([["light", "sun", t("Claro", "Argia", "Clair")], ["dark", "moon", t("Oscuro", "Iluna", "Sombre")]] as const).map(([k, ic, lb]) => (
-            <button key={k} type="button" role="radio" aria-checked={(isDark ? "dark" : "light") === k} className={"appear-opt" + ((isDark ? "dark" : "light") === k ? " is-on" : "")} onClick={() => { setTheme(k); setAppearOpen(false); }}>
-              <Icon name={ic} size={20} /><b>{lb}</b><span className="lang-check" aria-hidden="true">{(isDark ? "dark" : "light") === k && <Icon name="check" size={16} />}</span>
-            </button>
-          ))}
-        </div>}
+        <div className="menu-item lang-inline" role="group" aria-label={t("Apariencia", "Itxura", "Apparence")}>
+          <span className="menu-icon"><Icon name={isDark ? "moon" : "sun"} /></span>
+          <span className="menu-text"><b>{t("Apariencia", "Itxura", "Apparence")}</b><small>{isDark ? t("Oscuro", "Iluna", "Sombre") : t("Claro", "Argia", "Clair")}</small></span>
+          <div className="lang-toggle theme-toggle" data-pos={isDark ? 1 : 0} style={{ "--n": 2 } as CSSProperties}>
+            <div className="lang-toggle-row" role="radiogroup" aria-label={t("Apariencia", "Itxura", "Apparence")}>
+              {([["light", "sun", t("Claro", "Argia", "Clair")], ["dark", "moon", t("Oscuro", "Iluna", "Sombre")]] as const).map(([k, ic, lb]) => (
+                <button key={k} type="button" role="radio" aria-checked={(isDark ? "dark" : "light") === k} aria-label={lb} title={lb} onClick={() => setTheme(k)}><Icon name={ic} size={20} /></button>
+              ))}
+              <span className="lang-bar" aria-hidden="true" />
+            </div>
+          </div>
+        </div>
         {!installed && <button type="button" className="menu-item" onClick={() => setInstall(true)}><span className="menu-icon"><Icon name="install" /></span><span className="menu-text"><b>{t("Instalar la app", "Instalatu aplikazioa", "Installer l’application")}</b><small>{t("Añádela a tu pantalla de inicio", "Gehitu zure hasierako pantailara", "Ajoutez-la à votre écran d’accueil")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>}
         <button type="button" className="menu-item" onClick={changeTournament}><span className="menu-icon"><Icon name="list" /></span><span className="menu-text"><b>{t("Cambiar de torneo", "Aldatu txapelketa", "Changer de tournoi")}</b><small>{t("Volver a la lista de torneos", "Itzuli txapelketen zerrendara", "Revenir à la liste des tournois")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
         <button type="button" className="menu-item" onClick={changeTeam}><span className="menu-icon"><Icon name="switch" /></span><span className="menu-text"><b>{t("Cambiar de equipo", "Aldatu taldea", "Changer d’équipe")}</b><small>{t("Seleccionar otro participante", "Aukeratu beste talde bat", "Choisir une autre équipe")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>

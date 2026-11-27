@@ -968,14 +968,6 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 body::after { content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 95; pointer-events: none; }
 
 /* Apariencia: desplegable Claro / Oscuro */
-.appear-chev { transition: transform .2s var(--ease-out); transform: rotate(90deg); }
-.appear-chev.open { transform: rotate(-90deg); }
-.appear-menu { display: grid; gap: 4px; padding: 4px 12px 12px 60px; animation: fade-in .18s ease both; }
-.appear-opt { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--text-2); text-align: left; transition: background-color .15s; }
-.appear-opt b { flex: 1; font-weight: 700; font-size: .9375rem; }
-.appear-opt.is-on { background: var(--accent-soft); color: var(--accent); }
-.appear-opt:active { transform: scale(.98); }
-.appear-opt .lang-check { color: var(--accent); background: none; }
 
 /* Aficionados del aviso: al aparecer levantan los brazos una vez y se quedan quietos */
 .fairplay-ico { position: relative; background: none !important; -webkit-mask: none !important; mask: none !important; }
@@ -1091,7 +1083,7 @@ html[data-seen] .splash { display: none; }
 .tabbar button[aria-current="page"] { background: linear-gradient(135deg, color-mix(in srgb, var(--bg1) 17%, transparent), color-mix(in srgb, var(--bg3) 17%, transparent)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bg2) 20%, transparent); }
 .tabs-pill .tab[aria-selected="true"] { box-shadow: 0 1px 2px var(--shadow), inset 0 -2px 0 0 transparent, 0 0 0 1px var(--line); background: linear-gradient(var(--seg-on), var(--seg-on)) padding-box, var(--grad) border-box; border: 1.5px solid transparent; }
 .v3-chip[aria-pressed="true"] { background: var(--grad); border-color: transparent; color: #fff; }
-.appear-opt.is-on, .lang-row.is-on { background: linear-gradient(135deg, color-mix(in srgb, var(--bg1) 14%, transparent), color-mix(in srgb, var(--bg3) 14%, transparent)); }
+.lang-row.is-on { background: linear-gradient(135deg, color-mix(in srgb, var(--bg1) 14%, transparent), color-mix(in srgb, var(--bg3) 14%, transparent)); }
 .link-btn { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .link-btn .icon { color: var(--bg3); }
 
@@ -1218,3 +1210,6 @@ html[data-seen] .splash { display: none; }
 /* Info → Idioma: selector CAS · EUS dentro de la propia fila */
 .lang-inline .menu-text { flex: 1; }
 .lang-inline .lang-toggle { justify-items: end; }
+.theme-toggle .lang-toggle-row button { min-width: 44px; display: grid; place-items: center; }
+.theme-toggle .lang-toggle-row button .icon { width: 20px; height: 20px; }
+.lang-inline .menu-text small { display: block; }

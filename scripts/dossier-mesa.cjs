@@ -132,7 +132,7 @@ function build(tn) {
     pages.push(page(`${pageHead("Fases finales", "Fase Oro en C1 · Fase Plata en C2")}${chunk}`));
   }
   const total = pages.length;
-  const numbered = pages.map((p, i) => p.replace("</section>", `<div class="pn"><span class="pl"><img src="${CDDERIO}" alt="">CD Derio · Derio Cup ${esc(tn.category)}</span><span class="pr"><b>${i + 1}</b><em>/${total}</em><i></i></span></div></section>`));
+  const numbered = pages.map((p, i) => p.replace("</section>", `<div class="pn"><span class="pl"><img src="${CDDERIO}" alt="">CD Derio · Derio Cup ${esc(tn.category)}</span><span class="pr"><b>${i + 1}</b><i></i></span></div></section>`));
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Hoja de mesa · Derio Cup ${esc(tn.category)}</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>${CSS}</style></head><body>${numbered.join("")}</body></html>`;
@@ -146,9 +146,9 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .page { position: relative; width: 210mm; height: 297mm; padding: 12mm 11mm 14mm; overflow: hidden; page-break-after: always; break-after: page; display: flex; flex-direction: column; gap: 4mm; }
 .pn { position: absolute; left: 11mm; right: 11mm; bottom: 5.5mm; display: flex; align-items: flex-end; justify-content: space-between; font-size: 2.6mm; color: var(--t2); font-weight: 600; }
 .pn .pl { display: flex; align-items: center; gap: 2mm; } .pn img { height: 4.5mm; }
-.pn .pr { display: grid; grid-template-columns: auto auto; justify-content: end; align-items: baseline; column-gap: .6mm; color: var(--ink); }
-.pn .pr b { font-size: 5mm; font-weight: 900; letter-spacing: -.02em; line-height: 1; } .pn .pr em { font-style: normal; font-size: 2.8mm; font-weight: 700; color: var(--t2); }
-.pn .pr i { grid-column: 1 / 3; justify-self: end; margin-top: 1mm; width: 9mm; height: 1.3mm; border-radius: 99px; background: var(--grad); }
+.pn .pr { display: grid; justify-items: end; color: var(--ink); }
+.pn .pr b { font-size: 5mm; font-weight: 900; letter-spacing: -.02em; line-height: 1; }
+.pn .pr i { margin-top: 1mm; width: 9mm; height: 1.3mm; border-radius: 99px; background: var(--grad); }
 .phead { display: grid; grid-template-columns: auto auto 1fr; grid-template-rows: auto auto; column-gap: 3mm; align-items: center; padding: 3.5mm 5mm; border-radius: 4mm; background: var(--grad); color: #fff; }
 .phead img { grid-row: 1 / 3; height: 11mm; }
 .phead .wm { grid-row: 1 / 3; font-size: 5mm; font-weight: 300; letter-spacing: -.03em; padding-right: 3mm; border-right: .3mm solid rgba(255,255,255,.5); }
@@ -206,10 +206,15 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .boxes.round i { border-radius: 50%; width: 4.2mm; height: 4.2mm; } .boxes.sm i { width: 3.4mm; height: 3.4mm; border-style: dashed; }
 .score { width: 14mm; height: 12mm; border: .55mm solid var(--ink); border-radius: 2.2mm; display: inline-block; } .score.sm { width: 10mm; height: 6.5mm; border-width: .4mm; }
 .card footer small { font-size: 2.2mm; color: var(--t2); font-weight: 500; }
-.card.ko.oro { border-color: var(--gold); box-shadow: inset 0 1.2mm 0 var(--gold); } .card.ko.plata { border-color: var(--silver); box-shadow: inset 0 1.2mm 0 var(--silver); }
-.card.ko.oro .fld { background: var(--gold); } .card.ko.plata .fld { background: var(--silver); }
+/* Fases finales: diseño minimal — borde fino, línea de color bajo la cabecera, código grande y tenue de fondo y penaltis punteados */
+.card { position: relative; min-width: 0; } .cards { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.card.ko.oro { --c: #b8860b; --cs: #fff6d6; } .card.ko.plata { --c: #5f6f85; --cs: #eef1f5; }
+.card.ko { border: .3mm solid #cfd7e2; overflow: hidden; }
+.card.ko::before { content: attr(data-code); position: absolute; right: 20mm; top: 8mm; font-size: 16mm; font-weight: 900; letter-spacing: -.05em; color: var(--c); opacity: .1; pointer-events: none; }
+.card.ko header { padding-bottom: 1.8mm; border-bottom: .6mm solid var(--c); }
+.card.ko .fld { background: #fff; color: var(--c); border: .4mm solid var(--c); }
 .pens { margin-top: 1mm; padding: 2mm 2.5mm; border-radius: 2.5mm; background: var(--soft); display: grid; gap: 1.4mm; }
-.card.ko.oro .pens { background: var(--gold-s); } .card.ko.plata .pens { background: var(--silver-s); }
+.card.ko .pens { background: transparent; border: .45mm dashed var(--c); }
 .pens-h { display: flex; align-items: baseline; gap: 2mm; } .pens-h b { font-size: 3mm; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; } .pens-h small { font-size: 2.3mm; color: var(--t2); font-weight: 600; }
 .pen-row { display: grid; grid-template-columns: 16mm auto 1fr 10mm; align-items: center; gap: 2mm; font-size: 2.8mm; font-weight: 700; }
 .pen-row .sd { padding-left: 2mm; border-left: .3mm dashed #8d99ab; }
