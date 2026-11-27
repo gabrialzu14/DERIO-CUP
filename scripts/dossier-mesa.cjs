@@ -248,7 +248,7 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .pen-row .sd { padding-left: 2mm; border-left: .3mm dashed #8d99ab; }
 .pen-foot { display: grid; grid-template-columns: 16mm 15mm 1fr 10mm; gap: 2mm; } .pen-foot small { font-size: 2.1mm; color: var(--t2); font-weight: 600; } .pen-foot small:first-child { grid-column: 2; } .pen-foot .sd-l { padding-left: 2mm; }
 /* bloque «Instala la app» (última hoja) */
-.appqr { margin-top: auto; margin-bottom: 9mm; border-radius: 5mm; padding: 7mm; display: grid; grid-template-columns: 66mm 1fr; gap: 8mm; align-items: center; background: linear-gradient(135deg, #eef4ff, #f5ecfb 55%, #ffecef); border: .4mm solid #d8cfe6; }
+.appqr { margin-top: auto; margin-bottom: 24mm; border-radius: 5mm; padding: 7mm; display: grid; grid-template-columns: 66mm 1fr; gap: 8mm; align-items: center; background: linear-gradient(135deg, #eef4ff, #f5ecfb 55%, #ffecef); border: .4mm solid #d8cfe6; }
 .qrbox { background: #fff; border-radius: 4mm; padding: 3mm; border: .4mm solid #cdbfe0; }
 .qrbox .qr { display: block; width: 100%; height: auto; shape-rendering: crispEdges; }
 .aptxt h2 { font-size: 8.4mm; font-weight: 900; letter-spacing: -.03em; line-height: 1.03; color: var(--ink); }
