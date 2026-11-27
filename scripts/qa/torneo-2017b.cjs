@@ -92,8 +92,8 @@ const txt = (p, sel) => p.locator(sel).allInnerTexts();
     await p.goto(URL + '#mas', { waitUntil: 'networkidle' }); await p.waitForTimeout(800);
     await p.locator('text=Formato del torneo').first().tap(); await p.waitForTimeout(700);
     const fmt = await p.locator('body').innerText();
-    ok(/Semifinales y final/.test(fmt) && !/Cuartos de final, semifinales/.test(fmt), 'Formato: «Semifinales y final» (sin cuartos)');
-    ok(/2\s*grupos de 4 equipos/.test(fmt) && /\n8\n|8\s*equipos/.test(fmt), 'Formato: 8 equipos, 2 grupos de 4');
+    ok(/Semifinales/.test(fmt) && /Una final por fase/.test(fmt) && !/Cuartos de final/.test(fmt), 'Formato: recorrido grupos → semifinales → final (sin cuartos)');
+    ok(/2\s*grupos de 4 equipos/.test(fmt) && /8 equipos\s*·\s*2 grupos/.test(fmt), 'Formato: 8 equipos, 2 grupos de 4');
     await p.screenshot({ path: 'shots/t17-formato.png', fullPage: true });
     ok(errs.length === 0, 'sin errores de consola (antes): ' + errs.slice(0, 3).join(' | '));
   }
