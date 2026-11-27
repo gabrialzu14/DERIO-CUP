@@ -162,14 +162,14 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       ? (won ? tr("¡Campeón!", "Txapelduna!", "Vainqueur !") : tr("Subcampeón", "Txapeldunordea", "Finaliste"))
       : last.round === "SF" ? tr("Eliminado en semifinales", "Finalerdietan kanporatua", "Éliminé en demi-finales")
       : tr("Eliminado en cuartos de final", "Final-laurdenetan kanporatua", "Éliminé en quarts de finale");
-    const pens = r.home_penalties != null && r.away_penalties != null ? ` (${tr("pen.", "pen.", "t.a.b.")} ${r.home_penalties}–${r.away_penalties})` : "";
-    const line = `${koCode(last.code, lang)} · ${T(last.home!).name} ${r.home_score}–${r.away_score} ${T(last.away!).name}${pens}`;
+    const pens = r.home_penalties != null && r.away_penalties != null ? `(${tr("pen.", "pen.", "t.a.b.")} ${r.home_penalties}–${r.away_penalties})` : "";
+    const line = `${koCode(last.code, lang)} · ${T(last.home!).name} ${r.home_score}–${r.away_score} ${T(last.away!).name}`;
     return (
-      <button type="button" className={"team-card is-done" + (won && last.round === "FINAL" ? " is-champ" : "")} onClick={onOpen} aria-label={`${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name}. ${status}, ${phaseName(last.kind, lang)}. ${line}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
+      <button type="button" className={"team-card is-done" + (won && last.round === "FINAL" ? " is-champ" : "")} onClick={onOpen} aria-label={`${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name}. ${status}, ${phaseName(last.kind, lang)}. ${line} ${pens}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
         <span className="team-card-label"><span>{tr("Mi equipo", "Nire taldea", "Mon équipe")}</span><span className="team-card-where">{phaseName(last.kind, lang)}</span></span>
         <span className="done-row">
           <Crest id={id} size={44} />
-          <span className="done-txt"><b>{t.name}</b><strong>{status}</strong><small>{line}</small></span>
+          <span className="done-txt"><b>{t.name}</b><strong>{status}</strong><small>{line}</small>{pens && <small className="pens">{pens}</small>}</span>
           {won && last.round === "FINAL" && <CupMark size={30} />}
         </span>
       </button>

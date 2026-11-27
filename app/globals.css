@@ -1203,3 +1203,14 @@ html[data-seen] .splash { display: none; }
 .hero-where.oro, .hero-where.plata { padding: 3px 10px; border-radius: 999px; font-weight: 800; letter-spacing: .06em; }
 .hero-where.oro { background: var(--gold-soft); color: var(--gold-ink); }
 .hero-where.plata { background: var(--silver-soft); color: var(--text-2); }
+
+/* Nombres de equipo sin cortes dentro de la palabra («Ariznabarra», no «Arizna-barra»).
+   Con dos partidos a la vez, la hora / «En juego» va encima de los escudos y cada equipo usa media columna. */
+.hero-pair .hero-team b { overflow-wrap: normal; word-break: normal; hyphens: none; -webkit-hyphens: none; }
+.hero-cols.two .hero-pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "mid mid" "home away"; row-gap: 8px; column-gap: 4px; }
+.hero-cols.two .hero-pair > .hero-team:first-child { grid-area: home; }
+.hero-cols.two .hero-pair > .hero-team:last-child { grid-area: away; }
+.hero-cols.two .hero-mid { grid-area: mid; justify-self: center; width: auto; height: auto; min-height: 22px; }
+.hero-cols.two .hero-pair .hero-team b { font-size: .6875rem; letter-spacing: -.01em; }
+@media (max-width: 380px) { .hero-cols.two .hero-pair .hero-team b { font-size: .625rem; letter-spacing: -.02em; } }
+@media (max-width: 340px) { .hero-cols.two .hero-pair { column-gap: 2px; } .hero-cols.two .hero-pair .hero-team b { font-size: .59375rem; letter-spacing: -.025em; } }
