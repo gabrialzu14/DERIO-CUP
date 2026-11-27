@@ -24,7 +24,7 @@ const { crestFor } = require(path.join(tmp, "crests.js"));
 
 const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Madrid" }).format(new Date());
 const list = TOURNAMENTS.filter(t => (ONLY.length ? ONLY.includes(t.id) : t.date >= today));
-if (!list.length) { console.log("No hay torneos que generar."); process.exit(0); }
+if (!list.length && require.main === module) { console.log("No hay torneos que generar."); process.exit(0); }
 
 const fileUrl = p => "file://" + path.join(ROOT, "public", p);
 const LOGO = fileUrl("/logo-derio-cup.webp"), CDDERIO = fileUrl("/escudos/m/derio.webp");
@@ -63,7 +63,7 @@ function build(tn) {
     </article>`;
   /* tarjeta de partido de fase final (con penaltis) */
   const koCard = g => `
-    <article class="card ko ${g.kind === "Oro" ? "oro" : "plata"}">
+    <article class="card ko ${g.kind === "Oro" ? "oro" : "plata"}" data-code="${g.code === "FINAL" ? "FINAL" : g.code}" data-kind="${g.kind}">
       <header><b class="fld">C${g.field}</b><span>Fase ${g.kind} · ${g.code === "FINAL" ? "Final" : g.code}</span>${check("Publicado")}</header>
       ${[g.home, g.away].map(lbl => `
       <div class="row"><span class="cr ph"></span><span class="nm blank"><small>${esc(lbl)}</small></span>${boxes(9)}<span class="score"></span></div>`).join("")}
@@ -132,7 +132,7 @@ function build(tn) {
     pages.push(page(`${pageHead("Fases finales", "Fase Oro en C1 · Fase Plata en C2")}${chunk}`));
   }
   const total = pages.length;
-  const numbered = pages.map((p, i) => p.replace("</section>", `<div class="pn"><img src="${CDDERIO}" alt="">CD Derio · Derio Cup ${esc(tn.category)} · ${i + 1}/${total}</div></section>`));
+  const numbered = pages.map((p, i) => p.replace("</section>", `<div class="pn"><span class="pl"><img src="${CDDERIO}" alt="">CD Derio · Derio Cup ${esc(tn.category)}</span><span class="pr"><b>${i + 1}</b><em>/${total}</em><i></i></span></div></section>`));
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Hoja de mesa · Derio Cup ${esc(tn.category)}</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>${CSS}</style></head><body>${numbered.join("")}</body></html>`;
@@ -144,8 +144,11 @@ const CSS = `
 :root { --b1: #0a5cc2; --b2: #7a2a9a; --b3: #cf1738; --ink: #0b1b33; --t2: #51607a; --line: #c9d2de; --soft: #f2f5f9; --gold: #c99a06; --gold-s: #fff6d6; --silver: #6b7a8f; --silver-s: #eef1f5; --grad: linear-gradient(135deg, var(--b1), var(--b2) 52%, var(--b3)); }
 body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .page { position: relative; width: 210mm; height: 297mm; padding: 12mm 11mm 14mm; overflow: hidden; page-break-after: always; break-after: page; display: flex; flex-direction: column; gap: 4mm; }
-.pn { position: absolute; left: 11mm; right: 11mm; bottom: 6mm; display: flex; align-items: center; gap: 2mm; font-size: 2.6mm; color: var(--t2); font-weight: 600; }
-.pn img { height: 4.5mm; }
+.pn { position: absolute; left: 11mm; right: 11mm; bottom: 5.5mm; display: flex; align-items: flex-end; justify-content: space-between; font-size: 2.6mm; color: var(--t2); font-weight: 600; }
+.pn .pl { display: flex; align-items: center; gap: 2mm; } .pn img { height: 4.5mm; }
+.pn .pr { display: grid; grid-template-columns: auto auto; justify-content: end; align-items: baseline; column-gap: .6mm; color: var(--ink); }
+.pn .pr b { font-size: 5mm; font-weight: 900; letter-spacing: -.02em; line-height: 1; } .pn .pr em { font-style: normal; font-size: 2.8mm; font-weight: 700; color: var(--t2); }
+.pn .pr i { grid-column: 1 / 3; justify-self: end; margin-top: 1mm; width: 9mm; height: 1.3mm; border-radius: 99px; background: var(--grad); }
 .phead { display: grid; grid-template-columns: auto auto 1fr; grid-template-rows: auto auto; column-gap: 3mm; align-items: center; padding: 3.5mm 5mm; border-radius: 4mm; background: var(--grad); color: #fff; }
 .phead img { grid-row: 1 / 3; height: 11mm; }
 .phead .wm { grid-row: 1 / 3; font-size: 5mm; font-weight: 300; letter-spacing: -.03em; padding-right: 3mm; border-right: .3mm solid rgba(255,255,255,.5); }
@@ -227,7 +230,8 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .cross div { display: grid; grid-template-columns: 11mm 11mm 1fr; font-weight: 600; } .cross div b { font-weight: 900; } .cross div span { color: var(--t2); font-weight: 700; }
 `;
 
-(async () => {
+module.exports = { build, CSS, TOURNAMENTS, cleanup: () => fs.rmSync(tmp, { recursive: true, force: true }) };
+if (require.main === module) (async () => {
   fs.mkdirSync(OUT, { recursive: true });
   const b = await chromium.launch();
   const p = await b.newPage();
