@@ -112,7 +112,7 @@ function build(tn) {
       <div class="cv-word"><b>DERIO</b>CUP</div>
       <div class="cv-cat">Categoría ${esc(tn.category)}</div>
       <div class="cv-title">Hoja de mesa</div>
-      <div class="cv-date">${longDate(tn.date)} · ${esc(tn.venue)}</div>
+      <div class="cv-date">${longDate(tn.date)}</div>
     </div>
     <div class="fill">
       <div><small>Responsable de mesa</small><span class="line"></span></div>
