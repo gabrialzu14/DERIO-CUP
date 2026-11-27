@@ -39,9 +39,10 @@ const insertEnd = (page, html) => { const i = page.lastIndexOf("</section>"); re
 function qrSvg() {
   const M = QRDATA.matrix.map(r => [...r].map(c => c === "1")), N = M.length, q = 4, size = N + 2 * q, c = N >> 1, r = 4, cx = q + N / 2;
   const mods = M.flatMap((row, y) => row.map((v, x) => (v && !(Math.abs(x - c) <= r && Math.abs(y - c) <= r) ? `<rect x="${x + q}" y="${y + q}" width="1.03" height="1.03"/>` : ""))).join("");
-  return `<svg class="qr" viewBox="0 0 ${size} ${size}" role="img" aria-label="QR ${QRDATA.url}">
+  return `<svg class="qr" viewBox="0 0 ${size} ${size}" role="img" aria-label="QR ${QRDATA.url}"><defs>
+    <linearGradient id="qb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a5cc2"/><stop offset=".52" stop-color="#7a2a9a"/><stop offset="1" stop-color="#cf1738"/></linearGradient></defs>
     <rect width="${size}" height="${size}" fill="#fff"/><g fill="#000">${mods}</g>
-    <rect x="${cx - 4.1}" y="${cx - 4.1}" width="8.2" height="8.2" rx="2.1" fill="#000"/><image href="${LOGO}" x="${cx - 2.9}" y="${cx - 3.15}" width="5.8" height="6.3" preserveAspectRatio="xMidYMid meet"/></svg>`;
+    <rect x="${cx - 4.1}" y="${cx - 4.1}" width="8.2" height="8.2" rx="2.1" fill="url(#qb)"/><image href="${LOGO}" x="${cx - 2.9}" y="${cx - 3.15}" width="5.8" height="6.3" preserveAspectRatio="xMidYMid meet"/></svg>`;
 }
 const appBlock = () => `
   <aside class="appqr">
