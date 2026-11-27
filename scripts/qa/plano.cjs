@@ -8,7 +8,7 @@ async function pinch(cdp,c,r0,r1,rot=0,steps=14){const pts=(r,a)=>[[c[0]-r*Math.
 (async()=>{const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist']});
 // Por defecto, una pasada rápida (3 dispositivos); QA_ALL=1 recorre los 9 (tarda más de 5 min con WebGL por software).
 const ALL=[['iPhone SE'],['iPhone 12'],['iPhone 15 Pro Max'],['Pixel 5'],['Galaxy S8'],['Pixel 7'],['Galaxy Tab S4'],['iPhone 12 landscape'],['Pixel 5 landscape']];
-const list=process.env.QA_ALL?ALL:[['iPhone SE'],['iPhone 12'],['Pixel 5 landscape']];
+const list=process.env.QA_ALL?ALL:process.env.QA_DEV?[[process.env.QA_DEV]]:[['iPhone SE'],['iPhone 12'],['Pixel 5 landscape']];
 for(const [name] of list){try{const T=`[${name}]`;const d=devices[name];if(!d){console.log('sin dispositivo',name);continue}
  for(const [lg,th] of (name==='iPhone 12'||name==='Pixel 5'?[['es','light'],['eu','dark']]:[['es','light']])){
  const tag=`${T}[${lg}/${th}]`;
@@ -30,8 +30,8 @@ for(const [name] of list){try{const T=`[${name}]`;const d=devices[name];if(!d){c
  await p.locator('.v3-chip').nth(2).evaluate(e=>e.click());await p.waitForTimeout(400);
  ok(await p.locator('.v3-pop').isHidden(),tag+' al volver a pulsar se cierra');
  // la ficha de cada zona queda dentro del plano y no tapa otros pines ni los botones
- for(let i=0;i<6;i++){await p.locator('.v3-chip').nth(i).evaluate(e=>e.click());await p.waitForTimeout(1300);
-  const r=await p.evaluate(()=>{const h=document.querySelector('.v3-map').getBoundingClientRect(),pp=document.querySelector('.v3-pop').getBoundingClientRect();const hit=[...document.querySelectorAll('.v3-btn,.v3-mk:not(.on) .pin')].filter(x=>{const b=x.getBoundingClientRect();const mk=x.closest('.v3-mk');return getComputedStyle(mk||x).opacity!=='0'&&!(mk&&mk.classList.contains('under'))&&b.left<pp.right-2&&b.right>pp.left+2&&b.top<pp.bottom-2&&b.bottom>pp.top+2}).length;return {inside:pp.left>=h.left-1&&pp.right<=h.right+1&&pp.top>=h.top-1&&pp.bottom<=h.bottom+1,hit,h:pp.height}});
+ for(let i=0;i<6;i++){await p.locator('.v3-chip').nth(i).evaluate(e=>e.click());await p.waitForTimeout(1800);
+  const r=await p.evaluate(()=>{const h=document.querySelector('.v3-map').getBoundingClientRect(),pp=document.querySelector('.v3-pop').getBoundingClientRect();const hits=[...document.querySelectorAll('.v3-btn,.v3-mk:not(.on) .pin')].filter(x=>{const b=x.getBoundingClientRect();const mk=x.closest('.v3-mk');return getComputedStyle(mk||x).opacity!=='0'&&!(mk&&mk.classList.contains('under'))&&b.left<pp.right-2&&b.right>pp.left+2&&b.top<pp.bottom-2&&b.bottom>pp.top+2});const hit=hits.length,who=hits.map(x=>(x.closest('.v3-mk')?.className||x.className));return {inside:pp.left>=h.left-1&&pp.right<=h.right+1&&pp.top>=h.top-1&&pp.bottom<=h.bottom+1,hit,who,h:pp.height}});
   ok(r.inside&&r.hit===0&&r.h<=60,tag+' ficha '+i+' dentro, sin choques y compacta '+JSON.stringify(r));}
  await p.locator('.v3-chip[aria-pressed=true]').evaluate(e=>e.click());await p.waitForTimeout(1300);
  const h1=await hash(map);
@@ -56,7 +56,7 @@ for(const [name] of list){try{const T=`[${name}]`;const d=devices[name];if(!d){c
  await p.locator('.v3-btn.fs').evaluate(e=>e.click());await p.waitForTimeout(700);
  const fb=await map.boundingBox();ok(fb.width>=d.viewport.width-2&&fb.height>=d.viewport.height-2,tag+' pantalla completa ocupa todo '+Math.round(fb.width)+'x'+Math.round(fb.height));
  await p.screenshot({path:S+name.replace(/ /g,'_')+'_'+lg+'_full.png'});
- await p.locator('.v3-btn.fs').evaluate(e=>e.click());await p.waitForTimeout(500);
+ const xb=await p.locator('.v3-btn.close').boundingBox();ok(xb&&xb.x+xb.width>d.viewport.width-70&&xb.y<80,tag+' la X de salir está arriba a la derecha');await p.locator('.v3-btn.close').evaluate(e=>e.click());await p.waitForTimeout(500);
  // 8) etiquetas dentro del plano y sin recorte
  const out=await p.evaluate(()=>{const m=document.querySelector('.v3-map').getBoundingClientRect();return [...document.querySelectorAll('.v3-mk .pin')].filter(l=>l.closest('.v3-mk').style.opacity==='1').filter(l=>{const r=l.getBoundingClientRect();return r.left<m.left-2||r.right>m.right+2}).length});
  ok(out===0,tag+' etiquetas visibles no se salen del plano ('+out+')');

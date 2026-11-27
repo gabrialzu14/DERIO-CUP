@@ -90,7 +90,7 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
           const cur = selRef.current;
           const box = popEl && cur ? placePop(popEl, p, cur, host.current) : null;
           // si en pantallas pequeñas no queda hueco, el pin que quede debajo de la ficha se atenúa (no compite con ella)
-          for (const k of KEYS) { const el = labs.current[k], o = p[k]; if (!el) continue; el.classList.toggle("under", !!box && k !== cur && o.vis && overlap(box, { l: o.x - 22 * o.s, r: o.x + 22 * o.s, t: o.y - (o.h + 44) * o.s, b: o.y + 6 }) > 0); }
+          for (const k of KEYS) { const el = labs.current[k], o = p[k]; if (!el) continue; el.classList.toggle("under", !!box && k !== cur && o.vis && overlap(box, { l: o.x - 29 * o.s, r: o.x + 29 * o.s, t: o.y - (o.h + 48) * o.s, b: o.y + 8 }) > 0); }
         };
         const a = createVenueScene(canvas.current, host.current, { onPick: k => pick(k), onFrame: place, reduceMotion: reduce });
         api.current = a; a.setNight(false); setReady(true);
@@ -98,6 +98,14 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
     })();
     return () => { dead = true; api.current?.dispose(); api.current = null; };
   }, [pick]);
+
+  // En pantalla completa, Escape (o «atrás» del teclado) solo sale de la pantalla completa, sin cerrar la ventana de Info
+  useEffect(() => {
+    if (!full) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); setFull(false); } };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [full]);
 
   if (failed) return fallback ? /* eslint-disable-next-line @next/next/no-img-element */ <img className="venue-img" src={fallback.src} alt={fallback.alt} loading="lazy" /> : null;
   const cur = sel;
@@ -113,7 +121,9 @@ export function VenueMap3D({ fallback }: { fallback?: { src: string; alt: string
         ))}
         <div ref={pop} className="v3-pop" hidden={!cur} aria-live="polite">{cur && <Card k={cur} name={name[cur]} phase={null} desc={desc[cur]} />}</div>
         <button type="button" className="v3-btn top" onClick={() => api.current?.resetView()}>{t("Vista general", "Ikuspegi orokorra", "Vue d’ensemble")}</button>
-        <button type="button" className="v3-btn fs" aria-label={full ? t("Salir de pantalla completa", "Irten pantaila osotik", "Quitter le plein écran") : t("Pantalla completa", "Pantaila osoa", "Plein écran")} onClick={() => setFull(f => !f)}><Icon name={full ? "close" : "chevron"} size={16} className={full ? "" : "v3-expand"} /></button>
+        {full
+          ? <button type="button" className="v3-btn close" aria-label={t("Salir de pantalla completa", "Irten pantaila osotik", "Quitter le plein écran")} onClick={() => setFull(false)}><Icon name="close" size={22} /></button>
+          : <button type="button" className="v3-btn fs" aria-label={t("Pantalla completa", "Pantaila osoa", "Plein écran")} onClick={() => setFull(true)}><Icon name="expand" size={20} /></button>}
         {!ready && <span className="v3-load">{t("Cargando plano…", "Planoa kargatzen…", "Chargement du plan…")}</span>}
       </div>
       <div className="v3-chips" role="group" aria-label={t("Zonas del plano", "Planoaren guneak", "Zones du plan")}>
