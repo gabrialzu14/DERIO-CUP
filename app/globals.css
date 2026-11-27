@@ -1029,10 +1029,10 @@ html[data-seen] .splash { display: none; }
 .v3-ph { margin-left: 6px; padding: 2px 7px; border-radius: 999px; font-size: .625rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; vertical-align: 2px; }
 .v3-ph.oro { background: var(--gold-soft); color: var(--gold-ink); } .v3-ph.plata { background: var(--silver-soft); color: var(--text-2); }
 .v3-btn { position: absolute; z-index: 6; border-radius: 12px; background: rgb(255 255 255 / .94); color: #0b1b33; font-size: .75rem; font-weight: 800; padding: 7px 11px; box-shadow: 0 3px 10px rgb(0 0 0 / .25); }
-.v3-btn.top { right: 10px; top: 10px; } .v3-btn.fs { right: 10px; bottom: 10px; width: 40px; height: 40px; padding: 0; display: grid; place-items: center; border-radius: 12px; }
-/* Pantalla completa: la X para salir arriba a la derecha y «Vista general» a su izquierda */
+.v3-btn.top { left: 10px; bottom: 10px; min-height: 40px; display: inline-flex; align-items: center; padding: 0 13px; } /* «Vista general»: abajo a la izquierda, a la altura del botón de pantalla completa */ .v3-btn.fs { right: 10px; bottom: 10px; width: 40px; height: 40px; padding: 0; display: grid; place-items: center; border-radius: 12px; }
+/* Pantalla completa: la X para salir arriba a la derecha; «Vista general» sigue abajo a la izquierda */
 .v3-btn.close { right: 12px; top: calc(env(safe-area-inset-top, 0px) + 12px); width: 44px; height: 44px; padding: 0; display: grid; place-items: center; border-radius: 50%; }
-.v3-map.full .v3-btn.top { top: calc(env(safe-area-inset-top, 0px) + 16px); right: 66px; }
+.v3-map.full .v3-btn.top { bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); left: 14px; }
 .v3-expand { transform: rotate(-45deg); }
 .v3-hint { position: absolute; left: 10px; bottom: 10px; z-index: 4; max-width: calc(100% - 70px); padding: 4px 9px; border-radius: 999px; background: rgb(0 0 0 / .5); color: #fff; font-size: .6875rem; font-weight: 700; pointer-events: none; }
 .v3-load { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-2); font-size: .8125rem; font-weight: 700; }
