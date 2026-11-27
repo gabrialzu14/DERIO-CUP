@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useEngine } from "../lib/engine";
 import { useLang } from "../lib/i18n";
 import { SB_URL, sbHeaders } from "../lib/tournament";
@@ -29,30 +29,30 @@ export function Feedback() {
     } catch { setErr(true); } finally { setBusy(false); }
   }
 
+  const open = sent === null && rating > 0;
+  const card = useRef<HTMLElement>(null);
+  // al puntuar, el comentario se despliega; se lleva a la vista para que no quede tapado por la barra inferior
+  useEffect(() => { if (!open) return; const id = window.setTimeout(() => card.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 340); return () => window.clearTimeout(id); }, [open]);
+
   return (
-    <>
-      <h2 className="list-title">{t("Tu opinión", "Zure iritzia", "Votre avis")}</h2>
-      <section className="feedback" aria-labelledby="fb-title">
-        <h3 id="fb-title">{t("Valora el torneo", "Baloratu txapelketa", "Évaluez le tournoi")}</h3>
-        <p className="fb-sub">{t("Tu opinión nos ayuda a mejorar en próximas ediciones.", "Zure iritziak hurrengo edizioetan hobetzen laguntzen digu.", "Votre avis nous aide à nous améliorer lors des prochaines éditions.")}</p>
-        <div className="fb-stars" role="radiogroup" aria-label={t("Tu valoración", "Zure balorazioa", "Votre note")}>
-          {[1, 2, 3, 4, 5].map(n => (
-            <button key={n} type="button" role="radio" aria-checked={shown === n} aria-label={labels[n - 1]} title={labels[n - 1]} disabled={sent !== null} className={n <= shown ? "on" : ""} onClick={() => setRating(n)}><Star on={n <= shown} /></button>
-          ))}
+    <section ref={card} className="feedback" aria-labelledby="fb-title">
+      <h3 id="fb-title">{t("Tu opinión nos importa", "Zure iritzia garrantzitsua da", "Votre avis compte pour nous")}</h3>
+      <div className="fb-stars" role="radiogroup" aria-label={t("Tu valoración", "Zure balorazioa", "Votre note")}>
+        {[1, 2, 3, 4, 5].map(n => (
+          <button key={n} type="button" role="radio" aria-checked={shown === n} aria-label={labels[n - 1]} title={labels[n - 1]} disabled={sent !== null} className={n <= shown ? "on" : ""} onClick={() => setRating(n)}><Star on={n <= shown} /></button>
+        ))}
+      </div>
+      <div className={"fb-more" + (open ? " open" : "")}>
+        <div className="fb-more-in">
+          <label className="fb-field"><span>{t("Comentario (opcional)", "Iruzkina (aukerakoa)", "Commentaire (facultatif)")}</span>
+            <textarea rows={3} maxLength={MAX} value={comment} onChange={e => setComment(e.currentTarget.value)} placeholder={t("¿Qué te ha gustado? ¿Qué podemos mejorar?", "Zer gustatu zaizu? Zer hobetu dezakegu?", "Qu’avez-vous aimé ? Que pouvons-nous améliorer ?")} />
+          </label>
+          <p className="fb-note">{t("Tu opinión nos ayuda a mejorar en próximas ediciones. Los comentarios son anónimos.", "Zure iritziak hurrengo edizioetan hobetzen laguntzen digu. Iruzkinak anonimoak dira.", "Votre avis nous aide à nous améliorer lors des prochaines éditions. Les commentaires sont anonymes.")}</p>
+          {err && <p className="form-error" role="alert">{t("No se pudo enviar. Comprueba la conexión e inténtalo de nuevo.", "Ezin izan da bidali. Egiaztatu konexioa eta saiatu berriro.", "Envoi impossible. Vérifiez la connexion et réessayez.")}</p>}
+          <button type="button" className="btn btn-primary block" disabled={!rating || busy} onClick={submit}>{busy ? t("Enviando…", "Bidaltzen…", "Envoi…") : t("Enviar valoración", "Bidali balorazioa", "Envoyer mon avis")}</button>
         </div>
-        {sent !== null ? (
-          <p className="fb-thanks" role="status">{t("¡Gracias! Tu opinión nos ayuda a mejorar.", "Eskerrik asko! Zure iritziak hobetzen laguntzen digu.", "Merci ! Votre avis nous aide à nous améliorer.")}</p>
-        ) : (
-          <>
-            <label className="fb-field"><span>{t("Comentario (opcional)", "Iruzkina (aukerakoa)", "Commentaire (facultatif)")}</span>
-              <textarea rows={3} maxLength={MAX} value={comment} onChange={e => setComment(e.currentTarget.value)} placeholder={t("¿Qué te ha gustado? ¿Qué podemos mejorar?", "Zer gustatu zaizu? Zer hobetu dezakegu?", "Qu’avez-vous aimé ? Que pouvons-nous améliorer ?")} />
-            </label>
-            <p className="fb-note">{t("Los comentarios son anónimos y se usarán solo para mejorar las próximas ediciones.", "Iruzkinak anonimoak dira eta hurrengo edizioak hobetzeko soilik erabiliko dira.", "Les commentaires sont anonymes et serviront uniquement à améliorer les prochaines éditions.")}</p>
-            {err && <p className="form-error" role="alert">{t("No se pudo enviar. Comprueba la conexión e inténtalo de nuevo.", "Ezin izan da bidali. Egiaztatu konexioa eta saiatu berriro.", "Envoi impossible. Vérifiez la connexion et réessayez.")}</p>}
-            <button type="button" className="btn btn-primary block" disabled={!rating || busy} onClick={submit}>{busy ? t("Enviando…", "Bidaltzen…", "Envoi…") : t("Enviar valoración", "Bidali balorazioa", "Envoyer mon avis")}</button>
-          </>
-        )}
-      </section>
-    </>
+      </div>
+      {sent !== null && <p className="fb-thanks" role="status">{t("¡Gracias! Tu opinión nos ayuda a mejorar.", "Eskerrik asko! Zure iritziak hobetzen laguntzen digu.", "Merci ! Votre avis nous aide à nous améliorer.")}</p>}
+    </section>
   );
 }

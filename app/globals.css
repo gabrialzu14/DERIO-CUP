@@ -1228,14 +1228,20 @@ html[data-seen] .splash { display: none; }
 .hero .eyebrow, .hero .eyebrow.live, .hero-field, .hero-live .hero-field { color: var(--text); }
 
 /* Valoración del torneo */
-.feedback { display: grid; gap: 12px; margin-top: 8px; padding: 18px 16px; border-radius: 20px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.feedback { scroll-margin-bottom: 118px; display: grid; gap: 4px; margin-top: 8px; padding: 18px 16px; border-radius: 20px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
 .feedback h3 { font-size: 1.0625rem; font-weight: 800; letter-spacing: -.02em; }
-.fb-sub { margin-top: -6px; font-size: .875rem; line-height: 1.5; color: var(--text-2); }
 .fb-stars { display: flex; justify-content: space-between; max-width: 280px; }
 .fb-stars button { display: grid; place-items: center; width: 48px; height: 48px; margin-inline: -4px; color: var(--text-3); transition: transform .12s var(--ease), color .12s; }
 .fb-stars button.on { color: var(--gold); }
 .fb-stars button:not(:disabled):active { transform: scale(.9); }
 .fb-stars button:disabled { cursor: default; }
+/* el comentario se despliega suavemente al puntuar (altura por filas de rejilla + fundido; sin movimiento con «reducir movimiento») */
+.fb-more { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; transition: grid-template-rows .36s var(--ease), opacity .24s ease-out, visibility 0s .36s; }
+.fb-more.open { grid-template-rows: 1fr; opacity: 1; visibility: visible; transition-delay: 0s; }
+.fb-more-in { min-height: 0; overflow: hidden; display: grid; gap: 12px; padding: 2px; margin: -2px; }
+.fb-thanks { animation: fb-in .3s var(--ease) both; }
+@keyframes fb-in { from { opacity: 0; transform: translateY(4px); } }
+@media (prefers-reduced-motion: reduce) { .fb-more, .fb-more.open { transition: none; } .fb-thanks { animation: none; } }
 .fb-field { display: grid; gap: 6px; }
 .fb-field span { font-size: .75rem; font-weight: 700; letter-spacing: .02em; color: var(--text-2); }
 .fb-field textarea { width: 100%; min-height: 88px; resize: vertical; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); font: inherit; font-size: 1rem; line-height: 1.5; -webkit-user-select: text; user-select: text; }
