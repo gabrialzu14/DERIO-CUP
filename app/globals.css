@@ -1214,3 +1214,7 @@ html[data-seen] .splash { display: none; }
 .hero-cols.two .hero-pair .hero-team b { font-size: .6875rem; letter-spacing: -.01em; }
 @media (max-width: 380px) { .hero-cols.two .hero-pair .hero-team b { font-size: .625rem; letter-spacing: -.02em; } }
 @media (max-width: 340px) { .hero-cols.two .hero-pair { column-gap: 2px; } .hero-cols.two .hero-pair .hero-team b { font-size: .59375rem; letter-spacing: -.025em; } }
+
+/* Info → Idioma: selector CAS · EUS dentro de la propia fila */
+.lang-inline .menu-text { flex: 1; }
+.lang-inline .lang-toggle { justify-items: end; }

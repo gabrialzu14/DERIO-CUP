@@ -9,8 +9,8 @@ import { VenueMap3D } from "./VenueMap3D";
 import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
-import { FlagEs, FlagEu, FlagFr } from "./LanguageScreen";
-import { pick, useLang, VISIBLE_LANGS, type Lang } from "../lib/i18n";
+import { LangToggle } from "./LanguageScreen";
+import { pick, useLang, type Lang } from "../lib/i18n";
 import { isInstalled } from "../lib/platform";
 import { useEngine } from "../lib/engine";
 import { BRAND, dateParts, infoFor, venueFor, type InfoSpec, type Match, type ResultRow, type Tournament } from "../lib/tournament";
@@ -64,29 +64,11 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
   return items;
 }
 
-/** Ajuste de idioma: un botón que abre una ventana pequeña con las dos opciones. */
-function LangPopup({ onClose }: { onClose: () => void }) {
-  const { lang, setLang, t } = useLang();
-  const all: { key: Lang; name: string; flag: ReactNode }[] = [{ key: "es", name: "Castellano", flag: <FlagEs /> }, { key: "eu", name: "Euskara", flag: <FlagEu /> }, { key: "fr", name: "Français", flag: <FlagFr /> }];
-  const opts = all.filter(o => VISIBLE_LANGS.includes(o.key)); // el francés solo aparece cuando está activado (FR_ENABLED)
-  return (
-    <Dialog title={t("Idioma", "Hizkuntza", "Langue")} onClose={onClose} compact>
-      <div className="lang-list" role="radiogroup" aria-label={t("Idioma", "Hizkuntza", "Langue")}>
-        {opts.map(o => (
-          <button key={o.key} type="button" role="radio" aria-checked={lang === o.key} className={"lang-row" + (lang === o.key ? " is-on" : "")} onClick={() => { setLang(o.key); onClose(); }}>
-            {o.flag}<b>{o.name}</b><span className="lang-check" aria-hidden="true">{lang === o.key && <Icon name="check" size={16} />}</span>
-          </button>
-        ))}
-      </div>
-    </Dialog>
-  );
-}
-
 type Props = { ms: Match[]; koResults: Record<string, ResultRow>; setKoResults: Dispatch<SetStateAction<Record<string, ResultRow>>>; scores: Record<string, [number, number]>; setScores: Dispatch<SetStateAction<Record<string, [number, number]>>>; changeTeam: () => void; changeTournament: () => void; theme: ThemePref; setTheme: (t: ThemePref) => void };
 
 export function More({ ms, koResults, setKoResults, scores, setScores, changeTeam, changeTournament, theme, setTheme }: Props) {
   const { tn } = useEngine(), { lang, t, locale } = useLang();
-  const INFO = buildInfo(tn, lang, locale), [langOpen, setLangOpen] = useState(false);
+  const INFO = buildInfo(tn, lang, locale);
   const [open, setOpen] = useState<string | null>(null), [appearOpen, setAppearOpen] = useState(false);
   const isDark = theme === "dark" || (theme === "system" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const [manager, setManager] = useState(false), [install, setInstall] = useState(false), [installed, setInstalled] = useState(true);
@@ -106,7 +88,7 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
 
       <h2 className="list-title">{t("Ajustes", "Ezarpenak", "Réglages")}</h2>
       <div className="menu-card">
-        <button type="button" className="menu-item" onClick={() => setLangOpen(true)}><span className="menu-icon"><Icon name="langs" /></span><span className="menu-text"><b>{t("Idioma", "Hizkuntza", "Langue")}</b><small>{{ es: "Castellano", eu: "Euskara", fr: "Français" }[lang]}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
+        <div className="menu-item lang-inline"><span className="menu-icon"><Icon name="langs" /></span><span className="menu-text"><b>{t("Idioma", "Hizkuntza", "Langue")}</b></span><LangToggle bare /></div>
         <button type="button" className="menu-item" aria-expanded={appearOpen} onClick={() => setAppearOpen(o => !o)}>
           <span className="menu-icon"><Icon name={isDark ? "moon" : "sun"} /></span><span className="menu-text"><b>{t("Apariencia", "Itxura", "Apparence")}</b><small>{isDark ? t("Oscuro", "Iluna", "Sombre") : t("Claro", "Argia", "Clair")}</small></span>
           <Icon name="chevron" size={18} className={"icon chev appear-chev" + (appearOpen ? " open" : "")} />
@@ -126,7 +108,6 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
 
       <footer className="more-brand"><CupMark size={34} className="brand-grad" /><BrandName as="b" /><small>{tn.category}</small></footer>
 
-      {langOpen && <LangPopup onClose={() => setLangOpen(false)} />}
       {item && <Dialog title={item.title} onClose={() => setOpen(null)}><div className="prose">{item.body}</div></Dialog>}
       {install && createPortal(<div className="onb-overlay"><Onboarding start="platform" onDone={() => setInstall(false)} onSkip={() => setInstall(false)} /></div>, document.body)}
       {manager && <Manager ms={ms} koResults={koResults} setKoResults={setKoResults} scores={scores} setScores={setScores} onClose={() => setManager(false)} />}

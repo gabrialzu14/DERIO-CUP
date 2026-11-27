@@ -17,11 +17,11 @@ export function FlagFr() {
 }
 
 /** Selector discreto «CAS | EUS» (y «FRA» cuando se active el francés) arriba a la derecha; la barra fina se desliza al cambiar. */
-export function LangToggle() {
+export function LangToggle({ bare = false }: { bare?: boolean }) {
   const { lang, setLang, t } = useLang();
   return (
     <div className="lang-toggle" data-pos={Math.max(0, VISIBLE_LANGS.indexOf(lang))} style={{ "--n": VISIBLE_LANGS.length } as CSSProperties}>
-      <small>{t("Idioma", "Hizkuntza", "Langue")}</small>
+      {!bare && <small>{t("Idioma", "Hizkuntza", "Langue")}</small>}
       <div className="lang-toggle-row" role="radiogroup" aria-label={t("Idioma", "Hizkuntza", "Langue")}>
         <button type="button" role="radio" aria-checked={lang === "es"} aria-label="Castellano" onClick={() => setLang("es")}>CAS</button>
         <button type="button" role="radio" aria-checked={lang === "eu"} aria-label="Euskara" onClick={() => setLang("eu")}>EUS</button>
