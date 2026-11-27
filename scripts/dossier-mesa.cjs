@@ -124,10 +124,10 @@ function build(tn) {
     </div>
     <h2 class="h">Cómo rellenar la hoja</h2>
     <ol class="how">
-      <li><span>1</span><div><b>Cada gol, una casilla</b><small>Marca una casilla en la fila del equipo que marca. Así no se pierde ningún gol.</small></div></li>
-      <li><span>2</span><div><b>Resultado final</b><small>Al acabar, cuenta las casillas y escribe el resultado en el recuadro grande.</small></div></li>
-      <li><span>3</span><div><b>Empate en fases finales</b><small>${esc(info.penaltyRule)}</small></div></li>
-      <li><span>4</span><div><b>Publícalo en la app</b><small>Info → Acceso responsables → código. Después marca «Publicado» en la tarjeta.</small></div></li>
+      <li><span>1</span><div><b>Gol</b><small>Marca una casilla en la fila del equipo.</small></div></li>
+      <li><span>2</span><div><b>Final del partido</b><small>Escribe el resultado en el recuadro grande.</small></div></li>
+      <li><span>3</span><div><b>Empate en fase final</b><small>Penaltis: ✓ gol · ✗ fallo. Tiran 3 por equipo; si siguen empatados, de uno en uno.</small></div></li>
+      <li><span>4</span><div><b>Publícalo</b><small>App → Info → Acceso responsables. Después marca «Publicado».</small></div></li>
     </ol>
     <div class="facts">
       <div><b>${info.minutes}'</b><small>por partido</small></div>
@@ -201,10 +201,10 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .chk { display: inline-flex; align-items: center; gap: 1.5mm; font-size: 3mm; font-weight: 700; white-space: nowrap; }
 .chk i { width: 4mm; height: 4mm; border: .4mm solid var(--ink); border-radius: 1mm; display: inline-block; }
 .h { font-size: 6mm; font-weight: 900; letter-spacing: -.02em; }
-.how { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
-.how li { display: flex; gap: 3mm; padding: 4mm; border-radius: 3.5mm; background: var(--soft); }
-.how li > span { flex: none; width: 8mm; height: 8mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 4mm; display: grid; place-items: center; }
-.how b { display: block; font-size: 3.9mm; font-weight: 800; } .how small { display: block; margin-top: 1mm; font-size: 3mm; line-height: 1.4; color: var(--t2); font-weight: 500; }
+.how { list-style: none; display: grid; grid-template-columns: 1fr; gap: 3mm; }
+.how li { display: flex; align-items: center; gap: 4mm; padding: 4mm 5mm; border-radius: 3.5mm; background: var(--soft); }
+.how li > span { flex: none; width: 10mm; height: 10mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 5mm; display: grid; place-items: center; }
+.how b { display: block; font-size: 4.6mm; font-weight: 900; letter-spacing: -.01em; } .how small { display: block; margin-top: .6mm; font-size: 3.6mm; line-height: 1.35; color: var(--t2); font-weight: 600; }
 .facts { display: grid; grid-template-columns: repeat(3, 1fr) 2fr; gap: 3mm; margin-top: auto; }
 .facts div { border: .3mm solid var(--line); border-radius: 3mm; padding: 3mm; text-align: center; } .facts b { display: block; font-size: 6mm; font-weight: 900; } .facts small { font-size: 2.8mm; color: var(--t2); font-weight: 600; }
 /* horario */
