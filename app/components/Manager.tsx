@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { Dialog } from "./Dialog";
+import { FeedbackAdmin } from "./FeedbackAdmin";
 import { useLang } from "../lib/i18n";
 import { fieldName, groupName, kindName, koCode, koLabel } from "../lib/labels";
 import { Crest } from "./ui";
@@ -22,7 +23,7 @@ export function Manager({ ms, koResults, setKoResults, scores, setScores, onClos
   const { knockout, isGroupId: isGroup } = useEngine();
   const [ok, setOk] = useState(() => { try { return localStorage.getItem(AUTH_KEY) === ACCESS; } catch { return false; } });
   const [code, setCode] = useState(ok ? ACCESS : "");
-  const [err, setErr] = useState("");
+  const [err, setErr] = useState(""), [opinions, setOpinions] = useState(false);
   const [saving, setSaving] = useState<string | null>(null);
   const [saved, setSaved] = useState<string | null>(null);
   const [undo, setUndo] = useState<{ payload: Payload; previous: [number, number] | ResultRow | undefined } | null>(null);
@@ -67,7 +68,8 @@ export function Manager({ ms, koResults, setKoResults, scores, setScores, onClos
   const done = Object.keys(scores).length;
 
   return (
-    <Dialog title={ok ? t("Gestión de resultados", "Emaitzen kudeaketa", "Gestion des scores") : t("Acceso responsables", "Arduradunen sarbidea", "Accès organisateurs")} onClose={onClose} wide>
+    <Dialog title={!ok ? t("Acceso responsables", "Arduradunen sarbidea", "Accès organisateurs") : opinions ? t("Opiniones del torneo", "Txapelketaren iritziak", "Avis sur le tournoi") : t("Gestión de resultados", "Emaitzen kudeaketa", "Gestion des scores")} onClose={onClose} wide
+      action={ok ? <button type="button" className={"icon-btn fb-open" + (opinions ? " is-on" : "")} aria-pressed={opinions} aria-label={opinions ? t("Volver a los resultados", "Itzuli emaitzetara", "Retour aux scores") : t("Ver opiniones del torneo", "Ikusi txapelketaren iritziak", "Voir les avis sur le tournoi")} title={opinions ? t("Volver a los resultados", "Itzuli emaitzetara", "Retour aux scores") : t("Ver opiniones del torneo", "Ikusi txapelketaren iritziak", "Voir les avis sur le tournoi")} onClick={() => setOpinions(o => !o)}><Icon name="star" /></button> : undefined}>
       {!ok ? (
         <form className="manager-login" onSubmit={e => { e.preventDefault(); if (code === ACCESS) { try { localStorage.setItem(AUTH_KEY, ACCESS); } catch {} setOk(true); setErr(""); } else setErr(t("Código incorrecto", "Kode okerra", "Code incorrect")); }}>
           <p>{t("Introduce el código de acceso para gestionar los resultados del torneo.", "Sartu sarbide-kodea txapelketaren emaitzak kudeatzeko.", "Saisissez le code d’accès pour gérer les scores du tournoi.")}</p>
@@ -77,7 +79,7 @@ export function Manager({ ms, koResults, setKoResults, scores, setScores, onClos
           {err && <p id="mgr-err" className="form-error" role="alert">{err}</p>}
           <button className="btn btn-primary block" disabled={code.length < 4}>{t("Acceder", "Sartu", "Accéder")}</button>
         </form>
-      ) : (
+      ) : opinions ? <FeedbackAdmin code={code} /> : (
         <div className="manager">
           <div className="manager-bar"><b>{done}/{ms.length} {t("grupos publicados", "multzo-partida argitaratuta", "matchs publiés")}</b><span>{ms.length - done} {t("pendientes", "geratzen dira", "en attente")}</span></div>
           {err && <p className="form-error" role="alert">{err}</p>}
