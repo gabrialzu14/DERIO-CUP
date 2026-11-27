@@ -10,6 +10,7 @@ import { Dialog } from "./Dialog";
 import { Manager } from "./Manager";
 import { Onboarding } from "./Onboarding";
 import { LangToggle } from "./LanguageScreen";
+import { Feedback } from "./Feedback";
 import { pick, useLang, type Lang } from "../lib/i18n";
 import { isInstalled } from "../lib/platform";
 import { useEngine } from "../lib/engine";
@@ -102,6 +103,8 @@ export function More({ ms, koResults, setKoResults, scores, setScores, changeTea
         <button type="button" className="menu-item" onClick={changeTeam}><span className="menu-icon"><Icon name="switch" /></span><span className="menu-text"><b>{t("Cambiar de equipo", "Aldatu taldea", "Changer d’équipe")}</b><small>{t("Seleccionar otro participante", "Aukeratu beste talde bat", "Choisir une autre équipe")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
         <button type="button" className="menu-item" onClick={() => setManager(true)}><span className="menu-icon"><Icon name="lock" /></span><span className="menu-text"><b>{t("Acceso responsables", "Arduradunen sarbidea", "Accès organisateurs")}</b><small>{t("Publicar y editar resultados", "Argitaratu eta editatu emaitzak", "Publier et modifier les scores")}</small></span><Icon name="chevron" size={18} className="icon chev" /></button>
       </div>
+
+      <Feedback />
 
       <footer className="more-brand"><CupMark size={34} className="brand-grad" /><BrandName as="b" /><small>{tn.category}</small></footer>
 

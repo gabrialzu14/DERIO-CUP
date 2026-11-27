@@ -1223,3 +1223,22 @@ html[data-seen] .splash { display: none; }
 .hero-cols.two .hero-mid .live-badge { flex-direction: column; gap: 2px; padding: 3px 5px; border-radius: 10px; line-height: 1; }
 @media (max-width: 380px) { .hero-cols.two .hero-pair > .hero-team:first-child { transform: translateX(-10px); } .hero-cols.two .hero-pair > .hero-team:last-child { transform: translateX(10px); } }
 @media (max-width: 340px) { .hero-cols.two .hero-mid b { font-size: .6875rem; letter-spacing: -.02em; } }
+
+/* Primer partido / Ahora mismo / C1 · C2: mismo tono que «Torneo» y «Afición» (color de texto principal) */
+.hero .eyebrow, .hero .eyebrow.live, .hero-field, .hero-live .hero-field { color: var(--text); }
+
+/* Valoración del torneo */
+.feedback { display: grid; gap: 12px; margin-top: 8px; padding: 18px 16px; border-radius: 20px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.feedback h3 { font-size: 1.0625rem; font-weight: 800; letter-spacing: -.02em; }
+.fb-sub { margin-top: -6px; font-size: .875rem; line-height: 1.5; color: var(--text-2); }
+.fb-stars { display: flex; justify-content: space-between; max-width: 280px; }
+.fb-stars button { display: grid; place-items: center; width: 48px; height: 48px; margin-inline: -4px; color: var(--text-3); transition: transform .12s var(--ease), color .12s; }
+.fb-stars button.on { color: var(--gold); }
+.fb-stars button:not(:disabled):active { transform: scale(.9); }
+.fb-stars button:disabled { cursor: default; }
+.fb-field { display: grid; gap: 6px; }
+.fb-field span { font-size: .75rem; font-weight: 700; letter-spacing: .02em; color: var(--text-2); }
+.fb-field textarea { width: 100%; min-height: 88px; resize: vertical; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); font: inherit; font-size: 1rem; line-height: 1.5; -webkit-user-select: text; user-select: text; }
+.fb-field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.fb-note { font-size: .75rem; line-height: 1.5; color: var(--text-3); }
+.fb-thanks { font-size: .9375rem; font-weight: 600; line-height: 1.5; color: var(--text); }
