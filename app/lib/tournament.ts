@@ -19,6 +19,8 @@ export type InfoSpec = {
   penaltyRule: string;
   tiebreaks: string[];
   rules: string[];
+  /** Normas con titular corto, pictograma y detalle (si existe, la app las muestra en lugar de `rules`). */
+  ruleItems?: { icon: "shirt" | "flag" | "hand" | "ball"; title: string; text: string }[];
   warning: string;
   meals?: { price: string; includes: string; contact?: string };
   bar: string;

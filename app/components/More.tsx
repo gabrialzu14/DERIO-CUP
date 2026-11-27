@@ -49,8 +49,10 @@ function buildInfo(tn: Tournament, lang: Lang, locale: string): InfoItem[] {
     <p className="faint sm">{i.penaltyRule}</p>
     <h3>{t("Desempates de grupo", "Multzoko berdinketa hausteak", "Départage des groupes")}</h3><ol>{i.tiebreaks.map(x => <li key={x}>{x}</li>)}</ol></div> });
   items.push({ key: "normas", icon: "ball", title: t("Normas de juego", "Jokoaren arauak", "Règles du jeu"), sub: t(`Reglas específicas de ${BRAND}`, `${BRAND}-eko arau bereziak`, `Règles propres à la ${BRAND}`), body: <>
-    <ul className="rules">{i.rules.map(r => <li key={r}>{r}</li>)}</ul>
-    <p className="warn-line">{i.warning}</p></> });
+    {i.ruleItems
+      ? <ul className="rule-list">{i.ruleItems.map(r => <li key={r.title}><span className="rule-ico"><Icon name={r.icon} size={24} /></span><div><b>{r.title}</b><p>{r.text}</p></div></li>)}</ul>
+      : <ul className="rules">{i.rules.map(r => <li key={r}>{r}</li>)}</ul>}
+    {i.ruleItems ? <div className="rule-warn"><Icon name="warn" size={20} /><p>{i.warning}</p></div> : <p className="warn-line">{i.warning}</p>}</> });
   items.push({ key: "comidas", icon: "coffee", title: i.wc ? t("Comidas, bar y WC", "Otorduak, taberna eta komunak", "Repas, buvette et WC") : t("Comidas y bar", "Otorduak eta taberna", "Repas et buvette"), sub: i.wc ? t("Servicio de comidas y ubicación de baños", "Otordu-zerbitzua eta komunen kokalekua", "Repas et emplacement des toilettes") : t("Servicio de comidas para equipos y bar para familias", "Taldeentzako otordu-zerbitzua eta familientzako taberna", "Repas pour les équipes et buvette pour les familles"), body: <>
     {i.meals && <p className="strip">{t("Comida opcional", "Aukerako otordua", "Repas en option")} · {i.meals.price} · {t("bar para familias", "taberna familientzat", "buvette pour les familles")}</p>}
     {i.meals && <><h3>{t("Comida para equipos", "Taldeentzako otordua", "Repas des équipes")}</h3>{t(<p>Los equipos participantes disponen de <b>servicio de comidas opcional</b> en Ibaiondo por <b>{i.meals.price}</b>. {i.meals.includes}</p>, <p>Parte hartzen duten taldeek <b>aukerako otordu-zerbitzua</b> dute Ibaiondon. Prezioa: <b>{i.meals.price}</b>. {i.meals.includes}</p>, <p>Les équipes participantes peuvent bénéficier d’un <b>service de repas en option</b> à Ibaiondo, au prix de <b>{i.meals.price}</b>. {i.meals.includes}</p>)}{i.meals.contact && <p>{i.meals.contact}</p>}</>}

@@ -402,6 +402,15 @@ button.menu-item:active { background: var(--surface-3); }
 .rules li { padding: 12px 0; border-top: 1px solid var(--line); font-size: .9375rem; line-height: 1.55; font-weight: 500; color: var(--text); text-wrap: pretty; }
 .rules li:first-child { border-top: 0; padding-top: 0; }
 .warn-line { padding-left: 14px; border-left: 2px solid var(--red); font-size: .9375rem !important; font-weight: 600; color: var(--text) !important; }
+/* normas con pictograma: círculo con el degradado de marca y el icono en blanco */
+.rule-list { display: grid; gap: 20px; }
+.rule-list li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; }
+.rule-ico { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--grad); color: #fff; box-shadow: 0 6px 14px -8px color-mix(in srgb, var(--bg3) 70%, transparent); }
+.rule-list b { display: block; font-size: 1rem; font-weight: 800; letter-spacing: -.01em; margin: 1px 0 3px; color: var(--text); }
+.rule-list p { font-size: .875rem; line-height: 1.5; color: var(--text-2); text-wrap: pretty; }
+.rule-warn { display: flex; gap: 12px; align-items: center; margin-top: 6px; padding: 14px 16px; border-radius: 14px; background: var(--red-soft); }
+.rule-warn .icon { flex: none; color: var(--red); }
+.rule-warn p { font-size: .875rem; line-height: 1.5; font-weight: 600; color: var(--text) !important; }
 .venue-img { width: 100%; border-radius: 14px; border: 1px solid var(--line); aspect-ratio: 1200 / 1060; object-fit: cover; }
 
 /* ---------- Gestor de resultados ---------- */
