@@ -8,10 +8,10 @@ await p.route('**/derio_cup_results*',r=>r.fulfill({status:200,contentType:'appl
 await p.route('**/derio_cup_fans*',r=>r.fulfill({status:200,contentType:'application/json',body:'[]'}));
 await p.goto(URL,{waitUntil:'networkidle'});await p.waitForTimeout(3000);
 ok(await p.locator('.onb').count()===1&&(await p.locator('.onb-title').innerText()).includes('Bienvenido'),'va directo a la bienvenida');
-ok(await p.locator('.lang-toggle').count()===1&&await p.locator('.flag').count()===0,'selector CAS | EUS sin banderas');
+ok(await p.locator('.lang-toggle').count()===1&&await p.locator('.flag').count()===0,'selector CAS | EU sin banderas');
 const bb=await p.locator('.lang-toggle').boundingBox();ok(bb.x+bb.width>340&&bb.y<80,'selector arriba a la derecha');
 const x0=await p.locator('.lang-bar').evaluate(e=>e.getBoundingClientRect().x);
-await p.locator('.lang-toggle button',{hasText:'EUS'}).tap();await p.waitForTimeout(500);
+await p.locator('.lang-toggle button',{hasText:/^EU$/}).tap();await p.waitForTimeout(500);
 const x1=await p.locator('.lang-bar').evaluate(e=>e.getBoundingClientRect().x);
 ok(x1>x0+20,'la barra azul se desliza ('+x0+'→'+x1+')');
 ok((await p.locator('.onb-title').innerText()).includes('Ongi etorri'),'bienvenida en euskera');
