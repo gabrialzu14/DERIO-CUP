@@ -202,8 +202,8 @@ body { font-family: Montserrat, system-ui, sans-serif; color: var(--ink); -webki
 .how li { display: flex; align-items: center; gap: 4mm; padding: 4mm 5mm; border-radius: 3.5mm; background: var(--soft); }
 .how li > span { flex: none; width: 10mm; height: 10mm; border-radius: 50%; background: var(--grad); color: #fff; font-weight: 900; font-size: 5mm; display: grid; place-items: center; }
 .how b { display: block; font-size: 4.6mm; font-weight: 900; letter-spacing: -.01em; } .how small { display: block; margin-top: .6mm; font-size: 3.6mm; line-height: 1.35; color: var(--t2); font-weight: 600; }
-.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin-top: auto; }
-.facts div { border: .3mm solid var(--line); border-radius: 4mm; min-height: 34mm; padding: 4mm 3mm; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5mm; } .facts b { display: block; font-size: 11mm; font-weight: 900; letter-spacing: -.03em; line-height: 1; } .facts small { font-size: 3.6mm; color: var(--t2); font-weight: 700; }
+.facts { display: flex; justify-content: center; gap: 4mm; margin-top: auto; margin-bottom: 15mm; }
+.facts div { width: 40mm; border: .3mm solid var(--line); border-radius: 3.5mm; padding: 3.2mm 2mm; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1mm; } .facts b { display: block; font-size: 7mm; font-weight: 900; letter-spacing: -.02em; line-height: 1; } .facts small { font-size: 3mm; color: var(--t2); font-weight: 600; }
 /* horario */
 .sched { width: 100%; border-collapse: collapse; font-size: 3.1mm; }
 .sched th { text-align: left; font-size: 2.6mm; text-transform: uppercase; letter-spacing: .06em; color: var(--t2); padding: 1.5mm 2mm; border-bottom: .4mm solid var(--ink); }
