@@ -881,7 +881,7 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 @media (max-width: 340px) { .hero-cols.two .hero-pair .crest { width: 30px; height: 30px; } .hero-cols.two .hero-mid { height: 30px; width: 48px; } }
 
 /* ---- Barra inferior flotante, compacta y centrada, con efecto «liquid glass» ---- */
-.tabbar { position: fixed; top: auto; right: auto; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); transform: translateX(-50%); width: max-content; max-width: calc(100vw - 20px); padding: 4px; border: 0; border-radius: 30px; z-index: 30;
+.tabbar { position: fixed; top: auto; right: auto; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); transform: translateX(-50%); width: max-content; max-width: calc(100vw - 20px); padding: 5px; border: 0; border-radius: 30px; z-index: 30;
   background: linear-gradient(180deg, color-mix(in srgb, #fff 74%, transparent), color-mix(in srgb, #fff 56%, transparent));
   -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04); backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
   box-shadow: inset 0 1px 0.5px rgb(255 255 255 / .85), inset 0 -1px 0.5px rgb(255 255 255 / .25), inset 0 0 0 1px rgb(255 255 255 / .35), 0 12px 32px -10px rgb(10 25 60 / .35), 0 2px 6px rgb(10 25 60 / .08); }
@@ -889,8 +889,8 @@ button, a, [role="button"], [role="tab"], summary { touch-action: manipulation; 
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tabbar { background: linear-gradient(180deg, rgb(60 75 100 / .68), rgb(25 36 56 / .62)); box-shadow: inset 0 1px 0.5px rgb(255 255 255 / .28), inset 0 0 0 1px rgb(255 255 255 / .12), 0 14px 34px -10px rgb(0 0 0 / .7); } }
 .tabbar ul { display: flex; gap: 2px; max-width: none; margin: 0; padding: 0; }
 .tabbar li { display: block; }
-.tabbar button { width: auto; height: 46px; min-width: 46px; padding-inline: 7px; border-radius: 24px; gap: 2px; flex-direction: column; font-size: .625rem; transition: color .15s, background-color .25s var(--ease), transform .12s var(--ease); }
-.tabbar button .icon { width: 21px; height: 21px; }
+.tabbar button { width: auto; height: 52px; min-width: 58px; padding-inline: 9px; border-radius: 24px; gap: 2px; flex-direction: column; font-size: .625rem; transition: color .15s, background-color .25s var(--ease), transform .12s var(--ease); }
+.tabbar button .icon { width: 22px; height: 22px; }
 .tabbar button[aria-current="page"] { background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .tabbar { background: var(--surface); } }
 @media (max-width: 350px) { .tabbar button { min-width: 0; padding-inline: 6px; font-size: .5625rem; } .tabbar { padding: 4px; } }
@@ -1111,7 +1111,7 @@ html[data-seen] .splash { display: none; }
 .tabbar ul { position: relative; }
 .tabbar button { position: relative; z-index: 1; }
 .tabbar button[aria-current="page"] { background: none; box-shadow: none; color: var(--accent); }
-.tb-ind { position: absolute; left: 0; top: 0; height: 46px; width: var(--iw, 0); transform: translateX(var(--ix, 0)); border-radius: 24px; pointer-events: none; z-index: 0;
+.tb-ind { position: absolute; left: 0; top: 0; height: 52px; width: var(--iw, 0); transform: translateX(var(--ix, 0)); border-radius: 24px; pointer-events: none; z-index: 0;
   background: linear-gradient(135deg, color-mix(in srgb, var(--bg1) 24%, transparent), color-mix(in srgb, var(--bg3) 22%, transparent)); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), inset 0 0 0 1px rgb(255 255 255 / .35), 0 6px 14px -8px color-mix(in srgb, var(--bg2) 60%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 @media (max-height: 560px) { .tb-ind { height: 44px; } }
 
@@ -1213,3 +1213,7 @@ html[data-seen] .splash { display: none; }
 .theme-toggle .lang-toggle-row button { min-width: 44px; display: grid; place-items: center; }
 .theme-toggle .lang-toggle-row button .icon { width: 20px; height: 20px; }
 .lang-inline .menu-text small { display: block; }
+
+/* Idioma y apariencia: la línea de degradado es una píldora corta centrada bajo la opción activa (no ocupa todo el ancho del botón) */
+.lang-bar { height: 3px; background: none !important; }
+.lang-bar::after { content: ""; display: block; width: 14px; height: 3px; margin-inline: auto; border-radius: 99px; background: var(--grad); }
