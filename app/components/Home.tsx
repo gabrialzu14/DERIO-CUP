@@ -168,7 +168,7 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       <button type="button" className={"team-card is-done" + (won && last.round === "FINAL" ? " is-champ" : "")} onClick={onOpen} aria-label={`${tr("Mi equipo", "Nire taldea", "Mon équipe")}: ${t.name}. ${status}, ${phaseName(last.kind, lang)}. ${line} ${pens}`} style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
         <span className="team-card-label"><span>{tr("Mi equipo", "Nire taldea", "Mon équipe")}</span><span className="team-card-where">{phaseName(last.kind, lang)}</span></span>
         <span className="done-row">
-          <Crest id={id} size={44} />
+          <Crest id={id} size={44} onColor />
           <span className="done-txt"><b>{t.name}</b><strong>{status}</strong><small>{line}</small>{pens && <small className="pens">{pens}</small>}</span>
           {won && last.round === "FINAL" && <CupMark size={30} />}
         </span>
@@ -183,9 +183,9 @@ function TeamCard({ id, ms, koResults, onOpen }: { id: string; ms: Match[]; koRe
       </span>
       {next ? (
         <span className="duel">
-          <span className="duel-side"><Crest id={id} size={56} className="duel-crest" /><b>{t.name}</b></span>
+          <span className="duel-side"><Crest id={id} size={56} className="duel-crest" onColor /><b>{t.name}</b></span>
           <span className="duel-mid"><b>{next.time}</b><small>{fieldName(next.field, lang)}</small></span>
-          <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" /> : <i className="duel-ph" />}<b>{oppName}</b></span>
+          <span className="duel-side">{next.opp ? <Crest id={next.opp} size={56} className="duel-crest" onColor /> : <i className="duel-ph" />}<b>{oppName}</b></span>
         </span>
       ) : <span className="next-none">{tr("No quedan partidos por jugar", "Ez dago jokatzeko partidarik", "Plus aucun match à jouer")}</span>}
     </button>

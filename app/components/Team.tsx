@@ -25,7 +25,7 @@ export function Team({ id, ms, koResults, back, isMine, goGroup }: { id: string;
       <button type="button" className="back-btn" onClick={back}><Icon name="back" size={18} />{tr("Volver", "Atzera", "Retour")}</button>
 
       <header className="profile-hero" style={{ "--tc-bg": tone.bg, "--tc-fg": tone.fg } as CSSProperties}>
-        <Crest id={id} size={84} className="profile-crest" />
+        <Crest id={id} size={84} className="profile-crest" onColor />
         <div className="profile-name">
           <small>{groupName(t.group, lang)}{isMine ? tr(" · Mi equipo", " · Nire taldea", " · Mon équipe") : ""}</small>
           <h1>{t.name}</h1>

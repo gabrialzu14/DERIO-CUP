@@ -11,9 +11,13 @@ function crestSlug(name: string): string | null {
   return base !== s && base in CRESTS ? base : null;
 }
 
-export function crestFor(name: string): string | null {
+/** Clubes cuyo escudo es oscuro o tiene fondo propio y llevan una versión blanca (public/escudos/blanco) para ir sobre el recuadro de color. */
+const WHITE_ON_COLOR = new Set(["colegio-vizcaya"]);
+
+export function crestFor(name: string, onColor = false): string | null {
   const s = crestSlug(name);
-  return s ? "/escudos/m/" + s + ".webp" : null;
+  if (!s) return null;
+  return (onColor && WHITE_ON_COLOR.has(s) ? "/escudos/blanco/m/" : "/escudos/m/") + s + ".webp";
 }
 
 /** Tono del monograma (equipos sin escudo) a partir de su id. */
@@ -30,7 +34,7 @@ const COLOR_OVERRIDES: Record<string, string | { light: string; dark: string }> 
   etxebarri: "#da2422",                          // rojo del escudo
   "cultural-durango": "#2d3e84",                // azul del escudo
   gernika: { light: "#0f0f10", dark: "#ffffff" }, // negro en claro, blanco en oscuro
-  "colegio-vizcaya": "#2f6fd1",                  // azul medio: el logo es azul marino y no se vería sobre su propio color
+  "colegio-vizcaya": "#c8302c",                  // rojo (como SD Indautxu): el escudo va en blanco sobre este recuadro
   "athletic-academy": "#c8102e",                 // rojo del Athletic (el escudo es un círculo blanco)
 };
 

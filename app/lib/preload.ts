@@ -32,7 +32,7 @@ const idle = (fn: () => void) => {
   if (w.requestIdleCallback) w.requestIdleCallback(fn, { timeout: 2000 }); else setTimeout(fn, 250);
 };
 
-const crests = (list: Tournament[]) => list.flatMap(tn => tn.teams.map(t => crestFor(t.crest ?? t.name)).filter((s): s is string => !!s));
+const crests = (list: Tournament[]) => [...new Set(list.flatMap(tn => tn.teams.flatMap(t => [crestFor(t.crest ?? t.name), crestFor(t.crest ?? t.name, true)])).filter((s): s is string => !!s))];
 
 /**
  * Precarga las imágenes de la app mientras se muestra la pantalla de carga, por niveles:

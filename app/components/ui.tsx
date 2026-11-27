@@ -10,8 +10,9 @@ import { BRAND, type KOGame, type Match } from "../lib/tournament";
 const initials = (name: string) => { const w = name.split(/\s+/).filter(x => x && !/^\d+$/.test(x)); return (w.length > 1 ? w[0][0] + w[1][0] : name.slice(0, 2)).toUpperCase(); };
 
 /** Escudo del equipo; si aún no hay imagen se muestra un monograma con color propio. */
-export function Crest({ id, size = 36, className = "" }: { id: string; size?: number; className?: string }) {
-  const { T } = useEngine(), t = T(id), src = t ? crestFor(t.crest ?? t.name) : null;
+/** `onColor`: el escudo va sobre el recuadro de color del club (algunos clubes usan entonces su versión blanca). */
+export function Crest({ id, size = 36, className = "", onColor = false }: { id: string; size?: number; className?: string; onColor?: boolean }) {
+  const { T } = useEngine(), t = T(id), src = t ? crestFor(t.crest ?? t.name, onColor) : null;
   if (!src) return <span className={"crest mono " + className} style={{ "--s": size + "px", "--h": monoHue(id) } as CSSProperties} aria-hidden="true"><b>{initials(t?.name ?? id)}</b></span>;
   // Versión ligera (192 px, sin pérdida): se precarga al abrir la app para que salga antes de llegar a cada pestaña.
   return <img className={"crest " + className} src={src} width={size} height={size} alt="" decoding="async" draggable={false} />;
