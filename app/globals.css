@@ -396,7 +396,7 @@ button.menu-item:active { background: var(--surface-3); }
 .tl > li p { font-size: .875rem; line-height: 1.5; }
 .tl > li p + p { margin-top: 2px; }
 .tl .nd { position: absolute; left: -26px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: var(--surface); box-shadow: 0 0 0 2px var(--text-3); }
-.tl .nd.end { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.tl .nd.end { background: linear-gradient(90deg, var(--gold) 50%, var(--silver) 50%); box-shadow: none; } /* final: mitad oro, mitad plata */
 /* normas */
 .rules { display: grid; }
 .rules li { padding: 12px 0; border-top: 1px solid var(--line); font-size: .9375rem; line-height: 1.55; font-weight: 500; color: var(--text); text-wrap: pretty; }
@@ -1182,10 +1182,15 @@ html[data-seen] .splash { display: none; }
 /* Nombres de equipo sin cortes dentro de la palabra («Ariznabarra», no «Arizna-barra»).
    Con dos partidos a la vez, la hora / «En juego» va encima de los escudos y cada equipo usa media columna. */
 .hero-pair .hero-team b { overflow-wrap: normal; word-break: normal; hyphens: none; -webkit-hyphens: none; }
-.hero-cols.two .hero-pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "mid mid" "home away"; row-gap: 8px; column-gap: 4px; }
-.hero-cols.two .hero-pair > .hero-team:first-child { grid-area: home; }
-.hero-cols.two .hero-pair > .hero-team:last-child { grid-area: away; }
-.hero-cols.two .hero-mid { grid-area: mid; justify-self: center; width: auto; height: auto; min-height: 22px; }
+/* Con dos partidos a la vez: la hora (o «En juego») va ENTRE los escudos, centrada en la columna, y cada equipo
+   usa su media columna para el nombre (la hora se superpone al hueco entre los dos escudos, no le quita ancho). */
+.hero-cols.two .hero-pair { position: relative; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 0; }
+.hero-cols.two .hero-mid { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: auto; height: 36px; padding: 0; z-index: 1; pointer-events: none; }
+/* los escudos se apartan del centro para dejar sitio a la hora; los nombres siguen centrados bajo cada escudo */
+.hero-cols.two .hero-pair > .hero-team { padding-inline: 3px; }
+.hero-cols.two .hero-pair > .hero-team:first-child .crest { transform: translateX(-13px); }
+.hero-cols.two .hero-pair > .hero-team:last-child .crest { transform: translateX(13px); }
+.hero-cols.two .hero-mid .live-badge { padding: 2px 4px; }
 .hero-cols.two .hero-pair .hero-team b { font-size: .6875rem; letter-spacing: -.01em; }
 @media (max-width: 380px) { .hero-cols.two .hero-pair .hero-team b { font-size: .625rem; letter-spacing: -.02em; } }
 @media (max-width: 340px) { .hero-cols.two .hero-pair { column-gap: 2px; } .hero-cols.two .hero-pair .hero-team b { font-size: .59375rem; letter-spacing: -.025em; } }
@@ -1200,3 +1205,11 @@ html[data-seen] .splash { display: none; }
 /* Idioma y apariencia: la línea de degradado es una píldora corta centrada bajo la opción activa (no ocupa todo el ancho del botón) */
 .lang-bar { height: 3px; background: none !important; }
 .lang-bar::after { content: ""; display: block; width: 14px; height: 3px; margin-inline: auto; border-radius: 99px; background: var(--grad); }
+
+/* Pantallas estrechas con dos partidos: «En juego» en dos líneas (punto + texto) y escudos algo más separados, para que la hora no los toque */
+@media (max-width: 380px) {
+  .hero-cols.two .hero-mid .live-badge { flex-direction: column; gap: 2px; padding: 3px 5px; border-radius: 10px; line-height: 1; }
+  .hero-cols.two .hero-pair > .hero-team:first-child .crest { transform: translateX(-17px); }
+  .hero-cols.two .hero-pair > .hero-team:last-child .crest { transform: translateX(17px); }
+  .hero-cols.two .hero-mid b { font-size: .8125rem; }
+}
