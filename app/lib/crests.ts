@@ -30,6 +30,7 @@ const COLOR_OVERRIDES: Record<string, string | { light: string; dark: string }> 
   etxebarri: "#da2422",                          // rojo del escudo
   "cultural-durango": "#2d3e84",                // azul del escudo
   gernika: { light: "#0f0f10", dark: "#ffffff" }, // negro en claro, blanco en oscuro
+  "colegio-vizcaya": "#2f6fd1",                  // azul medio: el logo es azul marino y no se vería sobre su propio color
   "athletic-academy": "#c8102e",                 // rojo del Athletic (el escudo es un círculo blanco)
 };
 
